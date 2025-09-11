@@ -1,0 +1,32 @@
+# صور الموقع
+
+## الصور المطلوبة:
+
+### Hero Section:
+- hero-bg.jpg - صورة متجر الزهور الداخلية
+
+### المناسبات:
+- occasions/wedding.jpg - باقة زفاف
+- occasions/engagement.jpg - باقة خطوبة  
+- occasions/graduation.jpg - باقة تخرج
+- occasions/baby.jpg - باقة مولود جديد
+
+### الباقات المميزة:
+- bouquets/eternal-love.jpg - باقة الحب الأبدي
+- bouquets/joy.jpg - باقة الفرح
+- bouquets/happiness.jpg - باقة السعادة
+- bouquets/success.jpg - باقة النجاح
+
+### التصميم الخاص:
+- custom-bouquet-bg.jpg - صورة باقة مخصصة
+
+### المدونة:
+- blog/rose-meanings.jpg - معاني الورود
+- blog/wedding-bouquets.jpg - باقات الزفاف
+- blog/keep-flowers-fresh.jpg - الحفاظ على الورود
+
+### طرق الدفع:
+- payment/visa.svg
+- payment/mastercard.svg
+- payment/apple-pay.svg
+- payment/paypal.svg
