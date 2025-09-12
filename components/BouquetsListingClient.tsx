@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import ProductCard, { ProductItem } from '@/components/ProductCard';
 
-type ListingItem = ProductItem & { color?: string; occasion?: string };
+type ListingItem = ProductItem & { color?: string; occasion?: string; isPopular?: boolean };
 
 export default function BouquetsListingClient({ items }: { items: ListingItem[] }) {
   const [price, setPrice] = useState<number>(1000);

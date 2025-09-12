@@ -9,6 +9,8 @@ import BlogSection from '@/components/BlogSection';
 import FeaturesSection from '@/components/FeaturesSection';
 import NewsletterSection from '@/components/NewsletterSection';
 import Footer from '@/components/Footer';
+import TestCartButton from '@/components/TestCartButton';
+import DebugCart from '@/components/DebugCart';
 
 async function fetchProducts(): Promise<BouquetItem[]> {
   try {
@@ -44,6 +46,8 @@ export default async function Home() {
         <NewsletterSection />
       </main>
       <Footer />
+      <TestCartButton />
+      <DebugCart />
     </div>
   );
 }

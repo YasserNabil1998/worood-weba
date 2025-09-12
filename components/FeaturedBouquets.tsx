@@ -41,10 +41,38 @@ const defaultBouquets: BouquetItem[] = [
 ];
 
 const FeaturedBouquets = ({ bouquets = defaultBouquets, isLoading = false }: FeaturedBouquetsProps) => {
-  const [cart, setCart] = useState<Array<number | string>>([]);
-
-  const addToCart = (id: number | string) => {
-    setCart(prev => [...prev, id]);
+  const addToCart = (bouquet: BouquetItem) => {
+    if (typeof window !== 'undefined') {
+      try {
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const existingItem = cart.find((item: any) => item.id === bouquet.id);
+        
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          cart.push({
+            id: bouquet.id,
+            title: bouquet.title,
+            price: bouquet.price,
+            quantity: 1,
+            image: bouquet.image
+          });
+        }
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+        window.dispatchEvent(new CustomEvent('cartUpdated'));
+        
+        // إشعار بسيط
+        const notification = document.createElement('div');
+        notification.textContent = 'تم إضافة المنتج إلى السلة';
+        notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg z-50';
+        notification.style.fontFamily = 'var(--font-almarai)';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+      } catch (error) {
+        console.error('خطأ في إضافة المنتج للسلة:', error);
+      }
+    }
   };
 
   return (
@@ -90,7 +118,7 @@ const FeaturedBouquets = ({ bouquets = defaultBouquets, isLoading = false }: Fea
                     {bouquet.price} {bouquet.currency}
                   </p>
                   <button
-                    onClick={() => addToCart(bouquet.id)}
+                    onClick={() => addToCart(bouquet)}
                     className="text-white py-2 px-4 rounded-lg font-semibold transition-colors hover:opacity-90"
                     style={{fontFamily: 'var(--font-almarai)', backgroundColor: '#5A5E4D'}}
                   >

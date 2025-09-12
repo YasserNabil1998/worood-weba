@@ -19,7 +19,11 @@ export default function CartPage() {
   const removeItem = (id: number) => {
     const next = items.filter((i) => i.id !== id);
     setItems(next);
-    if (typeof window !== 'undefined') localStorage.setItem('cart', JSON.stringify(next));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('cart', JSON.stringify(next));
+      // إرسال إشعار لتحديث عداد السلة
+      window.dispatchEvent(new CustomEvent('cartUpdated'));
+    }
   };
 
   const subtotal = items.reduce((s, i) => s + i.total, 0);

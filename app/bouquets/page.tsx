@@ -9,6 +9,7 @@ type Item = {
   image: string;
   price: number;
   badge?: string;
+  isPopular?: boolean;
 };
 
 async function fetchProducts(): Promise<Item[]> {
@@ -31,6 +32,7 @@ async function fetchProducts(): Promise<Item[]> {
     image: bouquetImages[idx % bouquetImages.length],
     price: Math.round(p.price),
     badge: badges[idx % badges.length],
+    isPopular: idx % 3 === 0, // كل ثالث منتج هو الأكثر شهرة
     color: colors[idx % colors.length],
     occasion: occs[idx % occs.length]
   }));
