@@ -10,7 +10,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-almarai: var(--font-almarai);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,7 +22,11 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-almarai), Arial, Helvetica, sans-serif;
+  font-family: 'Fedra Sans Arabic AR', sans-serif;
+}
+
+* {
+  font-family: 'Fedra Sans Arabic AR', sans-serif;
 }
 
 /* Custom styles for Arabic text */

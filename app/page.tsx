@@ -1,6 +1,8 @@
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import OccasionsSection from '@/components/OccasionsSection';
+import ProductsSlider from '@/components/ProductsSlider';
+import OccasionsSlider from '@/components/OccasionsSlider';
 import FeaturedBouquets from '@/components/FeaturedBouquets';
 import type { BouquetItem } from '@/types';
 import CustomBouquetSection from '@/components/CustomBouquetSection';
@@ -9,8 +11,6 @@ import BlogSection from '@/components/BlogSection';
 import FeaturesSection from '@/components/FeaturesSection';
 import NewsletterSection from '@/components/NewsletterSection';
 import Footer from '@/components/Footer';
-import TestCartButton from '@/components/TestCartButton';
-import DebugCart from '@/components/DebugCart';
 
 async function fetchProducts(): Promise<BouquetItem[]> {
   try {
@@ -38,6 +38,8 @@ export default async function Home() {
       <main>
         <HeroSection />
         <OccasionsSection />
+        <ProductsSlider />
+        <OccasionsSlider />
         <FeaturedBouquets bouquets={products} isLoading={false} />
         <CustomBouquetSection />
         <CustomerReviews />
@@ -46,8 +48,6 @@ export default async function Home() {
         <NewsletterSection />
       </main>
       <Footer />
-      <TestCartButton />
-      <DebugCart />
     </div>
   );
 }

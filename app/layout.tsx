@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Almarai } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,15 +12,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const almarai = Almarai({
-  variable: "--font-almarai",
-  subsets: ["arabic"],
-  weight: ["400", "700", "800"],
-});
-
 export const metadata: Metadata = {
   title: "زهور الشمس - أجمل الباقات لأجمل المناسبات",
   description: "نقدم لكم أرقى تشكيلة من باقات الزهور المميزة والفريدة لجميع المناسبات. خدمة تنسيق الزهور بأعلى جودة وأفضل الأسعار.",
+
 };
 
 export default function RootLayout({
@@ -31,7 +26,8 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${almarai.variable} antialiased rtl`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased rtl`}
+        style={{ fontFamily: 'Fedra Sans Arabic AR, sans-serif' }}
       >
         {children}
       </body>

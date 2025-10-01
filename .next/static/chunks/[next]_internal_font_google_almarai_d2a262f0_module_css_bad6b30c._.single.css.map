@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[next]/internal/font/google/almarai_d2a262f0.module.css"],"sourcesContent":["@font-face {\n    font-family: 'Almarai Fallback';\n    src: local(\"Arial\");\n    ascent-override: 95.15%;\ndescent-override: 22.18%;\nline-gap-override: 0.00%;\nsize-adjust: 95.11%;\n\n}\n.className {\n    font-family: 'Almarai', 'Almarai Fallback';\n    font-style: normal;\n\n}\n.variable {\n    --font-almarai: 'Almarai', 'Almarai Fallback';\n}\n"],"names":[],"mappings":"AAAA;;;;;;;;;AASA;;;;;AAKA","ignoreList":[0]}}]
+}
