@@ -1,1 +1,11 @@
-{"version":4,"routes":{"/occasions/love":{},"/occasions/graduation":{},"/occasions/get-well":{},"/occasions/congratulations":{},"/occasions/new-baby":{},"/occasions/birthday":{}},"dynamicRoutes":{"/occasions/[category]":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/occasions/[category]","routeRegex":"^\\/occasions\\/([^/]+?)(?:\\/)?$","allowHeader":[]}},"notFoundRoutes":[],"preview":{"previewModeId":"4c25ac3a95c48d3c3c7184cdf39c0776","previewModeSigningKey":"2fd463e247a9c93a342ec748b493eccf6238c4e71e05670fe43583bc6eca01e8","previewModeEncryptionKey":"f9f18dc301c7c6a741857f06730633e9f1e0a9a20b42c93f7bcecb997ec63e82"}}
+{
+  "version": 4,
+  "routes": {},
+  "dynamicRoutes": {},
+  "notFoundRoutes": [],
+  "preview": {
+    "previewModeId": "e8091a4207402e333b0e901d673fb8da",
+    "previewModeSigningKey": "66e04d89505c5b09b015c523e20132a51a54b22d3981df4bb0327516d484a378",
+    "previewModeEncryptionKey": "cb268860c3873791a91c1c575ce01e9252d4eb88d345f23096328ea6f23c1e77"
+  }
+}
