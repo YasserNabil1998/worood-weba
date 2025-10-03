@@ -1,79 +1,131 @@
 import type { OccasionItem } from "../types";
+import Link from "next/link";
+import { useMemo } from "react";
 
-type OccasionsSectionProps = {
-  occasions?: OccasionItem[];
-  isLoading?: boolean;
+// Extended type for occasions with href
+type OccasionWithHref = OccasionItem & {
+    href?: string;
 };
 
-const defaultOccasions: OccasionItem[] = [
+type OccasionsSectionProps = {
+    occasions?: OccasionWithHref[];
+    isLoading?: boolean;
+};
+
+const defaultOccasions: OccasionWithHref[] = [
     {
-      id: 1,
-      title: 'زواج',
-      image: '/images/occasions/DIV-46.png',
-      icon: ''
+        id: 1,
+        title: "مولود جديد",
+        image: "/images/occasions/DIV-74.png",
+        icon: "/icons/occasionsSection/I-79.svg",
+        href: "/occasions/new-baby",
     },
     {
-      id: 2,
-      title: 'خطوبة',
-      image: '/images/occasions/DIV-56.png',
-      icon: ''
+        id: 2,
+        title: "نجاح",
+        image: "/images/occasions/DIV-64.png",
+        icon: "/icons/occasionsSection/Icon-70.svg",
+        href: "/occasions/graduation",
     },
     {
-      id: 3,
-      title: 'نجاح',
-      image: '/images/occasions/DIV-64.png',
-      icon: ''
+        id: 3,
+        title: "خطوبة",
+        image: "/images/occasions/DIV-56.png",
+        icon: "/icons/occasionsSection/Icon-52.svg",
+        href: "/occasions/love",
     },
     {
-      id: 4,
-      title: 'مولود جديد',
-      image: '/images/occasions/DIV-74.png',
-      icon: ''
-    }
+        id: 4,
+        title: "زواج",
+        image: "/images/occasions/DIV-46.png",
+        icon: "/icons/occasionsSection/Icon-52.svg",
+        href: "/occasions/wedding",
+    },
 ];
 
-const OccasionsSection = ({ occasions = defaultOccasions, isLoading = false }: OccasionsSectionProps) => {
+const OccasionsSection = ({
+    occasions = defaultOccasions,
+    isLoading = false,
+}: OccasionsSectionProps) => {
+    // Memoize occasions to prevent unnecessary re-renders
+    const memoizedOccasions = useMemo(() => occasions, [occasions]);
 
-  return (
-    <section className="py-12 bg-[#F5F3ED]">
-      <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-24 2xl:px-32">
-        <div className="text-right mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2" style={{fontFamily: 'var(--font-almarai)'}}>
-            المناسبات
-          </h2>
-          <p className="text-sm text-gray-600" style={{fontFamily: 'var(--font-almarai)'}}>
-            اختر من تشكيلتنا المميزة حسب المناسبة
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          {isLoading && (
-            <div className="col-span-full text-center text-gray-600" style={{fontFamily:'var(--font-almarai)'}}>جاري التحميل...</div>
-          )}
-          {occasions.map((occasion) => (
-            <div
-              key={occasion.id}
-              className="group cursor-pointer"
-            >
-              <div className="relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300">
-                <img
-                  src={occasion.image}
-                  alt={occasion.title}
-                  className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
-                  <h3 className="text-base md:text-lg font-semibold text-white" style={{fontFamily: 'var(--font-almarai)'}}>
-                    {occasion.title}
-                  </h3>
+    return (
+        <section className="py-12 bg-[#F5F3ED]">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-right mb-8">
+                    <h2
+                        className="text-2xl md:text-3xl font-bold text-gray-800 mb-2"
+                        style={{ fontFamily: "var(--font-almarai)" }}
+                    >
+                        المناسبات
+                    </h2>
+                    <p
+                        className="text-sm text-gray-600"
+                        style={{ fontFamily: "var(--font-almarai)" }}
+                    >
+                        اختر من تشكيلتنا المميزة حسب المناسبة
+                    </p>
                 </div>
-              </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                    {isLoading && (
+                        <div
+                            className="col-span-full text-center text-gray-600"
+                            style={{ fontFamily: "var(--font-almarai)" }}
+                        >
+                            جاري التحميل...
+                        </div>
+                    )}
+                    {memoizedOccasions.map((occasion) => (
+                        <Link
+                            key={occasion.id}
+                            href={
+                                occasion.href ||
+                                `/occasions/${occasion.title
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "-")}`
+                            }
+                            className="group cursor-pointer"
+                        >
+                            <div className="relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300">
+                                <img
+                                    src={occasion.image}
+                                    alt={occasion.title}
+                                    className="w-full aspect-[4/5] object-cover group-hover:scale-105 transition-transform duration-300"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+                                {/* النص والأيقونة */}
+                                <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
+                                    {/* الأيقونة */}
+                                    {occasion.icon && (
+                                        <div className="flex justify-center mb-2">
+                                            <img
+                                                src={occasion.icon}
+                                                alt={`${occasion.title} icon`}
+                                                className="w-6 h-6 md:w-8 md:h-8 filter brightness-0 invert opacity-90"
+                                            />
+                                        </div>
+                                    )}
+
+                                    {/* النص */}
+                                    <h3
+                                        className="text-base md:text-lg font-semibold text-white"
+                                        style={{
+                                            fontFamily: "var(--font-almarai)",
+                                        }}
+                                    >
+                                        {occasion.title}
+                                    </h3>
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+        </section>
+    );
 };
 
 export default OccasionsSection;

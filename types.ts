@@ -3,6 +3,7 @@ export type OccasionItem = {
   title: string;
   image: string;
   icon?: string;
+  href?: string;
 };
 
 export type BouquetItem = {
