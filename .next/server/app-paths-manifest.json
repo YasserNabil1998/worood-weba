@@ -1,5 +1,8 @@
 {
+  "/blog/[id]/page": "app/blog/[id]/page.js",
+  "/blog/page": "app/blog/page.js",
   "/bouquets/page": "app/bouquets/page.js",
+  "/custom/page": "app/custom/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/occasions/[category]/page": "app/occasions/[category]/page.js",
   "/page": "app/page.js",
