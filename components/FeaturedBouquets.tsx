@@ -122,15 +122,16 @@ const FeaturedBouquets = ({
                         </div>
                     )}
                     {bouquets.map((bouquet) => (
-                        <div
+                        <Link
                             key={bouquet.id}
-                            className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col"
+                            href={`/product/${bouquet.id}`}
+                            className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col cursor-pointer"
                         >
-                            <div className="relative h-64 overflow-hidden">
+                            <div className="relative h-64 overflow-hidden group">
                                 <img
                                     src={bouquet.image}
                                     alt={bouquet.title}
-                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
                             <div className="p-6 flex flex-col flex-1">
@@ -150,8 +151,11 @@ const FeaturedBouquets = ({
                                         {bouquet.price} {bouquet.currency}
                                     </p>
                                     <button
-                                        onClick={() => addToCart(bouquet)}
-                                        className="text-white py-2 px-4 rounded-lg font-semibold transition-colors hover:opacity-90"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            addToCart(bouquet);
+                                        }}
+                                        className="text-white py-2 px-4 rounded-lg font-semibold transition-colors hover:opacity-90 cursor-pointer relative z-10"
                                         style={{
                                             fontFamily: "var(--font-almarai)",
                                             backgroundColor: "#5A5E4D",
@@ -161,7 +165,7 @@ const FeaturedBouquets = ({
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>

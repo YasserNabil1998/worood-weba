@@ -178,7 +178,7 @@ const ProductsSlider = () => {
                     {/* Navigation Arrows */}
                     <button
                         onClick={prevSlide}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white hover:bg-gray-50 text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 z-10"
+                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white hover:bg-gray-50 text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
                         aria-label="Previous"
                     >
                         <svg
@@ -197,7 +197,7 @@ const ProductsSlider = () => {
                     </button>
                     <button
                         onClick={nextSlide}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white hover:bg-gray-50 text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 z-10"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white hover:bg-gray-50 text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
                         aria-label="Next"
                     >
                         <svg

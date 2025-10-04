@@ -56,8 +56,9 @@ export default function ProductCard({ item }: { item: ProductItem }) {
     };
 
     return (
-        <div
-            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group"
+        <Link
+            href={`/product/${item.id}`}
+            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group flex flex-col h-full cursor-pointer"
             dir="rtl"
         >
             <div className="relative h-80 overflow-hidden">
@@ -67,8 +68,11 @@ export default function ProductCard({ item }: { item: ProductItem }) {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     loading="lazy"
                 />
-                <div className="absolute top-2 left-2 flex items-center gap-2">
-                    <button className="h-8 w-8 rounded-full bg-white/90 backdrop-blur flex items-center justify-center shadow hover:bg-[#5A5E4D] hover:text-white transition-all duration-300 hover:scale-110">
+                <div className="absolute top-2 left-2 flex items-center gap-2 z-10">
+                    <button
+                        onClick={(e) => e.preventDefault()}
+                        className="h-8 w-8 rounded-full bg-white/90 backdrop-blur flex items-center justify-center shadow hover:bg-[#5A5E4D] hover:text-white transition-all duration-300 hover:scale-110"
+                    >
                         <svg
                             className="w-4 h-4 transition-colors"
                             fill="none"
@@ -95,35 +99,39 @@ export default function ProductCard({ item }: { item: ProductItem }) {
                     </span>
                 )}
             </div>
-            <div className="p-4">
-                <h3
-                    className="font-bold text-gray-800 mb-1"
-                    style={{ fontFamily: "var(--font-almarai)" }}
-                >
-                    {item.title}
-                </h3>
-                <p className="text-[12px] text-gray-600 mb-2">
-                    وصف مختصر للباقة يوضح نوع الورود والألوان المناسبة.
-                </p>
-                <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
-                    <Link
-                        href={`/product/${item.id}`}
-                        className="hover:underline hover:text-[#5A5E4D] transition-colors"
+            <div className="p-4 flex flex-col flex-1">
+                <div className="flex-1 mb-4">
+                    <h3
+                        className="font-bold text-gray-800 mb-2 line-clamp-1"
+                        style={{ fontFamily: "var(--font-almarai)" }}
+                        title={item.title}
                     >
-                        عرض التفاصيل
-                    </Link>
-                    <div className="font-bold text-gray-800">
-                        {item.price} ريال
-                    </div>
+                        {item.title}
+                    </h3>
+                    <p className="text-[12px] text-gray-600 line-clamp-2">
+                        وصف مختصر للباقة يوضح نوع الورود والألوان المناسبة.
+                    </p>
                 </div>
-                <button
-                    onClick={handleAddToCart}
-                    disabled={isAdding}
-                    className="w-full py-2 rounded-md text-white font-semibold bg-[#5A5E4D] hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-lg active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
-                >
-                    {isAdding ? "جاري الإضافة..." : "أضف إلى السلة"}
-                </button>
+
+                <div className="mt-auto">
+                    <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm text-gray-600">السعر:</span>
+                        <div className="font-bold text-lg text-[#5A5E4D]">
+                            {item.price} ريال
+                        </div>
+                    </div>
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            handleAddToCart();
+                        }}
+                        disabled={isAdding}
+                        className="w-full py-2 rounded-md text-white font-semibold bg-[#5A5E4D] hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-lg active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer relative z-10"
+                    >
+                        {isAdding ? "جاري الإضافة..." : "أضف إلى السلة"}
+                    </button>
+                </div>
             </div>
-        </div>
+        </Link>
     );
 }
