@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export type ProductItem = {
     id: number;
@@ -14,6 +14,53 @@ export type ProductItem = {
 
 export default function ProductCard({ item }: { item: ProductItem }) {
     const [isAdding, setIsAdding] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    // Check if item is in favorites
+    useEffect(() => {
+        const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+        const isInFavorites = favorites.some(
+            (fav: ProductItem) => fav.id === item.id
+        );
+        setIsFavorite(isInFavorites);
+    }, [item.id]);
+
+    const toggleFavorite = () => {
+        const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+        if (isFavorite) {
+            // Remove from favorites
+            const updatedFavorites = favorites.filter(
+                (fav: ProductItem) => fav.id !== item.id
+            );
+            localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+            setIsFavorite(false);
+
+            // Show notification
+            const notification = document.createElement("div");
+            notification.className =
+                "fixed top-4 right-4 bg-gray-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in";
+            notification.textContent = "تم إزالة المنتج من المفضلة";
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        } else {
+            // Add to favorites
+            favorites.push(item);
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+            setIsFavorite(true);
+
+            // Show notification
+            const notification = document.createElement("div");
+            notification.className =
+                "fixed top-4 right-4 bg-[#5A5E4D] text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in";
+            notification.textContent = "تم إضافة المنتج إلى المفضلة ❤️";
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // Dispatch event for other components to update
+        window.dispatchEvent(new Event("favoritesUpdated"));
+    };
 
     const handleAddToCart = () => {
         setIsAdding(true);
@@ -70,12 +117,19 @@ export default function ProductCard({ item }: { item: ProductItem }) {
                 />
                 <div className="absolute top-2 left-2 flex items-center gap-2 z-10">
                     <button
-                        onClick={(e) => e.preventDefault()}
-                        className="h-8 w-8 rounded-full bg-white/90 backdrop-blur flex items-center justify-center shadow hover:bg-[#5A5E4D] hover:text-white transition-all duration-300 hover:scale-110"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            toggleFavorite();
+                        }}
+                        className={`h-8 w-8 rounded-full backdrop-blur flex items-center justify-center shadow transition-all duration-300 hover:scale-110 ${
+                            isFavorite
+                                ? "bg-[#5A5E4D] text-white"
+                                : "bg-white/90 text-gray-700 hover:bg-[#5A5E4D] hover:text-white"
+                        }`}
                     >
                         <svg
                             className="w-4 h-4 transition-colors"
-                            fill="none"
+                            fill={isFavorite ? "currentColor" : "none"}
                             stroke="currentColor"
                             viewBox="0 0 24 24"
                         >
