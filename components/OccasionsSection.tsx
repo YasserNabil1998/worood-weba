@@ -1,3 +1,5 @@
+"use client";
+
 import type { OccasionItem } from "../types";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -10,6 +12,8 @@ type OccasionWithHref = OccasionItem & {
 type OccasionsSectionProps = {
     occasions?: OccasionWithHref[];
     isLoading?: boolean;
+    title?: string;
+    description?: string;
 };
 
 const defaultOccasions: OccasionWithHref[] = [
@@ -46,6 +50,8 @@ const defaultOccasions: OccasionWithHref[] = [
 const OccasionsSection = ({
     occasions = defaultOccasions,
     isLoading = false,
+    title = "المناسبات",
+    description = "اختر من تشكيلتنا المميزة حسب المناسبة",
 }: OccasionsSectionProps) => {
     // Memoize occasions to prevent unnecessary re-renders
     const memoizedOccasions = useMemo(() => occasions, [occasions]);
@@ -55,16 +61,16 @@ const OccasionsSection = ({
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-right mb-8">
                     <h2
-                        className="text-2xl md:text-3xl font-bold text-gray-800 mb-2"
+                        className="text-[24px] font-bold text-gray-800 mb-2 leading-[32px] tracking-[0px]"
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
-                        المناسبات
+                        {title}
                     </h2>
                     <p
-                        className="text-sm text-gray-600"
+                        className="text-[16px] font-normal text-gray-600 leading-[24px] tracking-[0px]"
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
-                        اختر من تشكيلتنا المميزة حسب المناسبة
+                        {description}
                     </p>
                 </div>
 

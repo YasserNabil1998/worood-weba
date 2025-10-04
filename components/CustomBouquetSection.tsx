@@ -1,8 +1,20 @@
 import Link from "next/link";
 
-const CustomBouquetSection = () => {
+type CustomBouquetSectionProps = {
+    title?: string;
+    description?: string;
+    buttonText?: string;
+    buttonHref?: string;
+};
+
+const CustomBouquetSection = ({
+    title = "صمم باقتك الخاصة",
+    description = "نساعدك في تصميم باقة فريدة تناسب ذوقك ومناسبتك الخاصة.",
+    buttonText = "ابدأ التصميم الآن",
+    buttonHref = "/custom",
+}: CustomBouquetSectionProps) => {
     return (
-        <section className="py-6">
+        <section className="py-12 pb-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="relative h-64 md:h-72 rounded-2xl overflow-hidden">
                     <img
@@ -29,26 +41,24 @@ const CustomBouquetSection = () => {
                         <div className="w-full pr-6 md:pr-10">
                             <div className="ml-auto max-w-xl text-right">
                                 <h2
-                                    className="text-[28px] md:text-[48px] font-extrabold text-white mb-4 md:mb-5 leading-[1.15] tracking-tight"
+                                    className="text-[30px] font-bold text-white mb-4 leading-[36px] tracking-[0px]"
                                     style={{
                                         fontFamily: "var(--font-almarai)",
                                     }}
                                 >
-                                    صمم باقتك الخاصة
+                                    {title}
                                 </h2>
-                                <p className="text-white/85 text-[14px] md:text-[16px] mb-6 md:mb-7 leading-relaxed">
-                                    نساعدك في تصميم باقة فريدة تناسب ذوقك
-                                    ومناسبتك الخاصة.
+                                <p className="text-white/90 text-[18px] mb-6 leading-[28px] tracking-[0px] font-normal">
+                                    {description}
                                 </p>
                                 <Link
-                                    href="/custom"
-                                    className="inline-block bg-white hover:bg-white/90 px-6 py-3 rounded-lg font-semibold text-sm md:text-base transition-colors shadow"
+                                    href={buttonHref}
+                                    className="inline-block bg-white hover:bg-[#5A5E4D] text-[#5A5E4D] hover:text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95"
                                     style={{
                                         fontFamily: "var(--font-almarai)",
-                                        color: "#5A5E4D",
                                     }}
                                 >
-                                    ابدأ التصميم الآن
+                                    {buttonText}
                                 </Link>
                             </div>
                         </div>
