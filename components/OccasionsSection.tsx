@@ -51,7 +51,7 @@ const OccasionsSection = ({
     const memoizedOccasions = useMemo(() => occasions, [occasions]);
 
     return (
-        <section className="py-12 bg-[#F5F3ED]">
+        <section className="py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-right mb-8">
                     <h2
