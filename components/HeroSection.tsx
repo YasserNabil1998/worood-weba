@@ -112,9 +112,9 @@ const HeroSection = () => {
                             {/* Content */}
                             <div className="relative z-10 h-full flex items-center">
                                 <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-24 2xl:px-32">
-                                    <div className="mr-auto max-w-2xl">
+                                    <div className="mr-[5%] mr-auto max-w-md">
                                         <h1
-                                            className="text-[40px] sm:text-[50px] md:text-[70px] font-bold text-white mb-5 leading-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] text-right"
+                                            className="text-[40px] sm:text-[50px] md:text-[70px] font-bold text-white mb-5 leading-[1.2] drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] text-right max-w-[400px] sm:max-w-[500px]"
                                             style={{
                                                 fontFamily:
                                                     "var(--font-almarai)",
