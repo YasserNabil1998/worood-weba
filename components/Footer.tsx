@@ -78,10 +78,10 @@ const Footer = () => {
               جميع الحقوق محفوظة زهور الشمس © 2025
             </p>
             <div className="mt-2 flex items-center justify-center gap-3 opacity-90">
-              <img src="/images/payment/visa.png" alt="Visa" className="h-10" />
-              <img src="/images/payment/mastercard.png" alt="Mastercard" className="h-10" />
-              <img src="/images/payment/apple-pay.png" alt="Apple Pay" className="h-10" />
-              <img src="/images/payment/paypal.png" alt="PayPal" className="h-10" />
+              <img src="/images/payment/visa.png" alt="Visa" className="h-10 object-cover" />
+              <img src="/images/payment/mastercard.png" alt="Mastercard" className="h-10 object-cover" />
+              <img src="/images/payment/apple-pay.png" alt="Apple Pay" className="h-10 object-cover" />
+              <img src="/images/payment/paypal.png" alt="PayPal" className="h-10 object-cover" />
             </div>
           </div>
         </div>
