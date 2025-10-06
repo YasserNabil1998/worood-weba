@@ -8,6 +8,5 @@
   "/occasions/[category]/page": "app/occasions/[category]/page.js",
   "/occasions/page": "app/occasions/page.js",
   "/page": "app/page.js",
-  "/product/[id]/page": "app/product/[id]/page.js",
-  "/profile/page": "app/profile/page.js"
+  "/product/[id]/page": "app/product/[id]/page.js"
 }
