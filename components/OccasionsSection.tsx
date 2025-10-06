@@ -22,7 +22,7 @@ const defaultOccasions: OccasionWithHref[] = [
         title: "مولود جديد",
         image: "/images/occasions/DIV-74.png",
         icon: "/icons/occasionsSection/I-79.svg",
-        href: "/occasions/new-baby",
+        href: "/occasions/newborn",
     },
     {
         id: 2,
@@ -36,7 +36,7 @@ const defaultOccasions: OccasionWithHref[] = [
         title: "خطوبة",
         image: "/images/occasions/DIV-56.png",
         icon: "/icons/occasionsSection/Icon-52.svg",
-        href: "/occasions/love",
+        href: "/occasions/engagement",
     },
     {
         id: 4,

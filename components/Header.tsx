@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
+    const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [cartCount, setCartCount] = useState(0);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -61,6 +63,13 @@ const Header = () => {
         setIsUserMenuOpen(false);
     };
 
+    // دالة للتحقق من الصفحة النشطة
+    const isActivePage = (path: string) => {
+        if (path === "/" && pathname === "/") return true;
+        if (path !== "/" && pathname.startsWith(path)) return true;
+        return false;
+    };
+
     return (
         <header className="bg-white/95 backdrop-blur sticky top-0 z-50">
             <div className="w-full mx-auto px-8 sm:px-12 lg:px-16 xl:px-24 2xl:px-32">
@@ -80,39 +89,105 @@ const Header = () => {
                     <nav className="hidden md:flex flex-1 items-center justify-center gap-12">
                         <Link
                             href="/"
-                            className="text-[15px] text-gray-700 hover:text-gray-900 transition-colors font-medium"
+                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative group ${
+                                isActivePage("/")
+                                    ? "text-[#5A5E4D] font-bold"
+                                    : "text-gray-700 hover:text-[#5A5E4D]"
+                            }`}
                         >
                             الرئيسية
+                            <span
+                                className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#5A5E4D] transition-all duration-300 ${
+                                    isActivePage("/")
+                                        ? "w-full"
+                                        : "w-0 group-hover:w-full"
+                                }`}
+                            ></span>
                         </Link>
                         <Link
                             href="/bouquets"
-                            className="text-[15px] text-gray-700 hover:text-gray-900 transition-colors font-medium"
+                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative group ${
+                                isActivePage("/bouquets")
+                                    ? "text-[#5A5E4D] font-bold"
+                                    : "text-gray-700 hover:text-[#5A5E4D]"
+                            }`}
                         >
                             الباقات الجاهزة
+                            <span
+                                className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#5A5E4D] transition-all duration-300 ${
+                                    isActivePage("/bouquets")
+                                        ? "w-full"
+                                        : "w-0 group-hover:w-full"
+                                }`}
+                            ></span>
                         </Link>
                         <Link
                             href="/custom"
-                            className="text-[15px] text-gray-700 hover:text-gray-900 transition-colors font-medium"
+                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative group ${
+                                isActivePage("/custom")
+                                    ? "text-[#5A5E4D] font-bold"
+                                    : "text-gray-700 hover:text-[#5A5E4D]"
+                            }`}
                         >
                             تنسيق خاص
+                            <span
+                                className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#5A5E4D] transition-all duration-300 ${
+                                    isActivePage("/custom")
+                                        ? "w-full"
+                                        : "w-0 group-hover:w-full"
+                                }`}
+                            ></span>
                         </Link>
                         <Link
                             href="/occasions"
-                            className="text-[15px] text-gray-700 hover:text-gray-900 transition-colors font-medium"
+                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative group ${
+                                isActivePage("/occasions")
+                                    ? "text-[#5A5E4D] font-bold"
+                                    : "text-gray-700 hover:text-[#5A5E4D]"
+                            }`}
                         >
                             المناسبات
+                            <span
+                                className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#5A5E4D] transition-all duration-300 ${
+                                    isActivePage("/occasions")
+                                        ? "w-full"
+                                        : "w-0 group-hover:w-full"
+                                }`}
+                            ></span>
                         </Link>
                         <Link
                             href="/blog"
-                            className="text-[15px] text-gray-700 hover:text-gray-900 transition-colors font-medium"
+                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative group ${
+                                isActivePage("/blog")
+                                    ? "text-[#5A5E4D] font-bold"
+                                    : "text-gray-700 hover:text-[#5A5E4D]"
+                            }`}
                         >
                             المدونة
+                            <span
+                                className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#5A5E4D] transition-all duration-300 ${
+                                    isActivePage("/blog")
+                                        ? "w-full"
+                                        : "w-0 group-hover:w-full"
+                                }`}
+                            ></span>
                         </Link>
                         <Link
                             href="/contact"
-                            className="text-[15px] text-gray-700 hover:text-gray-900 transition-colors font-medium"
+                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative group ${
+                                isActivePage("/contact")
+                                    ? "text-[#5A5E4D] font-bold"
+                                    : "text-gray-700 hover:text-[#5A5E4D]"
+                            }`}
                         >
                             تواصل معنا
+                            <span
+                                className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#5A5E4D] transition-all duration-300 ${
+                                    isActivePage("/contact")
+                                        ? "w-full"
+                                        : "w-0 group-hover:w-full"
+                                }`}
+                            ></span>
                         </Link>
                     </nav>
 
@@ -121,7 +196,7 @@ const Header = () => {
                         {/* Search Icon */}
                         <button
                             onClick={() => setIsSearchOpen(!isSearchOpen)}
-                            className="p-2 hover:text-gray-900 transition-colors"
+                            className="p-2 hover:text-[#5A5E4D] hover:scale-110 active:scale-90 hover:bg-gray-100 rounded-full transition-all duration-200"
                         >
                             <svg
                                 className="w-5 h-5"
@@ -141,7 +216,7 @@ const Header = () => {
                         {/* Cart Button */}
                         <Link
                             href="/cart"
-                            className="flex items-center gap-3 text-gray-700 hover:text-gray-900 transition-colors relative"
+                            className="flex items-center gap-3 text-gray-700 hover:text-[#5A5E4D] hover:scale-105 active:scale-95 transition-all duration-200 relative"
                         >
                             <span
                                 className="text-[15px] font-medium"
@@ -149,7 +224,7 @@ const Header = () => {
                             >
                                 السلة
                             </span>
-                            <div className="w-7 h-7 rounded-full border-2 border-current flex items-center justify-center relative">
+                            <div className="w-7 h-7 rounded-full border-2 border-current flex items-center justify-center relative hover:bg-gray-100 transition-all duration-200">
                                 <svg
                                     className="w-4 h-4"
                                     fill="none"
@@ -165,7 +240,7 @@ const Header = () => {
                                 </svg>
                             </div>
                             {cartCount > 0 && (
-                                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold animate-pulse">
                                     {cartCount}
                                 </span>
                             )}
@@ -177,7 +252,7 @@ const Header = () => {
                                 onClick={() =>
                                     setIsUserMenuOpen(!isUserMenuOpen)
                                 }
-                                className="user-menu-button flex items-center gap-3 text-gray-700 hover:text-gray-900 transition-colors"
+                                className="user-menu-button flex items-center gap-3 text-gray-700 hover:text-[#5A5E4D] hover:scale-105 active:scale-95 transition-all duration-200"
                             >
                                 <span
                                     className="text-[15px] font-medium"
@@ -187,7 +262,7 @@ const Header = () => {
                                 >
                                     حسابي
                                 </span>
-                                <div className="w-7 h-7 rounded-full border-2 border-current flex items-center justify-center">
+                                <div className="w-7 h-7 rounded-full border-2 border-current flex items-center justify-center hover:bg-gray-100 transition-all duration-200">
                                     <svg
                                         className="w-4 h-4"
                                         fill="currentColor"
@@ -200,11 +275,11 @@ const Header = () => {
 
                             {/* User Menu Dropdown */}
                             {isUserMenuOpen && (
-                                <div className="user-menu-dropdown absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                                <div className="user-menu-dropdown absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                                     <div className="py-2">
                                         <Link
                                             href="/profile"
-                                            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                                            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-[#5A5E4D] active:bg-gray-100 transition-all duration-150"
                                             onClick={() =>
                                                 setIsUserMenuOpen(false)
                                             }
@@ -234,7 +309,7 @@ const Header = () => {
 
                                         <Link
                                             href="/profile"
-                                            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                                            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-[#5A5E4D] active:bg-gray-100 transition-all duration-150"
                                             onClick={() =>
                                                 setIsUserMenuOpen(false)
                                             }
@@ -264,7 +339,7 @@ const Header = () => {
 
                                         <Link
                                             href="/favorites"
-                                            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                                            className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-[#5A5E4D] active:bg-gray-100 transition-all duration-150"
                                             onClick={() =>
                                                 setIsUserMenuOpen(false)
                                             }
@@ -296,7 +371,7 @@ const Header = () => {
 
                                         <button
                                             onClick={handleLogout}
-                                            className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-colors w-full text-right"
+                                            className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 active:bg-red-100 transition-all duration-150 w-full text-right"
                                         >
                                             <svg
                                                 className="w-4 h-4"
@@ -328,7 +403,7 @@ const Header = () => {
 
                     {/* Mobile menu button */}
                     <button
-                        className="md:hidden p-2 text-gray-800 hover:text-gray-600 transition-colors"
+                        className="md:hidden p-2 text-gray-800 hover:text-[#5A5E4D] hover:bg-gray-100 rounded-lg active:scale-95 transition-all duration-200"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                     >
                         <svg
@@ -364,7 +439,7 @@ const Header = () => {
                                         fontFamily: "var(--font-almarai)",
                                     }}
                                 />
-                                <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-[#5A5E4D] hover:scale-110 active:scale-90 transition-all duration-200">
                                     <svg
                                         className="w-4 h-4"
                                         fill="none"
@@ -386,41 +461,65 @@ const Header = () => {
 
                 {/* Mobile Navigation */}
                 {isMenuOpen && (
-                    <div className="md:hidden">
+                    <div className="md:hidden animate-in fade-in slide-in-from-top-2 duration-200">
                         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
                             <Link
                                 href="/"
-                                className="block px-3 py-2 text-gray-700 hover:text-green-600 transition-colors"
+                                className={`block px-3 py-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-all duration-150 ${
+                                    isActivePage("/")
+                                        ? "text-[#5A5E4D] font-bold bg-gray-50 border-r-4 border-[#5A5E4D]"
+                                        : "text-gray-700 hover:text-[#5A5E4D]"
+                                }`}
                             >
                                 الرئيسية
                             </Link>
                             <Link
                                 href="/bouquets"
-                                className="block px-3 py-2 text-gray-700 hover:text-green-600 transition-colors"
+                                className={`block px-3 py-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-all duration-150 ${
+                                    isActivePage("/bouquets")
+                                        ? "text-[#5A5E4D] font-bold bg-gray-50 border-r-4 border-[#5A5E4D]"
+                                        : "text-gray-700 hover:text-[#5A5E4D]"
+                                }`}
                             >
                                 الباقات الجاهزة
                             </Link>
                             <Link
                                 href="/custom"
-                                className="block px-3 py-2 text-gray-700 hover:text-green-600 transition-colors"
+                                className={`block px-3 py-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-all duration-150 ${
+                                    isActivePage("/custom")
+                                        ? "text-[#5A5E4D] font-bold bg-gray-50 border-r-4 border-[#5A5E4D]"
+                                        : "text-gray-700 hover:text-[#5A5E4D]"
+                                }`}
                             >
                                 تنسيق خاص
                             </Link>
                             <Link
                                 href="/occasions"
-                                className="block px-3 py-2 text-gray-700 hover:text-green-600 transition-colors"
+                                className={`block px-3 py-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-all duration-150 ${
+                                    isActivePage("/occasions")
+                                        ? "text-[#5A5E4D] font-bold bg-gray-50 border-r-4 border-[#5A5E4D]"
+                                        : "text-gray-700 hover:text-[#5A5E4D]"
+                                }`}
                             >
                                 المناسبات
                             </Link>
                             <Link
                                 href="/blog"
-                                className="block px-3 py-2 text-gray-700 hover:text-green-600 transition-colors"
+                                className={`block px-3 py-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-all duration-150 ${
+                                    isActivePage("/blog")
+                                        ? "text-[#5A5E4D] font-bold bg-gray-50 border-r-4 border-[#5A5E4D]"
+                                        : "text-gray-700 hover:text-[#5A5E4D]"
+                                }`}
                             >
                                 المدونة
                             </Link>
                             <Link
                                 href="/contact"
-                                className="block px-3 py-2 text-gray-700 hover:text-green-600 transition-colors"
+                                className={`block px-3 py-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-all duration-150 ${
+                                    isActivePage("/contact")
+                                        ? "text-[#5A5E4D] font-bold bg-gray-50 border-r-4 border-[#5A5E4D]"
+                                        : "text-gray-700 hover:text-[#5A5E4D]"
+                                }`}
                             >
                                 تواصل معنا
                             </Link>
