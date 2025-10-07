@@ -1,7 +1,14 @@
 {
-  "/occasions/[category]/page": "app/occasions/[category]/page.js",
-  "/product/[id]/page": "app/product/[id]/page.js",
-  "/page": "app/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/blog/page": "app/blog/page.js",
   "/bouquets/page": "app/bouquets/page.js",
-  "/occasions/page": "app/occasions/page.js"
+  "/contact/page": "app/contact/page.js",
+  "/custom/page": "app/custom/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/login/page": "app/login/page.js",
+  "/occasions/[category]/page": "app/occasions/[category]/page.js",
+  "/occasions/page": "app/occasions/page.js",
+  "/page": "app/page.js",
+  "/product/[id]/page": "app/product/[id]/page.js",
+  "/signup/page": "app/signup/page.js"
 }

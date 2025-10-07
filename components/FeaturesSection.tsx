@@ -63,15 +63,15 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
                     {localFeatures.map((feature) => (
                         <div
                             key={feature.id}
-                            className="group text-right bg-white rounded-xl p-7 md:p-8 shadow-[0_6px_18px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-[#5A5E4D]/20 cursor-pointer"
+                            className="text-right bg-white rounded-xl p-7 md:p-8 shadow-[0_6px_18px_rgba(0,0,0,0.06)]"
                         >
                             <div className="mb-2 md:mb-3">
-                                <div className="w-full flex justify-start transition-transform duration-300 group-hover:scale-105">
+                                <div className="w-full flex justify-start">
                                     {feature.icon}
                                 </div>
                                 <h3
                                     dir="rtl"
-                                    className="mt-2 text-base md:text-lg font-bold text-gray-800 text-right group-hover:text-[#5A5E4D] transition-colors duration-300"
+                                    className="mt-2 text-base md:text-lg font-bold text-gray-800 text-right"
                                     style={{
                                         fontFamily: "var(--font-almarai)",
                                     }}

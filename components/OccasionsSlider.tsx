@@ -24,31 +24,37 @@ const OccasionsSlider = () => {
             id: 2,
             title: "تمنيات بالشفاء",
             image: "/images/OccasionsSlider/OccasionsSlider-2.png",
-            category: "get-well",
+            category: "getwell",
         },
         {
             id: 3,
-            title: "ألف مبروك",
+            title: "باقات الزفاف",
             image: "/images/OccasionsSlider/OccasionsSlider-3.png",
-            category: "congratulations",
+            category: "wedding",
         },
         {
             id: 4,
-            title: "أحبك",
+            title: "خطوبة",
             image: "/images/OccasionsSlider/OccasionsSlider-4.png",
-            category: "love",
+            category: "engagement",
         },
         {
             id: 5,
             title: "تهنئة بالمولود",
             image: "/images/OccasionsSlider/OccasionsSlider-6.png",
-            category: "new-baby",
+            category: "newborn",
         },
         {
             id: 6,
-            title: "عيد ميلاد سعيد",
+            title: "ذكرى سنوية",
             image: "/images/OccasionsSlider/OccasionsSlider-6.png",
-            category: "birthday",
+            category: "anniversary",
+        },
+        {
+            id: 7,
+            title: "شكر وتقدير",
+            image: "/images/OccasionsSlider/OccasionsSlider-1.png",
+            category: "thanks",
         },
     ];
 
@@ -85,13 +91,33 @@ const OccasionsSlider = () => {
     return (
         <section className="py-12">
             <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-24 2xl:px-32">
-                <div className="text-right mb-8">
+                <div className="text-right mb-8 flex items-center justify-between">
                     <h2
                         className="text-2xl md:text-3xl font-bold text-[#1B5B52]"
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
                         هدايا لكل لحظة
                     </h2>
+                    <Link
+                        href="/occasions"
+                        className="text-[#5A5E4D] hover:text-[#1B5B52] font-medium text-sm md:text-base transition-colors duration-200 flex items-center gap-2"
+                        style={{ fontFamily: "var(--font-almarai)" }}
+                    >
+                        عرض الكل
+                        <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                            />
+                        </svg>
+                    </Link>
                 </div>
 
                 <div className="relative">
@@ -105,17 +131,19 @@ const OccasionsSlider = () => {
                                     className="w-full block group cursor-pointer"
                                 >
                                     <div className="flex flex-col items-center">
-                                        <div className="relative w-full aspect-square bg-[#F5F1E8] rounded-full overflow-hidden hover:shadow-lg transition-all duration-300 mb-3">
-                                            <div className="absolute inset-0 flex items-center justify-center p-8">
+                                        <div className="relative w-full aspect-square bg-[#F5F1E8] rounded-full overflow-hidden hover:shadow-lg hover:shadow-[#5A5E4D]/20 transition-all duration-300 mb-3 group-hover:bg-[#F0EDE5]">
+                                            <div className="absolute inset-0 flex items-center justify-center p-6">
                                                 <img
                                                     src={occasion.image}
                                                     alt={occasion.title}
-                                                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                                                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
                                                 />
                                             </div>
+                                            {/* Hover overlay */}
+                                            <div className="absolute inset-0 bg-[#5A5E4D]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
                                         </div>
                                         <h3
-                                            className="text-sm md:text-base font-medium text-gray-800 text-center"
+                                            className="text-sm md:text-base font-medium text-gray-800 text-center group-hover:text-[#5A5E4D] transition-colors duration-200"
                                             style={{
                                                 fontFamily:
                                                     "var(--font-almarai)",
@@ -132,7 +160,7 @@ const OccasionsSlider = () => {
                     {/* Navigation Arrows */}
                     <button
                         onClick={prevSlide}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white hover:bg-gray-50 text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 z-10"
+                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white hover:bg-[#5A5E4D] text-gray-800 hover:text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10"
                         aria-label="Previous"
                     >
                         <svg
@@ -151,7 +179,7 @@ const OccasionsSlider = () => {
                     </button>
                     <button
                         onClick={nextSlide}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white hover:bg-gray-50 text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 z-10"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white hover:bg-[#5A5E4D] text-gray-800 hover:text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10"
                         aria-label="Next"
                     >
                         <svg

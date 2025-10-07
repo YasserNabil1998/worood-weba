@@ -89,7 +89,7 @@ const Header = () => {
                     <nav className="hidden md:flex flex-1 items-center justify-center gap-12">
                         <Link
                             href="/"
-                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative group ${
+                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative ${
                                 isActivePage("/")
                                     ? "text-[#5A5E4D] font-bold"
                                     : "text-gray-700 hover:text-[#5A5E4D]"
@@ -98,15 +98,13 @@ const Header = () => {
                             الرئيسية
                             <span
                                 className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#5A5E4D] transition-all duration-300 ${
-                                    isActivePage("/")
-                                        ? "w-full"
-                                        : "w-0 group-hover:w-full"
+                                    isActivePage("/") ? "w-full" : "w-0"
                                 }`}
                             ></span>
                         </Link>
                         <Link
                             href="/bouquets"
-                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative group ${
+                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative ${
                                 isActivePage("/bouquets")
                                     ? "text-[#5A5E4D] font-bold"
                                     : "text-gray-700 hover:text-[#5A5E4D]"
@@ -115,15 +113,13 @@ const Header = () => {
                             الباقات الجاهزة
                             <span
                                 className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#5A5E4D] transition-all duration-300 ${
-                                    isActivePage("/bouquets")
-                                        ? "w-full"
-                                        : "w-0 group-hover:w-full"
+                                    isActivePage("/bouquets") ? "w-full" : "w-0"
                                 }`}
                             ></span>
                         </Link>
                         <Link
                             href="/custom"
-                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative group ${
+                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative ${
                                 isActivePage("/custom")
                                     ? "text-[#5A5E4D] font-bold"
                                     : "text-gray-700 hover:text-[#5A5E4D]"
@@ -132,15 +128,13 @@ const Header = () => {
                             تنسيق خاص
                             <span
                                 className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#5A5E4D] transition-all duration-300 ${
-                                    isActivePage("/custom")
-                                        ? "w-full"
-                                        : "w-0 group-hover:w-full"
+                                    isActivePage("/custom") ? "w-full" : "w-0"
                                 }`}
                             ></span>
                         </Link>
                         <Link
                             href="/occasions"
-                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative group ${
+                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative ${
                                 isActivePage("/occasions")
                                     ? "text-[#5A5E4D] font-bold"
                                     : "text-gray-700 hover:text-[#5A5E4D]"
@@ -151,13 +145,13 @@ const Header = () => {
                                 className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#5A5E4D] transition-all duration-300 ${
                                     isActivePage("/occasions")
                                         ? "w-full"
-                                        : "w-0 group-hover:w-full"
+                                        : "w-0"
                                 }`}
                             ></span>
                         </Link>
                         <Link
                             href="/blog"
-                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative group ${
+                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative ${
                                 isActivePage("/blog")
                                     ? "text-[#5A5E4D] font-bold"
                                     : "text-gray-700 hover:text-[#5A5E4D]"
@@ -166,15 +160,13 @@ const Header = () => {
                             المدونة
                             <span
                                 className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#5A5E4D] transition-all duration-300 ${
-                                    isActivePage("/blog")
-                                        ? "w-full"
-                                        : "w-0 group-hover:w-full"
+                                    isActivePage("/blog") ? "w-full" : "w-0"
                                 }`}
                             ></span>
                         </Link>
                         <Link
                             href="/contact"
-                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative group ${
+                            className={`text-[15px] hover:scale-105 active:scale-95 transition-all duration-200 font-medium relative ${
                                 isActivePage("/contact")
                                     ? "text-[#5A5E4D] font-bold"
                                     : "text-gray-700 hover:text-[#5A5E4D]"
@@ -183,9 +175,7 @@ const Header = () => {
                             تواصل معنا
                             <span
                                 className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#5A5E4D] transition-all duration-300 ${
-                                    isActivePage("/contact")
-                                        ? "w-full"
-                                        : "w-0 group-hover:w-full"
+                                    isActivePage("/contact") ? "w-full" : "w-0"
                                 }`}
                             ></span>
                         </Link>
