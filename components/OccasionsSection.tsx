@@ -57,24 +57,24 @@ const OccasionsSection = ({
     const memoizedOccasions = useMemo(() => occasions, [occasions]);
 
     return (
-        <section className="py-12">
+        <section className="py-8 sm:py-10 md:py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-right mb-8">
+                <div className="text-right mb-6 sm:mb-8">
                     <h2
-                        className="text-[24px] font-bold text-gray-800 mb-2 leading-[32px] tracking-[0px]"
+                        className="text-[20px] sm:text-[22px] md:text-[24px] font-bold text-gray-800 mb-2 leading-[28px] sm:leading-[30px] md:leading-[32px] tracking-[0px]"
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
                         {title}
                     </h2>
                     <p
-                        className="text-[16px] font-normal text-gray-600 leading-[24px] tracking-[0px]"
+                        className="text-[14px] sm:text-[15px] md:text-[16px] font-normal text-gray-600 leading-[20px] sm:leading-[22px] md:leading-[24px] tracking-[0px]"
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
                         {description}
                     </p>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                     {isLoading && (
                         <div
                             className="col-span-full text-center text-gray-600"
@@ -94,7 +94,7 @@ const OccasionsSection = ({
                             }
                             className="group cursor-pointer"
                         >
-                            <div className="relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300">
+                            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300">
                                 <img
                                     src={occasion.image}
                                     alt={occasion.title}
@@ -103,21 +103,21 @@ const OccasionsSection = ({
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
                                 {/* النص والأيقونة */}
-                                <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
+                                <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-center">
                                     {/* الأيقونة */}
                                     {occasion.icon && (
-                                        <div className="flex justify-center mb-2">
+                                        <div className="flex justify-center mb-1 sm:mb-2">
                                             <img
                                                 src={occasion.icon}
                                                 alt={`${occasion.title} icon`}
-                                                className="w-6 h-6 md:w-8 md:h-8 filter brightness-0 invert opacity-90"
+                                                className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 filter brightness-0 invert opacity-90"
                                             />
                                         </div>
                                     )}
 
                                     {/* النص */}
                                     <h3
-                                        className="text-base md:text-lg font-semibold text-white"
+                                        className="text-sm sm:text-base md:text-lg font-semibold text-white"
                                         style={{
                                             fontFamily: "var(--font-almarai)",
                                         }}

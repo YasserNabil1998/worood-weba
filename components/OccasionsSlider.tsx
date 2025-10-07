@@ -12,6 +12,26 @@ interface Occasion {
 
 const OccasionsSlider = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [visibleCount, setVisibleCount] = useState(2);
+
+    // Get number of visible items based on screen size
+    const getVisibleCount = () => {
+        if (typeof window === "undefined") return 2;
+        const width = window.innerWidth;
+        if (width < 640) return 2; // mobile
+        if (width < 1024) return 3; // tablet
+        return 6; // desktop
+    };
+
+    useEffect(() => {
+        const updateVisibleCount = () => {
+            setVisibleCount(getVisibleCount());
+        };
+
+        updateVisibleCount();
+        window.addEventListener("resize", updateVisibleCount);
+        return () => window.removeEventListener("resize", updateVisibleCount);
+    }, []);
 
     const occasions: Occasion[] = [
         {
@@ -60,13 +80,13 @@ const OccasionsSlider = () => {
 
     const nextSlide = () => {
         setCurrentIndex((prev) =>
-            prev >= occasions.length - 1 ? 0 : prev + 1
+            prev >= occasions.length - visibleCount ? 0 : prev + 1
         );
     };
 
     const prevSlide = () => {
         setCurrentIndex((prev) =>
-            prev === 0 ? occasions.length - 1 : prev - 1
+            prev === 0 ? occasions.length - visibleCount : prev - 1
         );
     };
 
@@ -78,10 +98,10 @@ const OccasionsSlider = () => {
         return () => clearInterval(timer);
     }, [currentIndex]);
 
-    // Get visible occasions (6 items for desktop, loop around)
+    // Get visible occasions based on screen size
     const getVisibleOccasions = () => {
         const visible = [];
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < visibleCount; i++) {
             const index = (currentIndex + i) % occasions.length;
             visible.push(occasions[index]);
         }
@@ -89,11 +109,11 @@ const OccasionsSlider = () => {
     };
 
     return (
-        <section className="py-12">
-            <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-24 2xl:px-32">
-                <div className="text-right mb-8 flex items-center justify-between">
+        <section className="py-10 sm:py-12">
+            <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-24">
+                <div className="text-right mb-6 sm:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <h2
-                        className="text-2xl md:text-3xl font-bold text-[#1B5B52]"
+                        className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B5B52]"
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
                         هدايا لكل لحظة
@@ -122,8 +142,16 @@ const OccasionsSlider = () => {
 
                 <div className="relative">
                     {/* Occasions Container */}
-                    <div className="overflow-hidden px-12">
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+                    <div className="overflow-hidden px-4 sm:px-8 md:px-12">
+                        <div
+                            className={`grid gap-3 sm:gap-4 md:gap-6 ${
+                                visibleCount === 2
+                                    ? "grid-cols-2"
+                                    : visibleCount === 3
+                                    ? "grid-cols-2 sm:grid-cols-3"
+                                    : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
+                            }`}
+                        >
                             {getVisibleOccasions().map((occasion, idx) => (
                                 <Link
                                     key={`${occasion.id}-${idx}`}
@@ -160,11 +188,11 @@ const OccasionsSlider = () => {
                     {/* Navigation Arrows */}
                     <button
                         onClick={prevSlide}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white hover:bg-[#5A5E4D] text-gray-800 hover:text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10"
+                        className="absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-4 bg-white hover:bg-[#5A5E4D] text-gray-800 hover:text-white p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10"
                         aria-label="Previous"
                     >
                         <svg
-                            className="w-5 h-5"
+                            className="w-4 h-4 sm:w-5 sm:h-5"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -179,11 +207,11 @@ const OccasionsSlider = () => {
                     </button>
                     <button
                         onClick={nextSlide}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white hover:bg-[#5A5E4D] text-gray-800 hover:text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10"
+                        className="absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-4 bg-white hover:bg-[#5A5E4D] text-gray-800 hover:text-white p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10"
                         aria-label="Next"
                     >
                         <svg
-                            className="w-5 h-5"
+                            className="w-4 h-4 sm:w-5 sm:h-5"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"

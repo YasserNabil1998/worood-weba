@@ -145,17 +145,14 @@ const FeaturedBouquets = ({
     };
 
     return (
-        <section className="py-16">
+        <section className="py-12 sm:py-14 md:py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
                     <div>
-                        <h2
-                            className="text-2xl md:text-3xl font-bold text-gray-800 mb-1"
-                            style={{ fontFamily: "var(--font-almarai)" }}
-                        >
+                        <h2 className="text-[36px] font-bold leading-[40px] text-[#2D3319] mb-2 tracking-[0px]">
                             باقات مقترحة
                         </h2>
-                        <p className="text-gray-600 text-sm">
+                        <p className="text-[16px] font-normal leading-[24px] text-[#5A5E4D] tracking-[0px]">
                             تصاميم منسقة قد تعجبك
                         </p>
                     </div>
@@ -167,7 +164,7 @@ const FeaturedBouquets = ({
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {isLoading && (
                         <div
                             className="col-span-full text-center text-gray-600"
@@ -180,9 +177,9 @@ const FeaturedBouquets = ({
                         <Link
                             key={bouquet.id}
                             href={`/product/${bouquet.id}`}
-                            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col h-full cursor-pointer"
+                            className="bg-white rounded-lg sm:rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 sm:hover:-translate-y-2 flex flex-col h-full cursor-pointer"
                         >
-                            <div className="relative h-80 overflow-hidden group">
+                            <div className="relative h-64 sm:h-72 md:h-80 overflow-hidden group">
                                 <img
                                     src={bouquet.image}
                                     alt={bouquet.title}
@@ -194,14 +191,14 @@ const FeaturedBouquets = ({
                                         onClick={(e) =>
                                             toggleFavorite(e, bouquet)
                                         }
-                                        className={`h-8 w-8 rounded-full backdrop-blur flex items-center justify-center shadow transition-all duration-300 hover:scale-110 cursor-pointer ${
+                                        className={`h-7 w-7 sm:h-8 sm:w-8 rounded-full backdrop-blur flex items-center justify-center shadow transition-all duration-300 hover:scale-110 cursor-pointer ${
                                             favorites.has(bouquet.id)
                                                 ? "bg-[#5A5E4D] text-white"
                                                 : "bg-white/90 text-gray-700 hover:bg-[#5A5E4D] hover:text-white"
                                         }`}
                                     >
                                         <svg
-                                            className="w-4 h-4 transition-colors"
+                                            className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-colors"
                                             fill={
                                                 favorites.has(bouquet.id)
                                                     ? "currentColor"
@@ -220,10 +217,10 @@ const FeaturedBouquets = ({
                                     </button>
                                 </div>
                             </div>
-                            <div className="p-4 flex flex-col flex-1">
-                                <div className="flex-1 mb-4">
+                            <div className="p-3 sm:p-4 flex flex-col flex-1">
+                                <div className="flex-1 mb-3 sm:mb-4">
                                     <h3
-                                        className="font-bold text-gray-800 mb-2 line-clamp-1"
+                                        className="font-bold text-gray-800 mb-2 line-clamp-1 text-sm sm:text-base"
                                         style={{
                                             fontFamily: "var(--font-almarai)",
                                         }}
@@ -231,18 +228,18 @@ const FeaturedBouquets = ({
                                     >
                                         {bouquet.title}
                                     </h3>
-                                    <p className="text-[12px] text-gray-600 line-clamp-2">
+                                    <p className="text-[11px] sm:text-[12px] text-gray-600 line-clamp-2">
                                         وصف مختصر للباقة يوضح نوع الورود
                                         والألوان المناسبة.
                                     </p>
                                 </div>
 
                                 <div className="mt-auto">
-                                    <div className="flex items-center justify-between mb-3">
-                                        <span className="text-sm text-gray-600">
+                                    <div className="flex items-center justify-between mb-2 sm:mb-3">
+                                        <span className="text-xs sm:text-sm text-gray-600">
                                             السعر:
                                         </span>
-                                        <div className="font-bold text-lg text-[#5A5E4D]">
+                                        <div className="font-bold text-base sm:text-lg text-[#5A5E4D]">
                                             {bouquet.price} {bouquet.currency}
                                         </div>
                                     </div>
@@ -251,7 +248,7 @@ const FeaturedBouquets = ({
                                             e.preventDefault();
                                             addToCart(bouquet);
                                         }}
-                                        className="w-full py-2 rounded-md text-white font-semibold bg-[#5A5E4D] hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-lg active:scale-95 cursor-pointer relative z-10"
+                                        className="w-full py-2 sm:py-2.5 rounded-md text-white font-semibold bg-[#5A5E4D] hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-lg active:scale-95 cursor-pointer relative z-10 text-sm sm:text-base"
                                         style={{
                                             fontFamily: "var(--font-almarai)",
                                         }}

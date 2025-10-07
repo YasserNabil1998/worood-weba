@@ -35,6 +35,13 @@ body {
     background: var(--background);
     color: var(--foreground);
     font-family: "Fedra Sans Arabic AR", sans-serif;
+    padding-top: 80px; /* Space for fixed header on desktop */
+}
+
+@media (max-width: 1023px) {
+    body {
+        padding-top: 64px; /* Space for fixed header on tablet/mobile */
+    }
 }
 
 * {
@@ -101,6 +108,22 @@ html {
     animation: fade-in 0.3s ease-out;
 }
 
+/* Fade in animation for product page */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.4s ease-out;
+}
+
 /* Hide scrollbar but keep functionality */
 .scrollbar-hide {
     -ms-overflow-style: none; /* IE and Edge */
@@ -109,4 +132,17 @@ html {
 
 .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
+}
+
+/* Select dropdown responsive - constrain options within container */
+select {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+select option {
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

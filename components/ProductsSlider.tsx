@@ -13,6 +13,26 @@ interface Product {
 
 const ProductsSlider = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [visibleCount, setVisibleCount] = useState(1);
+
+    // Get number of visible items based on screen size
+    const getVisibleCount = () => {
+        if (typeof window === "undefined") return 1;
+        const width = window.innerWidth;
+        if (width < 640) return 1; // mobile
+        if (width < 1024) return 2; // tablet
+        return 4; // desktop
+    };
+
+    useEffect(() => {
+        const updateVisibleCount = () => {
+            setVisibleCount(getVisibleCount());
+        };
+
+        updateVisibleCount();
+        window.addEventListener("resize", updateVisibleCount);
+        return () => window.removeEventListener("resize", updateVisibleCount);
+    }, []);
 
     const products: Product[] = [
         {
@@ -60,12 +80,14 @@ const ProductsSlider = () => {
     ];
 
     const nextSlide = () => {
-        setCurrentIndex((prev) => (prev >= products.length - 1 ? 0 : prev + 1));
+        setCurrentIndex((prev) =>
+            prev >= products.length - visibleCount ? 0 : prev + 1
+        );
     };
 
     const prevSlide = () => {
         setCurrentIndex((prev) =>
-            prev === 0 ? products.length - 1 : prev - 1
+            prev === 0 ? products.length - visibleCount : prev - 1
         );
     };
 
@@ -78,11 +100,11 @@ const ProductsSlider = () => {
     }, [currentIndex]);
 
     return (
-        <section className="py-12">
-            <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-24 2xl:px-32">
-                <div className="flex justify-between items-center mb-8">
+        <section className="py-8 sm:py-10 md:py-12">
+            <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-24">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
                     <h2
-                        className="text-2xl md:text-3xl font-bold text-gray-800"
+                        className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800"
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
                         سعادة في مزهرية
@@ -111,26 +133,40 @@ const ProductsSlider = () => {
 
                 <div className="relative">
                     {/* Products Container */}
-                    <div className="overflow-hidden px-12">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="overflow-hidden px-4 sm:px-8 md:px-12">
+                        <div
+                            className={`grid gap-4 sm:gap-6 ${
+                                visibleCount === 1
+                                    ? "grid-cols-1"
+                                    : visibleCount === 2
+                                    ? "grid-cols-1 sm:grid-cols-2"
+                                    : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+                            }`}
+                        >
                             {products
-                                .slice(currentIndex, currentIndex + 4)
+                                .slice(
+                                    currentIndex,
+                                    currentIndex + visibleCount
+                                )
                                 .concat(
-                                    currentIndex + 4 > products.length
+                                    currentIndex + visibleCount >
+                                        products.length
                                         ? products.slice(
                                               0,
-                                              currentIndex + 4 - products.length
+                                              currentIndex +
+                                                  visibleCount -
+                                                  products.length
                                           )
                                         : []
                                 )
-                                .slice(0, 4)
+                                .slice(0, visibleCount)
                                 .map((product, idx) => (
                                     <Link
                                         key={`${product.id}-${idx}`}
                                         href={`/product/${product.id}`}
                                         className="w-full block group cursor-pointer"
                                     >
-                                        <div className="bg-[#F5F3ED] rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300">
+                                        <div className="bg-[#F5F3ED] rounded-2xl sm:rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300">
                                             <div className="relative aspect-square overflow-hidden">
                                                 <img
                                                     src={product.image}
@@ -138,8 +174,8 @@ const ProductsSlider = () => {
                                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                 />
                                             </div>
-                                            <div className="p-4 text-right">
-                                                <div className="flex items-center justify-end gap-1.5 mb-2">
+                                            <div className="p-3 sm:p-4 text-right">
+                                                <div className="flex items-center justify-end gap-1 sm:gap-1.5 mb-2">
                                                     <span
                                                         className="text-xs text-gray-600"
                                                         style={{
@@ -150,7 +186,7 @@ const ProductsSlider = () => {
                                                         {product.currency}
                                                     </span>
                                                     <span
-                                                        className="text-xl font-bold text-gray-800"
+                                                        className="text-lg sm:text-xl font-bold text-gray-800"
                                                         style={{
                                                             fontFamily:
                                                                 "var(--font-almarai)",
@@ -160,7 +196,7 @@ const ProductsSlider = () => {
                                                     </span>
                                                 </div>
                                                 <h3
-                                                    className="text-sm font-medium text-gray-700 text-right"
+                                                    className="text-xs sm:text-sm font-medium text-gray-700 text-right line-clamp-2"
                                                     style={{
                                                         fontFamily:
                                                             "var(--font-almarai)",
@@ -178,11 +214,11 @@ const ProductsSlider = () => {
                     {/* Navigation Arrows */}
                     <button
                         onClick={prevSlide}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white hover:bg-gray-50 text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+                        className="absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-4 bg-white hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
                         aria-label="Previous"
                     >
                         <svg
-                            className="w-5 h-5"
+                            className="w-4 h-4 sm:w-5 sm:h-5"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -197,11 +233,11 @@ const ProductsSlider = () => {
                     </button>
                     <button
                         onClick={nextSlide}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white hover:bg-gray-50 text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+                        className="absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-4 bg-white hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
                         aria-label="Next"
                     >
                         <svg
-                            className="w-5 h-5"
+                            className="w-4 h-4 sm:w-5 sm:h-5"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"

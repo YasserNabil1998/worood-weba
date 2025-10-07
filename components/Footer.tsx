@@ -3,10 +3,10 @@ import Link from "next/link";
 const Footer = () => {
     return (
         <footer className="text-white" style={{ backgroundColor: "#0F2433" }}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-6">
                     {/* About Us */}
-                    <div>
+                    <div className="sm:col-span-2 md:col-span-1">
                         <h3
                             className="text-base md:text-lg font-semibold mb-3"
                             style={{ fontFamily: "var(--font-almarai)" }}
@@ -77,14 +77,14 @@ const Footer = () => {
                         >
                             تواصل معنا
                         </h3>
-                        <div className="flex items-center gap-4 mb-3">
+                        <div className="flex items-center gap-3 sm:gap-4 mb-3">
                             <a
                                 href="#"
                                 aria-label="Instagram"
                                 className="text-gray-300 hover:text-white transition-colors"
                             >
                                 <svg
-                                    className="w-6 h-6"
+                                    className="w-5 h-5 sm:w-6 sm:h-6"
                                     fill="currentColor"
                                     viewBox="0 0 24 24"
                                 >
@@ -97,7 +97,7 @@ const Footer = () => {
                                 className="text-gray-300 hover:text-white transition-colors"
                             >
                                 <svg
-                                    className="w-6 h-6"
+                                    className="w-5 h-5 sm:w-6 sm:h-6"
                                     fill="currentColor"
                                     viewBox="0 0 24 24"
                                 >
@@ -110,7 +110,7 @@ const Footer = () => {
                                 className="text-gray-300 hover:text-white transition-colors"
                             >
                                 <svg
-                                    className="w-6 h-6"
+                                    className="w-5 h-5 sm:w-6 sm:h-6"
                                     fill="currentColor"
                                     viewBox="0 0 24 24"
                                 >
@@ -123,7 +123,7 @@ const Footer = () => {
                                 className="text-gray-300 hover:text-white transition-colors"
                             >
                                 <svg
-                                    className="w-6 h-6"
+                                    className="w-5 h-5 sm:w-6 sm:h-6"
                                     fill="currentColor"
                                     viewBox="0 0 24 24"
                                 >
@@ -143,34 +143,34 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="mt-4 pt-6 border-t border-white/10">
+                <div className="mt-4 pt-4 sm:pt-6 border-t border-white/10">
                     <div className="text-center">
                         <p
-                            className="text-gray-300 text-xs md:text-sm"
+                            className="text-gray-300 text-xs sm:text-sm"
                             style={{ fontFamily: "var(--font-almarai)" }}
                         >
                             جميع الحقوق محفوظة زهور الشمس © 2025
                         </p>
-                        <div className="mt-2 flex items-center justify-center gap-3 opacity-90">
+                        <div className="mt-2 sm:mt-3 flex items-center justify-center gap-2 sm:gap-3 opacity-90">
                             <img
                                 src="/images/payment/visa.png"
                                 alt="Visa"
-                                className="h-10 object-cover"
+                                className="h-8 sm:h-10 object-cover"
                             />
                             <img
                                 src="/images/payment/mastercard.png"
                                 alt="Mastercard"
-                                className="h-10 object-cover"
+                                className="h-8 sm:h-10 object-cover"
                             />
                             <img
                                 src="/images/payment/apple-pay.png"
                                 alt="Apple Pay"
-                                className="h-10 object-cover"
+                                className="h-8 sm:h-10 object-cover"
                             />
                             <img
                                 src="/images/payment/paypal.png"
                                 alt="PayPal"
-                                className="h-10 object-cover"
+                                className="h-8 sm:h-10 object-cover"
                             />
                         </div>
                     </div>

@@ -5,7 +5,7 @@ import ProductsSlider from "@/components/ProductsSlider";
 import OccasionsSlider from "@/components/OccasionsSlider";
 import FeaturedBouquets from "@/components/FeaturedBouquets";
 import CustomBouquetSection from "@/components/CustomBouquetSection";
-import CustomerReviews from "@/components/CustomerReviews";
+import CustomerReviewsSlider from "@/components/CustomerReviewsSlider";
 import BlogSection from "@/components/BlogSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import NewsletterSection from "@/components/NewsletterSection";
@@ -22,7 +22,7 @@ export default function Home() {
                 <OccasionsSlider />
                 <FeaturedBouquets />
                 <CustomBouquetSection />
-                <CustomerReviews />
+                <CustomerReviewsSlider />
                 <BlogSection />
                 <FeaturesSection />
                 <NewsletterSection />

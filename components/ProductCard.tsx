@@ -13,7 +13,6 @@ export type ProductItem = {
 };
 
 export default function ProductCard({ item }: { item: ProductItem }) {
-    const [isAdding, setIsAdding] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
 
     // Check if item is in favorites
@@ -63,8 +62,6 @@ export default function ProductCard({ item }: { item: ProductItem }) {
     };
 
     const handleAddToCart = () => {
-        setIsAdding(true);
-
         // Get existing cart from localStorage
         const existingCart = localStorage.getItem("cart");
         const cart = existingCart ? JSON.parse(existingCart) : [];
@@ -98,7 +95,6 @@ export default function ProductCard({ item }: { item: ProductItem }) {
         // Remove notification after 3 seconds
         setTimeout(() => {
             notification.remove();
-            setIsAdding(false);
         }, 3000);
     };
 
@@ -107,6 +103,7 @@ export default function ProductCard({ item }: { item: ProductItem }) {
             href={`/product/${item.id}`}
             className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group flex flex-col h-full cursor-pointer"
             dir="rtl"
+            data-product-card
         >
             <div className="relative h-80 overflow-hidden">
                 <img
@@ -159,6 +156,7 @@ export default function ProductCard({ item }: { item: ProductItem }) {
                         className="font-bold text-gray-800 mb-2 line-clamp-1"
                         style={{ fontFamily: "var(--font-almarai)" }}
                         title={item.title}
+                        data-product-title
                     >
                         {item.title}
                     </h3>
@@ -179,10 +177,9 @@ export default function ProductCard({ item }: { item: ProductItem }) {
                             e.preventDefault();
                             handleAddToCart();
                         }}
-                        disabled={isAdding}
-                        className="w-full py-2 rounded-md text-white font-semibold bg-[#5A5E4D] hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-lg active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer relative z-10"
+                        className="w-full py-2 rounded-md text-white font-semibold bg-[#5A5E4D] hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-lg active:scale-95 cursor-pointer relative z-10"
                     >
-                        {isAdding ? "جاري الإضافة..." : "أضف إلى السلة"}
+                        أضف إلى السلة
                     </button>
                 </div>
             </div>

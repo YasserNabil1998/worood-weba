@@ -4,7 +4,11 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useNotification } from "@/components/NotificationSystem";
 import { useParams } from "next/navigation";
+import DataLoader from "@/components/DataLoader";
+import { useDataLoading } from "@/lib/useDataLoading";
+import productData from "./product-data.json";
 
 interface Product {
     id: number;
@@ -16,69 +20,83 @@ interface Product {
     currency: string;
 }
 
-const bouquetImages = [
-    "/images/bouquets/DIV-237.png",
-    "/images/bouquets/IMG-196.png",
-    "/images/bouquets/IMG-210.png",
-    "/images/bouquets/IMG-224.png",
-];
+interface Size {
+    value: string;
+    label: string;
+    price: number;
+}
 
-const productImages = [
-    "/images/Products/Products-1.jpg",
-    "/images/Products/Products-2.jpg",
-    "/images/Products/Products-3.jpg",
-    "/images/Products/Products-4.jpg",
-    "/images/Products/Products-5.jpg",
-    "/images/Products/Products-6.jpg",
-];
+interface ProductData {
+    bouquetImages: string[];
+    productImages: string[];
+    sizes: Size[];
+    addons: {
+        card: { price: number; label: string };
+        chocolate: { price: number; label: string };
+        giftWrap: { price: number; label: string };
+    };
+    defaultDescription: string;
+    priceMultiplier: number;
+    currency: string;
+}
 
 export default function ProductDetailPage() {
     const params = useParams();
     const id = params?.id as string;
     const [product, setProduct] = useState<Product | null>(null);
-    const [loading, setLoading] = useState(true);
+    const { isLoading, withLoading } = useDataLoading();
+    const { showNotification } = useNotification();
 
     useEffect(() => {
         async function fetchProduct() {
-            try {
-                const res = await fetch(`https://dummyjson.com/products/${id}`);
-                const data = await res.json();
+            await withLoading(async () => {
+                try {
+                    const res = await fetch(
+                        `https://dummyjson.com/products/${id}`
+                    );
+                    const data = await res.json();
 
-                // تحويل البيانات من API إلى صيغة المنتج
-                const mainImage =
-                    bouquetImages[parseInt(id) % bouquetImages.length];
-                const productData: Product = {
-                    id: data.id,
-                    title: data.title,
-                    price: Math.round(data.price * 10), // ضرب في 10 لجعل السعر واقعي بالريال
-                    image: mainImage,
-                    images: [
-                        mainImage,
-                        productImages[parseInt(id) % productImages.length],
-                        productImages[
-                            (parseInt(id) + 1) % productImages.length
+                    // تحويل البيانات من API إلى صيغة المنتج
+                    const mainImage =
+                        productData.bouquetImages[
+                            parseInt(id) % productData.bouquetImages.length
+                        ];
+                    const product: Product = {
+                        id: data.id,
+                        title: data.title,
+                        price: Math.round(
+                            data.price * productData.priceMultiplier
+                        ), // ضرب في 10 لجعل السعر واقعي بالريال
+                        image: mainImage,
+                        images: [
+                            mainImage,
+                            productData.productImages[
+                                parseInt(id) % productData.productImages.length
+                            ],
+                            productData.productImages[
+                                (parseInt(id) + 1) %
+                                    productData.productImages.length
+                            ],
+                            productData.productImages[
+                                (parseInt(id) + 2) %
+                                    productData.productImages.length
+                            ],
                         ],
-                        productImages[
-                            (parseInt(id) + 2) % productImages.length
-                        ],
-                    ],
-                    description:
-                        "باقة رائعة من الورود الطازجة بألوان متنوعة، مرتبة بعناية فائقة لتعبر عن مشاعركم. تحتوي على مجموعة مختارة من أجود أنواع الورود مع أوراق خضراء طبيعية. مناسبة لجميع المناسبات السعيدة.",
-                    currency: "ر.س",
-                };
+                        description: productData.defaultDescription,
+                        currency: productData.currency,
+                    };
 
-                setProduct(productData);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching product:", error);
-                setLoading(false);
-            }
+                    setProduct(product);
+                } catch (error) {
+                    console.error("Error fetching product:", error);
+                }
+            });
         }
 
         if (id) {
             fetchProduct();
         }
-    }, [id]);
+    }, [id, withLoading]);
 
     const [selectedImage, setSelectedImage] = useState(0);
     const [selectedSize, setSelectedSize] = useState("medium");
@@ -88,47 +106,9 @@ export default function ProductDetailPage() {
     const [giftWrap, setGiftWrap] = useState(false);
     const [quantity, setQuantity] = useState(1);
 
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-white flex flex-col">
-                <Header />
-                <div className="flex-1 flex items-center justify-center">
-                    <div className="text-center">
-                        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#5A5E4D] mx-auto"></div>
-                        <p
-                            className="mt-6 text-gray-600 text-lg"
-                            style={{ fontFamily: "var(--font-almarai)" }}
-                        >
-                            جاري تحميل المنتج...
-                        </p>
-                    </div>
-                </div>
-                <Footer />
-            </div>
-        );
-    }
-
-    if (!product) {
-        return (
-            <div className="min-h-screen bg-white">
-                <Header />
-                <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-                    <h1 className="text-2xl font-bold text-gray-800 mb-4">
-                        المنتج غير موجود
-                    </h1>
-                    <Link
-                        href="/bouquets"
-                        className="text-[#5A5E4D] hover:underline"
-                    >
-                        العودة إلى الباقات
-                    </Link>
-                </div>
-                <Footer />
-            </div>
-        );
-    }
-
     const addToCart = () => {
+        if (!product) return;
+
         if (typeof window !== "undefined") {
             try {
                 const cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -157,60 +137,38 @@ export default function ProductDetailPage() {
                 localStorage.setItem("cart", JSON.stringify(cart));
                 window.dispatchEvent(new CustomEvent("cartUpdated"));
 
-                const notification = document.createElement("div");
-                notification.textContent = "تم إضافة المنتج إلى السلة";
-                notification.className =
-                    "fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg z-50 shadow-lg";
-                notification.style.fontFamily = "var(--font-almarai)";
-                document.body.appendChild(notification);
-                setTimeout(() => notification.remove(), 3000);
+                // إشعار موحد
+                showNotification("تم إضافة المنتج إلى السلة", "success");
             } catch (error) {
                 console.error("خطأ:", error);
+                showNotification("حدث خطأ في إضافة المنتج للسلة", "error");
             }
         }
     };
 
+    const getTotalPrice = () => {
+        if (!product) return 0;
+        let total = product.price;
+        const selectedSizeData = productData.sizes.find(
+            (s) => s.value === selectedSize
+        );
+        if (selectedSizeData) total += selectedSizeData.price;
+        if (addCard) total += productData.addons.card.price;
+        if (addChocolate) total += productData.addons.chocolate.price;
+        if (giftWrap) total += productData.addons.giftWrap.price;
+        return total * quantity;
+    };
+
     return (
-        <div className="min-h-screen bg-white">
-            <Header />
-
-            <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-24 2xl:px-32 py-8">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    {/* Image Gallery - Right Side */}
-                    <div className="lg:col-span-1 order-2 lg:order-1">
-                        <div className="flex lg:flex-col gap-3">
-                            {product.images.map((img, idx) => (
-                                <button
-                                    key={idx}
-                                    onClick={() => setSelectedImage(idx)}
-                                    className={`relative aspect-square rounded-xl overflow-hidden transition-all bg-white cursor-pointer ${
-                                        selectedImage === idx
-                                            ? "ring-2 ring-[#5A5E4D]"
-                                            : "opacity-60 hover:opacity-100"
-                                    }`}
-                                >
-                                    <img
-                                        src={img}
-                                        alt={`${product.title} ${idx + 1}`}
-                                        className="w-full h-full object-contain p-1"
-                                    />
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Main Image - Center */}
-                    <div className="lg:col-span-6 order-1 lg:order-2">
-                        <div className="relative aspect-square rounded-3xl overflow-hidden bg-[#F5F3ED]">
-                            <img
-                                src={product.images[selectedImage]}
-                                alt={product.title}
-                                className="w-full h-full object-cover"
-                                loading="eager"
-                            />
-                            <button className="absolute top-4 left-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-50 transition-colors cursor-pointer">
+        <DataLoader isLoading={isLoading} loadingText="جاري تحميل المنتج...">
+            <div className="min-h-screen bg-gradient-to-br from-[#faf9f6] to-white">
+                <Header />
+                {!product ? (
+                    <div className="max-w-7xl mx-auto px-4 py-20 text-center">
+                        <div className="bg-white rounded-3xl shadow-xl p-12 max-w-md mx-auto">
+                            <div className="w-20 h-20 bg-[#5A5E4D]/10 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <svg
-                                    className="w-5 h-5 text-gray-600"
+                                    className="w-10 h-10 text-[#5A5E4D]"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -219,359 +177,347 @@ export default function ProductDetailPage() {
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={2}
-                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                     />
                                 </svg>
-                            </button>
+                            </div>
+                            <h1 className="text-2xl font-bold text-gray-800 mb-4">
+                                المنتج غير موجود
+                            </h1>
+                            <p className="text-gray-600 mb-6">
+                                عذراً، لم نتمكن من العثور على المنتج المطلوب
+                            </p>
+                            <Link
+                                href="/bouquets"
+                                className="inline-block bg-[#5A5E4D] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#4A4E3D] transition-all transform hover:scale-105"
+                            >
+                                العودة إلى الباقات
+                            </Link>
                         </div>
                     </div>
+                ) : (
+                    <main className="max-w-7xl mx-auto px-4 py-8 lg:py-12">
+                        {/* Breadcrumb */}
+                        <nav className="flex items-center gap-2 text-sm mb-8">
+                            <Link
+                                href="/"
+                                className="text-gray-500 hover:text-[#5A5E4D] transition-colors"
+                            >
+                                الرئيسية
+                            </Link>
+                            <span className="text-gray-400">/</span>
+                            <Link
+                                href="/bouquets"
+                                className="text-gray-500 hover:text-[#5A5E4D] transition-colors"
+                            >
+                                الباقات
+                            </Link>
+                            <span className="text-gray-400">/</span>
+                            <span className="text-[#5A5E4D] font-medium">
+                                {product.title}
+                            </span>
+                        </nav>
 
-                    {/* Product Info - Left Side */}
-                    <div className="lg:col-span-5 order-3 space-y-6" dir="rtl">
-                        <div>
-                            <div className="flex items-start justify-between mb-4">
-                                <div className="flex flex-col items-end">
-                                    <div className="flex items-baseline gap-2">
-                                        <span
-                                            className="text-sm text-gray-600"
-                                            style={{
-                                                fontFamily:
-                                                    "var(--font-almarai)",
-                                            }}
+                        {/* Product Content */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                            {/* Product Images */}
+                            <div className="flex gap-3">
+                                {/* Thumbnails on the side */}
+                                <div className="flex flex-col gap-3 w-24">
+                                    {product.images.map((image, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() =>
+                                                setSelectedImage(index)
+                                            }
+                                            className={`h-24 w-24 rounded-lg overflow-hidden border-2 transition-all ${
+                                                selectedImage === index
+                                                    ? "border-[#5A5E4D] ring-2 ring-[#5A5E4D]/30"
+                                                    : "border-gray-200 hover:border-[#5A5E4D]/50"
+                                            }`}
                                         >
-                                            {product.currency}
-                                        </span>
-                                        <span
-                                            className="text-4xl font-bold text-gray-800"
-                                            style={{
-                                                fontFamily:
-                                                    "var(--font-almarai)",
-                                            }}
-                                        >
+                                            <img
+                                                src={image}
+                                                alt={`${product.title} ${
+                                                    index + 1
+                                                }`}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {/* Main Image */}
+                                <div
+                                    className="flex-1 rounded-lg overflow-hidden bg-gray-50 shadow-md"
+                                    style={{ height: "408px" }}
+                                >
+                                    <img
+                                        src={product.images[selectedImage]}
+                                        alt={product.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Product Info */}
+                            <div className="space-y-4">
+                                {/* Title & Price */}
+                                <div>
+                                    <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                                        {product.title}
+                                    </h1>
+                                    <div className="flex items-center gap-1 mb-2">
+                                        {[...Array(5)].map((_, i) => (
+                                            <svg
+                                                key={i}
+                                                className="w-3.5 h-3.5 text-yellow-400 fill-current"
+                                                viewBox="0 0 20 20"
+                                            >
+                                                <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                                            </svg>
+                                        ))}
+                                    </div>
+                                    <div className="flex items-baseline gap-2 mb-3">
+                                        <span className="text-2xl font-bold text-[#5A5E4D]">
                                             {product.price}
                                         </span>
+                                        <span className="text-base text-gray-600">
+                                            {product.currency}
+                                        </span>
                                     </div>
-                                    <span
-                                        className="text-xs text-gray-500 mt-1"
-                                        style={{
-                                            fontFamily: "var(--font-almarai)",
-                                        }}
-                                    >
-                                        الأسعار شاملة الضرائب
-                                    </span>
+                                    <p className="text-sm text-gray-600 leading-relaxed">
+                                        {product.description}
+                                    </p>
                                 </div>
 
-                                <div
-                                    className="flex items-center gap-2 bg-[#5A5E4D] text-white px-3 py-2 rounded-lg"
-                                    style={{
-                                        fontFamily: "var(--font-almarai)",
-                                    }}
-                                >
-                                    <svg
-                                        className="w-5 h-5"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                    >
-                                        <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-                                        <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" />
-                                    </svg>
-                                    <div className="text-xs text-right">
-                                        <div className="font-bold">
-                                            اربح 508
+                                <div className="border-t border-gray-200 pt-4">
+                                    {/* Size Selection */}
+                                    <div className="mb-4">
+                                        <h3 className="text-sm font-semibold text-gray-900 mb-2">
+                                            اختر الحجم
+                                        </h3>
+                                        <div className="flex gap-2">
+                                            {productData.sizes.map((size) => (
+                                                <button
+                                                    key={size.value}
+                                                    onClick={() =>
+                                                        setSelectedSize(
+                                                            size.value
+                                                        )
+                                                    }
+                                                    className={`flex-1 px-3 py-2 rounded-lg border-2 transition-all ${
+                                                        selectedSize ===
+                                                        size.value
+                                                            ? "border-[#5A5E4D] bg-[#5A5E4D] text-white"
+                                                            : "border-gray-300 text-gray-700 hover:border-[#5A5E4D]"
+                                                    }`}
+                                                >
+                                                    <div className="font-medium text-xs">
+                                                        {size.label}
+                                                    </div>
+                                                    {size.price > 0 && (
+                                                        <div className="text-[10px] mt-0.5">
+                                                            +{size.price}{" "}
+                                                            {product.currency}
+                                                        </div>
+                                                    )}
+                                                </button>
+                                            ))}
                                         </div>
-                                        <div className="text-[10px]">
-                                            من نقاط الولاء
+                                    </div>
+
+                                    {/* Addons */}
+                                    <div className="mb-4">
+                                        <h3 className="text-sm font-semibold text-gray-900 mb-2">
+                                            إضافات اختيارية
+                                        </h3>
+                                        <div className="space-y-1.5">
+                                            <label className="flex items-center justify-between p-2 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                                                <div className="flex items-center gap-2">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={addCard}
+                                                        onChange={(e) =>
+                                                            setAddCard(
+                                                                e.target.checked
+                                                            )
+                                                        }
+                                                        className="w-3.5 h-3.5 text-[#5A5E4D] rounded focus:ring-[#5A5E4D]"
+                                                    />
+                                                    <span className="text-xs text-gray-700">
+                                                        {
+                                                            productData.addons
+                                                                .card.label
+                                                        }
+                                                    </span>
+                                                </div>
+                                                <span className="text-xs text-[#5A5E4D] font-medium">
+                                                    +
+                                                    {
+                                                        productData.addons.card
+                                                            .price
+                                                    }{" "}
+                                                    {product.currency}
+                                                </span>
+                                            </label>
+
+                                            <label className="flex items-center justify-between p-2 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                                                <div className="flex items-center gap-2">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={addChocolate}
+                                                        onChange={(e) =>
+                                                            setAddChocolate(
+                                                                e.target.checked
+                                                            )
+                                                        }
+                                                        className="w-3.5 h-3.5 text-[#5A5E4D] rounded focus:ring-[#5A5E4D]"
+                                                    />
+                                                    <span className="text-xs text-gray-700">
+                                                        {
+                                                            productData.addons
+                                                                .chocolate.label
+                                                        }
+                                                    </span>
+                                                </div>
+                                                <span className="text-xs text-[#5A5E4D] font-medium">
+                                                    +
+                                                    {
+                                                        productData.addons
+                                                            .chocolate.price
+                                                    }{" "}
+                                                    {product.currency}
+                                                </span>
+                                            </label>
+
+                                            <label className="flex items-center justify-between p-2 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                                                <div className="flex items-center gap-2">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={giftWrap}
+                                                        onChange={(e) =>
+                                                            setGiftWrap(
+                                                                e.target.checked
+                                                            )
+                                                        }
+                                                        className="w-3.5 h-3.5 text-[#5A5E4D] rounded focus:ring-[#5A5E4D]"
+                                                    />
+                                                    <span className="text-xs text-gray-700">
+                                                        {
+                                                            productData.addons
+                                                                .giftWrap.label
+                                                        }
+                                                    </span>
+                                                </div>
+                                                <span className="text-xs text-[#5A5E4D] font-medium">
+                                                    +
+                                                    {
+                                                        productData.addons
+                                                            .giftWrap.price
+                                                    }{" "}
+                                                    {product.currency}
+                                                </span>
+                                            </label>
                                         </div>
+
+                                        {addCard && (
+                                            <div className="mt-2 animate-fadeIn">
+                                                <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                                                    رسالة البطاقة
+                                                </label>
+                                                <textarea
+                                                    value={cardMessage}
+                                                    onChange={(e) =>
+                                                        setCardMessage(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    placeholder="اكتب رسالتك هنا..."
+                                                    className="w-full px-2.5 py-2 border border-gray-300 rounded-lg focus:border-[#5A5E4D] focus:ring-1 focus:ring-[#5A5E4D] transition-all resize-none text-xs"
+                                                    rows={2}
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Quantity & Add to Cart */}
+                                    <div className="border-t border-gray-200 pt-4">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <span className="text-sm font-semibold text-gray-900">
+                                                الكمية
+                                            </span>
+                                            <div className="flex items-center gap-2">
+                                                <button
+                                                    onClick={() =>
+                                                        setQuantity(
+                                                            Math.max(
+                                                                1,
+                                                                quantity - 1
+                                                            )
+                                                        )
+                                                    }
+                                                    className="w-8 h-8 rounded-lg border border-gray-300 hover:border-[#5A5E4D] hover:bg-[#5A5E4D] hover:text-white flex items-center justify-center transition-all font-bold text-sm"
+                                                >
+                                                    -
+                                                </button>
+                                                <span className="text-lg font-bold w-8 text-center text-[#5A5E4D]">
+                                                    {quantity}
+                                                </span>
+                                                <button
+                                                    onClick={() =>
+                                                        setQuantity(
+                                                            quantity + 1
+                                                        )
+                                                    }
+                                                    className="w-8 h-8 rounded-lg border border-gray-300 hover:border-[#5A5E4D] hover:bg-[#5A5E4D] hover:text-white flex items-center justify-center transition-all font-bold text-sm"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Total Price */}
+                                        <div className="bg-gray-50 rounded-lg p-3 mb-3">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-sm text-gray-700 font-medium">
+                                                    الإجمالي
+                                                </span>
+                                                <span className="text-xl font-bold text-[#5A5E4D]">
+                                                    {getTotalPrice()}{" "}
+                                                    {product.currency}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Add to Cart Button */}
+                                        <button
+                                            onClick={addToCart}
+                                            className="w-full bg-[#5A5E4D] text-white py-2.5 px-4 rounded-lg font-semibold text-sm hover:bg-[#4A4E3D] transition-all flex items-center justify-center gap-2"
+                                        >
+                                            <svg
+                                                className="w-4 h-4"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                                                />
+                                            </svg>
+                                            إضافة إلى السلة
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-
-                            <h1
-                                className="text-xl font-bold text-gray-800 mb-4 text-right"
-                                style={{ fontFamily: "var(--font-almarai)" }}
-                            >
-                                {product.title}
-                            </h1>
                         </div>
-
-                        {/* Add to Cart Button */}
-                        <button
-                            onClick={addToCart}
-                            className="w-full bg-[#5A5E4D] text-white py-4 rounded-lg font-bold text-lg hover:bg-[#5A5E4D] transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                            style={{ fontFamily: "var(--font-almarai)" }}
-                        >
-                            <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                                />
-                            </svg>
-                            أضف إلى سلة التسوق
-                        </button>
-
-                        {/* Features */}
-                        <div className="bg-[#F9F9F9] rounded-2xl p-6 space-y-4">
-                            <div className="flex items-start gap-3">
-                                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-                                    <svg
-                                        className="w-5 h-5 text-[#5A5E4D]"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                    >
-                                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                                    </svg>
-                                </div>
-                                <div className="flex-1">
-                                    <h4
-                                        className="font-bold text-gray-800 text-sm mb-1"
-                                        style={{
-                                            fontFamily: "var(--font-almarai)",
-                                        }}
-                                    >
-                                        ليست بحاجة لمزهرية العنوان
-                                    </h4>
-                                    <p
-                                        className="text-xs text-gray-600"
-                                        style={{
-                                            fontFamily: "var(--font-almarai)",
-                                        }}
-                                    >
-                                        فريقنا سيفعل ذلك نيابة عنك
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-start gap-3">
-                                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-                                    <svg
-                                        className="w-5 h-5 text-[#5A5E4D]"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                </div>
-                                <div className="flex-1">
-                                    <h4
-                                        className="font-bold text-gray-800 text-sm mb-1"
-                                        style={{
-                                            fontFamily: "var(--font-almarai)",
-                                        }}
-                                    >
-                                        توصيل سريع
-                                    </h4>
-                                    <p
-                                        className="text-xs text-gray-600"
-                                        style={{
-                                            fontFamily: "var(--font-almarai)",
-                                        }}
-                                    >
-                                        اطلبها الآن وسنقوم بتوصيلها في خلال 90
-                                        دقيقة
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-start gap-3">
-                                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-                                    <svg
-                                        className="w-5 h-5 text-[#5A5E4D]"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                </div>
-                                <div className="flex-1">
-                                    <h4
-                                        className="font-bold text-gray-800 text-sm mb-1"
-                                        style={{
-                                            fontFamily: "var(--font-almarai)",
-                                        }}
-                                    >
-                                        أجود أنواع الزهور
-                                    </h4>
-                                    <p
-                                        className="text-xs text-gray-600"
-                                        style={{
-                                            fontFamily: "var(--font-almarai)",
-                                        }}
-                                    >
-                                        منتقاة من أفضل المزارع
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-start gap-3">
-                                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-                                    <svg
-                                        className="w-5 h-5 text-[#5A5E4D]"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                    >
-                                        <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-                                        <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" />
-                                    </svg>
-                                </div>
-                                <div className="flex-1">
-                                    <h4
-                                        className="font-bold text-gray-800 text-sm mb-1"
-                                        style={{
-                                            fontFamily: "var(--font-almarai)",
-                                        }}
-                                    >
-                                        توصيل مجاني
-                                    </h4>
-                                    <p
-                                        className="text-xs text-gray-600"
-                                        style={{
-                                            fontFamily: "var(--font-almarai)",
-                                        }}
-                                    >
-                                        على الطلبات بقيمة أكثر من ريس 400
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Payment Methods */}
-                        <div className="border border-gray-200 rounded-xl p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <div className="flex items-center gap-2">
-                                    <img
-                                        src="/images/Products/fmaster.svg"
-                                        alt="Mastercard"
-                                        className="h-6"
-                                    />
-                                    <img
-                                        src="/images/Products/ApplePay3x.png"
-                                        alt="Apple Pay"
-                                        className="h-6"
-                                    />
-                                    <img
-                                        src="/images/Products/fvisa.svg"
-                                        alt="Visa"
-                                        className="h-6"
-                                    />
-                                    <img
-                                        src="/images/Products/fpaypala.svg"
-                                        alt="PayPal"
-                                        className="h-6"
-                                    />
-                                    <img
-                                        src="/images/Products/fMadaa.svg"
-                                        alt="mada"
-                                        className="h-6"
-                                    />
-                                </div>
-                                <h3 className="text-base font-bold text-gray-800">
-                                    طرق الدفع
-                                </h3>
-                            </div>
-
-                            {/* Tamara */}
-                            <div className="border-t border-gray-200 pt-4 mb-4 flex items-center gap-3">
-                                <Link
-                                    href="#"
-                                    className="text-xs text-[#5A5E4D] underline whitespace-nowrap"
-                                >
-                                    لمعرفة المزيد
-                                </Link>
-                                <p className="text-xs text-gray-700 flex-1 text-right">
-                                    قسمها على 4 دفعات مع تمارا
-                                </p>
-                                <img
-                                    src="/images/Products/TamaraARColored.png"
-                                    alt="Tamara"
-                                    className="h-5"
-                                />
-                            </div>
-
-                            {/* Tabby */}
-                            <div className="border-t border-gray-200 pt-4 flex items-center gap-3">
-                                <Link
-                                    href="#"
-                                    className="text-xs text-[#5A5E4D] underline whitespace-nowrap"
-                                >
-                                    لمعرفة المزيد
-                                </Link>
-                                <p className="text-xs text-gray-700 flex-1 text-right">
-                                    أو قسمها على 4 دفعات شهرية بقيمة SAR 146.25
-                                </p>
-                                <img
-                                    src="/images/Products/tabby-badge.png"
-                                    alt="Tabby"
-                                    className="h-5"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Description Tabs */}
-                <div className="mt-12" dir="rtl">
-                    <div className="border-b border-gray-200">
-                        <div className="flex gap-8">
-                            <button className="pb-4 border-b-2 border-gray-800 font-bold text-gray-800 cursor-pointer">
-                                الوصف
-                            </button>
-                            <button className="pb-4 font-medium text-gray-500 hover:text-gray-800 cursor-pointer">
-                                نصائح للعناية
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="mt-8 text-right">
-                        <p className="text-sm text-gray-700 leading-[1.8] mb-6">
-                            اجعل لحظاتك أكثر جمالاً مع تنسيق زهور يعكس مشاعر
-                            الحب والتقدير بألوان نابضة بالحياة. تجمع هذه الهدية
-                            بين الكارنيشن الوردي الذي يرمز إلى الإعجاب
-                            والاهتمام، والجوري البرتقالي الذي يعبر عن الدفء
-                            والحيوية، مع جوري برتقالي فاتح يضيف لمسة من الرقة.
-                            كل زهرة منتقاة بعناية لتشكل تنسيقاً مميزاً يبرز أي
-                            مساحة بأناقة. تُقدم هذه الزهور في مزهرية سيراميك
-                            أنيقة، مما يجعلها هدية مثالية للمناسبات الخاصة أو
-                            لإضافة جو من الجمال والفرح. مع هذه الهدية تعكس ذوقك
-                            واهتمامك بالتفاصيل.
-                        </p>
-
-                        <h3 className="text-base font-bold text-gray-800 mb-4">
-                            محتويات التنسيق:
-                        </h3>
-                        <ul className="space-y-3 text-gray-700 text-sm">
-                            <li className="flex items-center gap-3">
-                                <span className="w-1.5 h-1.5 bg-gray-800 rounded-full"></span>
-                                <span>كارنيشن وردي: 20</span>
-                            </li>
-                            <li className="flex items-center gap-3">
-                                <span className="w-1.5 h-1.5 bg-gray-800 rounded-full"></span>
-                                <span>جوري برتقالي: 15</span>
-                            </li>
-                            <li className="flex items-center gap-3">
-                                <span className="w-1.5 h-1.5 bg-gray-800 rounded-full"></span>
-                                <span>جوري برتقالي فاتح: 13</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                    </main>
+                )}
+                <Footer />
             </div>
-
-            <Footer />
-        </div>
+        </DataLoader>
     );
 }

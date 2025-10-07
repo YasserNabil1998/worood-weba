@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import NavigationLoader from "../components/NavigationLoader";
+import { NotificationProvider } from "../components/NotificationSystem";
+import NavigationWrapper from "../components/NavigationWrapper";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -30,8 +31,9 @@ export default function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased rtl`}
                 suppressHydrationWarning
             >
-                <NavigationLoader />
-                {children}
+                <NotificationProvider>
+                    <NavigationWrapper>{children}</NavigationWrapper>
+                </NotificationProvider>
             </body>
         </html>
     );

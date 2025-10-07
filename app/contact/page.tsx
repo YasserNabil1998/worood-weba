@@ -174,24 +174,40 @@ export default function ContactPage() {
                                         className="w-full h-12 rounded-lg border border-gray-300 px-4 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 focus:border-[#5A5E4D] transition-colors"
                                     />
                                 </div>
-                                <div>
+                                <div className="min-w-0">
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         {contactData.form.fields.subject.label}
                                     </label>
-                                    <select
-                                        name="subject"
-                                        value={form.subject}
-                                        onChange={onChange}
-                                        className="w-full h-12 rounded-lg border border-gray-300 px-4 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 focus:border-[#5A5E4D] transition-colors"
-                                    >
-                                        {contactData.form.fields.subject.options.map(
-                                            (option, index) => (
-                                                <option key={index}>
-                                                    {option}
-                                                </option>
-                                            )
-                                        )}
-                                    </select>
+                                    <div className="relative">
+                                        <select
+                                            name="subject"
+                                            value={form.subject}
+                                            onChange={onChange}
+                                            className="w-full h-12 rounded-lg border border-gray-300 pl-4 pr-10 text-right appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 focus:border-[#5A5E4D] transition-colors text-sm md:text-base"
+                                            style={{
+                                                direction: "rtl",
+                                                maxWidth: "100%",
+                                            }}
+                                        >
+                                            {contactData.form.fields.subject.options.map(
+                                                (option, index) => (
+                                                    <option
+                                                        key={index}
+                                                        value={option}
+                                                        style={{
+                                                            direction: "rtl",
+                                                        }}
+                                                    >
+                                                        {option}
+                                                    </option>
+                                                )
+                                            )}
+                                        </select>
+                                        <ChevronDown
+                                            size={18}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"
+                                        />
+                                    </div>
                                 </div>
                                 <div className="md:col-span-2">
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
