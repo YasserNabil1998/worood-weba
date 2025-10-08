@@ -169,12 +169,17 @@ export default async function OccasionPage({
                     <div className="flex justify-end">
                         <div className="text-right mb-6 max-w-6xl">
                             <h1
-                                className="text-3xl md:text-4xl font-bold text-[#5A5E4D] mb-4"
+                                className="text-3xl md:text-4xl font-bold text-[#5A5E4D] mb-2"
                                 style={{ fontFamily: "var(--font-almarai)" }}
                             >
-                                {occasionData.title} /{" "}
-                                {occasionData.productsCount} منتج
+                                {occasionData.title}
                             </h1>
+                            <p
+                                className="text-lg text-gray-600 mb-4"
+                                style={{ fontFamily: "var(--font-almarai)" }}
+                            >
+                                {occasionData.productsCount} منتج
+                            </p>
                             <p
                                 className="text-sm md:text-base text-gray-700 leading-relaxed"
                                 style={{ fontFamily: "var(--font-almarai)" }}
