@@ -42,6 +42,7 @@ export default function CustomBuilderPage() {
         cardPrice: 15,
     });
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
 
     // Load data - can be replaced with API call
     useEffect(() => {
@@ -325,11 +326,17 @@ export default function CustomBuilderPage() {
     const addToCart = () => {
         if (typeof window === "undefined") return;
 
+        // منع النقر المتكرر
+        if (isAddingToCart) return;
+
         // التحقق من أن هناك زهور مختارة
         if (totalFlowersCount === 0) {
             showNotification("⚠️ يرجى اختيار الزهور أولاً");
             return;
         }
+
+        // تفعيل حالة التحميل
+        setIsAddingToCart(true);
 
         // تحضير بيانات الزهور مع التفاصيل الكاملة
         const flowersDetails = Object.entries(selectedFlowers)
@@ -1230,15 +1237,11 @@ export default function CustomBuilderPage() {
                                                                                             height: "40px",
                                                                                         }}
                                                                                     >
-                                                                                        {/* تأثير خلفية متحرك */}
-                                                                                        <div className="absolute inset-0 bg-gradient-to-r from-[#5A5E4D]/0 via-[#5A5E4D]/0 to-[#5A5E4D]/0 group-hover:from-[#5A5E4D]/10 group-hover:via-[#5A5E4D]/15 group-hover:to-[#5A5E4D]/10 transition-all duration-500"></div>
-
                                                                                         <div className="relative flex items-center justify-between gap-3 h-full">
                                                                                             <div className="flex items-center gap-2">
                                                                                                 <span className="text-[#5A5E4D] group-hover:text-[#4b5244] transition-colors duration-200 text-base">
                                                                                                     ✨
                                                                                                 </span>
-                                                                                                <div className="w-1 h-1 bg-[#5A5E4D]/40 rounded-full group-hover:bg-[#5A5E4D]/60 transition-colors duration-200"></div>
                                                                                             </div>
                                                                                             <span className="flex-1 text-[#5A5E4D] group-hover:text-[#4b5244] leading-tight transition-colors duration-200 text-right overflow-hidden text-ellipsis whitespace-nowrap">
                                                                                                 {
@@ -1259,30 +1262,6 @@ export default function CustomBuilderPage() {
                                                                             );
                                                                         })()}
                                                                     </div>
-                                                                    {(() => {
-                                                                        const totalSuggestions =
-                                                                            cardSuggestionsData
-                                                                                .cardSuggestions[
-                                                                                occasion as keyof typeof cardSuggestionsData.cardSuggestions
-                                                                            ]
-                                                                                ?.length ||
-                                                                            0;
-                                                                        if (
-                                                                            totalSuggestions >
-                                                                            3
-                                                                        ) {
-                                                                            return (
-                                                                                <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white/80 to-transparent pointer-events-none flex items-end justify-center pb-1">
-                                                                                    <div className="flex gap-1">
-                                                                                        <div className="w-1 h-1 bg-[#5A5E4D]/30 rounded-full"></div>
-                                                                                        <div className="w-1 h-1 bg-[#5A5E4D]/30 rounded-full"></div>
-                                                                                        <div className="w-1 h-1 bg-[#5A5E4D]/30 rounded-full"></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            );
-                                                                        }
-                                                                        return null;
-                                                                    })()}
                                                                 </div>
                                                                 <div className="mt-2 text-[10px] text-[#5A5E4D]/60 text-center">
                                                                     انقر على أي
@@ -1339,7 +1318,7 @@ export default function CustomBuilderPage() {
                                                         )}
 
                                                         {/* حقل كتابة الرسالة */}
-                                                        <div className="rounded-lg bg-white p-3 border border-gray-200">
+                                                        <div className="rounded-lg bg-white p-3 ">
                                                             <textarea
                                                                 value={
                                                                     cardMessage
@@ -1598,16 +1577,46 @@ export default function CustomBuilderPage() {
                                             <div className="flex items-center justify-between gap-2">
                                                 <button
                                                     onClick={() => setStep(3)}
-                                                    className="px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors flex items-center gap-1 sm:gap-2 cursor-pointer"
+                                                    disabled={isAddingToCart}
+                                                    className="px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors flex items-center gap-1 sm:gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                                 >
                                                     <span>▶</span>
                                                     <span>السابق</span>
                                                 </button>
                                                 <button
                                                     onClick={addToCart}
-                                                    className="px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm bg-[#5A5E4D] text-white hover:bg-[#4b5244] transition-colors cursor-pointer"
+                                                    disabled={isAddingToCart}
+                                                    className="px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm bg-[#5A5E4D] text-white hover:bg-[#4b5244] transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                                 >
-                                                    إضافة إلى السلة
+                                                    {isAddingToCart ? (
+                                                        <>
+                                                            <svg
+                                                                className="animate-spin h-4 w-4 text-white"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                fill="none"
+                                                                viewBox="0 0 24 24"
+                                                            >
+                                                                <circle
+                                                                    className="opacity-25"
+                                                                    cx="12"
+                                                                    cy="12"
+                                                                    r="10"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth="4"
+                                                                ></circle>
+                                                                <path
+                                                                    className="opacity-75"
+                                                                    fill="currentColor"
+                                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                                                ></path>
+                                                            </svg>
+                                                            <span>
+                                                                جاري الإضافة...
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        "إضافة إلى السلة"
+                                                    )}
                                                 </button>
                                             </div>
                                         </div>

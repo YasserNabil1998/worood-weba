@@ -5,6 +5,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import blogData from "../blog-data.json";
+import { useParams } from "next/navigation";
 
 // Blog data structure
 interface BlogPost {
