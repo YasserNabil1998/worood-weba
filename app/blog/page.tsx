@@ -1,10 +1,9 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import NewsletterSection from "@/components/NewsletterSection";
+import blogData from "./blog-data.json";
 
 // Blog data structure
 interface BlogPost {
@@ -19,83 +18,6 @@ interface BlogPost {
     readTime: string;
     tags: string[];
 }
-
-// Sample blog data
-const blogPosts: BlogPost[] = [
-    {
-        id: 1,
-        title: "أفضل أنواع الورود للزفاف",
-        excerpt:
-            "اكتشف أجمل أنواع الورود التي تناسب حفلات الزفاف وتضفي لمسة رومانسية على يومك المميز",
-        content: "محتوى المقال الكامل...",
-        author: "فريق شمس للورود",
-        date: "15 ديسمبر 2024",
-        image: "/images/bouquets/DIV-237.png",
-        category: "الزفاف",
-        readTime: "5 دقائق",
-        tags: ["ورود", "زفاف", "رومانسية"],
-    },
-    {
-        id: 2,
-        title: "كيفية العناية بالورود في المنزل",
-        excerpt: "نصائح مهمة للحفاظ على جمال الورود وطول عمرها في منزلك",
-        content: "محتوى المقال الكامل...",
-        author: "خبير النباتات",
-        date: "12 ديسمبر 2024",
-        image: "/images/bouquets/IMG-196.png",
-        category: "العناية",
-        readTime: "7 دقائق",
-        tags: ["عناية", "نباتات", "منزل"],
-    },
-    {
-        id: 3,
-        title: "تاريخ الورود في الثقافة العربية",
-        excerpt: "رحلة عبر التاريخ لاستكشاف مكانة الورود في التراث العربي",
-        content: "محتوى المقال الكامل...",
-        author: "د. أحمد الثقافي",
-        date: "10 ديسمبر 2024",
-        image: "/images/bouquets/IMG-210.png",
-        category: "ثقافة",
-        readTime: "8 دقائق",
-        tags: ["تاريخ", "ثقافة", "تراث"],
-    },
-    {
-        id: 4,
-        title: "ألوان الورود ومعانيها",
-        excerpt: "تعرف على معاني الألوان المختلفة للورود وكيفية اختيار الأنسب",
-        content: "محتوى المقال الكامل...",
-        author: "مستشار الورود",
-        date: "8 ديسمبر 2024",
-        image: "/images/bouquets/IMG-224.png",
-        category: "معاني",
-        readTime: "6 دقائق",
-        tags: ["ألوان", "معاني", "اختيار"],
-    },
-    {
-        id: 5,
-        title: "تصميم باقات الورود للمناسبات",
-        excerpt: "أفكار إبداعية لتصميم باقات الورود المناسبة لكل مناسبة",
-        content: "محتوى المقال الكامل...",
-        author: "مصمم الباقات",
-        date: "5 ديسمبر 2024",
-        image: "/images/bouquets/DIV-237.png",
-        category: "تصميم",
-        readTime: "9 دقائق",
-        tags: ["تصميم", "باقات", "مناسبات"],
-    },
-    {
-        id: 6,
-        title: "الورود في الطب التقليدي",
-        excerpt: "استخدامات الورود في الطب التقليدي والفوائد الصحية",
-        content: "محتوى المقال الكامل...",
-        author: "د. فاطمة الطبية",
-        date: "3 ديسمبر 2024",
-        image: "/images/bouquets/IMG-196.png",
-        category: "صحة",
-        readTime: "10 دقائق",
-        tags: ["طب", "صحة", "تقليدي"],
-    },
-];
 
 export default function BlogPage() {
     return (
@@ -186,7 +108,7 @@ export default function BlogPage() {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {blogPosts.map((post) => (
+                            {blogData.map((post: BlogPost) => (
                                 <article
                                     key={post.id}
                                     className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col"

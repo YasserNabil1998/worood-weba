@@ -256,7 +256,9 @@ export default function BouquetsListingClient({
                 <div className="lg:col-span-3 space-y-4">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-sm">
                         <div className="text-gray-600">
-                            عرض {current.length} من أصل {sorted.length} باقة
+                            {sorted.length === 0
+                                ? "لم نجد نتائج تطابق البحث"
+                                : `عرض ${current.length} من أصل ${sorted.length} باقة`}
                         </div>
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
                             <span className="text-gray-600 whitespace-nowrap">
@@ -286,135 +288,235 @@ export default function BouquetsListingClient({
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
-                        {current.map((i) => (
-                            <ProductCard key={i.id} item={i} />
-                        ))}
-                    </div>
-                    <div className="flex justify-center items-center gap-2 mt-8">
-                        {/* Previous Button */}
-
-                        <button
-                            onClick={() => setPage(Math.max(1, page - 1))}
-                            disabled={page === 1}
-                            className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-                            aria-label="Previous"
-                        >
-                            <svg
-                                className="w-5 h-5 text-gray-600"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M9 5l7 7-7 7"
-                                />
-                            </svg>
-                        </button>
-
-                        {/* Pagination Numbers */}
-                        <div className="flex gap-2">
-                            {totalPages <= 5 ? (
-                                // Show all pages if 5 or less
-                                Array.from(
-                                    { length: totalPages },
-                                    (_, i) => i + 1
-                                ).map((n) => (
-                                    <button
-                                        key={n}
-                                        onClick={() => setPage(n)}
-                                        className={`w-10 h-10 flex items-center justify-center rounded-lg border transition-all ${
-                                            page === n
-                                                ? "bg-[#5A5E4D] text-white border-[#5A5E4D] font-semibold"
-                                                : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
-                                        }`}
+                    {sorted.length === 0 ? (
+                        // Empty State
+                        <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+                            <div className="mb-6">
+                                <div className="w-24 h-24 mx-auto bg-gradient-to-br from-[#F5F1E8] to-[#E8E2D5] rounded-full flex items-center justify-center mb-4">
+                                    <svg
+                                        className="w-12 h-12 text-[#5A5E4D]"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
                                     >
-                                        {n}
-                                    </button>
-                                ))
-                            ) : (
-                                // Show pagination with ellipsis
-                                <>
-                                    {page > 2 && (
-                                        <>
-                                            <button
-                                                onClick={() => setPage(1)}
-                                                className="w-10 h-10 flex items-center justify-center rounded-lg border bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
-                                            >
-                                                1
-                                            </button>
-                                            {page > 3 && (
-                                                <span className="w-10 h-10 flex items-center justify-center text-gray-500">
-                                                    ...
-                                                </span>
-                                            )}
-                                        </>
-                                    )}
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={1.5}
+                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                        />
+                                    </svg>
+                                </div>
+                                <h3
+                                    className="text-xl font-bold text-gray-800 mb-2"
+                                    style={{
+                                        fontFamily: "var(--font-almarai)",
+                                    }}
+                                >
+                                    لم نجد باقات تطابق بحثك
+                                </h3>
+                                <p
+                                    className="text-gray-600 mb-6 max-w-md"
+                                    style={{
+                                        fontFamily: "var(--font-almarai)",
+                                    }}
+                                >
+                                    جرب تعديل الفلاتر أو البحث عن مناسبة أخرى
+                                </p>
+                            </div>
 
-                                    {[page - 1, page, page + 1]
-                                        .filter((n) => n > 0 && n <= totalPages)
-                                        .map((n) => (
-                                            <button
-                                                key={n}
-                                                onClick={() => setPage(n)}
-                                                className={`w-10 h-10 flex items-center justify-center rounded-lg border transition-all ${
-                                                    page === n
-                                                        ? "bg-[#5A5E4D] text-white border-[#5A5E4D] font-semibold"
-                                                        : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
-                                                }`}
-                                            >
-                                                {n}
-                                            </button>
-                                        ))}
+                            <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                                <button
+                                    onClick={reset}
+                                    className="px-6 py-3 bg-[#5A5E4D] text-white rounded-lg font-medium hover:bg-[#4A4E3D] transition-colors duration-200"
+                                    style={{
+                                        fontFamily: "var(--font-almarai)",
+                                    }}
+                                >
+                                    إعادة ضبط الفلاتر
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setPrice(1000);
+                                        setOccasion("all");
+                                        setColor("all");
+                                        setPage(1);
+                                    }}
+                                    className="px-6 py-3 border border-[#5A5E4D] text-[#5A5E4D] rounded-lg font-medium hover:bg-[#5A5E4D] hover:text-white transition-colors duration-200"
+                                    style={{
+                                        fontFamily: "var(--font-almarai)",
+                                    }}
+                                >
+                                    عرض جميع الباقات
+                                </button>
+                            </div>
 
-                                    {page < totalPages - 1 && (
-                                        <>
-                                            {page < totalPages - 2 && (
-                                                <span className="w-10 h-10 flex items-center justify-center text-gray-500">
-                                                    ...
-                                                </span>
-                                            )}
-                                            <button
-                                                onClick={() =>
-                                                    setPage(totalPages)
-                                                }
-                                                className="w-10 h-10 flex items-center justify-center rounded-lg border bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
-                                            >
-                                                {totalPages}
-                                            </button>
-                                        </>
-                                    )}
-                                </>
-                            )}
+                            <div className="text-sm text-gray-500">
+                                <span>أو تصفح حسب المناسبة:</span>
+                                <div className="flex flex-wrap gap-2 mt-2 justify-center">
+                                    {[
+                                        ["wedding", "زفاف"],
+                                        ["anniversary", "ذكرى سنوية"],
+                                        ["graduation", "تخرج"],
+                                        ["engagement", "خطوبة"],
+                                        ["newborn", "مواليد جديد"],
+                                        ["getwell", "شفاء عاجل"],
+                                    ].map(([key, label]) => (
+                                        <button
+                                            key={key}
+                                            onClick={() => {
+                                                setOccasion(key);
+                                                setPrice(1000);
+                                                setColor("all");
+                                                setPage(1);
+                                            }}
+                                            className="px-3 py-1 text-xs bg-gray-100 hover:bg-[#5A5E4D] hover:text-white rounded-full transition-colors duration-200"
+                                            style={{
+                                                fontFamily:
+                                                    "var(--font-almarai)",
+                                            }}
+                                        >
+                                            {label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
+                    ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                            {current.map((i) => (
+                                <ProductCard key={i.id} item={i} />
+                            ))}
+                        </div>
+                    )}
+                    {sorted.length > 0 && (
+                        <div className="flex justify-center items-center gap-2 mt-8">
+                            {/* Previous Button */}
 
-                        {/* Next Button */}
-                        <button
-                            onClick={() =>
-                                setPage(Math.min(totalPages, page + 1))
-                            }
-                            disabled={page === totalPages}
-                            className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-                            aria-label="Next"
-                        >
-                            <svg
-                                className="w-5 h-5 text-gray-600"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                            <button
+                                onClick={() => setPage(Math.max(1, page - 1))}
+                                disabled={page === 1}
+                                className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                                aria-label="Previous"
                             >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M15 19l-7-7 7-7"
-                                />
-                            </svg>
-                        </button>
-                    </div>
+                                <svg
+                                    className="w-5 h-5 text-gray-600"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 5l7 7-7 7"
+                                    />
+                                </svg>
+                            </button>
+
+                            {/* Pagination Numbers */}
+                            <div className="flex gap-2">
+                                {totalPages <= 5 ? (
+                                    // Show all pages if 5 or less
+                                    Array.from(
+                                        { length: totalPages },
+                                        (_, i) => i + 1
+                                    ).map((n) => (
+                                        <button
+                                            key={n}
+                                            onClick={() => setPage(n)}
+                                            className={`w-10 h-10 flex items-center justify-center rounded-lg border transition-all ${
+                                                page === n
+                                                    ? "bg-[#5A5E4D] text-white border-[#5A5E4D] font-semibold"
+                                                    : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
+                                            }`}
+                                        >
+                                            {n}
+                                        </button>
+                                    ))
+                                ) : (
+                                    // Show pagination with ellipsis
+                                    <>
+                                        {page > 2 && (
+                                            <>
+                                                <button
+                                                    onClick={() => setPage(1)}
+                                                    className="w-10 h-10 flex items-center justify-center rounded-lg border bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
+                                                >
+                                                    1
+                                                </button>
+                                                {page > 3 && (
+                                                    <span className="w-10 h-10 flex items-center justify-center text-gray-500">
+                                                        ...
+                                                    </span>
+                                                )}
+                                            </>
+                                        )}
+
+                                        {[page - 1, page, page + 1]
+                                            .filter(
+                                                (n) => n > 0 && n <= totalPages
+                                            )
+                                            .map((n) => (
+                                                <button
+                                                    key={n}
+                                                    onClick={() => setPage(n)}
+                                                    className={`w-10 h-10 flex items-center justify-center rounded-lg border transition-all ${
+                                                        page === n
+                                                            ? "bg-[#5A5E4D] text-white border-[#5A5E4D] font-semibold"
+                                                            : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
+                                                    }`}
+                                                >
+                                                    {n}
+                                                </button>
+                                            ))}
+
+                                        {page < totalPages - 1 && (
+                                            <>
+                                                {page < totalPages - 2 && (
+                                                    <span className="w-10 h-10 flex items-center justify-center text-gray-500">
+                                                        ...
+                                                    </span>
+                                                )}
+                                                <button
+                                                    onClick={() =>
+                                                        setPage(totalPages)
+                                                    }
+                                                    className="w-10 h-10 flex items-center justify-center rounded-lg border bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
+                                                >
+                                                    {totalPages}
+                                                </button>
+                                            </>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+
+                            {/* Next Button */}
+                            <button
+                                onClick={() =>
+                                    setPage(Math.min(totalPages, page + 1))
+                                }
+                                disabled={page === totalPages}
+                                className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                                aria-label="Next"
+                            >
+                                <svg
+                                    className="w-5 h-5 text-gray-600"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M15 19l-7-7 7-7"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

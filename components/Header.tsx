@@ -567,7 +567,7 @@ const Header = () => {
                     {/* Logo */}
                     <Link href="/" className="flex items-center">
                         <img
-                            src="/images/log.png"
+                            src="/Logo-shams.svg"
                             alt="زهور الشمس"
                             className="h-12 w-auto object-contain"
                         />

@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FeaturedBouquets from "@/components/FeaturedBouquets";
 import bouquetsData from "./bouquets.json";
+import cardSuggestionsData from "./card-suggestions.json";
 
 type Flower = { id: number; name: string; price: number; image: string };
 type BouquetSize = { key: string; label: string; price: number; stems: string };
@@ -16,7 +17,11 @@ type BouquetStyle = {
     image: string;
 };
 type Color = { id: number; color: string; name: string };
-type Occasion = { id: number; name: string; message: string };
+type Occasion = {
+    id: number;
+    name: string;
+    message: string;
+};
 type DeliveryTime = { id: number; label: string; value: string };
 type PaymentMethod = { key: string; label: string; icon: string };
 type Config = { vatRate: number; cardPrice: number };
@@ -589,7 +594,7 @@ export default function CustomBuilderPage() {
                 {/* Content Section */}
                 <section className="py-8">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
                             {/* Left - selector */}
                             <div className="order-2 lg:order-2 lg:col-span-2">
                                 <div className="bg-white rounded-lg border border-gray-200 p-3 sm:p-5 mb-4">
@@ -1165,27 +1170,203 @@ export default function CustomBuilderPage() {
                                                 </label>
 
                                                 {includeCard && (
-                                                    <div className="rounded-lg  bg-white p-3">
-                                                        <textarea
-                                                            value={cardMessage}
-                                                            onChange={(e) =>
-                                                                setCardMessage(
-                                                                    e.target.value.slice(
-                                                                        0,
-                                                                        150
-                                                                    )
-                                                                )
-                                                            }
-                                                            placeholder="اكتب رسالتك هنا..."
-                                                            className="w-full h-28 resize-none rounded-md border border-gray-200 p-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
-                                                        />
-                                                        <div className="flex items-center justify-end text-[11px] text-gray-500">
-                                                            <span>
-                                                                {
-                                                                    cardMessage.length
+                                                    <div className="space-y-3">
+                                                        {/* اقتراحات بطاقات التهنئة */}
+                                                        {occasion ? (
+                                                            <div className="animate-in slide-in-from-top-2 duration-300">
+                                                                <div className="mb-3 flex items-center gap-2">
+                                                                    <div className="flex items-center gap-1">
+                                                                        <span className="text-sm">
+                                                                            💌
+                                                                        </span>
+                                                                        <span className="text-xs font-medium text-[#5A5E4D]">
+                                                                            اقتراحات
+                                                                            لبطاقة
+                                                                            التهنئة:
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="flex-1 h-px bg-gradient-to-r from-[#5A5E4D]/30 to-transparent"></div>
+                                                                </div>
+                                                                <div className="h-32 overflow-y-auto hide-scrollbar relative">
+                                                                    <div className="space-y-2 pr-1">
+                                                                        {(() => {
+                                                                            const suggestions =
+                                                                                cardSuggestionsData
+                                                                                    .cardSuggestions[
+                                                                                    occasion as keyof typeof cardSuggestionsData.cardSuggestions
+                                                                                ] ||
+                                                                                [];
+                                                                            return suggestions.map(
+                                                                                (
+                                                                                    suggestion: string,
+                                                                                    index: number
+                                                                                ) => (
+                                                                                    <button
+                                                                                        key={
+                                                                                            index
+                                                                                        }
+                                                                                        type="button"
+                                                                                        onClick={() => {
+                                                                                            setCardMessage(
+                                                                                                suggestion
+                                                                                            );
+                                                                                            // تأثير بصري عند النقر
+                                                                                            const button =
+                                                                                                document.activeElement as HTMLElement;
+                                                                                            button.style.transform =
+                                                                                                "scale(0.98)";
+                                                                                            setTimeout(
+                                                                                                () => {
+                                                                                                    button.style.transform =
+                                                                                                        "scale(1)";
+                                                                                                },
+                                                                                                150
+                                                                                            );
+                                                                                        }}
+                                                                                        className="group w-full text-right p-3 text-xs bg-gradient-to-r from-[#5A5E4D]/5 via-[#5A5E4D]/10 to-[#5A5E4D]/5 hover:from-[#5A5E4D]/10 hover:via-[#5A5E4D]/15 hover:to-[#5A5E4D]/10 border border-[#5A5E4D]/20 hover:border-[#5A5E4D]/30 rounded-xl transition-all duration-300 cursor-pointer relative overflow-hidden"
+                                                                                        style={{
+                                                                                            fontFamily:
+                                                                                                "var(--font-almarai)",
+                                                                                            height: "40px",
+                                                                                        }}
+                                                                                    >
+                                                                                        {/* تأثير خلفية متحرك */}
+                                                                                        <div className="absolute inset-0 bg-gradient-to-r from-[#5A5E4D]/0 via-[#5A5E4D]/0 to-[#5A5E4D]/0 group-hover:from-[#5A5E4D]/10 group-hover:via-[#5A5E4D]/15 group-hover:to-[#5A5E4D]/10 transition-all duration-500"></div>
+
+                                                                                        <div className="relative flex items-center justify-between gap-3 h-full">
+                                                                                            <div className="flex items-center gap-2">
+                                                                                                <span className="text-[#5A5E4D] group-hover:text-[#4b5244] transition-colors duration-200 text-base">
+                                                                                                    ✨
+                                                                                                </span>
+                                                                                                <div className="w-1 h-1 bg-[#5A5E4D]/40 rounded-full group-hover:bg-[#5A5E4D]/60 transition-colors duration-200"></div>
+                                                                                            </div>
+                                                                                            <span className="flex-1 text-[#5A5E4D] group-hover:text-[#4b5244] leading-tight transition-colors duration-200 text-right overflow-hidden text-ellipsis whitespace-nowrap">
+                                                                                                {
+                                                                                                    suggestion
+                                                                                                }
+                                                                                            </span>
+                                                                                            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                                                                                <span className="text-xs text-[#5A5E4D]">
+                                                                                                    استخدام
+                                                                                                </span>
+                                                                                                <span className="text-[#5A5E4D]">
+                                                                                                    →
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </button>
+                                                                                )
+                                                                            );
+                                                                        })()}
+                                                                    </div>
+                                                                    {(() => {
+                                                                        const totalSuggestions =
+                                                                            cardSuggestionsData
+                                                                                .cardSuggestions[
+                                                                                occasion as keyof typeof cardSuggestionsData.cardSuggestions
+                                                                            ]
+                                                                                ?.length ||
+                                                                            0;
+                                                                        if (
+                                                                            totalSuggestions >
+                                                                            3
+                                                                        ) {
+                                                                            return (
+                                                                                <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white/80 to-transparent pointer-events-none flex items-end justify-center pb-1">
+                                                                                    <div className="flex gap-1">
+                                                                                        <div className="w-1 h-1 bg-[#5A5E4D]/30 rounded-full"></div>
+                                                                                        <div className="w-1 h-1 bg-[#5A5E4D]/30 rounded-full"></div>
+                                                                                        <div className="w-1 h-1 bg-[#5A5E4D]/30 rounded-full"></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            );
+                                                                        }
+                                                                        return null;
+                                                                    })()}
+                                                                </div>
+                                                                <div className="mt-2 text-[10px] text-[#5A5E4D]/60 text-center">
+                                                                    انقر على أي
+                                                                    اقتراح
+                                                                    لاستخدامه
+                                                                    {(() => {
+                                                                        const totalSuggestions =
+                                                                            cardSuggestionsData
+                                                                                .cardSuggestions[
+                                                                                occasion as keyof typeof cardSuggestionsData.cardSuggestions
+                                                                            ]
+                                                                                ?.length ||
+                                                                            0;
+                                                                        if (
+                                                                            totalSuggestions >
+                                                                            3
+                                                                        ) {
+                                                                            return ` • ${totalSuggestions} اقتراح متاح (مرر لرؤية المزيد)`;
+                                                                        } else {
+                                                                            return ` • ${totalSuggestions} اقتراح متاح`;
+                                                                        }
+                                                                    })()}
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <div className="animate-in slide-in-from-top-2 duration-300">
+                                                                <div className="rounded-xl bg-gradient-to-r from-[#5A5E4D]/5 to-[#5A5E4D]/10 border border-[#5A5E4D]/20 p-4">
+                                                                    <div className="flex items-center gap-3">
+                                                                        <span className="text-[#5A5E4D] text-lg">
+                                                                            💡
+                                                                        </span>
+                                                                        <div>
+                                                                            <div className="text-xs font-medium text-[#5A5E4D] mb-1">
+                                                                                اختر
+                                                                                المناسبة
+                                                                                أولاً
+                                                                            </div>
+                                                                            <div className="text-[10px] text-[#5A5E4D]/70">
+                                                                                سيتم
+                                                                                عرض
+                                                                                اقتراحات
+                                                                                جميلة
+                                                                                لبطاقة
+                                                                                التهنئة
+                                                                                بناءً
+                                                                                على
+                                                                                المناسبة
+                                                                                المختارة
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )}
+
+                                                        {/* حقل كتابة الرسالة */}
+                                                        <div className="rounded-lg bg-white p-3 border border-gray-200">
+                                                            <textarea
+                                                                value={
+                                                                    cardMessage
                                                                 }
-                                                                /150 حرف
-                                                            </span>
+                                                                onChange={(e) =>
+                                                                    setCardMessage(
+                                                                        e.target.value.slice(
+                                                                            0,
+                                                                            150
+                                                                        )
+                                                                    )
+                                                                }
+                                                                placeholder="اكتب رسالتك هنا أو اختر من الاقتراحات أعلاه..."
+                                                                className="w-full h-28 resize-none rounded-md border border-gray-200 p-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
+                                                                style={{
+                                                                    fontFamily:
+                                                                        "var(--font-almarai)",
+                                                                }}
+                                                            />
+                                                            <div className="flex items-center justify-end text-[11px] text-gray-500 mt-1">
+                                                                <span>
+                                                                    {
+                                                                        cardMessage.length
+                                                                    }
+                                                                    /150 حرف
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 )}
@@ -1448,7 +1629,7 @@ export default function CustomBuilderPage() {
 
                             {/* Right - preview */}
                             <div className="order-1 lg:order-1 w-full lg:max-w-sm lg:justify-self-start">
-                                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden sticky top-20">
+                                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                                     <div className="px-3 sm:px-4 pt-3 sm:pt-4">
                                         <div
                                             className="text-sm font-semibold text-gray-800 mb-2"

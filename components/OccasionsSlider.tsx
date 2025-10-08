@@ -111,7 +111,7 @@ const OccasionsSlider = () => {
     return (
         <section className="py-10 sm:py-12">
             <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-24">
-                <div className="text-right mb-6 sm:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
                     <h2
                         className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B5B52]"
                         style={{ fontFamily: "var(--font-almarai)" }}
@@ -120,10 +120,10 @@ const OccasionsSlider = () => {
                     </h2>
                     <Link
                         href="/occasions"
-                        className="text-[#5A5E4D] hover:text-[#1B5B52] font-medium text-sm md:text-base transition-colors duration-200 flex items-center gap-2"
+                        className="text-sm text-[#5A5E4D] hover:text-[#4A4E3D] font-medium flex items-center gap-2"
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
-                        عرض الكل
+                        <span>عرض الكل</span>
                         <svg
                             className="w-4 h-4"
                             fill="none"
@@ -134,7 +134,7 @@ const OccasionsSlider = () => {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2}
-                                d="M9 5l7 7-7 7"
+                                d="M15 19l-7-7 7-7"
                             />
                         </svg>
                     </Link>
@@ -201,7 +201,7 @@ const OccasionsSlider = () => {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2.5}
-                                d="M15 19l-7-7 7-7"
+                                d="M9 5l7 7-7 7"
                             />
                         </svg>
                     </button>
@@ -220,7 +220,7 @@ const OccasionsSlider = () => {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2.5}
-                                d="M9 5l7 7-7 7"
+                                d="M15 19l-7-7 7-7"
                             />
                         </svg>
                     </button>
