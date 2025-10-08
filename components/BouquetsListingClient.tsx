@@ -293,6 +293,7 @@ export default function BouquetsListingClient({
                     </div>
                     <div className="flex justify-center items-center gap-2 mt-8">
                         {/* Previous Button */}
+
                         <button
                             onClick={() => setPage(Math.max(1, page - 1))}
                             disabled={page === 1}
@@ -309,7 +310,7 @@ export default function BouquetsListingClient({
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth={2}
-                                    d="M15 19l-7-7 7-7"
+                                    d="M9 5l7 7-7 7"
                                 />
                             </svg>
                         </button>
@@ -409,7 +410,7 @@ export default function BouquetsListingClient({
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth={2}
-                                    d="M9 5l7 7-7 7"
+                                    d="M15 19l-7-7 7-7"
                                 />
                             </svg>
                         </button>

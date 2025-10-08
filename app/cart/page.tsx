@@ -195,7 +195,7 @@ export default function CartPage() {
                                             key={item.id}
                                             className={`bg-white rounded-lg border shadow-sm p-4 transition-all ${
                                                 selectedItems.has(item.id)
-                                                    ? "border-[#5A5E4D] border-2"
+                                                    ? "border-[#d1d4ca] border shadow"
                                                     : "border-gray-200"
                                             }`}
                                         >
@@ -509,7 +509,7 @@ export default function CartPage() {
                                                     )}
 
                                                     {/* السعر */}
-                                                    <div className="mt-3 flex justify-between items-center border-t pt-2">
+                                                    <div className="mt-3 flex justify-between items-center border-t pt-2 border-gray-200">
                                                         <div className="text-xs text-gray-500 italic">
                                                             شامل الضريبة
                                                         </div>
@@ -542,7 +542,7 @@ export default function CartPage() {
                                 ملخص الطلب
                             </h2>
               <div className="space-y-2 text-sm">
-                                <div className="flex justify-between text-xs text-gray-500 mb-2 pb-2 border-b">
+                                <div className="flex justify-between text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200">
                                     <span>المنتجات المختارة</span>
                                     <span className="font-semibold">
                                         {itemsCount} من {items.length}

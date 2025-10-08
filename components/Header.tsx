@@ -557,7 +557,7 @@ const Header = () => {
 
     return (
         <header
-            className={`bg-white/95 backdrop-blur fixed top-0 left-0 right-0 z-50 border-b transition-transform duration-300 ${
+            className={`bg-white/95 backdrop-blur fixed top-0 left-0 right-0 z-50 shadow-md transition-transform duration-300 ${
                 isVisible ? "translate-y-0" : "-translate-y-full"
             }`}
         >

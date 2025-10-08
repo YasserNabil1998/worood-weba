@@ -201,21 +201,25 @@ export default function RatingPopup({
                         >
                             كيف تقيم تجربتك؟
                         </label>
-                        <div className="flex items-center gap-1">
-                            {renderStars(rating, true)}
+                        <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-1">
+                                {renderStars(rating, true)}
+                            </div>
+                            {rating > 0 && (
+                                <p
+                                    className="text-sm font-medium text-gray-700"
+                                    style={{
+                                        fontFamily: "var(--font-almarai)",
+                                    }}
+                                >
+                                    {rating === 1 && "سيء جداً"}
+                                    {rating === 2 && "سيء"}
+                                    {rating === 3 && "متوسط"}
+                                    {rating === 4 && "جيد"}
+                                    {rating === 5 && "ممتاز"}
+                                </p>
+                            )}
                         </div>
-                        {rating > 0 && (
-                            <p
-                                className="text-sm text-gray-600 mt-2"
-                                style={{ fontFamily: "var(--font-almarai)" }}
-                            >
-                                {rating === 1 && "سيء جداً"}
-                                {rating === 2 && "سيء"}
-                                {rating === 3 && "متوسط"}
-                                {rating === 4 && "جيد"}
-                                {rating === 5 && "ممتاز"}
-                            </p>
-                        )}
                     </div>
 
                     {/* Comment */}

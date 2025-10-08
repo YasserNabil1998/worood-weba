@@ -594,7 +594,7 @@ export default function CustomBuilderPage() {
                             <div className="order-2 lg:order-2 lg:col-span-2">
                                 <div className="bg-white rounded-lg border border-gray-200 p-3 sm:p-5 mb-4">
                                     {/* شريط الخطوات */}
-                                    <div className="flex items-center justify-between text-[10px] sm:text-[12px] text-gray-600 mb-3 overflow-x-auto pb-2">
+                                    <div className=" flex items-center justify-between text-[10px] sm:text-[12px] text-gray-600 mb-3 overflow-x-auto pb-2">
                                         {[
                                             { n: 1, t: "اختيار الزهور" },
                                             { n: 2, t: "الحجم واللون" },
@@ -608,7 +608,7 @@ export default function CustomBuilderPage() {
                                                         s.n as 1 | 2 | 3 | 4
                                                     )
                                                 }
-                                                className={`flex items-center gap-1 sm:gap-2 px-1 sm:px-2 py-1 rounded-md transition-colors flex-shrink-0 ${
+                                                className={`flex items-center gap-1 sm:gap-2 px-1 sm:px-4 py-1 rounded-full  transition-colors  flex-shrink-0 ${
                                                     step === s.n
                                                         ? "bg-gray-100 text-gray-900"
                                                         : "hover:bg-gray-50"
@@ -928,7 +928,7 @@ export default function CustomBuilderPage() {
                                                     حجم الباقة
                                                 </div>
                                                 {totalFlowersCount > 0 && (
-                                                    <div className="mb-3 bg-[#5A5E4D]/10 border border-[#5A5E4D]/30 rounded-md p-2 text-xs text-[#5A5E4D] flex items-center gap-2">
+                                                    <div className="mb-3 bg-[#5A5E4D]/10 border border-[#d0d2c7]/30 rounded-md p-2 text-xs text-[#5A5E4D] flex items-center gap-2">
                                                         <span>💡</span>
                                                         <span>
                                                             تم اختيار الحجم
@@ -963,11 +963,11 @@ export default function CustomBuilderPage() {
                                                                 className={`text-center rounded-lg border px-2 sm:px-3 py-2 sm:py-3 transition-all ${
                                                                     size ===
                                                                     opt.key
-                                                                        ? "border-[#5A5E4D] bg-[#5A5E4D]/5"
+                                                                        ? "border-[#d0d2c7] bg-[#5A5E4D]/5"
                                                                         : totalFlowersCount ===
                                                                           0
                                                                         ? "border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed"
-                                                                        : "border-gray-200 bg-white hover:border-[#5A5E4D]/30 hover:bg-gray-50 cursor-pointer"
+                                                                        : "border-gray-200 bg-white hover:border-[#b5bf95]/30 hover:bg-gray-50 cursor-pointer"
                                                                 }`}
                                                             >
                                                                 <div className="mx-auto mb-1 sm:mb-2 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-gray-200 flex items-center justify-center text-xl sm:text-2xl">
@@ -1037,7 +1037,7 @@ export default function CustomBuilderPage() {
                                                                 className={`rounded-lg border text-right p-2 sm:p-3 transition-all ${
                                                                     style ===
                                                                     opt.key
-                                                                        ? "border-[#5A5E4D] bg-[#5A5E4D]/5"
+                                                                        ? "border-[#d0d2c7] bg-[#5A5E4D]/5"
                                                                         : "border-gray-200 bg-white hover:bg-gray-50"
                                                                 }`}
                                                             >
@@ -1077,8 +1077,8 @@ export default function CustomBuilderPage() {
                                                         }
                                                         className="px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors flex items-center gap-1 sm:gap-2 cursor-pointer"
                                                     >
-                                                        <span>السابق</span>
                                                         <span>▶</span>
+                                                        <span>السابق</span>
                                                     </button>
                                                     <button
                                                         onClick={() => {
@@ -1165,7 +1165,7 @@ export default function CustomBuilderPage() {
                                                 </label>
 
                                                 {includeCard && (
-                                                    <div className="rounded-lg border border-gray-200 bg-white p-3">
+                                                    <div className="rounded-lg  bg-white p-3">
                                                         <textarea
                                                             value={cardMessage}
                                                             onChange={(e) =>
@@ -1179,7 +1179,7 @@ export default function CustomBuilderPage() {
                                                             placeholder="اكتب رسالتك هنا..."
                                                             className="w-full h-28 resize-none rounded-md border border-gray-200 p-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
                                                         />
-                                                        <div className="mt-2 flex items-center justify-end text-[11px] text-gray-500">
+                                                        <div className="flex items-center justify-end text-[11px] text-gray-500">
                                                             <span>
                                                                 {
                                                                     cardMessage.length
@@ -1216,8 +1216,8 @@ export default function CustomBuilderPage() {
                                                     onClick={() => setStep(2)}
                                                     className="px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors flex items-center gap-1 sm:gap-2 cursor-pointer"
                                                 >
-                                                    <span>السابق</span>
                                                     <span>▶</span>
+                                                    <span>السابق</span>
                                                 </button>
                                                 <button
                                                     onClick={() => setStep(4)}
@@ -1419,8 +1419,8 @@ export default function CustomBuilderPage() {
                                                     onClick={() => setStep(3)}
                                                     className="px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors flex items-center gap-1 sm:gap-2 cursor-pointer"
                                                 >
-                                                    <span>السابق</span>
                                                     <span>▶</span>
+                                                    <span>السابق</span>
                                                 </button>
                                                 <button
                                                     onClick={addToCart}
@@ -1473,7 +1473,7 @@ export default function CustomBuilderPage() {
                                     </div>
                                     <div className="p-3 sm:p-4">
                                         {/* الإجمالي دائماً ظاهر */}
-                                        <div className="flex items-center justify-between py-2 px-2 sm:px-3 border border-gray-200 rounded-md mb-3 sm:mb-4">
+                                        <div className="flex items-center justify-between py-2 px-2 sm:px-3 border-b border-gray-200 rounded-md mb-3 sm:mb-4">
                                             <span className="text-gray-700 text-xs sm:text-sm font-semibold">
                                                 الإجمالي
                                             </span>

@@ -345,7 +345,7 @@ export default function ProfilePage() {
                                     />
                                 ) : (
                                     <p
-                                        className="text-gray-900 py-3 text-xl font-semibold"
+                                        className="text-gray-900 py-3 text-base font-medium"
                                         style={{
                                             fontFamily: "var(--font-almarai)",
                                         }}
@@ -388,7 +388,7 @@ export default function ProfilePage() {
                                     />
                                 ) : (
                                     <p
-                                        className="text-gray-900 py-3 text-xl font-semibold"
+                                        className="text-gray-900 py-3 text-base font-medium"
                                         style={{
                                             fontFamily: "var(--font-almarai)",
                                         }}
@@ -434,7 +434,7 @@ export default function ProfilePage() {
                                     />
                                 ) : (
                                     <p
-                                        className="text-gray-900 py-3 text-xl font-semibold"
+                                        className="text-gray-900 py-3 text-base font-medium"
                                         style={{
                                             fontFamily: "var(--font-almarai)",
                                         }}
@@ -473,7 +473,7 @@ export default function ProfilePage() {
                                     </select>
                                 ) : (
                                     <p
-                                        className="text-gray-900 py-3 text-xl font-semibold"
+                                        className="text-gray-900 py-3 text-base font-medium"
                                         style={{
                                             fontFamily: "var(--font-almarai)",
                                         }}
@@ -510,7 +510,7 @@ export default function ProfilePage() {
                                     />
                                 ) : (
                                     <p
-                                        className="text-gray-900 py-3 text-xl font-semibold"
+                                        className="text-gray-900 py-3 text-base font-medium"
                                         style={{
                                             fontFamily: "var(--font-almarai)",
                                         }}
