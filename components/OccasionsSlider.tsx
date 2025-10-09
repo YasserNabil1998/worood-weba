@@ -201,7 +201,7 @@ const OccasionsSlider = () => {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2.5}
-                                d="M9 5l7 7-7 7"
+                                d="M15 19l-7-7 7-7"
                             />
                         </svg>
                     </button>
@@ -220,7 +220,8 @@ const OccasionsSlider = () => {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2.5}
-                                d="M15 19l-7-7 7-7"
+                                d="M9 5l7 7-7 7"
+                                
                             />
                         </svg>
                     </button>
