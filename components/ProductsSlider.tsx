@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Product {
     id: number;
@@ -168,10 +169,14 @@ const ProductsSlider = () => {
                                     >
                                         <div className="bg-[#F5F3ED] rounded-2xl sm:rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300">
                                             <div className="relative aspect-square overflow-hidden">
-                                                <img
+                                                <Image
                                                     src={product.image}
                                                     alt={product.title}
-                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    fill
+                                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                                    quality={85}
+                                                    loading="lazy"
                                                 />
                                             </div>
                                             <div className="p-3 sm:p-4 text-right">

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useNotification } from "@/components/NotificationSystem";
@@ -236,12 +237,16 @@ export default function ProductDetailPage() {
                                                     : "border-gray-200 hover:border-[#5A5E4D]/50"
                                             }`}
                                         >
-                                            <img
+                                            <Image
                                                 src={image}
                                                 alt={`${product.title} ${
                                                     index + 1
                                                 }`}
-                                                className="w-full h-full object-cover"
+                                                width={96}
+                                                height={96}
+                                                className="object-cover"
+                                                quality={85}
+                                                loading="lazy"
                                             />
                                         </button>
                                     ))}
@@ -249,13 +254,22 @@ export default function ProductDetailPage() {
 
                                 {/* Main Image */}
                                 <div
-                                    className="flex-1 rounded-lg overflow-hidden bg-gray-50 shadow-md"
+                                    className="flex-1 rounded-lg overflow-hidden bg-gray-50 shadow-md relative"
                                     style={{ height: "408px" }}
                                 >
-                                    <img
+                                    <Image
                                         src={product.images[selectedImage]}
                                         alt={product.title}
-                                        className="w-full h-full object-cover"
+                                        fill
+                                        className="object-cover"
+                                        priority={selectedImage === 0}
+                                        loading={
+                                            selectedImage === 0
+                                                ? undefined
+                                                : "lazy"
+                                        }
+                                        sizes="(max-width: 1024px) 100vw, 50vw"
+                                        quality={90}
                                     />
                                 </div>
                             </div>

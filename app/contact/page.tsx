@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import contactData from "./contact-data.json";
@@ -49,14 +50,15 @@ export default function ContactPage() {
                 <section className="py-6">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="relative h-[400px] rounded-xl overflow-hidden">
-                            <img
+                            <Image
                                 src={contactData.hero.image}
                                 alt={contactData.hero.title}
-                                className="absolute inset-0 w-full h-full object-cover object-center"
-                                loading="eager"
-                                fetchPriority="high"
+                                fill
+                                className="object-cover object-center"
+                                priority
+                                quality={90}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                                 style={{
-                                    imageRendering: "auto",
                                     transform: "scale(1.02)",
                                     filter: "brightness(1.1) contrast(1.05) saturate(1.1)",
                                 }}

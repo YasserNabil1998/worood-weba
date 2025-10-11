@@ -2,6 +2,7 @@
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Image from "next/image";
 import { useNotification } from "@/components/NotificationSystem";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -125,10 +126,13 @@ export default function ProfilePage() {
                                     <div className="relative">
                                         <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#5A5E4D]">
                                             {editData.profileImage ? (
-                                                <img
+                                                <Image
                                                     src={editData.profileImage}
                                                     alt="Profile"
-                                                    className="w-full h-full object-cover"
+                                                    width={128}
+                                                    height={128}
+                                                    className="object-cover"
+                                                    loading="lazy"
                                                 />
                                             ) : (
                                                 <div className="w-full h-full bg-[#5A5E4D] flex items-center justify-center">
@@ -171,10 +175,13 @@ export default function ProfilePage() {
                                 ) : (
                                     <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#5A5E4D]">
                                         {userData.profileImage ? (
-                                            <img
+                                            <Image
                                                 src={userData.profileImage}
                                                 alt="Profile"
-                                                className="w-full h-full object-cover"
+                                                width={128}
+                                                height={128}
+                                                className="object-cover"
+                                                loading="lazy"
                                             />
                                         ) : (
                                             <div className="w-full h-full bg-[#5A5E4D] flex items-center justify-center">

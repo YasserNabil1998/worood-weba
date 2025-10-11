@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 export type ProductItem = {
@@ -106,10 +107,13 @@ export default function ProductCard({ item }: { item: ProductItem }) {
             data-product-card
         >
             <div className="relative h-80 overflow-hidden">
-                <img
+                <Image
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    quality={85}
                     loading="lazy"
                 />
                 <div className="absolute top-2 left-2 flex items-center gap-2 z-10">

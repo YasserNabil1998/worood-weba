@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import type { BouquetItem } from "../types";
 
 type FeaturedBouquetsProps = {
@@ -180,10 +181,14 @@ const FeaturedBouquets = ({
                             className="bg-white rounded-lg sm:rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 sm:hover:-translate-y-2 flex flex-col h-full cursor-pointer"
                         >
                             <div className="relative h-64 sm:h-72 md:h-80 overflow-hidden group">
-                                <img
+                                <Image
                                     src={bouquet.image}
                                     alt={bouquet.title}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    fill
+                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                    quality={85}
+                                    loading="lazy"
                                 />
                                 {/* زر المفضلة */}
                                 <div className="absolute top-2 left-2 z-10">

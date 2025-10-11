@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import type { ReviewItem } from "../types";
 import { getAllReviews } from "@/lib/reviews-manager";
 
@@ -260,10 +261,13 @@ const CustomerReviewsSlider = ({
                                     </div>
                                     <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
                                         {review.customerImage ? (
-                                            <img
+                                            <Image
                                                 src={review.customerImage}
                                                 alt={review.customerName}
-                                                className="w-12 h-12 rounded-full object-cover"
+                                                width={48}
+                                                height={48}
+                                                className="rounded-full object-cover"
+                                                loading="lazy"
                                             />
                                         ) : (
                                             <span

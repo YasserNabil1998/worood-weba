@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const Footer = () => {
     return (
@@ -152,25 +153,37 @@ const Footer = () => {
                             جميع الحقوق محفوظة زهور الشمس © 2025
                         </p>
                         <div className="mt-2 sm:mt-3 flex items-center justify-center gap-2 sm:gap-3 opacity-90">
-                            <img
+                            <Image
                                 src="/images/payment/visa.png"
                                 alt="Visa"
-                                className="h-8 sm:h-10 object-cover"
+                                width={60}
+                                height={40}
+                                className="h-8 sm:h-10 w-auto object-cover"
+                                loading="lazy"
                             />
-                            <img
+                            <Image
                                 src="/images/payment/mastercard.png"
                                 alt="Mastercard"
-                                className="h-8 sm:h-10 object-cover"
+                                width={60}
+                                height={40}
+                                className="h-8 sm:h-10 w-auto object-cover"
+                                loading="lazy"
                             />
-                            <img
+                            <Image
                                 src="/images/payment/apple-pay.png"
                                 alt="Apple Pay"
-                                className="h-8 sm:h-10 object-cover"
+                                width={60}
+                                height={40}
+                                className="h-8 sm:h-10 w-auto object-cover"
+                                loading="lazy"
                             />
-                            <img
+                            <Image
                                 src="/images/payment/paypal.png"
                                 alt="PayPal"
-                                className="h-8 sm:h-10 object-cover"
+                                width={60}
+                                height={40}
+                                className="h-8 sm:h-10 w-auto object-cover"
+                                loading="lazy"
                             />
                         </div>
                     </div>

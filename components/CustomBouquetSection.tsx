@@ -18,10 +18,14 @@ const CustomBouquetSection = ({
         <section className="py-10 sm:py-12 pb-14 sm:pb-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="relative h-56 sm:h-64 md:h-72 rounded-xl sm:rounded-2xl overflow-hidden">
-                    <img
+                    <Image
                         src="/images/hero/DIV-133.png"
                         alt="متجر زهور"
-                        className="absolute inset-0 w-full h-full object-cover"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                        quality={85}
+                        loading="lazy"
                     />
                     {/* Blur تدريجي من اليمين */}
                     <div

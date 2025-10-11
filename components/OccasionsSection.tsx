@@ -2,6 +2,7 @@
 
 import type { OccasionItem } from "../types";
 import Link from "next/link";
+import Image from "next/image";
 import { useMemo } from "react";
 
 // Extended type for occasions with href
@@ -95,11 +96,17 @@ const OccasionsSection = ({
                             className="group cursor-pointer"
                         >
                             <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300">
-                                <img
-                                    src={occasion.image}
-                                    alt={occasion.title}
-                                    className="w-full aspect-[4/5] object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
+                                <div className="relative w-full aspect-[4/5]">
+                                    <Image
+                                        src={occasion.image}
+                                        alt={occasion.title}
+                                        fill
+                                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                                        quality={85}
+                                        loading="lazy"
+                                    />
+                                </div>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
                                 {/* النص والأيقونة */}
@@ -107,10 +114,13 @@ const OccasionsSection = ({
                                     {/* الأيقونة */}
                                     {occasion.icon && (
                                         <div className="flex justify-center mb-1 sm:mb-2">
-                                            <img
+                                            <Image
                                                 src={occasion.icon}
                                                 alt={`${occasion.title} icon`}
+                                                width={32}
+                                                height={32}
                                                 className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 filter brightness-0 invert opacity-90"
+                                                loading="lazy"
                                             />
                                         </div>
                                     )}

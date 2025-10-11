@@ -43,10 +43,14 @@ export default function BlogPage() {
                 <section className="py-6">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="relative h-[400px] rounded-xl overflow-hidden">
-                            <img
+                            <Image
                                 src="/images/hero/blog-hero.jpg"
                                 alt="مدونة الورود"
-                                className="absolute inset-0 w-full h-full object-cover"
+                                fill
+                                className="object-cover"
+                                priority
+                                quality={90}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                             />
                             {/* Blur تدريجي من اليمين */}
                             <div
@@ -121,6 +125,7 @@ export default function BlogPage() {
                                             className="object-cover"
                                             quality={95}
                                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+                                            loading="lazy"
                                         />
                                         <div className="absolute top-3 right-3">
                                             <span

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 const HeroSection = () => {
@@ -100,10 +101,15 @@ const HeroSection = () => {
                             }`}
                         >
                             {/* Background Image */}
-                            <img
+                            <Image
                                 src={slide.image}
                                 alt={slide.title}
-                                className="absolute inset-0 w-full h-full object-cover"
+                                fill
+                                className="object-cover"
+                                priority={index === 0}
+                                loading={index === 0 ? undefined : "lazy"}
+                                quality={90}
+                                sizes="100vw"
                             />
 
                             {/* Gradient Overlay */}

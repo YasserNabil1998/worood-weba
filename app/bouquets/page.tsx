@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import Image from "next/image";
 import BouquetsListingClient from "@/components/BouquetsListingClient";
 import OccasionsSection from "@/components/OccasionsSection";
 import CustomBouquetSection from "@/components/CustomBouquetSection";
@@ -77,10 +78,14 @@ export default async function BouquetsPage() {
                 <section className="py-6">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="relative h-[400px] rounded-xl overflow-hidden">
-                            <img
+                            <Image
                                 src="/images/hero/DIV-133.png"
                                 alt="متجر زهور"
-                                className="absolute inset-0 w-full h-full object-cover"
+                                fill
+                                className="object-cover"
+                                priority
+                                quality={90}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                             />
                             {/* Blur تدريجي من اليمين */}
                             <div

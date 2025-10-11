@@ -214,6 +214,7 @@ export default function BlogDetailPage() {
                                                 className="object-cover"
                                                 quality={95}
                                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+                                                loading="lazy"
                                             />
                                             <div className="absolute top-3 right-3">
                                                 <span

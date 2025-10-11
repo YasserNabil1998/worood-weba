@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard, { ProductItem } from "@/components/ProductCard";
@@ -223,10 +224,14 @@ export default function FavoritesPage() {
                                                 }
                                             >
                                                 <div className="relative h-64 bg-gradient-to-br from-pink-100 to-purple-100">
-                                                    <img
+                                                    <Image
                                                         src={bouquet.image}
                                                         alt="باقة مخصصة"
-                                                        className="w-full h-full object-cover"
+                                                        fill
+                                                        className="object-cover"
+                                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                                                        quality={85}
+                                                        loading="lazy"
                                                     />
                                                     <div className="absolute top-2 right-2 bg-[#5A5E4D] text-white px-3 py-1 rounded-full text-xs font-semibold">
                                                         مخصصة
@@ -363,11 +368,15 @@ export default function FavoritesPage() {
                         <div className="p-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {/* Image */}
-                                <div>
-                                    <img
+                                <div className="relative h-48 md:h-56 rounded-lg overflow-hidden">
+                                    <Image
                                         src={selectedBouquet.image}
                                         alt="باقة مخصصة"
-                                        className="w-full h-48 md:h-56 object-cover rounded-lg"
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                        quality={85}
+                                        loading="lazy"
                                     />
                                 </div>
 

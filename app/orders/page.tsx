@@ -2,6 +2,7 @@
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Image from "next/image";
 import { useNotification } from "@/components/NotificationSystem";
 import RatingPopup from "@/components/RatingPopup";
 import { useState } from "react";
@@ -345,10 +346,13 @@ export default function OrdersPage() {
                                                             key={item.id}
                                                             className="flex items-center gap-3 p-2 bg-gray-50 rounded-md"
                                                         >
-                                                            <img
+                                                            <Image
                                                                 src={item.image}
                                                                 alt={item.name}
-                                                                className="w-12 h-12 rounded-md object-cover"
+                                                                width={48}
+                                                                height={48}
+                                                                className="rounded-md object-cover"
+                                                                loading="lazy"
                                                             />
                                                             <div className="flex-1">
                                                                 <h5

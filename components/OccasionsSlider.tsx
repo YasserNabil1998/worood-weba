@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Occasion {
     id: number;
@@ -161,10 +162,14 @@ const OccasionsSlider = () => {
                                     <div className="flex flex-col items-center">
                                         <div className="relative w-full aspect-square bg-[#F5F1E8] rounded-full overflow-hidden hover:shadow-lg hover:shadow-[#5A5E4D]/20 transition-all duration-300 mb-3 group-hover:bg-[#F0EDE5]">
                                             <div className="absolute inset-0 flex items-center justify-center p-6">
-                                                <img
+                                                <Image
                                                     src={occasion.image}
                                                     alt={occasion.title}
-                                                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                                                    fill
+                                                    className="object-contain group-hover:scale-110 transition-transform duration-300 p-6"
+                                                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                                                    quality={85}
+                                                    loading="lazy"
                                                 />
                                             </div>
                                             {/* Hover overlay */}
@@ -221,7 +226,6 @@ const OccasionsSlider = () => {
                                 strokeLinejoin="round"
                                 strokeWidth={2.5}
                                 d="M9 5l7 7-7 7"
-                                
                             />
                         </svg>
                     </button>

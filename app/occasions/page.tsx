@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CustomBouquetSection from "@/components/CustomBouquetSection";
@@ -33,10 +34,14 @@ export default function OccasionsPage() {
                 <section className="py-6">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="relative h-[400px] rounded-xl overflow-hidden">
-                            <img
+                            <Image
                                 src={pageContent.hero.image}
                                 alt="مناسبات"
-                                className="absolute inset-0 w-full h-full object-cover"
+                                fill
+                                className="object-cover"
+                                priority
+                                quality={90}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                             />
                             {/* Blur تدريجي من اليمين */}
                             <div
@@ -109,18 +114,24 @@ export default function OccasionsPage() {
                                     }}
                                 >
                                     <div className="relative h-48 overflow-hidden">
-                                        <img
+                                        <Image
                                             src={c.image}
                                             alt={c.title}
-                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                            fill
+                                            className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                                            quality={85}
+                                            loading="lazy"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
                                         <div className="absolute inset-0 p-4 flex flex-col justify-end">
                                             <div className="flex items-center gap-2 mb-2">
-                                                <img
+                                                <Image
                                                     src={c.icon}
                                                     alt={`${c.title} icon`}
-                                                    className="w-7 h-7"
+                                                    width={28}
+                                                    height={28}
+                                                    loading="lazy"
                                                 />
                                                 <h3
                                                     className="text-white text-lg md:text-xl font-bold"
@@ -153,19 +164,25 @@ export default function OccasionsPage() {
                                     : "rounded-2xl"
                             }`}
                         >
-                            <img
+                            <Image
                                 src={featuredSection.image}
                                 alt={featuredSection.title}
-                                className="absolute inset-0 w-full h-full object-cover"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                                quality={90}
+                                loading="lazy"
                             />
                             <div className="absolute inset-0 backdrop-blur-[1px]"></div>
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
                             <div className="absolute inset-0 p-6 flex flex-col justify-end">
                                 <div className="flex items-center gap-2 text-white mb-3">
-                                    <img
+                                    <Image
                                         src="/images/occasions/icons/DIV-85.svg"
                                         alt="زواج icon"
-                                        className="w-8 h-8"
+                                        width={32}
+                                        height={32}
+                                        loading="lazy"
                                     />
                                     <h2
                                         className="text-2xl md:text-3xl font-bold"
@@ -236,10 +253,14 @@ export default function OccasionsPage() {
                                             className="group rounded-2xl border border-gray-200 overflow-hidden bg-white hover:shadow-xl transition-all duration-300 block"
                                         >
                                             <div className="relative h-80 overflow-hidden">
-                                                <img
+                                                <Image
                                                     src={b.image}
                                                     alt={b.title}
-                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    fill
+                                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                                    quality={85}
+                                                    loading="lazy"
                                                 />
                                                 {/* شارات المنتج */}
                                                 <div className="absolute top-3 right-3 flex flex-col gap-2">
@@ -327,17 +348,24 @@ export default function OccasionsPage() {
                                 >
                                     {/* الصورة الرئيسية */}
                                     <div className="relative h-40 sm:h-48 overflow-hidden">
-                                        <img
+                                        <Image
                                             src={blk.banner}
-                                            className="absolute inset-0 w-full h-full object-cover"
+                                            alt={blk.title}
+                                            fill
+                                            className="object-cover"
+                                            sizes="(max-width: 768px) 100vw, 50vw"
+                                            quality={85}
+                                            loading="lazy"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
                                         <div className="absolute inset-0 p-5 flex flex-col justify-end">
                                             <div className="flex items-center gap-2 mb-3">
-                                                <img
+                                                <Image
                                                     src={blk.icon}
                                                     alt={`${blk.title} icon`}
-                                                    className="w-7 h-7"
+                                                    width={28}
+                                                    height={28}
+                                                    loading="lazy"
                                                 />
                                                 <h3
                                                     className="text-white text-xl md:text-2xl font-bold"
@@ -368,10 +396,14 @@ export default function OccasionsPage() {
                                                     className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 block"
                                                 >
                                                     <div className="relative w-full h-52 md:h-64 overflow-hidden bg-gray-100">
-                                                        <img
+                                                        <Image
                                                             src={product.image}
                                                             alt={`${blk.title} منتج ${product.id}`}
-                                                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                            fill
+                                                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                                            sizes="(max-width: 768px) 33vw, 16vw"
+                                                            quality={85}
+                                                            loading="lazy"
                                                         />
                                                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                     </div>
@@ -402,18 +434,24 @@ export default function OccasionsPage() {
                                         >
                                             {/* الصورة الرئيسية */}
                                             <div className="relative h-40 sm:h-48 overflow-hidden">
-                                                <img
+                                                <Image
                                                     src={occasion.image}
                                                     alt={occasion.title}
-                                                    className="absolute inset-0 w-full h-full object-cover"
+                                                    fill
+                                                    className="object-cover"
+                                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                                    quality={85}
+                                                    loading="lazy"
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
                                                 <div className="absolute inset-0 p-5 flex flex-col justify-end">
                                                     <div className="flex items-center gap-2 mb-3">
-                                                        <img
+                                                        <Image
                                                             src={occasion.icon}
                                                             alt={`${occasion.title} icon`}
-                                                            className="w-7 h-7"
+                                                            width={28}
+                                                            height={28}
+                                                            loading="lazy"
                                                         />
                                                         <h3
                                                             className="text-white text-xl md:text-2xl font-bold"
@@ -449,12 +487,18 @@ export default function OccasionsPage() {
                                                                 className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 block"
                                                             >
                                                                 <div className="relative w-full h-52 md:h-64 overflow-hidden bg-gray-100">
-                                                                    <img
+                                                                    <Image
                                                                         src={
                                                                             product.image
                                                                         }
                                                                         alt={`${occasion.title} منتج ${product.id}`}
-                                                                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                                        fill
+                                                                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                                                        sizes="(max-width: 768px) 33vw, 16vw"
+                                                                        quality={
+                                                                            85
+                                                                        }
+                                                                        loading="lazy"
                                                                     />
                                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                                 </div>

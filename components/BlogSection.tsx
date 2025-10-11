@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { BlogItem } from "../types";
 
 type BlogSectionProps = {
@@ -84,10 +85,14 @@ const BlogSection = ({
                             className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                         >
                             <div className="relative h-40 sm:h-48 overflow-hidden">
-                                <img
+                                <Image
                                     src={article.image}
                                     alt={article.title}
-                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                    fill
+                                    className="object-cover hover:scale-105 transition-transform duration-300"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                    quality={85}
+                                    loading="lazy"
                                 />
                             </div>
                             <div className="p-4 sm:p-6">

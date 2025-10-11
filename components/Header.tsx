@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useNotification } from "./NotificationSystem";
 
@@ -112,10 +113,13 @@ const Header = () => {
                 <div className="hidden lg:flex justify-between items-center h-20">
                     {/* Logo */}
                     <Link href="/" className="flex items-center">
-                        <img
+                        <Image
                             src="/Logo-shams.svg"
                             alt="زهور الشمس"
+                            width={200}
+                            height={48}
                             className="h-12 w-auto object-contain"
+                            priority
                         />
                     </Link>
 
@@ -274,10 +278,13 @@ const Header = () => {
 
                     {/* Center: Logo */}
                     <Link href="/" className="flex items-center">
-                        <img
+                        <Image
                             src="/images/log.png"
                             alt="زهور الشمس"
+                            width={200}
+                            height={48}
                             className="h-12 w-auto object-contain"
+                            priority
                         />
                     </Link>
 
@@ -395,10 +402,13 @@ const Header = () => {
 
                     {/* Center: Logo */}
                     <Link href="/" className="flex items-center">
-                        <img
+                        <Image
                             src="/images/log.png"
                             alt="زهور الشمس"
+                            width={200}
+                            height={40}
                             className="h-10 w-auto object-contain mx-auto"
+                            priority
                         />
                     </Link>
 
