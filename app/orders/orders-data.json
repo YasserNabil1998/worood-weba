@@ -1,0 +1,145 @@
+{
+  "orders": [
+    {
+      "id": "1",
+      "orderNumber": "ORD-2024-001",
+      "status": "تم التسليم",
+      "statusColor": "bg-green-100 text-green-800",
+      "date": "15 ديسمبر 2024",
+      "totalAmount": 350,
+      "items": [
+        {
+          "id": "item-1",
+          "name": "باقة الورود الحمراء الكلاسيكية",
+          "image": "/images/bouquets/IMG-196.png",
+          "price": 250,
+          "quantity": 1,
+          "bouquetType": "باقة كلاسيكية"
+        },
+        {
+          "id": "item-2",
+          "name": "ورود إضافية",
+          "image": "/images/bouquets/IMG-210.png",
+          "price": 100,
+          "quantity": 1
+        }
+      ],
+      "deliveryAddress": "الرياض، حي النخيل، شارع الملك فهد، مبنى رقم 123",
+      "paymentMethod": "فيزا",
+      "trackingNumber": "TRK-789456123",
+      "notes": "يرجى التسليم بعد الساعة 6 مساءً"
+    },
+    {
+      "id": "2",
+      "orderNumber": "ORD-2024-002",
+      "status": "في الطريق",
+      "statusColor": "bg-blue-100 text-blue-800",
+      "date": "18 ديسمبر 2024",
+      "totalAmount": 480,
+      "items": [
+        {
+          "id": "item-3",
+          "name": "باقة الورود البيضاء الأنيقة",
+          "image": "/images/bouquets/IMG-224.png",
+          "price": 480,
+          "quantity": 1,
+          "bouquetType": "باقة أنيقة"
+        }
+      ],
+      "deliveryAddress": "جدة، حي الروضة، شارع الأمير سلطان",
+      "paymentMethod": "ماستركارد",
+      "trackingNumber": "TRK-456789123"
+    },
+    {
+      "id": "3",
+      "orderNumber": "ORD-2024-003",
+      "status": "تم التجهيز",
+      "statusColor": "bg-yellow-100 text-yellow-800",
+      "date": "20 ديسمبر 2024",
+      "totalAmount": 220,
+      "items": [
+        {
+          "id": "item-4",
+          "name": "باقة الورود المختلطة",
+          "image": "/images/bouquets/DIV-237.png",
+          "price": 220,
+          "quantity": 1,
+          "bouquetType": "باقة مختلطة"
+        }
+      ],
+      "deliveryAddress": "الدمام، حي الفيصلية، شارع الملك عبدالعزيز",
+      "paymentMethod": "فيزا"
+    },
+    {
+      "id": "4",
+      "orderNumber": "ORD-2024-004",
+      "status": "قيد المعالجة",
+      "statusColor": "bg-orange-100 text-orange-800",
+      "date": "22 ديسمبر 2024",
+      "totalAmount": 180,
+      "items": [
+        {
+          "id": "item-5",
+          "name": "باقة الورود الصفراء المشرقة",
+          "image": "/images/bouquets/IMG-196.png",
+          "price": 180,
+          "quantity": 1,
+          "bouquetType": "باقة صغيرة"
+        }
+      ],
+      "deliveryAddress": "الرياض، حي العليا، شارع التحلية",
+      "paymentMethod": "الدفع عند الاستلام",
+      "notes": "طلب عاجل - يرجى التسليم في نفس اليوم"
+    },
+    {
+      "id": "5",
+      "orderNumber": "ORD-2024-005",
+      "status": "تم التسليم",
+      "statusColor": "bg-green-100 text-green-800",
+      "date": "10 ديسمبر 2024",
+      "totalAmount": 650,
+      "items": [
+        {
+          "id": "item-6",
+          "name": "باقة الورود الفاخرة",
+          "image": "/images/bouquets/IMG-224.png",
+          "price": 450,
+          "quantity": 1,
+          "bouquetType": "باقة فاخرة"
+        },
+        {
+          "id": "item-7",
+          "name": "صندوق هدايا",
+          "image": "/images/bouquets/IMG-210.png",
+          "price": 200,
+          "quantity": 1
+        }
+      ],
+      "deliveryAddress": "مكة المكرمة، حي الزاهر، شارع العزيزية",
+      "paymentMethod": "فيزا",
+      "trackingNumber": "TRK-123456789",
+      "notes": "طلب خاص لمناسبة الزفاف"
+    },
+    {
+      "id": "6",
+      "orderNumber": "ORD-2024-006",
+      "status": "ملغي",
+      "statusColor": "bg-red-100 text-red-800",
+      "date": "5 ديسمبر 2024",
+      "totalAmount": 300,
+      "items": [
+        {
+          "id": "item-8",
+          "name": "باقة الورود الوردية",
+          "image": "/images/bouquets/DIV-237.png",
+          "price": 300,
+          "quantity": 1,
+          "bouquetType": "باقة وردية"
+        }
+      ],
+      "deliveryAddress": "الرياض، حي الملز، شارع الأمير محمد بن عبدالعزيز",
+      "paymentMethod": "فيزا",
+      "notes": "تم الإلغاء بناءً على طلب العميل"
+    }
+  ]
+}

@@ -3,6 +3,7 @@ export type OccasionItem = {
   title: string;
   image: string;
   icon?: string;
+  href?: string;
 };
 
 export type BouquetItem = {
@@ -15,9 +16,13 @@ export type BouquetItem = {
 
 export type ReviewItem = {
   id: number | string;
-  name: string;
+  orderId?: string;
+  customerName: string;
+  customerImage?: string | null;
   rating: number; // 0..5
   comment: string;
+  date?: string;
+  productName?: string;
 };
 
 export type BlogItem = {
