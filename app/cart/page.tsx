@@ -85,6 +85,36 @@ export default function CartPage() {
         }
     };
 
+    const editCustomItem = (item: CartItem) => {
+        if (!item.isCustom || !item.customData) return;
+
+        // حفظ معرف العنصر المراد تعديله
+        if (typeof window !== "undefined") {
+            localStorage.setItem("editItemId", item.id.toString());
+        }
+
+        // إنشاء البيانات للتعديل
+        const editData = {
+            flowers:
+                item.customData.flowers?.reduce((acc: any, f: any) => {
+                    acc[f.id] = f.quantity;
+                    return acc;
+                }, {}) || {},
+            colors: item.customData.colors || [],
+            size: item.customData.size?.key || "medium",
+            style: item.customData.style?.key || "classic",
+            occasion: item.customData.occasion?.name || "",
+            cardMessage: item.customData.cardMessage || "",
+            includeCard: item.customData.includeCard || false,
+            notes: item.customData.notes || "",
+            image: item.image,
+        };
+
+        // الانتقال إلى صفحة التنسيق الخاص مع البيانات
+        const encodedData = encodeURIComponent(JSON.stringify(editData));
+        window.location.href = `/custom?design=${encodedData}&edit=true`;
+    };
+
     const removeSelectedItems = () => {
         const next = items.filter((i) => !selectedItems.has(i.id));
         setItems(next);
@@ -218,14 +248,26 @@ export default function CartPage() {
                                                 </div>
 
                                                 {/* الصورة */}
-                                                <Image
-                                                    src={item.image}
-                                                    alt={item.title}
-                                                    width={96}
-                                                    height={96}
-                                                    className="rounded-lg object-cover"
-                                                    loading="lazy"
-                                                />
+                                                <div
+                                                    className={`${
+                                                        item.isCustom
+                                                            ? "w-24 h-24"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    <Image
+                                                        src={item.image}
+                                                        alt={item.title}
+                                                        width={96}
+                                                        height={96}
+                                                        className={`rounded-lg object-cover ${
+                                                            item.isCustom
+                                                                ? "h-24"
+                                                                : ""
+                                                        }`}
+                                                        loading="lazy"
+                                                    />
+                                                </div>
 
                                                 {/* التفاصيل */}
                                                 <div className="flex-1">
@@ -278,16 +320,31 @@ export default function CartPage() {
                                                                     )}
                                                             </div>
                                                         </div>
-                                                        <button
-                                                            onClick={() =>
-                                                                removeItem(
-                                                                    item.id
-                                                                )
-                                                            }
-                                                            className="text-red-600 text-sm hover:text-red-700 cursor-pointer"
-                                                        >
-                                                            حذف
-                                                        </button>
+                                                        <div className="flex gap-2">
+                                                            {item.isCustom &&
+                                                                item.customData && (
+                                                                    <button
+                                                                        onClick={() =>
+                                                                            editCustomItem(
+                                                                                item
+                                                                            )
+                                                                        }
+                                                                        className="text-[#5A5E4D] text-sm hover:text-[#4b5244] cursor-pointer"
+                                                                    >
+                                                                        تعديل
+                                                                    </button>
+                                                                )}
+                                                            <button
+                                                                onClick={() =>
+                                                                    removeItem(
+                                                                        item.id
+                                                                    )
+                                                                }
+                                                                className="text-red-600 text-sm hover:text-red-700 cursor-pointer"
+                                                            >
+                                                                حذف
+                                                            </button>
+                                                        </div>
                                                     </div>
 
                                                     {/* ملخص سريع للباقة المخصصة */}

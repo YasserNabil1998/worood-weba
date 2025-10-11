@@ -366,9 +366,13 @@ export default function CustomBuilderPage() {
         const finalVat = isNaN(vat) || vat === 0 ? 0 : vat;
         const finalTotal = isNaN(total) || total === 0 ? 0 : total;
 
+        // التحقق من وجود عنصر يتم تعديله
+        const editItemId = localStorage.getItem("editItemId");
+        const isEditMode = searchParams.get("edit") === "true" && editItemId;
+
         const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        const item = {
-            id: Date.now(),
+
+        const itemData = {
             title: "باقة مخصصة",
             price: Number(finalTotal.toFixed(2)) || 0,
             subtotal: Number(finalSubtotal.toFixed(2)) || 0,
@@ -427,14 +431,43 @@ export default function CustomBuilderPage() {
             },
         };
 
-        cart.push(item);
+        if (isEditMode) {
+            // وضع التعديل: تحديث العنصر الموجود
+            const itemIndex = cart.findIndex(
+                (item: any) => item.id.toString() === editItemId
+            );
+            if (itemIndex !== -1) {
+                // الحفاظ على الـ id الأصلي
+                cart[itemIndex] = {
+                    ...itemData,
+                    id: cart[itemIndex].id,
+                };
+                showNotification("تم تحديث الباقة بنجاح! ✅");
+            } else {
+                // إذا لم يتم العثور على العنصر، أضفه كعنصر جديد
+                cart.push({
+                    ...itemData,
+                    id: Date.now(),
+                });
+                showNotification("تمت إضافة الباقة إلى السلة بنجاح! 🛒");
+            }
+            // حذف معرف التعديل
+            localStorage.removeItem("editItemId");
+        } else {
+            // وضع الإضافة العادي
+            cart.push({
+                ...itemData,
+                id: Date.now(),
+            });
+            showNotification("تمت إضافة الباقة إلى السلة بنجاح! 🛒");
+        }
+
         localStorage.setItem("cart", JSON.stringify(cart));
 
         // Dispatch event
         window.dispatchEvent(new Event("cartUpdated"));
 
         saveToHistory();
-        showNotification("تمت إضافة الباقة إلى السلة بنجاح! 🛒");
 
         setTimeout(() => {
             window.location.href = "/cart";
@@ -1611,9 +1644,17 @@ export default function CustomBuilderPage() {
                                                                 ></path>
                                                             </svg>
                                                             <span>
-                                                                جاري الإضافة...
+                                                                {searchParams.get(
+                                                                    "edit"
+                                                                ) === "true"
+                                                                    ? "جاري التحديث..."
+                                                                    : "جاري الإضافة..."}
                                                             </span>
                                                         </>
+                                                    ) : searchParams.get(
+                                                          "edit"
+                                                      ) === "true" ? (
+                                                        "تحديث السلة"
                                                     ) : (
                                                         "إضافة إلى السلة"
                                                     )}
