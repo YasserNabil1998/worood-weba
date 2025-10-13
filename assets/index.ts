@@ -50,7 +50,7 @@ export const ASSETS: Assets = {
     // الشعارات - Logos
     logos: {
         main: "/Logo-shams.svg",
-        alternate: "/images/log.png",
+        alternate: "/Logo-shams.svg",
     },
 
     // أيقونات طرق الدفع - Payment Methods
@@ -83,7 +83,7 @@ export const ASSETS: Assets = {
     // صور Placeholder - Placeholder Images
     placeholders: {
         product: "/images/placeholder.txt",
-        default: "/images/log.png",
+        default: "/Logo-shams.svg",
     },
 };
 

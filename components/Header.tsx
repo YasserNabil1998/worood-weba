@@ -5,37 +5,17 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useNotification } from "./NotificationSystem";
 import { ASSETS } from "@/assets";
+import { useCart } from "@/lib/hooks/useCart";
 
 const Header = () => {
     const pathname = usePathname();
     const router = useRouter();
     const { showNotification } = useNotification();
+    const { totalItems } = useCart();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [cartCount, setCartCount] = useState(0);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
-
-    // تحديث عداد السلة
-    useEffect(() => {
-        const updateCartCount = () => {
-            const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-            const totalItems = cart.reduce(
-                (sum: number, item: any) => sum + (item.quantity || 1),
-                0
-            );
-            setCartCount(totalItems);
-        };
-        updateCartCount();
-
-        window.addEventListener("storage", updateCartCount);
-        window.addEventListener("cartUpdated", updateCartCount);
-
-        return () => {
-            window.removeEventListener("storage", updateCartCount);
-            window.removeEventListener("cartUpdated", updateCartCount);
-        };
-    }, []);
 
     // إخفاء/إظهار الهيدر عند السكرول
     useEffect(() => {
@@ -176,9 +156,9 @@ const Header = () => {
                   0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                                 />
                             </svg>
-                            {cartCount > 0 && (
+                            {totalItems > 0 && (
                                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
-                                    {cartCount}
+                                    {totalItems}
                                 </span>
                             )}
                             <span className="text-[15px] font-medium">
@@ -308,9 +288,9 @@ const Header = () => {
                                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                                 />
                             </svg>
-                            {cartCount > 0 && (
+                            {totalItems > 0 && (
                                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
-                                    {cartCount}
+                                    {totalItems}
                                 </span>
                             )}
                             <span className="text-sm font-medium">السلة</span>
@@ -435,9 +415,9 @@ const Header = () => {
                   2a2 2 0 11-4 0 2 2 0 014 0z"
                                 />
                             </svg>
-                            {cartCount > 0 && (
+                            {totalItems > 0 && (
                                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
-                                    {cartCount}
+                                    {totalItems}
                                 </span>
                             )}
                         </Link>

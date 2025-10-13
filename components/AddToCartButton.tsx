@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { useNotification } from "./NotificationSystem";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS } from "@/lib/constants";
+import type { CartItem } from "@/types";
 
 interface AddToCartButtonProps {
     productId: string;
@@ -19,34 +21,31 @@ export default function AddToCartButton({
     const { showNotification } = useNotification();
 
     const handleAddToCart = () => {
-        if (typeof window !== "undefined") {
-            try {
-                const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-                const existingItem = cart.find(
-                    (item: any) => item.id === productId
-                );
+        try {
+            const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
+            const existingItem = cart.find(
+                (item: any) => item.id === productId
+            );
 
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    cart.push({
-                        id: productId,
-                        title: productName,
-                        price: productPrice,
-                        quantity: 1,
-                        image: productImage,
-                    });
-                }
-
-                localStorage.setItem("cart", JSON.stringify(cart));
-                window.dispatchEvent(new CustomEvent("cartUpdated"));
-
-                // إشعار موحد
-                showNotification("تم إضافة المنتج إلى السلة", "success");
-            } catch (error) {
-                console.error("خطأ في إضافة المنتج للسلة:", error);
-                showNotification("حدث خطأ في إضافة المنتج للسلة", "error");
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: productId,
+                    title: productName,
+                    price: productPrice,
+                    quantity: 1,
+                    image: productImage,
+                });
             }
+
+            storage.set(STORAGE_KEYS.CART, cart);
+            window.dispatchEvent(new CustomEvent("cartUpdated"));
+
+            showNotification("تم إضافة المنتج إلى السلة", "success");
+        } catch (error) {
+            console.error("خطأ في إضافة المنتج للسلة:", error);
+            showNotification("حدث خطأ في إضافة المنتج للسلة", "error");
         }
 
         return (
