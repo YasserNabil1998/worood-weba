@@ -38,7 +38,7 @@ const FeaturedBouquets = ({
     bouquets = defaultBouquets,
     isLoading = false,
 }: FeaturedBouquetsProps) => {
-    const [favorites, setFavorites] = useState<Set<number>>(new Set());
+    const [favorites, setFavorites] = useState<Set<string | number>>(new Set());
 
     // Load favorites from localStorage
     useEffect(() => {

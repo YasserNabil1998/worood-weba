@@ -21,7 +21,6 @@ export default function AddToCartButton({
     const handleAddToCart = () => {
         if (typeof window !== "undefined") {
             try {
-
                 const cart = JSON.parse(localStorage.getItem("cart") || "[]");
                 const existingItem = cart.find(
                     (item: any) => item.id === productId
@@ -47,16 +46,17 @@ export default function AddToCartButton({
             } catch (error) {
                 console.error("خطأ في إضافة المنتج للسلة:", error);
                 showNotification("حدث خطأ في إضافة المنتج للسلة", "error");
+            }
         }
-    };
 
-    return (
-        <button
-            onClick={handleAddToCart}
-            className="flex-1 bg-[#5A5E4D] text-white py-4 px-6 rounded-lg font-semibold hover:bg-[#4A4E3D] transition-colors"
-            style={{ fontFamily: "var(--font-almarai)" }}
-        >
-            أضف إلى السلة
-        </button>
-    );
+        return (
+            <button
+                onClick={handleAddToCart}
+                className="flex-1 bg-[#5A5E4D] text-white py-4 px-6 rounded-lg font-semibold hover:bg-[#4A4E3D] transition-colors"
+                style={{ fontFamily: "var(--font-almarai)" }}
+            >
+                أضف إلى السلة
+            </button>
+        );
+    };
 }

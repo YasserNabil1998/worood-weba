@@ -47,20 +47,20 @@ export default function FavoriteButton({ productId }: FavoriteButtonProps) {
             } catch (error) {
                 console.error("خطأ في تحديث المفضلة:", error);
                 showNotification("حدث خطأ في تحديث المفضلة", "error");
-        }
-    };
+            }
+        };
 
-    return (
-        <button
-            onClick={handleToggleFavorite}
-            className={`px-6 py-4 border rounded-lg font-semibold transition-colors ${
-                isFavorited
-                    ? "bg-red-500 text-white border-red-500"
-                    : "border-[#5A5E4D] text-[#5A5E4D] hover:bg-[#5A5E4D] hover:text-white"
-            }`}
-            style={{ fontFamily: "var(--font-almarai)" }}
-        >
-            {isFavorited ? "في المفضلة" : "المفضلة"}
-        </button>
-    );
+        return (
+            <button
+                onClick={handleToggleFavorite}
+                className={`px-6 py-4 border rounded-lg font-semibold transition-colors ${isFavorited
+                        ? "bg-red-500 text-white border-red-500"
+                        : "border-[#5A5E4D] text-[#5A5E4D] hover:bg-[#5A5E4D] hover:text-white"
+                    }`}
+                style={{ fontFamily: "var(--font-almarai)" }}
+            >
+                {isFavorited ? "في المفضلة" : "المفضلة"}
+            </button>
+        );
+    }
 }
