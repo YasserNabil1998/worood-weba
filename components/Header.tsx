@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useNotification } from "./NotificationSystem";
+import { ASSETS } from "@/assets";
 
 const Header = () => {
     const pathname = usePathname();
@@ -114,7 +115,7 @@ const Header = () => {
                     {/* Logo */}
                     <Link href="/" className="flex items-center">
                         <Image
-                            src="/Logo-shams.svg"
+                            src={ASSETS.logos.main}
                             alt="زهور الشمس"
                             width={200}
                             height={48}
@@ -279,7 +280,7 @@ const Header = () => {
                     {/* Center: Logo */}
                     <Link href="/" className="flex items-center">
                         <Image
-                            src="/images/log.png"
+                            src={ASSETS.logos.alternate}
                             alt="زهور الشمس"
                             width={200}
                             height={48}
@@ -403,7 +404,7 @@ const Header = () => {
                     {/* Center: Logo */}
                     <Link href="/" className="flex items-center">
                         <Image
-                            src="/images/log.png"
+                            src={ASSETS.logos.alternate}
                             alt="زهور الشمس"
                             width={200}
                             height={40}
