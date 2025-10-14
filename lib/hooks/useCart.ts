@@ -21,10 +21,12 @@ export function useCart() {
   // تحميل السلة
   const loadCart = useCallback(() => {
     const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
-    setItems(cart);
+    // التأكد من أن cart هو مصفوفة
+    const safeCart = Array.isArray(cart) ? cart : [];
+    setItems(safeCart);
     
-    const itemsCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-    const price = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
+    const itemsCount = safeCart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    const price = safeCart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
     
     setTotalItems(itemsCount);
     setTotalPrice(price);
@@ -50,22 +52,24 @@ export function useCart() {
   // إضافة منتج
   const addItem = useCallback((item: CartItem) => {
     const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
-    const existingIndex = cart.findIndex((i) => i.id === item.id);
+    const safeCart = Array.isArray(cart) ? cart : [];
+    const existingIndex = safeCart.findIndex((i) => i.id === item.id);
 
     if (existingIndex > -1) {
-      cart[existingIndex].quantity += item.quantity || 1;
+      safeCart[existingIndex].quantity += item.quantity || 1;
     } else {
-      cart.push(item);
+      safeCart.push(item);
     }
 
-    storage.set(STORAGE_KEYS.CART, cart);
+    storage.set(STORAGE_KEYS.CART, safeCart);
     window.dispatchEvent(new CustomEvent("cartUpdated"));
   }, []);
 
   // حذف منتج
   const removeItem = useCallback((id: string | number) => {
     const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
-    const updated = cart.filter((item) => item.id !== id);
+    const safeCart = Array.isArray(cart) ? cart : [];
+    const updated = safeCart.filter((item) => item.id !== id);
     storage.set(STORAGE_KEYS.CART, updated);
     window.dispatchEvent(new CustomEvent("cartUpdated"));
   }, []);
@@ -73,11 +77,12 @@ export function useCart() {
   // تحديث الكمية
   const updateQuantity = useCallback((id: string | number, quantity: number) => {
     const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
-    const item = cart.find((i) => i.id === id);
+    const safeCart = Array.isArray(cart) ? cart : [];
+    const item = safeCart.find((i) => i.id === id);
     
     if (item) {
       item.quantity = quantity;
-      storage.set(STORAGE_KEYS.CART, cart);
+      storage.set(STORAGE_KEYS.CART, safeCart);
       window.dispatchEvent(new CustomEvent("cartUpdated"));
     }
   }, []);

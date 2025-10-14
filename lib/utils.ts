@@ -15,9 +15,26 @@ export const storage = {
     if (typeof window === "undefined") return defaultValue;
     try {
       const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : defaultValue;
+      if (!item) return defaultValue;
+      
+      const parsed = JSON.parse(item);
+      
+      // التحقق من أن النوع يطابق القيمة الافتراضية
+      if (Array.isArray(defaultValue) && !Array.isArray(parsed)) {
+        console.warn(`Expected array for key "${key}", got ${typeof parsed}. Resetting to default.`);
+        localStorage.setItem(key, JSON.stringify(defaultValue));
+        return defaultValue;
+      }
+      
+      return parsed;
     } catch (error) {
       console.warn(`Error reading localStorage key "${key}":`, error);
+      // في حالة وجود خطأ في التحليل، نعيد تعيين القيمة الافتراضية
+      try {
+        localStorage.setItem(key, JSON.stringify(defaultValue));
+      } catch (e) {
+        console.error(`Failed to reset localStorage key "${key}":`, e);
+      }
       return defaultValue;
     }
   },

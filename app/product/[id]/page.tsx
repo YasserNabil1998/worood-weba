@@ -113,6 +113,7 @@ export default function ProductDetailPage() {
         if (typeof window !== "undefined") {
             try {
                 const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+                const safeCart = Array.isArray(cart) ? cart : [];
                 const cartItem = {
                     id: product.id,
                     title: product.title,
@@ -126,22 +127,23 @@ export default function ProductDetailPage() {
                     giftWrap,
                 };
 
-                const existingIndex = cart.findIndex(
+                const existingIndex = safeCart.findIndex(
                     (item: any) => item.id === product.id
                 );
                 if (existingIndex >= 0) {
-                    cart[existingIndex].quantity += quantity;
+                    safeCart[existingIndex].quantity += quantity;
                 } else {
-                    cart.push(cartItem);
+                    safeCart.push(cartItem);
                 }
 
-                localStorage.setItem("cart", JSON.stringify(cart));
+                localStorage.setItem("cart", JSON.stringify(safeCart));
                 window.dispatchEvent(new CustomEvent("cartUpdated"));
 
                 // إشعار موحد
                 showNotification("تم إضافة المنتج إلى السلة", "success");
             } catch (error) {
                 console.error("خطأ:", error);
+                localStorage.setItem("cart", "[]");
                 showNotification("حدث خطأ في إضافة المنتج للسلة", "error");
             }
         }

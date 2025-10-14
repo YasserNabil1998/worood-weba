@@ -371,6 +371,7 @@ function CustomBuilderContent() {
         const isEditMode = searchParams.get("edit") === "true" && editItemId;
 
         const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        const safeCart = Array.isArray(cart) ? cart : [];
 
         const itemData = {
             title: "باقة مخصصة",
@@ -433,19 +434,19 @@ function CustomBuilderContent() {
 
         if (isEditMode) {
             // وضع التعديل: تحديث العنصر الموجود
-            const itemIndex = cart.findIndex(
+            const itemIndex = safeCart.findIndex(
                 (item: any) => item.id.toString() === editItemId
             );
             if (itemIndex !== -1) {
                 // الحفاظ على الـ id الأصلي
-                cart[itemIndex] = {
+                safeCart[itemIndex] = {
                     ...itemData,
-                    id: cart[itemIndex].id,
+                    id: safeCart[itemIndex].id,
                 };
                 showNotification("تم تحديث الباقة بنجاح! ✅");
             } else {
                 // إذا لم يتم العثور على العنصر، أضفه كعنصر جديد
-                cart.push({
+                safeCart.push({
                     ...itemData,
                     id: Date.now(),
                 });
@@ -455,14 +456,14 @@ function CustomBuilderContent() {
             localStorage.removeItem("editItemId");
         } else {
             // وضع الإضافة العادي
-            cart.push({
+            safeCart.push({
                 ...itemData,
                 id: Date.now(),
             });
             showNotification("تمت إضافة الباقة إلى السلة بنجاح! 🛒");
         }
 
-        localStorage.setItem("cart", JSON.stringify(cart));
+        localStorage.setItem("cart", JSON.stringify(safeCart));
 
         // Dispatch event
         window.dispatchEvent(new Event("cartUpdated"));

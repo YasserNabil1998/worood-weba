@@ -44,13 +44,23 @@ const FeaturedBouquets = ({
     useEffect(() => {
         const loadFavorites = () => {
             if (typeof window !== "undefined") {
-                const savedFavorites = JSON.parse(
-                    localStorage.getItem("favorites") || "[]"
-                );
-                const favoriteIds = savedFavorites.map(
-                    (fav: BouquetItem) => fav.id
-                );
-                setFavorites(new Set(favoriteIds));
+                try {
+                    const savedFavorites = JSON.parse(
+                        localStorage.getItem("favorites") || "[]"
+                    );
+                    // التأكد من أن savedFavorites هو مصفوفة
+                    const safeFavorites = Array.isArray(savedFavorites)
+                        ? savedFavorites
+                        : [];
+                    const favoriteIds = safeFavorites.map(
+                        (fav: BouquetItem) => fav.id
+                    );
+                    setFavorites(new Set(favoriteIds));
+                } catch (error) {
+                    console.error("خطأ في تحميل المفضلة:", error);
+                    localStorage.setItem("favorites", "[]");
+                    setFavorites(new Set());
+                }
             }
         };
 
@@ -66,60 +76,75 @@ const FeaturedBouquets = ({
         e.preventDefault();
         e.stopPropagation();
 
-        const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-        const isCurrentlyFavorite = favorites.some(
-            (fav: BouquetItem) => fav.id === bouquet.id
-        );
-
-        if (isCurrentlyFavorite) {
-            // Remove from favorites
-            const updatedFavorites = favorites.filter(
-                (fav: BouquetItem) => fav.id !== bouquet.id
+        try {
+            const favorites = JSON.parse(
+                localStorage.getItem("favorites") || "[]"
             );
-            localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-            setFavorites((prev) => {
-                const newSet = new Set(prev);
-                newSet.delete(bouquet.id);
-                return newSet;
-            });
+            const safeFavorites = Array.isArray(favorites) ? favorites : [];
+            const isCurrentlyFavorite = safeFavorites.some(
+                (fav: BouquetItem) => fav.id === bouquet.id
+            );
 
-            // Show notification
-            const notification = document.createElement("div");
-            notification.className =
-                "fixed top-4 right-4 bg-gray-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in";
-            notification.textContent = "تم إزالة المنتج من المفضلة";
-            document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 3000);
-        } else {
-            // Add to favorites
-            favorites.push(bouquet);
-            localStorage.setItem("favorites", JSON.stringify(favorites));
-            setFavorites((prev) => new Set(prev).add(bouquet.id));
+            if (isCurrentlyFavorite) {
+                // Remove from favorites
+                const updatedFavorites = safeFavorites.filter(
+                    (fav: BouquetItem) => fav.id !== bouquet.id
+                );
+                localStorage.setItem(
+                    "favorites",
+                    JSON.stringify(updatedFavorites)
+                );
+                setFavorites((prev) => {
+                    const newSet = new Set(prev);
+                    newSet.delete(bouquet.id);
+                    return newSet;
+                });
 
-            // Show notification
-            const notification = document.createElement("div");
-            notification.className =
-                "fixed top-4 right-4 bg-[#5A5E4D] text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in";
-            notification.textContent = "تم إضافة المنتج إلى المفضلة ❤️";
-            document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 3000);
+                // Show notification
+                const notification = document.createElement("div");
+                notification.className =
+                    "fixed top-4 right-4 bg-gray-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in";
+                notification.textContent = "تم إزالة المنتج من المفضلة";
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), 3000);
+            } else {
+                // Add to favorites
+                safeFavorites.push(bouquet);
+                localStorage.setItem(
+                    "favorites",
+                    JSON.stringify(safeFavorites)
+                );
+                setFavorites((prev) => new Set(prev).add(bouquet.id));
+
+                // Show notification
+                const notification = document.createElement("div");
+                notification.className =
+                    "fixed top-4 right-4 bg-[#5A5E4D] text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in";
+                notification.textContent = "تم إضافة المنتج إلى المفضلة ❤️";
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), 3000);
+            }
+
+            // Dispatch event
+            window.dispatchEvent(new Event("favoritesUpdated"));
+        } catch (error) {
+            console.error("خطأ في تبديل المفضلة:", error);
+            localStorage.setItem("favorites", "[]");
         }
-
-        // Dispatch event
-        window.dispatchEvent(new Event("favoritesUpdated"));
     };
     const addToCart = (bouquet: BouquetItem) => {
         if (typeof window !== "undefined") {
             try {
                 const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-                const existingItem = cart.find(
+                const safeCart = Array.isArray(cart) ? cart : [];
+                const existingItem = safeCart.find(
                     (item: any) => item.id === bouquet.id
                 );
 
                 if (existingItem) {
                     existingItem.quantity += 1;
                 } else {
-                    cart.push({
+                    safeCart.push({
                         id: bouquet.id,
                         title: bouquet.title,
                         price: bouquet.price,
@@ -128,7 +153,7 @@ const FeaturedBouquets = ({
                     });
                 }
 
-                localStorage.setItem("cart", JSON.stringify(cart));
+                localStorage.setItem("cart", JSON.stringify(safeCart));
                 window.dispatchEvent(new CustomEvent("cartUpdated"));
 
                 // إشعار
@@ -141,6 +166,7 @@ const FeaturedBouquets = ({
                 setTimeout(() => notification.remove(), 3000);
             } catch (error) {
                 console.error("خطأ في إضافة المنتج للسلة:", error);
+                localStorage.setItem("cart", "[]");
             }
         }
     };

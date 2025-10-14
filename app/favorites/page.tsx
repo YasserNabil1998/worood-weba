@@ -48,16 +48,27 @@ export default function FavoritesPage() {
     }, []);
 
     const loadFavorites = () => {
-        // تحميل المنتجات العادية
-        const storedFavorites = localStorage.getItem("favorites");
-        if (storedFavorites) {
-            setFavorites(JSON.parse(storedFavorites));
-        }
+        try {
+            // تحميل المنتجات العادية
+            const storedFavorites = localStorage.getItem("favorites");
+            if (storedFavorites) {
+                const parsed = JSON.parse(storedFavorites);
+                setFavorites(Array.isArray(parsed) ? parsed : []);
+            }
 
-        // تحميل التصاميم المخصصة
-        const storedCustomBouquets = localStorage.getItem("bouquetFavorites");
-        if (storedCustomBouquets) {
-            setCustomBouquets(JSON.parse(storedCustomBouquets));
+            // تحميل التصاميم المخصصة
+            const storedCustomBouquets =
+                localStorage.getItem("bouquetFavorites");
+            if (storedCustomBouquets) {
+                const parsed = JSON.parse(storedCustomBouquets);
+                setCustomBouquets(Array.isArray(parsed) ? parsed : []);
+            }
+        } catch (error) {
+            console.error("خطأ في تحميل المفضلة:", error);
+            localStorage.setItem("favorites", "[]");
+            localStorage.setItem("bouquetFavorites", "[]");
+            setFavorites([]);
+            setCustomBouquets([]);
         }
 
         setLoading(false);
@@ -83,39 +94,45 @@ export default function FavoritesPage() {
     };
 
     const addCustomBouquetToCart = (bouquet: CustomBouquet) => {
-        const cartItem = {
-            id: Date.now(),
-            type: "custom",
-            title: `باقة مخصصة - ${bouquet.occasion}`,
-            flowers: bouquet.flowers,
-            colors: bouquet.colors,
-            size: bouquet.size,
-            style: bouquet.style,
-            occasion: bouquet.occasion,
-            cardMessage: bouquet.cardMessage,
-            notes: bouquet.notes,
-            total: bouquet.total,
-            image: bouquet.image,
-            quantity: 1,
-        };
+        try {
+            const cartItem = {
+                id: Date.now(),
+                type: "custom",
+                title: `باقة مخصصة - ${bouquet.occasion}`,
+                flowers: bouquet.flowers,
+                colors: bouquet.colors,
+                size: bouquet.size,
+                style: bouquet.style,
+                occasion: bouquet.occasion,
+                cardMessage: bouquet.cardMessage,
+                notes: bouquet.notes,
+                total: bouquet.total,
+                image: bouquet.image,
+                quantity: 1,
+            };
 
-        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        cart.push(cartItem);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        window.dispatchEvent(new CustomEvent("cartUpdated"));
+            const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+            const safeCart = Array.isArray(cart) ? cart : [];
+            safeCart.push(cartItem);
+            localStorage.setItem("cart", JSON.stringify(safeCart));
+            window.dispatchEvent(new CustomEvent("cartUpdated"));
 
-        // إشعار جانبي
-        const notification = document.createElement("div");
-        notification.textContent = "تم إضافة الباقة إلى السلة!";
-        notification.className =
-            "fixed top-4 right-4 px-6 py-3 rounded-lg z-50 text-white shadow-lg";
-        notification.style.backgroundColor = "#5A5E4D";
-        notification.style.fontFamily = "var(--font-almarai)";
-        document.body.appendChild(notification);
-        setTimeout(() => notification.remove(), 3000);
+            // إشعار جانبي
+            const notification = document.createElement("div");
+            notification.textContent = "تم إضافة الباقة إلى السلة!";
+            notification.className =
+                "fixed top-4 right-4 px-6 py-3 rounded-lg z-50 text-white shadow-lg";
+            notification.style.backgroundColor = "#5A5E4D";
+            notification.style.fontFamily = "var(--font-almarai)";
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
 
-        // إغلاق المعاينة إذا كانت مفتوحة
-        closePreview();
+            // إغلاق المعاينة إذا كانت مفتوحة
+            closePreview();
+        } catch (error) {
+            console.error("خطأ في إضافة الباقة للسلة:", error);
+            localStorage.setItem("cart", "[]");
+        }
     };
 
     if (loading) {

@@ -30,8 +30,15 @@ export default function CheckoutPage() {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-            setItems(cart);
+            try {
+                const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+                const safeCart = Array.isArray(cart) ? cart : [];
+                setItems(safeCart);
+            } catch (error) {
+                console.error("خطأ في تحميل السلة:", error);
+                localStorage.setItem("cart", "[]");
+                setItems([]);
+            }
         }
     }, []);
 

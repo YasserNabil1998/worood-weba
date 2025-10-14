@@ -1,6 +1,9 @@
 var R=require("../../chunks/[turbopack]_runtime.js")("server/app/favicon.ico/route.js")
-R.c("server/chunks/332d4_next_30fc9af0._.js")
-R.c("server/chunks/[root-of-the-server]__3d7b5e85._.js")
-R.m("[project]/Work-worood-weba/worood-weba/.next-internal/server/app/favicon.ico/route/actions.js [app-rsc] (server actions loader, ecmascript)")
-R.m("[project]/Work-worood-weba/worood-weba/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/Work-worood-weba/worood-weba/app/favicon--route-entry.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)")
-module.exports=R.m("[project]/Work-worood-weba/worood-weba/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/Work-worood-weba/worood-weba/app/favicon--route-entry.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)").exports
+R.c("server/chunks/[root-of-the-server]__93590772._.js")
+R.c("server/chunks/332d4_next_dist_537056f3._.js")
+R.c("server/chunks/[root-of-the-server]__1029f48e._.js")
+R.c("server/chunks/332d4_next_dist_1756df6e._.js")
+R.c("server/chunks/332d4_next_dist_0b1e5d29._.js")
+R.m(62971)
+R.m(57694)
+module.exports=R.m(57694).exports
