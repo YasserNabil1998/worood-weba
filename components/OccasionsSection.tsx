@@ -4,6 +4,7 @@ import type { OccasionItem } from "../types";
 import Link from "next/link";
 import Image from "next/image";
 import { useMemo } from "react";
+import { ASSETS } from "@/assets";
 
 // Extended type for occasions with href
 type OccasionWithHref = OccasionItem & {
@@ -22,28 +23,28 @@ const defaultOccasions: OccasionWithHref[] = [
         id: 1,
         title: "مولود جديد",
         image: "/images/occasions/DIV-74.png",
-        icon: "/icons/occasionsSection/I-79.svg",
+        icon: ASSETS.icons.occasions.newborn,
         href: "/occasions/newborn",
     },
     {
         id: 2,
         title: "نجاح",
         image: "/images/occasions/DIV-64.png",
-        icon: "/icons/occasionsSection/Icon-70.svg",
+        icon: ASSETS.icons.occasions.graduation,
         href: "/occasions/graduation",
     },
     {
         id: 3,
         title: "خطوبة",
         image: "/images/occasions/DIV-56.png",
-        icon: "/icons/occasionsSection/Icon-52.svg",
+        icon: ASSETS.icons.occasions.engagement,
         href: "/occasions/engagement",
     },
     {
         id: 4,
         title: "زواج",
         image: "/images/occasions/DIV-46.png",
-        icon: "/icons/occasionsSection/Icon-52.svg",
+        icon: ASSETS.icons.occasions.wedding,
         href: "/occasions/wedding",
     },
 ];

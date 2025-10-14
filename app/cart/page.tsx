@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS } from "@/lib/constants";
 
 type CartItem = {
     id: number;
@@ -28,12 +30,10 @@ export default function CartPage() {
     const [selectedItems, setSelectedItems] = useState<Set<number>>(new Set());
 
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-            setItems(cart);
-            // تحديد جميع العناصر افتراضياً
-            setSelectedItems(new Set(cart.map((item: CartItem) => item.id)));
-        }
+        const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
+        setItems(cart);
+        // تحديد جميع العناصر افتراضياً
+        setSelectedItems(new Set(cart.map((item: CartItem) => item.id)));
     }, []);
 
     const toggleDetails = (itemId: number) => {
@@ -79,19 +79,15 @@ export default function CartPage() {
             newSet.delete(id);
             return newSet;
         });
-        if (typeof window !== "undefined") {
-            localStorage.setItem("cart", JSON.stringify(next));
-            window.dispatchEvent(new CustomEvent("cartUpdated"));
-        }
+        storage.set(STORAGE_KEYS.CART, next);
+        window.dispatchEvent(new CustomEvent("cartUpdated"));
     };
 
     const editCustomItem = (item: CartItem) => {
         if (!item.isCustom || !item.customData) return;
 
         // حفظ معرف العنصر المراد تعديله
-        if (typeof window !== "undefined") {
-            localStorage.setItem("editItemId", item.id.toString());
-        }
+        storage.set(STORAGE_KEYS.EDIT_ITEM_ID, item.id.toString());
 
         // إنشاء البيانات للتعديل
         const editData = {
@@ -119,10 +115,8 @@ export default function CartPage() {
         const next = items.filter((i) => !selectedItems.has(i.id));
         setItems(next);
         setSelectedItems(new Set());
-        if (typeof window !== "undefined") {
-            localStorage.setItem("cart", JSON.stringify(next));
-            window.dispatchEvent(new CustomEvent("cartUpdated"));
-        }
+        storage.set(STORAGE_KEYS.CART, next);
+        window.dispatchEvent(new CustomEvent("cartUpdated"));
     };
 
     // حساب الإجمالي للعناصر المختارة فقط

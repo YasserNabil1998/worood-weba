@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS } from "@/lib/constants";
 
 export type ProductItem = {
     id: number;
@@ -18,7 +20,10 @@ export default function ProductCard({ item }: { item: ProductItem }) {
 
     // Check if item is in favorites
     useEffect(() => {
-        const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+        const favorites = storage.get<ProductItem[]>(
+            STORAGE_KEYS.FAVORITES,
+            []
+        );
         const isInFavorites = favorites.some(
             (fav: ProductItem) => fav.id === item.id
         );
@@ -26,14 +31,17 @@ export default function ProductCard({ item }: { item: ProductItem }) {
     }, [item.id]);
 
     const toggleFavorite = () => {
-        const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+        const favorites = storage.get<ProductItem[]>(
+            STORAGE_KEYS.FAVORITES,
+            []
+        );
 
         if (isFavorite) {
             // Remove from favorites
             const updatedFavorites = favorites.filter(
                 (fav: ProductItem) => fav.id !== item.id
             );
-            localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+            storage.set(STORAGE_KEYS.FAVORITES, updatedFavorites);
             setIsFavorite(false);
 
             // Show notification
@@ -46,7 +54,7 @@ export default function ProductCard({ item }: { item: ProductItem }) {
         } else {
             // Add to favorites
             favorites.push(item);
-            localStorage.setItem("favorites", JSON.stringify(favorites));
+            storage.set(STORAGE_KEYS.FAVORITES, favorites);
             setIsFavorite(true);
 
             // Show notification
@@ -63,9 +71,8 @@ export default function ProductCard({ item }: { item: ProductItem }) {
     };
 
     const handleAddToCart = () => {
-        // Get existing cart from localStorage
-        const existingCart = localStorage.getItem("cart");
-        const cart = existingCart ? JSON.parse(existingCart) : [];
+        // Get existing cart
+        const cart = storage.get<any[]>(STORAGE_KEYS.CART, []);
 
         // Check if item already exists in cart
         const existingItemIndex = cart.findIndex(
@@ -80,8 +87,8 @@ export default function ProductCard({ item }: { item: ProductItem }) {
             cart.push({ ...item, quantity: 1 });
         }
 
-        // Save updated cart to localStorage
-        localStorage.setItem("cart", JSON.stringify(cart));
+        // Save updated cart
+        storage.set(STORAGE_KEYS.CART, cart);
 
         // Dispatch custom event to update cart count
         window.dispatchEvent(new Event("cartUpdated"));

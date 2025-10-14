@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ASSETS } from "@/assets";
 
 const Footer = () => {
     return (
@@ -154,7 +155,7 @@ const Footer = () => {
                         </p>
                         <div className="mt-2 sm:mt-3 flex items-center justify-center gap-2 sm:gap-3 opacity-90">
                             <Image
-                                src="/images/payment/visa.png"
+                                src={ASSETS.payment.visa}
                                 alt="Visa"
                                 width={60}
                                 height={40}
@@ -162,7 +163,7 @@ const Footer = () => {
                                 loading="lazy"
                             />
                             <Image
-                                src="/images/payment/mastercard.png"
+                                src={ASSETS.payment.mastercard}
                                 alt="Mastercard"
                                 width={60}
                                 height={40}
@@ -170,7 +171,7 @@ const Footer = () => {
                                 loading="lazy"
                             />
                             <Image
-                                src="/images/payment/apple-pay.png"
+                                src={ASSETS.payment.applePay}
                                 alt="Apple Pay"
                                 width={60}
                                 height={40}
@@ -178,7 +179,7 @@ const Footer = () => {
                                 loading="lazy"
                             />
                             <Image
-                                src="/images/payment/paypal.png"
+                                src={ASSETS.payment.paypal}
                                 alt="PayPal"
                                 width={60}
                                 height={40}

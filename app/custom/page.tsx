@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -26,7 +26,7 @@ type DeliveryTime = { id: number; label: string; value: string };
 type PaymentMethod = { key: string; label: string; icon: string };
 type Config = { vatRate: number; cardPrice: number };
 
-export default function CustomBuilderPage() {
+function CustomBuilderContent() {
     const searchParams = useSearchParams();
 
     // Dynamic Data States
@@ -1893,5 +1893,19 @@ export default function CustomBuilderPage() {
             </main>
             <Footer />
         </div>
+    );
+}
+
+export default function CustomBuilderPage() {
+    return (
+        <Suspense
+            fallback={
+                <div className="min-h-screen flex items-center justify-center">
+                    جاري التحميل...
+                </div>
+            }
+        >
+            <CustomBuilderContent />
+        </Suspense>
     );
 }
