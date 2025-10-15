@@ -1,3 +1,4 @@
+import { Gift, Heart, Truck } from "lucide-react";
 import type { FeatureItem } from "../../types";
 
 type FeaturesSectionProps = {
@@ -5,19 +6,13 @@ type FeaturesSectionProps = {
 };
 
 const FeaturesSection = ({ features }: FeaturesSectionProps) => {
+    // TODO: Add to content
     const localFeatures: FeatureItem[] = features ?? [
         {
             id: 1,
             icon: (
                 // شاحنة للتوصيل السريع
-                <svg
-                    className="w-7 h-7 md:w-8 md:h-8"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    style={{ color: "#5A5E4D" }}
-                >
-                    <path d="M3 7h11v8H3zM14 10h3l3 3v2h-6V10zM5 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm10 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
-                </svg>
+                <Truck className="w-7 h-7 md:w-8 md:h-8" />
             ),
             title: "توصيل سريع",
             description: "خدمة توصيل في نفس اليوم لجميع مناطق المدينة.",
@@ -26,14 +21,7 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
             id: 2,
             icon: (
                 // قلب لضمان الجودة
-                <svg
-                    className="w-7 h-7 md:w-8 md:h-8"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    style={{ color: "#5A5E4D" }}
-                >
-                    <path d="M12 21s-6.5-4.35-8.485-6.334a5 5 0 0 1 7.071-7.071L12 7l1.414-1.405a5 5 0 1 1 7.071 7.071C18.5 16.65 12 21 12 21z" />
-                </svg>
+                <Heart className="w-7 h-7 md:w-8 md:h-8" />
             ),
             title: "ضمان الجودة",
             description: "نضمن لك أعلى جودة من الزهور الطازجة",
@@ -42,14 +30,7 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
             id: 3,
             icon: (
                 // هدية لتغليف مميز
-                <svg
-                    className="w-7 h-7 md:w-8 md:h-8"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    style={{ color: "#5A5E4D" }}
-                >
-                    <path d="M20 8h-3.17A3.001 3.001 0 0 0 12 6a3.001 3.001 0 0 0-4.83 2H4a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1zm-9-1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm6 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM5 20v-6h14v6H5z" />
-                </svg>
+                <Gift className="w-7 h-7 md:w-8 md:h-8" />
             ),
             title: "تغليف مميز",
             description: "تغليف راقي يليق بمناسباتك الخاصة",

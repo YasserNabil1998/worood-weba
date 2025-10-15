@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ROUTES } from "../../constants/routes";
 
 type CustomBouquetSectionProps = {
     title?: string;
@@ -12,7 +13,7 @@ const CustomBouquetSection = ({
     title = "صمم باقتك الخاصة",
     description = "نساعدك في تصميم باقة فريدة تناسب ذوقك ومناسبتك الخاصة.",
     buttonText = "ابدأ التصميم الآن",
-    buttonHref = "/custom",
+    buttonHref = ROUTES.CUSTOM,
 }: CustomBouquetSectionProps) => {
     return (
         <section className="py-10 sm:py-12 pb-14 sm:pb-16">

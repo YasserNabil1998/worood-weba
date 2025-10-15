@@ -13,4 +13,11 @@ export interface CartItem {
     style?: string;
     color?: string;
     total?: number;
+    // معرف فريد للمنتج بناءً على خصائصه
+    uniqueKey?: string;
+    // خصائص إضافية للمنتجات
+    addCard?: boolean;
+    cardMessage?: string;
+    addChocolate?: boolean;
+    giftWrap?: boolean;
 };

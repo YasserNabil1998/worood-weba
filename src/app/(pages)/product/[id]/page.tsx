@@ -10,6 +10,7 @@ import DataLoader from "@/src/components/DataLoader";
 import { useDataLoading } from "@/src/hooks/useDataLoading";
 import productData from "./product-data.json";
 import { Product } from "@/src/@types/product/Product.type";
+import { addProductToCart } from "@/src/lib/cartUtils";
 
 export default function ProductDetailPage() {
     const params = useParams();
@@ -84,10 +85,11 @@ export default function ProductDetailPage() {
             try {
                 const cart = JSON.parse(localStorage.getItem("cart") || "[]");
                 const safeCart = Array.isArray(cart) ? cart : [];
+
                 const cartItem = {
                     id: product.id,
                     title: product.title,
-                    price: product.price,
+                    price: getTotalPrice(),
                     quantity: quantity,
                     image: product.image,
                     size: selectedSize,
@@ -95,22 +97,23 @@ export default function ProductDetailPage() {
                     cardMessage,
                     addChocolate,
                     giftWrap,
+                    // إضافة الخصائص المهمة للمقارنة
+                    total: getTotalPrice(),
                 };
 
-                const existingIndex = safeCart.findIndex(
-                    (item: any) => item.id === product.id
+                const { cart: updatedCart, isNew } = addProductToCart(
+                    safeCart,
+                    cartItem
                 );
-                if (existingIndex >= 0) {
-                    safeCart[existingIndex].quantity += quantity;
-                } else {
-                    safeCart.push(cartItem);
-                }
 
-                localStorage.setItem("cart", JSON.stringify(safeCart));
+                localStorage.setItem("cart", JSON.stringify(updatedCart));
                 window.dispatchEvent(new CustomEvent("cartUpdated"));
 
-                // إشعار موحد
-                showNotification("تم إضافة المنتج إلى السلة", "success");
+                // إشعار مختلف حسب ما إذا كان منتج جديد أم زيادة في الكمية
+                const message = isNew
+                    ? "تم إضافة المنتج إلى السلة"
+                    : "تم زيادة كمية المنتج في السلة";
+                showNotification(message, "success");
             } catch (error) {
                 console.error("خطأ:", error);
                 localStorage.setItem("cart", "[]");

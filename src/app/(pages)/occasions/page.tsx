@@ -2,14 +2,35 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import {
+    Baby,
+    GraduationCap,
+    Heart,
+    Gift,
+    Sparkles,
+    Calendar,
+} from "lucide-react";
 
-import CustomBouquetSection from "@/src/components/CustomBouquetSection";
+import CustomBouquetSection from "@/src/components/common/CustomBouquetSection";
 import occasionsData from "./data/occasions.json";
 
 export default function OccasionsPage() {
     const { pageContent, categories, featuredSection, occasionBlocks } =
         occasionsData;
     const [showWeddingBouquets, setShowWeddingBouquets] = useState(false);
+
+    // Map icon names to Lucide components
+    const getIconComponent = (iconName: string) => {
+        const iconMap: Record<string, React.ComponentType<any>> = {
+            Baby,
+            GraduationCap,
+            Heart,
+            Gift,
+            Sparkles,
+            Calendar,
+        };
+        return iconMap[iconName] || Heart; // Default to Heart if not found
+    };
     return (
         <div
             className="min-h-screen bg-gradient-to-b from-[#FDFFF7] to-[#ECF1DD]"
@@ -124,13 +145,15 @@ export default function OccasionsPage() {
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
                                         <div className="absolute inset-0 p-4 flex flex-col justify-end">
                                             <div className="flex items-center gap-2 mb-2">
-                                                <Image
-                                                    src={c.icon}
-                                                    alt={`${c.title} icon`}
-                                                    width={28}
-                                                    height={28}
-                                                    loading="lazy"
-                                                />
+                                                {(() => {
+                                                    const IconComponent =
+                                                        getIconComponent(
+                                                            c.icon
+                                                        );
+                                                    return (
+                                                        <IconComponent className="w-7 h-7 text-white" />
+                                                    );
+                                                })()}
                                                 <h3
                                                     className="text-white text-lg md:text-xl font-bold"
                                                     style={{
@@ -175,13 +198,7 @@ export default function OccasionsPage() {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
                             <div className="absolute inset-0 p-6 flex flex-col justify-end">
                                 <div className="flex items-center gap-2 text-white mb-3">
-                                    <Image
-                                        src="/images/occasions/icons/DIV-85.svg"
-                                        alt="زواج icon"
-                                        width={32}
-                                        height={32}
-                                        loading="lazy"
-                                    />
+                                    <Heart className="w-8 h-8" />
                                     <h2
                                         className="text-2xl md:text-3xl font-bold"
                                         style={{
@@ -358,13 +375,15 @@ export default function OccasionsPage() {
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
                                         <div className="absolute inset-0 p-5 flex flex-col justify-end">
                                             <div className="flex items-center gap-2 mb-3">
-                                                <Image
-                                                    src={blk.icon}
-                                                    alt={`${blk.title} icon`}
-                                                    width={28}
-                                                    height={28}
-                                                    loading="lazy"
-                                                />
+                                                {(() => {
+                                                    const IconComponent =
+                                                        getIconComponent(
+                                                            blk.icon
+                                                        );
+                                                    return (
+                                                        <IconComponent className="w-7 h-7 text-white" />
+                                                    );
+                                                })()}
                                                 <h3
                                                     className="text-white text-xl md:text-2xl font-bold"
                                                     style={{
@@ -444,13 +463,15 @@ export default function OccasionsPage() {
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
                                                 <div className="absolute inset-0 p-5 flex flex-col justify-end">
                                                     <div className="flex items-center gap-2 mb-3">
-                                                        <Image
-                                                            src={occasion.icon}
-                                                            alt={`${occasion.title} icon`}
-                                                            width={28}
-                                                            height={28}
-                                                            loading="lazy"
-                                                        />
+                                                        {(() => {
+                                                            const IconComponent =
+                                                                getIconComponent(
+                                                                    occasion.icon
+                                                                );
+                                                            return (
+                                                                <IconComponent className="w-7 h-7 text-white" />
+                                                            );
+                                                        })()}
                                                         <h3
                                                             className="text-white text-xl md:text-2xl font-bold"
                                                             style={{

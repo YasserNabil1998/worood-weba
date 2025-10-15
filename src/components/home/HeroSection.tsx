@@ -3,9 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { ROUTES } from "../constants/routes";
+import { ROUTES } from "../../constants/routes";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const HeroSection = () => {
+export default function HeroSection() {
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const slides = [
@@ -198,19 +199,7 @@ const HeroSection = () => {
                         className="hidden sm:block absolute left-4 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all duration-300"
                         aria-label="Previous slide"
                     >
-                        <svg
-                            className="w-4 h-4 sm:w-5 sm:h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2.5}
-                                d="M15 19l-7-7 7-7"
-                            />
-                        </svg>
+                        <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
                     <button
                         onClick={() =>
@@ -221,24 +210,10 @@ const HeroSection = () => {
                         className="hidden sm:block absolute right-4 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all duration-300"
                         aria-label="Next slide"
                     >
-                        <svg
-                            className="w-4 h-4 sm:w-5 sm:h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2.5}
-                                d="M9 5l7 7-7 7"
-                            />
-                        </svg>
+                        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
                 </div>
             </div>
         </section>
     );
-};
-
-export default HeroSection;
+}

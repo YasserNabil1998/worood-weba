@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS } from "@/src/constants";
+import { addProductToCart } from "@/src/lib/cartUtils";
 
 export type ProductItem = {
     id: number;
@@ -74,30 +75,34 @@ export default function ProductCard({ item }: { item: ProductItem }) {
         // Get existing cart
         const cart = storage.get<any[]>(STORAGE_KEYS.CART, []);
 
-        // Check if item already exists in cart
-        const existingItemIndex = cart.findIndex(
-            (cartItem: any) => cartItem.id === item.id
+        // إنشاء منتج مع خصائص افتراضية
+        const productToAdd = {
+            ...item,
+            quantity: 1,
+            size: "default", // القيمة الافتراضية للمنتجات البسيطة
+            addCard: false,
+            addChocolate: false,
+            giftWrap: false,
+        };
+
+        const { cart: updatedCart, isNew } = addProductToCart(
+            cart,
+            productToAdd
         );
 
-        if (existingItemIndex > -1) {
-            // Increment quantity if item exists
-            cart[existingItemIndex].quantity += 1;
-        } else {
-            // Add new item to cart
-            cart.push({ ...item, quantity: 1 });
-        }
-
         // Save updated cart
-        storage.set(STORAGE_KEYS.CART, cart);
+        storage.set(STORAGE_KEYS.CART, updatedCart);
 
         // Dispatch custom event to update cart count
         window.dispatchEvent(new Event("cartUpdated"));
 
-        // Show notification
+        // Show notification with different message based on whether it's new or existing
         const notification = document.createElement("div");
         notification.className =
             "fixed top-4 right-4 bg-[#5A5E4D] text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in";
-        notification.textContent = "تم إضافة المنتج إلى السلة ✓";
+        notification.textContent = isNew
+            ? "تم إضافة المنتج إلى السلة ✓"
+            : "تم زيادة كمية المنتج في السلة ✓";
         document.body.appendChild(notification);
 
         // Remove notification after 3 seconds

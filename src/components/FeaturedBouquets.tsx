@@ -4,35 +4,13 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { BouquetItem } from "../../types";
+import { defaultBouquets } from "../content/featured-bouquets";
+import { Heart } from "lucide-react";
 
 type FeaturedBouquetsProps = {
     bouquets?: BouquetItem[];
     isLoading?: boolean;
 };
-
-const defaultBouquets: BouquetItem[] = [
-    {
-        id: 1,
-        title: "باقة النجاح",
-        price: 400,
-        image: "/images/bouquets/DIV-237.png",
-        currency: "ر.س",
-    },
-    {
-        id: 2,
-        title: "باقة السعادة",
-        price: 320,
-        image: "/images/bouquets/IMG-196.png",
-        currency: "ر.س",
-    },
-    {
-        id: 3,
-        title: "باقة الفرح",
-        price: 280,
-        image: "/images/bouquets/IMG-210.png",
-        currency: "ر.س",
-    },
-];
 
 const FeaturedBouquets = ({
     bouquets = defaultBouquets,
@@ -228,23 +206,13 @@ const FeaturedBouquets = ({
                                                 : "bg-white/90 text-gray-700 hover:bg-[#5A5E4D] hover:text-white"
                                         }`}
                                     >
-                                        <svg
-                                            className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-colors"
-                                            fill={
+                                        <Heart
+                                            className={`w-4 h-4 sm:w-5 sm:h-5 ${
                                                 favorites.has(bouquet.id)
-                                                    ? "currentColor"
-                                                    : "none"
-                                            }
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21l-7.682-7.682a4.5 4.5 0 010-6.364z"
-                                            />
-                                        </svg>
+                                                    ? "text-white"
+                                                    : "text-gray-700"
+                                            }`}
+                                        />
                                     </button>
                                 </div>
                             </div>

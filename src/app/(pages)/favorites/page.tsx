@@ -7,8 +7,6 @@ import ProductCard, { ProductItem } from "@/src/components/ProductCard";
 import Link from "next/link";
 import { CustomBouquet } from "@/src/@types/favorites/CustomBouquet.type";
 
-
-
 export default function FavoritesPage() {
     const [favorites, setFavorites] = useState<ProductItem[]>([]);
     const [customBouquets, setCustomBouquets] = useState<CustomBouquet[]>([]);

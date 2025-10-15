@@ -1,10 +1,4 @@
-export type OccasionItem = {
-  id: number | string;
-  title: string;
-  image: string;
-  icon?: string;
-  href?: string;
-};
+
 
 export type BouquetItem = {
   id: number | string;

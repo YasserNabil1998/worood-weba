@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import type { ReviewItem } from "../../types";
+import type { ReviewItem } from "../../../types";
 import { getAllReviews } from "@/src/actions/reviews-manager";
 
 type CustomerReviewsSliderProps = {

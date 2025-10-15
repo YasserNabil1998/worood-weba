@@ -61,17 +61,17 @@ export const ASSETS: Assets = {
         paypal: "/images/payment/paypal.png",
     },
 
-    // أيقونات المناسبات - Occasion Icons
+    // أيقونات المناسبات - Occasion Icons (using Lucide icons)
     icons: {
         occasions: {
-            newborn: "/icons/occasionsSection/I-79.svg",
-            graduation: "/icons/occasionsSection/Icon-70.svg",
-            engagement: "/icons/occasionsSection/Icon-52.svg",
-            wedding: "/icons/occasionsSection/Icon-52.svg", // نفس الأيقونة للخطوبة والزواج
+            newborn: "Baby", // Lucide icon name
+            graduation: "GraduationCap", // Lucide icon name
+            engagement: "Heart", // Lucide icon name
+            wedding: "Heart", // Lucide icon name
         },
     },
 
-    // أيقونات SVG الثابتة - Static SVG Icons
+    // أيقونات SVG الثابتة - Static SVG Icons (keeping only essential ones)
     svg: {
         file: "/file.svg",
         globe: "/globe.svg",

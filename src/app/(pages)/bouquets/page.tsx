@@ -1,18 +1,20 @@
-
 import Link from "next/link";
 import Image from "next/image";
 import BouquetsListingClient from "@/src/components/BouquetsListingClient";
-import OccasionsSection from "@/src/components/OccasionsSection";
-import CustomBouquetSection from "@/src/components/CustomBouquetSection";
+import OccasionsSection from "@/src/components/common/OccasionsSection";
+import CustomBouquetSection from "@/src/components/common/CustomBouquetSection";
 import { Item } from "@/src/@types/bouquets/index.type";
+import { ROUTES } from "@/src/constants/routes";
 
 async function fetchProducts(): Promise<Item[]> {
     const res = await fetch("https://dummyjson.com/products?limit=18", {
         next: { revalidate: 120 },
     });
     const data = await res.json();
+    // TODO: Add to content
     const badges = ["الأكثر شهرة", "عرض خاص", "جديد"];
     const colors = ["green", "red", "orange", "cyan", "violet", "amber"];
+    // FIXME: Fake data
     const occs = [
         "wedding",
         "anniversary",
@@ -22,6 +24,7 @@ async function fetchProducts(): Promise<Item[]> {
         "getwell",
         "thanks",
     ];
+    // FIXME: Fake data
     // استخدم صور الورود المحلية بدل صور المكياج من الـ API
     const bouquetImages = [
         "/images/bouquets/DIV-237.png",
@@ -64,6 +67,7 @@ export default async function BouquetsPage() {
                     </div>
                 </section>
 
+                {/* TODO: Move to separate component */}
                 {/* Hero */}
                 <section className="py-6">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -140,7 +144,7 @@ export default async function BouquetsPage() {
                     title="لم تجد ما تبحث عنه؟"
                     description="دعنا نساعدك في تصميم باقة فريدة تناسب ذوقك ومناسبتك الخاصة"
                     buttonText="ابدأ التصميم الآن"
-                    buttonHref="/custom"
+                    buttonHref=""
                 />
             </main>
         </div>

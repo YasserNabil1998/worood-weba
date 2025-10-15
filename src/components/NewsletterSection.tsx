@@ -1,5 +1,6 @@
 "use client";
 
+import { Mail } from "lucide-react";
 import { useState } from "react";
 
 const NewsletterSection = () => {
@@ -108,13 +109,7 @@ const NewsletterSection = () => {
                                         error ? "text-red-400" : "text-gray-400"
                                     }`}
                                 >
-                                    <svg
-                                        className="w-5 h-5"
-                                        viewBox="0 0 24 24"
-                                        fill="currentColor"
-                                    >
-                                        <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 3.238-7.428 5.2a2 2 0 0 1-2.144 0L3 7.238V6l7.2 5.04a4 4 0 0 0 4.6 0L22 6v1.238Z" />
-                                    </svg>
+                                    <Mail className="w-4 h-4" />
                                 </span>
                             </div>
                         </div>
@@ -137,19 +132,7 @@ const NewsletterSection = () => {
                         <div className="mt-4 flex items-center justify-center">
                             <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-4 py-3 max-w-md">
                                 <div className="flex-shrink-0">
-                                    <svg
-                                        className="w-5 h-5 text-red-500"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        />
-                                    </svg>
+                                    <Mail className="w-5 h-5 text-red-500" />
                                 </div>
                                 <p
                                     className="text-sm text-red-700 text-right"
@@ -167,19 +150,7 @@ const NewsletterSection = () => {
                         <div className="mt-4 flex items-center justify-center">
                             <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-lg px-4 py-3 max-w-md">
                                 <div className="flex-shrink-0">
-                                    <svg
-                                        className="w-5 h-5 text-green-500"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M5 13l4 4L19 7"
-                                        />
-                                    </svg>
+                                    <Mail className="w-5 h-5 text-green-500" />
                                 </div>
                                 <p
                                     className="text-sm text-green-700 text-right"

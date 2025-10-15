@@ -5,6 +5,7 @@ import { OccasionData } from "@/src/@types/occasions/category/OccasionData.type"
 
 
 
+
 const occasionsData: Record<string, OccasionData> = {
     wedding: {
         id: 1,
@@ -15,7 +16,7 @@ const occasionsData: Record<string, OccasionData> = {
         productsCount: 189,
         image: "/images/occasions/IMG-78.png",
         subcategories: [
-            { id: 1, name: "باقات العروس", image: "💐" },
+            { id: 1, name: "باقات hkk", image: "💐" },
             { id: 2, name: "باقات العريس", image: "🌹" },
             { id: 3, name: "ديكورات الزفاف", image: "🎀" },
             { id: 4, name: "باقات الضيوف", image: "🌸" },

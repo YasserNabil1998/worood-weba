@@ -1,15 +1,20 @@
 "use client";
 
-import type { OccasionItem } from "../../types";
 import Link from "next/link";
 import Image from "next/image";
 import { useMemo } from "react";
 import { ASSETS } from "@/src/assets";
-
-// Extended type for occasions with href
-type OccasionWithHref = OccasionItem & {
-    href?: string;
-};
+import { OccasionItem, OccasionWithHref } from "../../@types/home/index.type";
+import { defaultOccasions } from "../../content/occasions";
+import { ROUTES } from "../../constants/routes";
+import {
+    Baby,
+    GraduationCap,
+    Heart,
+    Gift,
+    Sparkles,
+    Calendar,
+} from "lucide-react";
 
 type OccasionsSectionProps = {
     occasions?: OccasionWithHref[];
@@ -17,37 +22,6 @@ type OccasionsSectionProps = {
     title?: string;
     description?: string;
 };
-
-const defaultOccasions: OccasionWithHref[] = [
-    {
-        id: 1,
-        title: "مولود جديد",
-        image: "/images/occasions/DIV-74.png",
-        icon: ASSETS.icons.occasions.newborn,
-        href: "/occasions/newborn",
-    },
-    {
-        id: 2,
-        title: "نجاح",
-        image: "/images/occasions/DIV-64.png",
-        icon: ASSETS.icons.occasions.graduation,
-        href: "/occasions/graduation",
-    },
-    {
-        id: 3,
-        title: "خطوبة",
-        image: "/images/occasions/DIV-56.png",
-        icon: ASSETS.icons.occasions.engagement,
-        href: "/occasions/engagement",
-    },
-    {
-        id: 4,
-        title: "زواج",
-        image: "/images/occasions/DIV-46.png",
-        icon: ASSETS.icons.occasions.wedding,
-        href: "/occasions/wedding",
-    },
-];
 
 const OccasionsSection = ({
     occasions = defaultOccasions,
@@ -57,6 +31,19 @@ const OccasionsSection = ({
 }: OccasionsSectionProps) => {
     // Memoize occasions to prevent unnecessary re-renders
     const memoizedOccasions = useMemo(() => occasions, [occasions]);
+
+    // Map icon names to Lucide components
+    const getIconComponent = (iconName: string) => {
+        const iconMap: Record<string, React.ComponentType<any>> = {
+            Baby,
+            GraduationCap,
+            Heart,
+            Gift,
+            Sparkles,
+            Calendar,
+        };
+        return iconMap[iconName] || Heart; // Default to Heart if not found
+    };
 
     return (
         <section className="py-8 sm:py-10 md:py-12">
@@ -90,9 +77,10 @@ const OccasionsSection = ({
                             key={occasion.id}
                             href={
                                 occasion.href ||
-                                `/occasions/${occasion.title
-                                    .toLowerCase()
-                                    .replace(/\s+/g, "-")}`
+                                ROUTES.OCCASIONS +
+                                    `/${occasion.title
+                                        .toLowerCase()
+                                        .replace(/\s+/g, "-")}`
                             }
                             className="group cursor-pointer"
                         >
@@ -115,14 +103,15 @@ const OccasionsSection = ({
                                     {/* الأيقونة */}
                                     {occasion.icon && (
                                         <div className="flex justify-center mb-1 sm:mb-2">
-                                            <Image
-                                                src={occasion.icon}
-                                                alt={`${occasion.title} icon`}
-                                                width={32}
-                                                height={32}
-                                                className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 filter brightness-0 invert opacity-90"
-                                                loading="lazy"
-                                            />
+                                            {(() => {
+                                                const IconComponent =
+                                                    getIconComponent(
+                                                        occasion.icon
+                                                    );
+                                                return (
+                                                    <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white opacity-90" />
+                                                );
+                                            })()}
                                         </div>
                                     )}
 

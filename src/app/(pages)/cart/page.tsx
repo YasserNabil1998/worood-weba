@@ -6,8 +6,7 @@ import Image from "next/image";
 import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS } from "@/src/constants";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
-
-
+import QuantitySelector from "@/src/components/QuantitySelector";
 
 export default function CartPage() {
     const [items, setItems] = useState<CartItem[]>([]);
@@ -19,6 +18,18 @@ export default function CartPage() {
         setItems(cart);
         // تحديد جميع العناصر افتراضياً
         setSelectedItems(new Set(cart.map((item: CartItem) => item.id)));
+    }, []);
+
+    // الاستماع لتحديثات السلة
+    useEffect(() => {
+        const handleCartUpdate = () => {
+            const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
+            setItems(cart);
+        };
+
+        window.addEventListener("cartUpdated", handleCartUpdate);
+        return () =>
+            window.removeEventListener("cartUpdated", handleCartUpdate);
     }, []);
 
     const toggleDetails = (itemId: number) => {
@@ -55,13 +66,17 @@ export default function CartPage() {
         }
     };
 
-    const removeItem = (id: number) => {
-        const next = items.filter((i) => i.id !== id);
+    const removeItem = (id: number | string) => {
+        const next = items.filter((i) => {
+            // استخدام uniqueKey إذا كان متوفراً، وإلا استخدم id
+            const itemId = i.uniqueKey || i.id;
+            return itemId !== id;
+        });
         setItems(next);
         // تحديث المختارات أيضاً
         setSelectedItems((prev) => {
             const newSet = new Set(prev);
-            newSet.delete(id);
+            newSet.delete(id as number);
             return newSet;
         });
         storage.set(STORAGE_KEYS.CART, next);
@@ -111,20 +126,28 @@ export default function CartPage() {
         );
 
         const totalPrice = selectedItemsList.reduce((sum, item) => {
-            if (item.isCustom) {
-                // السعر شامل الضريبة
-                return sum + (item.price || 0) * (item.quantity || 1);
-            }
-            return sum + (item.total || item.price || 0) * (item.quantity || 1);
+            const itemPrice = item.isCustom
+                ? item.price || 0
+                : item.total || item.price || 0;
+            return sum + itemPrice * (item.quantity || 1);
+        }, 0);
+
+        const totalItemsCount = selectedItemsList.reduce((sum, item) => {
+            return sum + (item.quantity || 1);
         }, 0);
 
         return {
             total: Number(totalPrice.toFixed(2)),
             itemsCount: selectedItemsList.length,
+            totalItemsCount: totalItemsCount,
         };
     };
 
-    const { total: grandTotal, itemsCount } = calculateTotals();
+    const {
+        total: grandTotal,
+        itemsCount,
+        totalItemsCount,
+    } = calculateTotals();
 
     return (
         <div className="min-h-screen" dir="rtl">
@@ -315,7 +338,8 @@ export default function CartPage() {
                                                             <button
                                                                 onClick={() =>
                                                                     removeItem(
-                                                                        item.id
+                                                                        item.uniqueKey ||
+                                                                            item.id
                                                                     )
                                                                 }
                                                                 className="text-red-600 text-sm hover:text-red-700 cursor-pointer"
@@ -547,21 +571,86 @@ export default function CartPage() {
                                                         </div>
                                                     )}
 
-                                                    {/* السعر */}
-                                                    <div className="mt-3 flex justify-between items-center border-t pt-2 border-gray-200">
-                                                        <div className="text-xs text-gray-500 italic">
-                                                            شامل الضريبة
-                                                        </div>
-                                                        <div className="font-bold text-[#5A5E4D] text-lg">
-                                                            {item.isCustom
-                                                                ? (
+                                                    {/* السعر وعداد الكمية */}
+                                                    <div className="mt-3 border-t pt-3 border-gray-200">
+                                                        <div className="flex justify-between items-center mb-2">
+                                                            <div className="text-xs text-gray-500 italic">
+                                                                شامل الضريبة
+                                                            </div>
+                                                            <div className="font-bold text-[#5A5E4D] text-lg">
+                                                                {item.isCustom
+                                                                    ? (
+                                                                          item.price ||
+                                                                          0
+                                                                      ).toFixed(
+                                                                          2
+                                                                      )
+                                                                    : item.total ||
                                                                       item.price ||
-                                                                      0
-                                                                  ).toFixed(2)
-                                                                : item.total ||
-                                                                  item.price ||
-                                                                  0}{" "}
-                                                            ريال
+                                                                      0}{" "}
+                                                                ريال
+                                                            </div>
+                                                        </div>
+
+                                                        {/* عداد الكمية */}
+                                                        <div className="flex justify-between items-center bg-gradient-to-r from-[#5A5E4D]/5 to-[#5A5E4D]/10 rounded-xl p-4 border border-[#5A5E4D]/20 shadow-sm backdrop-blur-sm">
+                                                            <div className="flex items-center gap-3">
+                                                                <div className="w-8 h-8 bg-[#5A5E4D]/10 rounded-full flex items-center justify-center shadow-sm">
+                                                                    <svg
+                                                                        className="w-4 h-4 text-[#5A5E4D]"
+                                                                        fill="none"
+                                                                        stroke="currentColor"
+                                                                        viewBox="0 0 24 24"
+                                                                    >
+                                                                        <path
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                            strokeWidth={
+                                                                                2
+                                                                            }
+                                                                            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                                                                        />
+                                                                    </svg>
+                                                                </div>
+                                                                <span className="text-sm font-bold text-gray-800">
+                                                                    الكمية
+                                                                </span>
+                                                            </div>
+                                                            <QuantitySelector
+                                                                itemId={
+                                                                    item.uniqueKey ||
+                                                                    item.id
+                                                                }
+                                                                initialQuantity={
+                                                                    item.quantity ||
+                                                                    1
+                                                                }
+                                                                productData={
+                                                                    item
+                                                                }
+                                                            />
+                                                        </div>
+
+                                                        {/* إجمالي السعر للكمية */}
+                                                        <div className="flex justify-between items-center mt-2 text-sm">
+                                                            <span className="font-medium text-gray-700">
+                                                                الإجمالي:
+                                                            </span>
+                                                            <span className="font-bold text-[#5A5E4D]">
+                                                                {(
+                                                                    (item.isCustom
+                                                                        ? item.price ||
+                                                                          0
+                                                                        : item.total ||
+                                                                          item.price ||
+                                                                          0) *
+                                                                    (item.quantity ||
+                                                                        1)
+                                                                ).toFixed(
+                                                                    2
+                                                                )}{" "}
+                                                                ريال
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -587,6 +676,14 @@ export default function CartPage() {
                                         {itemsCount} من {items.length}
                                     </span>
                                 </div>
+                                {totalItemsCount > itemsCount && (
+                                    <div className="flex justify-between text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200">
+                                        <span>إجمالي الكمية</span>
+                                        <span className="font-semibold">
+                                            {totalItemsCount} قطعة
+                                        </span>
+                                    </div>
+                                )}
                                 {itemsCount === 0 ? (
                                     <div className="text-center py-4 text-gray-500 text-xs">
                                         يرجى اختيار منتج واحد على الأقل
@@ -617,7 +714,7 @@ export default function CartPage() {
                                 }`}
                             >
                                 متابعة الدفع{" "}
-                                {itemsCount > 0 && `(${itemsCount})`}
+                                {itemsCount > 0 && `(${totalItemsCount} قطعة)`}
                             </button>
                         </aside>
                     </div>

@@ -81,9 +81,8 @@ export default function BouquetsListingClient({
         setPage(1);
     };
 
-    return (
-        <div className="space-y-4" dir="rtl">
-            {/* Mobile Filter Toggle Button */}
+    const ToggleButton = () => {
+        return (
             <div className="lg:hidden" ref={filtersRef}>
                 <button
                     onClick={() => setIsFiltersOpen(!isFiltersOpen)}
@@ -117,8 +116,15 @@ export default function BouquetsListingClient({
                     </h3>
                 </button>
             </div>
+        );
+    };
 
+    return (
+        <div className="space-y-4" dir="rtl">
+            {/* Mobile Filter Toggle Button */}
+            <ToggleButton />
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                {/* TODO: Move to separate component */}
                 {/* Sidebar */}
                 <aside
                     className={`lg:col-span-1 transition-all duration-300 ${

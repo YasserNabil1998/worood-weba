@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ROUTES } from "@/src/constants/routes";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 interface Product {
     id: number;
@@ -111,24 +113,12 @@ const ProductsSlider = () => {
                         سعادة في مزهرية
                     </h2>
                     <Link
-                        href="/bouquets"
+                        href={ROUTES.BOUQUETS}
                         className="text-sm text-[#5A5E4D] hover:text-[#4A4E3D] font-medium flex items-center gap-2"
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
                         <span>اكتشف تشكيلتنا</span>
-                        <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M15 19l-7-7 7-7"
-                            />
-                        </svg>
+                        <ChevronLeftIcon className="w-4 h-4" />
                     </Link>
                 </div>
 
@@ -222,38 +212,14 @@ const ProductsSlider = () => {
                         className="absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-4 bg-white hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
                         aria-label="Previous"
                     >
-                        <svg
-                            className="w-4 h-4 sm:w-5 sm:h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2.5}
-                                d="M15 19l-7-7 7-7"
-                            />
-                        </svg>
+                        <ChevronLeftIcon className="w-4 h-4" />
                     </button>
                     <button
                         onClick={nextSlide}
                         className="absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-4 bg-white hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
                         aria-label="Next"
                     >
-                        <svg
-                            className="w-4 h-4 sm:w-5 sm:h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2.5}
-                                d="M9 5l7 7-7 7"
-                            />
-                        </svg>
+                        <ChevronRightIcon className="w-4 h-4" />
                     </button>
                 </div>
             </div>

@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useNotification } from "../providers/notification-provider";
+import { useNotification } from "../../providers/notification-provider";
 import { ASSETS } from "@/src/assets";
 import { useCart } from "@/src/hooks/useCart";
+import { ShoppingCart, User, Menu } from "lucide-react";
 
 const Header = () => {
     const pathname = usePathname();
@@ -142,20 +143,7 @@ const Header = () => {
                             href="/cart"
                             className="relative flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D] transition-all"
                         >
-                            <svg
-                                className="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 
-                  0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                                />
-                            </svg>
+                            <ShoppingCart className="w-6 h-6" />
                             {totalItems > 0 && (
                                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
                                     {totalItems}
@@ -174,17 +162,7 @@ const Header = () => {
                                 }
                                 className="user-menu-button flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D] transition-all"
                             >
-                                <svg
-                                    className="w-6 h-6"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 
-                  1.79-4 4 1.79 4 4 4zm0 
-                  2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                                    />
-                                </svg>
+                                <User className="w-6 h-6" />
                                 <span className="text-[15px] font-medium">
                                     حسابي
                                 </span>
@@ -242,19 +220,7 @@ const Header = () => {
                         className="p-2 text-gray-700 hover:text-[#5A5E4D] transition"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                     >
-                        <svg
-                            className="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M4 6h16M4 12h16M4 18h16"
-                            />
-                        </svg>
+                        <Menu className="w-6 h-6" />
                     </button>
 
                     {/* Center: Logo */}
@@ -275,19 +241,7 @@ const Header = () => {
                             href="/cart"
                             className="relative flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D]"
                         >
-                            <svg
-                                className="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                                />
-                            </svg>
+                            <ShoppingCart className="w-6 h-6" />
                             {totalItems > 0 && (
                                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
                                     {totalItems}
@@ -303,13 +257,7 @@ const Header = () => {
                                 }
                                 className="user-menu-button flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D]"
                             >
-                                <svg
-                                    className="w-6 h-6"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                                </svg>
+                                <User className="w-6 h-6" />
                                 <span className="text-sm font-medium">
                                     حسابي
                                 </span>
@@ -366,19 +314,7 @@ const Header = () => {
                         className="p-2 text-gray-700 hover:text-[#5A5E4D] transition"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                     >
-                        <svg
-                            className="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M4 6h16M4 12h16M4 18h16"
-                            />
-                        </svg>
+                        <Menu className="w-6 h-6" />
                     </button>
 
                     {/* Center: Logo */}
@@ -399,22 +335,7 @@ const Header = () => {
                             href="/cart"
                             className="relative text-gray-700 hover:text-[#5A5E4D]"
                         >
-                            <svg
-                                className="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 
-                  2.293c-.63.63-.184 1.707.707 1.707H17m0 
-                  0a2 2 0 100 4 2 2 0 000-4zm-8 
-                  2a2 2 0 11-4 0 2 2 0 014 0z"
-                                />
-                            </svg>
+                            <ShoppingCart className="w-6 h-6" />
                             {totalItems > 0 && (
                                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
                                     {totalItems}
@@ -429,19 +350,7 @@ const Header = () => {
                                 }
                                 className="user-menu-button text-gray-700 hover:text-[#5A5E4D]"
                             >
-                                <svg
-                                    className="w-6 h-6"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M12 12c2.21 0 4-1.79 
-                    4-4s-1.79-4-4-4-4 1.79-4 
-                    4 1.79 4 4 4zm0 
-                    2c-2.67 0-8 1.34-8 
-                    4v2h16v-2c0-2.66-5.33-4-8-4z"
-                                    />
-                                </svg>
+                                <User className="w-6 h-6" />
                             </button>
 
                             {/* Mobile User Menu Dropdown */}
