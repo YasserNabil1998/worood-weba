@@ -32,6 +32,23 @@ export default function CartPage() {
             window.removeEventListener("cartUpdated", handleCartUpdate);
     }, []);
 
+    // تحديث الكمية في السلة عند تغييرها
+    const updateItemQuantity = (
+        itemId: string | number,
+        newQuantity: number
+    ) => {
+        const updatedItems = items.map((item) => {
+            const currentId = item.uniqueKey || item.id;
+            if (currentId === itemId) {
+                return { ...item, quantity: newQuantity };
+            }
+            return item;
+        });
+        setItems(updatedItems);
+        storage.set(STORAGE_KEYS.CART, updatedItems);
+        window.dispatchEvent(new CustomEvent("cartUpdated"));
+    };
+
     const toggleDetails = (itemId: number) => {
         setExpandedItems((prev) => {
             const newSet = new Set(prev);
@@ -593,29 +610,10 @@ export default function CartPage() {
                                                         </div>
 
                                                         {/* عداد الكمية */}
-                                                        <div className="flex justify-between items-center bg-gradient-to-r from-[#5A5E4D]/5 to-[#5A5E4D]/10 rounded-xl p-4 border border-[#5A5E4D]/20 shadow-sm backdrop-blur-sm">
-                                                            <div className="flex items-center gap-3">
-                                                                <div className="w-8 h-8 bg-[#5A5E4D]/10 rounded-full flex items-center justify-center shadow-sm">
-                                                                    <svg
-                                                                        className="w-4 h-4 text-[#5A5E4D]"
-                                                                        fill="none"
-                                                                        stroke="currentColor"
-                                                                        viewBox="0 0 24 24"
-                                                                    >
-                                                                        <path
-                                                                            strokeLinecap="round"
-                                                                            strokeLinejoin="round"
-                                                                            strokeWidth={
-                                                                                2
-                                                                            }
-                                                                            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-                                                                        />
-                                                                    </svg>
-                                                                </div>
-                                                                <span className="text-sm font-bold text-gray-800">
-                                                                    الكمية
-                                                                </span>
-                                                            </div>
+                                                        <div className="flex justify-between items-center bg-gray-50 rounded-md p-2">
+                                                            <span className="text-xs font-medium text-gray-600">
+                                                                الكمية
+                                                            </span>
                                                             <QuantitySelector
                                                                 itemId={
                                                                     item.uniqueKey ||
@@ -627,6 +625,9 @@ export default function CartPage() {
                                                                 }
                                                                 productData={
                                                                     item
+                                                                }
+                                                                onQuantityChange={
+                                                                    updateItemQuantity
                                                                 }
                                                             />
                                                         </div>

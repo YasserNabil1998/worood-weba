@@ -1,6 +1,5 @@
 "use client";
 
-
 import Image from "next/image";
 import { useNotification } from "@/src/providers/notification-provider";
 import { useState } from "react";
@@ -8,8 +7,18 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import profileData from "./profile-data.json";
 import { UserData } from "@/src/@types/profile/UserData.type";
-
-
+import {
+    User,
+    Mail,
+    Phone,
+    MapPin,
+    Edit,
+    Save,
+    X,
+    Heart,
+    ShoppingBag,
+    Package,
+} from "lucide-react";
 
 const initialUserData: UserData = profileData.userData;
 
@@ -103,7 +112,6 @@ export default function ProfilePage() {
     };
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#E3E6D8] via-[#D1D6C4] to-[#C5C9B8]">
-
             <div className="container mx-auto px-4 py-12">
                 <div className="max-w-5xl mx-auto">
                     {/* Profile Header */}
@@ -140,19 +148,7 @@ export default function ProfilePage() {
                                             )}
                                         </div>
                                         <label className="absolute bottom-0 right-0 bg-[#5A5E4D] text-white p-2 rounded-full cursor-pointer hover:bg-[#4A4E3D] transition-colors">
-                                            <svg
-                                                className="w-4 h-4"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                                />
-                                            </svg>
+                                            <Edit className="w-4 h-4" />
                                             <input
                                                 type="file"
                                                 accept="image/*"
@@ -243,19 +239,7 @@ export default function ProfilePage() {
                                             fontFamily: "var(--font-almarai)",
                                         }}
                                     >
-                                        <svg
-                                            className="w-5 h-5"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                            />
-                                        </svg>
+                                        <Edit className="w-5 h-5" />
                                         تعديل البيانات
                                     </button>
                                 ) : (
@@ -282,19 +266,7 @@ export default function ProfilePage() {
                                             {isLoading ? (
                                                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                                             ) : (
-                                                <svg
-                                                    className="w-5 h-5"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M5 13l4 4L19 7"
-                                                    />
-                                                </svg>
+                                                <Save className="w-5 h-5" />
                                             )}
                                             حفظ التغييرات
                                         </button>
@@ -558,19 +530,7 @@ export default function ProfilePage() {
                             className="group bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border border-gray-100 hover:border-[#5A5E4D]/20"
                         >
                             <div className="w-14 h-14 bg-[#5A5E4D] rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                                <svg
-                                    className="w-7 h-7 text-white"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                                    />
-                                </svg>
+                                <Heart className="w-7 h-7 text-white" />
                             </div>
                             <h3
                                 className="font-bold text-gray-800 mb-2 text-lg group-hover:text-[#5A5E4D] transition-colors duration-300"
@@ -621,7 +581,6 @@ export default function ProfilePage() {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }

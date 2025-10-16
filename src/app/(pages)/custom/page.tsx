@@ -6,8 +6,16 @@ import { useSearchParams } from "next/navigation";
 import FeaturedBouquets from "@/src/components/FeaturedBouquets";
 import bouquetsData from "./bouquets.json";
 import cardSuggestionsData from "./card-suggestions.json";
-import { Flower, BouquetSize, BouquetStyle, Color, Occasion, DeliveryTime, PaymentMethod, Config } from "@/src/@types/custom/index.type";
-
+import {
+    Flower,
+    BouquetSize,
+    BouquetStyle,
+    Color,
+    Occasion,
+    DeliveryTime,
+    PaymentMethod,
+    Config,
+} from "@/src/@types/custom/index.type";
 
 function CustomBuilderContent() {
     const searchParams = useSearchParams();
@@ -306,7 +314,7 @@ function CustomBuilderContent() {
     };
 
     // Add to cart
-    const addToCart = () => {
+    const addToCart = async () => {
         if (typeof window === "undefined") return;
 
         // منع النقر المتكرر
@@ -415,6 +423,15 @@ function CustomBuilderContent() {
             },
         };
 
+        // إضافة uniqueKey للباقة المخصصة
+        const { addProductToCart } = await import("@/src/lib/cartUtils");
+        const { generateProductKey } = await import("@/src/lib/cartUtils");
+
+        const itemWithKey = {
+            ...itemData,
+            uniqueKey: generateProductKey(itemData),
+        };
+
         if (isEditMode) {
             // وضع التعديل: تحديث العنصر الموجود
             const itemIndex = safeCart.findIndex(
@@ -423,14 +440,14 @@ function CustomBuilderContent() {
             if (itemIndex !== -1) {
                 // الحفاظ على الـ id الأصلي
                 safeCart[itemIndex] = {
-                    ...itemData,
+                    ...itemWithKey,
                     id: safeCart[itemIndex].id,
                 };
                 showNotification("تم تحديث الباقة بنجاح! ✅");
             } else {
                 // إذا لم يتم العثور على العنصر، أضفه كعنصر جديد
                 safeCart.push({
-                    ...itemData,
+                    ...itemWithKey,
                     id: Date.now(),
                 });
                 showNotification("تمت إضافة الباقة إلى السلة بنجاح! 🛒");
@@ -440,7 +457,7 @@ function CustomBuilderContent() {
         } else {
             // وضع الإضافة العادي
             safeCart.push({
-                ...itemData,
+                ...itemWithKey,
                 id: Date.now(),
             });
             showNotification("تمت إضافة الباقة إلى السلة بنجاح! 🛒");
@@ -591,7 +608,6 @@ function CustomBuilderContent() {
 
     return (
         <div className="min-h-screen" dir="rtl">
-
             {/* Toast Notification */}
             {notification.visible && (
                 <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 px-4 sm:px-6 py-2 sm:py-3 bg-[#5A5E4D] text-white rounded-lg shadow-lg text-xs sm:text-sm max-w-[90%] sm:max-w-none text-center">

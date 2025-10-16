@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { BlogItem } from "../../../types";
+import { Heart, ChevronLeft, ChevronRight } from "lucide-react";
 
 type BlogSectionProps = {
     articles?: BlogItem[];
@@ -54,19 +55,7 @@ const BlogSection = ({
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
                         عرض جميع المقالات
-                        <svg
-                            className="w-4 h-4 mr-2"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M15 19l-7-7 7-7"
-                            />
-                        </svg>
+                        <ChevronRight className="w-4 h-4 mr-2" />
                     </Link>
                 </div>
 
@@ -120,19 +109,7 @@ const BlogSection = ({
                                     }}
                                 >
                                     اقرأ المزيد
-                                    <svg
-                                        className="w-3 h-3 mr-1 inline"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M15 19l-7-7 7-7"
-                                        />
-                                    </svg>
+                                    <ChevronRight className="w-3 h-3 mr-1 inline" />
                                 </Link>
                             </div>
                         </article>

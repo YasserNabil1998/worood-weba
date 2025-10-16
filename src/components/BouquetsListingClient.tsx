@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useEffect, useRef } from "react";
 import ProductCard, { ProductItem } from "@/src/components/ProductCard";
+import { Heart, ChevronLeft, ChevronRight, Filter, X } from "lucide-react";
 
 type ListingItem = ProductItem & {
     color?: string;
@@ -89,21 +90,11 @@ export default function BouquetsListingClient({
                     className="w-full flex items-center justify-between bg-white rounded-xl shadow p-4 text-right hover:shadow-md transition-shadow duration-200"
                 >
                     <div className="flex items-center gap-2">
-                        <svg
+                        <Filter
                             className={`w-5 h-5 text-gray-600 transition-transform duration-200 ${
                                 isFiltersOpen ? "rotate-180" : ""
                             }`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M19 9l-7 7-7-7"
-                            />
-                        </svg>
+                        />
                         <span className="text-sm text-gray-600">
                             تصفية النتائج
                         </span>
@@ -149,19 +140,7 @@ export default function BouquetsListingClient({
                                 onClick={() => setIsFiltersOpen(false)}
                                 className="lg:hidden p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200"
                             >
-                                <svg
-                                    className="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
+                                <X className="w-5 h-5" />
                             </button>
                         </div>
                         <div className="mb-5">
@@ -299,19 +278,7 @@ export default function BouquetsListingClient({
                         <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
                             <div className="mb-6">
                                 <div className="w-24 h-24 mx-auto bg-gradient-to-br from-[#F5F1E8] to-[#E8E2D5] rounded-full flex items-center justify-center mb-4">
-                                    <svg
-                                        className="w-12 h-12 text-[#5A5E4D]"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={1.5}
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                        />
-                                    </svg>
+                                    <Heart className="w-12 h-12 text-[#5A5E4D]" />
                                 </div>
                                 <h3
                                     className="text-xl font-bold text-gray-800 mb-2"
@@ -405,19 +372,7 @@ export default function BouquetsListingClient({
                                 className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                                 aria-label="Previous"
                             >
-                                <svg
-                                    className="w-5 h-5 text-gray-600"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5l7 7-7 7"
-                                    />
-                                </svg>
+                                <ChevronLeft className="w-5 h-5 text-gray-600" />
                             </button>
 
                             {/* Pagination Numbers */}
@@ -507,19 +462,7 @@ export default function BouquetsListingClient({
                                 className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                                 aria-label="Next"
                             >
-                                <svg
-                                    className="w-5 h-5 text-gray-600"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M15 19l-7-7 7-7"
-                                    />
-                                </svg>
+                                <ChevronRight className="w-5 h-5 text-gray-600" />
                             </button>
                         </div>
                     )}

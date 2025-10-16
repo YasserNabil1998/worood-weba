@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS } from "@/src/constants";
 import { addProductToCart } from "@/src/lib/cartUtils";
+import { Heart } from "lucide-react";
 
 export type ProductItem = {
     id: number;
@@ -140,19 +141,12 @@ export default function ProductCard({ item }: { item: ProductItem }) {
                                 : "bg-white/90 text-gray-700 hover:bg-[#5A5E4D] hover:text-white"
                         }`}
                     >
-                        <svg
+                        <Heart
                             className="w-4 h-4 transition-colors"
                             fill={isFavorite ? "currentColor" : "none"}
                             stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21l-7.682-7.682a4.5 4.5 0 010-6.364z"
-                            />
-                        </svg>
+                            strokeWidth={2}
+                        />
                     </button>
                 </div>
                 {item.badge && (

@@ -5,7 +5,7 @@ import Link from "next/link";
 import blogData from "../blog-data.json";
 import { useParams } from "next/navigation";
 import { BlogPost } from "@/src/@types/blog/id/index.type";
-
+import { ChevronRight } from "lucide-react";
 
 export default function BlogDetailPage() {
     const params = useParams();
@@ -48,19 +48,7 @@ export default function BlogDetailPage() {
                             className="inline-flex items-center gap-2 text-[#5A5E4D] hover:text-[#4A4E3D] transition-colors mb-4"
                             style={{ fontFamily: "var(--font-almarai)" }}
                         >
-                            <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M15 19l-7-7 7-7"
-                                />
-                            </svg>
+                            <ChevronRight className="w-5 h-5" />
                             العودة للمدونة
                         </Link>
                         <div className="flex items-center gap-3 mb-3">

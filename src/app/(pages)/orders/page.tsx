@@ -9,7 +9,7 @@ import ordersData from "./orders-data.json";
 import type { ReviewItem } from "@/types";
 import { addReview } from "@/src/actions/reviews-manager";
 import { Order } from "@/src/@types/orders/order.type";
-
+import { Package, Truck, CheckCircle, Clock, Star, X } from "lucide-react";
 
 export default function OrdersPage() {
     const [orders] = useState<Order[]>(ordersData.orders as Order[]);
@@ -56,55 +56,15 @@ export default function OrdersPage() {
     const getStatusIcon = (status: string) => {
         switch (status) {
             case "قيد المعالجة":
-                return (
-                    <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                    </svg>
-                );
+                return <Clock className="w-5 h-5" />;
             case "تم التجهيز":
-                return (
-                    <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path d="M19 7h-8v6h8V7zm2-4H3C1.9 3 1 3.9 1 5v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14z" />
-                    </svg>
-                );
+                return <Package className="w-5 h-5" />;
             case "في الطريق":
-                return (
-                    <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
-                );
+                return <Truck className="w-5 h-5" />;
             case "تم التسليم":
-                return (
-                    <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                    </svg>
-                );
+                return <CheckCircle className="w-5 h-5" />;
             case "ملغي":
-                return (
-                    <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-                    </svg>
-                );
+                return <X className="w-5 h-5" />;
             default:
                 return null;
         }
@@ -126,7 +86,6 @@ export default function OrdersPage() {
 
     return (
         <div className="min-h-screen bg-gray-50">
-
             <div className="container mx-auto px-4 py-8">
                 <div className="max-w-5xl mx-auto">
                     {/* Page Header */}
@@ -208,13 +167,7 @@ export default function OrdersPage() {
                     {filteredOrders.length === 0 ? (
                         <div className="bg-white rounded-lg shadow-sm p-8 text-center">
                             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg
-                                    className="w-8 h-8 text-gray-400"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path d="M19 7h-8v6h8V7zm2-4H3C1.9 3 1 3.9 1 5v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14z" />
-                                </svg>
+                                <Package className="w-8 h-8 text-gray-400" />
                             </div>
                             <h3
                                 className="text-lg font-semibold text-gray-600 mb-2"
@@ -545,7 +498,6 @@ export default function OrdersPage() {
                     )}
                 </div>
             </div>
-
 
             {/* Rating Popup */}
             <RatingPopup

@@ -11,6 +11,14 @@ import { useDataLoading } from "@/src/hooks/useDataLoading";
 import productData from "./product-data.json";
 import { Product } from "@/src/@types/product/Product.type";
 import { addProductToCart } from "@/src/lib/cartUtils";
+import FavoriteButton from "@/src/components/FavoriteButton";
+import {
+    Heart,
+    Star,
+    ChevronLeft,
+    ChevronRight,
+    ShoppingCart,
+} from "lucide-react";
 
 export default function ProductDetailPage() {
     const params = useParams();
@@ -142,19 +150,7 @@ export default function ProductDetailPage() {
                     <div className="max-w-7xl mx-auto px-4 py-20 text-center">
                         <div className="bg-white rounded-3xl shadow-xl p-12 max-w-md mx-auto">
                             <div className="w-20 h-20 bg-[#5A5E4D]/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <svg
-                                    className="w-10 h-10 text-[#5A5E4D]"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
+                                <Heart className="w-10 h-10 text-[#5A5E4D]" />
                             </div>
                             <h1 className="text-2xl font-bold text-gray-800 mb-4">
                                 المنتج غير موجود
@@ -252,18 +248,20 @@ export default function ProductDetailPage() {
                             <div className="space-y-4">
                                 {/* Title & Price */}
                                 <div>
-                                    <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                                        {product.title}
-                                    </h1>
+                                    <div className="flex items-center gap-3 mb-2">
+                                        <h1 className="text-2xl font-bold text-gray-900 flex-1">
+                                            {product.title}
+                                        </h1>
+                                        <FavoriteButton
+                                            productId={product.id.toString()}
+                                        />
+                                    </div>
                                     <div className="flex items-center gap-1 mb-2">
                                         {[...Array(5)].map((_, i) => (
-                                            <svg
+                                            <Star
                                                 key={i}
                                                 className="w-3.5 h-3.5 text-yellow-400 fill-current"
-                                                viewBox="0 0 20 20"
-                                            >
-                                                <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                                            </svg>
+                                            />
                                         ))}
                                     </div>
                                     <div className="flex items-baseline gap-2 mb-3">
@@ -483,19 +481,7 @@ export default function ProductDetailPage() {
                                             onClick={addToCart}
                                             className="w-full bg-[#5A5E4D] text-white py-2.5 px-4 rounded-lg font-semibold text-sm hover:bg-[#4A4E3D] transition-all flex items-center justify-center gap-2"
                                         >
-                                            <svg
-                                                className="w-4 h-4"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                                                />
-                                            </svg>
+                                            <ShoppingCart className="w-4 h-4" />
                                             إضافة إلى السلة
                                         </button>
                                     </div>

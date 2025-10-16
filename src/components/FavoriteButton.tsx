@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNotification } from "../providers/notification-provider";
 import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS } from "@/src/constants";
+import { Heart } from "lucide-react";
 
 interface FavoriteButtonProps {
     productId: string;
@@ -40,19 +41,24 @@ export default function FavoriteButton({ productId }: FavoriteButtonProps) {
             console.error("خطأ في تحديث المفضلة:", error);
             showNotification("حدث خطأ في تحديث المفضلة", "error");
         }
-
-        return (
-            <button
-                onClick={handleToggleFavorite}
-                className={`px-6 py-4 border rounded-lg font-semibold transition-colors ${
-                    isFavorited
-                        ? "bg-red-500 text-white border-red-500"
-                        : "border-[#5A5E4D] text-[#5A5E4D] hover:bg-[#5A5E4D] hover:text-white"
-                }`}
-                style={{ fontFamily: "var(--font-almarai)" }}
-            >
-                {isFavorited ? "في المفضلة" : "المفضلة"}
-            </button>
-        );
     };
+
+    return (
+        <button
+            onClick={handleToggleFavorite}
+            className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${
+                isFavorited
+                    ? "text-red-500 hover:text-red-600"
+                    : "text-gray-400 hover:text-red-500"
+            }`}
+            title={isFavorited ? "إزالة من المفضلة" : "إضافة إلى المفضلة"}
+        >
+            <Heart
+                className="w-6 h-6"
+                fill={isFavorited ? "currentColor" : "none"}
+                stroke="currentColor"
+                strokeWidth={2}
+            />
+        </button>
+    );
 }

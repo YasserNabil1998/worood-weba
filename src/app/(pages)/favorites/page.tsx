@@ -6,6 +6,7 @@ import Image from "next/image";
 import ProductCard, { ProductItem } from "@/src/components/ProductCard";
 import Link from "next/link";
 import { CustomBouquet } from "@/src/@types/favorites/CustomBouquet.type";
+import { Heart, X } from "lucide-react";
 
 export default function FavoritesPage() {
     const [favorites, setFavorites] = useState<ProductItem[]>([]);
@@ -159,19 +160,7 @@ export default function FavoritesPage() {
                     {favorites.length === 0 && customBouquets.length === 0 ? (
                         <div className="text-center py-16">
                             <div className="max-w-md mx-auto">
-                                <svg
-                                    className="w-24 h-24 mx-auto text-gray-300 mb-6"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={1.5}
-                                        d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21l-7.682-7.682a4.5 4.5 0 010-6.364z"
-                                    />
-                                </svg>
+                                <Heart className="w-24 h-24 mx-auto text-gray-300 mb-6" />
                                 <h2
                                     className="text-2xl font-bold text-gray-800 mb-3"
                                     style={{
@@ -347,19 +336,7 @@ export default function FavoritesPage() {
                                 onClick={closePreview}
                                 className="text-white hover:bg-white hover:bg-opacity-20 rounded-full p-1.5 transition-colors"
                             >
-                                <svg
-                                    className="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
+                                <X className="w-5 h-5" />
                             </button>
                         </div>
 

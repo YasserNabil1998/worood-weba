@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { Heart, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Occasion {
     id: number;
@@ -125,19 +126,7 @@ const OccasionsSlider = () => {
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
                         <span>عرض الكل</span>
-                        <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M15 19l-7-7 7-7"
-                            />
-                        </svg>
+                        <ChevronRight className="w-4 h-4" />
                     </Link>
                 </div>
 
@@ -196,38 +185,14 @@ const OccasionsSlider = () => {
                         className="absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-4 bg-white hover:bg-[#5A5E4D] text-gray-800 hover:text-white p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10"
                         aria-label="Previous"
                     >
-                        <svg
-                            className="w-4 h-4 sm:w-5 sm:h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2.5}
-                                d="M15 19l-7-7 7-7"
-                            />
-                        </svg>
+                        <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
                     <button
                         onClick={nextSlide}
                         className="absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-4 bg-white hover:bg-[#5A5E4D] text-gray-800 hover:text-white p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10"
                         aria-label="Next"
                     >
-                        <svg
-                            className="w-4 h-4 sm:w-5 sm:h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2.5}
-                                d="M9 5l7 7-7 7"
-                            />
-                        </svg>
+                        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
                 </div>
             </div>
