@@ -372,7 +372,7 @@ export default function BouquetsListingClient({
                                 className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                                 aria-label="Previous"
                             >
-                                <ChevronLeft className="w-5 h-5 text-gray-600" />
+                                <ChevronRight className="w-5 h-5 text-gray-600" />
                             </button>
 
                             {/* Pagination Numbers */}
@@ -462,7 +462,7 @@ export default function BouquetsListingClient({
                                 className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                                 aria-label="Next"
                             >
-                                <ChevronRight className="w-5 h-5 text-gray-600" />
+                                <ChevronLeft className="w-5 h-5 text-gray-600" />
                             </button>
                         </div>
                     )}

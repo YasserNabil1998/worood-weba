@@ -168,15 +168,15 @@ const CustomerReviewsSlider = ({
                         <>
                             <button
                                 onClick={prevSlide}
-                                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200/50 hover:bg-white"
+                                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 bg-transparent hover:bg-white/80 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-200/50"
                             >
-                                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
+                                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
                             </button>
                             <button
                                 onClick={nextSlide}
-                                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200/50 hover:bg-white"
+                                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 bg-transparent hover:bg-white/80 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-200/50"
                             >
-                                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
+                                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
                             </button>
                         </>
                     )}

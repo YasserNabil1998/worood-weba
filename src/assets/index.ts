@@ -55,10 +55,10 @@ export const ASSETS: Assets = {
 
     // أيقونات طرق الدفع - Payment Methods
     payment: {
-        visa: "/images/payment/visa.png",
-        mastercard: "/images/payment/mastercard.png",
-        applePay: "/images/payment/apple-pay.png",
-        paypal: "/images/payment/paypal.png",
+        visa: "/images/payment/visa.svg",
+        mastercard: "/images/payment/mastercard.svg",
+        applePay: "/images/payment/applePay.svg",
+        paypal: "/images/payment/paypal.svg",
     },
 
     // أيقونات المناسبات - Occasion Icons (using Lucide icons)

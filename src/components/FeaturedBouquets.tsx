@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { BouquetItem } from "../../types";
 import { defaultBouquets } from "../content/featured-bouquets";
-import { Heart } from "lucide-react";
+import { Heart, ArrowLeft } from "lucide-react";
 
 type FeaturedBouquetsProps = {
     bouquets?: BouquetItem[];
@@ -165,7 +165,7 @@ const FeaturedBouquets = ({
                         href="/bouquets"
                         className="text-[#5A5E4D] hover:underline text-sm font-semibold cursor-pointer"
                     >
-                        عرض الكل ←
+                        عرض الكل <ArrowLeft className="w-4 h-4 inline mr-1" />
                     </Link>
                 </div>
 

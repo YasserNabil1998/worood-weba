@@ -9,6 +9,9 @@ import {
     Gift,
     Sparkles,
     Calendar,
+    ChevronUp,
+    ChevronDown,
+    ArrowLeft,
 } from "lucide-react";
 
 import CustomBouquetSection from "@/src/components/common/CustomBouquetSection";
@@ -224,8 +227,12 @@ export default function OccasionsPage() {
                                     }`}
                                 >
                                     {featuredSection.buttonText}
-                                    <span className="mr-2">
-                                        {showWeddingBouquets ? "▲" : "▼"}
+                                    <span className="mr-2 inline">
+                                        {showWeddingBouquets ? (
+                                            <ChevronUp className="w-5 h-5 inline" />
+                                        ) : (
+                                            <ChevronDown className="w-5 h-5 inline" />
+                                        )}
                                     </span>
                                 </button>
                             </div>
@@ -256,7 +263,7 @@ export default function OccasionsPage() {
                                         <span>
                                             {featuredSection.viewAllText}
                                         </span>
-                                        <span>←</span>
+                                        <ArrowLeft className="w-5 h-5 inline" />
                                     </a>
                                 </div>
 

@@ -115,12 +115,12 @@ export default function HeroSection() {
                             />
 
                             {/* Gradient Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-l from-black/55 via-black/25 to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/25 to-transparent"></div>
 
                             {/* Content */}
                             <div className="relative z-10 h-full flex items-center">
-                                <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-24">
-                                    <div className="mr-auto max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
+                                <div className="w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28">
+                                    <div className="ml-auto max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
                                         <h1
                                             className="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[60px] xl:text-[70px] font-bold text-white mb-4 sm:mb-5 leading-[1.1] sm:leading-[1.2] drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] text-right"
                                             style={{

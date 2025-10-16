@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { BlogItem } from "../../../types";
-import { Heart, ChevronLeft, ChevronRight } from "lucide-react";
+import { Heart, ChevronLeft, ChevronRight, ArrowLeft } from "lucide-react";
 
 type BlogSectionProps = {
     articles?: BlogItem[];
@@ -55,7 +55,7 @@ const BlogSection = ({
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
                         عرض جميع المقالات
-                        <ChevronRight className="w-4 h-4 mr-2" />
+                        <ChevronLeft className="w-4 h-4 mr-2" />
                     </Link>
                 </div>
 
@@ -109,7 +109,7 @@ const BlogSection = ({
                                     }}
                                 >
                                     اقرأ المزيد
-                                    <ChevronRight className="w-3 h-3 mr-1 inline" />
+                                    <ArrowLeft className="w-4 h-4 mr-1 inline " />
                                 </Link>
                             </div>
                         </article>

@@ -42,10 +42,10 @@ export default function ProductDetailPage() {
                             parseInt(id) % productData.bouquetImages.length
                         ];
                     const product: Product = {
-                        id: data.id,
-                        title: data.title,
+                        id: data.id || parseInt(id) || 0,
+                        title: data.title || "منتج غير محدد",
                         price: Math.round(
-                            data.price * productData.priceMultiplier
+                            (data.price || 0) * productData.priceMultiplier
                         ), // ضرب في 10 لجعل السعر واقعي بالريال
                         image: mainImage,
                         images: [
@@ -253,7 +253,9 @@ export default function ProductDetailPage() {
                                             {product.title}
                                         </h1>
                                         <FavoriteButton
-                                            productId={product.id.toString()}
+                                            productId={
+                                                product.id?.toString() || ""
+                                            }
                                         />
                                     </div>
                                     <div className="flex items-center gap-1 mb-2">

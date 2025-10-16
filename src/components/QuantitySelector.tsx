@@ -79,7 +79,7 @@ export default function QuantitySelector({
                 value={quantity}
                 onChange={handleInputChange}
                 min="1"
-                className="w-16 text-center bg-white border border-gray-200 rounded-lg px-2 py-1 text-sm font-medium text-[#5A5E4D] focus:outline-none focus:border-[#5A5E4D] focus:ring-1 focus:ring-[#5A5E4D]/20"
+                className="w-16 text-center bg-white border border-gray-200 rounded-lg px-2 py-1 text-sm font-medium text-[#5A5E4D] focus:outline-none focus:border-[#5A5E4D] focus:ring-1 focus:ring-[#5A5E4D]/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 aria-label="كمية المنتج"
             />
             <button
