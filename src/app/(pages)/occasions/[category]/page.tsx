@@ -2,9 +2,16 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { OccasionData } from "@/src/@types/occasions/category/OccasionData.type";
 
-
-
-
+// قائمة موحدة لجميع المناسبات للاستخدام في الـ sidebar
+const allOccasions = [
+    { key: "wedding", name: "زواج", icon: "❤️" },
+    { key: "engagement", name: "خطوبة", icon: "💕" },
+    { key: "graduation", name: "نجاح وتخرج", icon: "🎓" },
+    { key: "newborn", name: "مولود جديد", icon: "👶" },
+    { key: "anniversary", name: "ذكرى سنوية", icon: "📅" },
+    { key: "getwell", name: "شفاء عاجل", icon: "🌸" },
+    { key: "thanks", name: "شكر وتقدير", icon: "🙏" },
+];
 
 const occasionsData: Record<string, OccasionData> = {
     wedding: {
@@ -190,33 +197,49 @@ export default async function OccasionPage({
                                         fontFamily: "var(--font-almarai)",
                                     }}
                                 >
-                                    الفئات
+                                    المناسبات
                                 </h3>
                                 <div className="space-y-2">
-                                    {occasionData.subcategories.map(
-                                        (subcat) => (
+                                    {allOccasions.map((occasion) => {
+                                        const isActive =
+                                            occasion.key === category;
+                                        return (
                                             <Link
-                                                key={subcat.id}
-                                                href={`/occasions/${category}/${subcat.id}`}
-                                                className="flex items-center justify-end gap-3 p-3 rounded-xl hover:bg-[#F5F3ED] transition-colors duration-200 group"
+                                                key={occasion.key}
+                                                href={`/occasions/${occasion.key}`}
+                                                className={`flex items-center justify-end gap-3 p-3 rounded-xl transition-all duration-200 group ${
+                                                    isActive
+                                                        ? "bg-[#F5F3ED] text-[#5A5E4D] shadow-md"
+                                                        : "hover:bg-[#F8F6F0] text-gray-700 hover:text-gray-900"
+                                                }`}
                                             >
                                                 <span
-                                                    className="text-sm text-gray-700 group-hover:text-gray-900 font-medium"
+                                                    className={`text-sm font-medium ${
+                                                        isActive
+                                                            ? "text-[#5A5E4D]"
+                                                            : "text-gray-700 group-hover:text-gray-900"
+                                                    }`}
                                                     style={{
                                                         fontFamily:
                                                             "var(--font-almarai)",
                                                     }}
                                                 >
-                                                    {subcat.name}
+                                                    {occasion.name}
                                                 </span>
-                                                <div className="w-8 h-8 bg-[#F5F1E8] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                                                <div
+                                                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
+                                                        isActive
+                                                            ? "bg-[#5A5E4D]/10 scale-110"
+                                                            : "bg-[#F5F1E8] group-hover:scale-110"
+                                                    }`}
+                                                >
                                                     <span className="text-base">
-                                                        {subcat.image}
+                                                        {occasion.icon}
                                                     </span>
                                                 </div>
                                             </Link>
-                                        )
-                                    )}
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </aside>
