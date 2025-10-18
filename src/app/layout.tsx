@@ -30,6 +30,7 @@ export default function RootLayout({
         <html lang="ar" dir="rtl">
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased rtl`}
+                suppressHydrationWarning
             >
                 <Providers>
                     <Header />

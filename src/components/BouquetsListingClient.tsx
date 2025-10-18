@@ -110,132 +110,138 @@ export default function BouquetsListingClient({
         );
     };
 
+    // Sidebar
+    const Sidebar = () => {
+        return (
+            <aside
+                className={`lg:col-span-1 transition-all duration-300 ${
+                    isFiltersOpen ? "block lg:block" : "hidden lg:block"
+                }`}
+            >
+                <div
+                    className={`bg-white rounded-xl shadow p-4 transition-all duration-300 ${
+                        isFiltersOpen
+                            ? "opacity-100 translate-y-0"
+                            : "opacity-0 translate-y-2 lg:opacity-100 lg:translate-y-0"
+                    }`}
+                >
+                    <div className="flex items-center justify-between mb-4">
+                        <h3
+                            className="font-bold text-gray-800 hidden lg:block"
+                            style={{ fontFamily: "var(--font-almarai)" }}
+                        >
+                            تصفية النتائج
+                        </h3>
+                        <button
+                            onClick={() => setIsFiltersOpen(false)}
+                            className="lg:hidden p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+                    </div>
+                    <div className="mb-5">
+                        <label className="block text-sm text-gray-700 mb-2">
+                            نطاق السعر
+                        </label>
+                        <input
+                            type="range"
+                            min={0}
+                            max={1000}
+                            value={price}
+                            onChange={(e) => {
+                                setPrice(Number(e.target.value));
+                                setPage(1);
+                            }}
+                            className="w-full"
+                        />
+                        <div className="flex justify-between text-[12px] text-gray-500 mt-1">
+                            <span>0 ريال</span>
+                            <span>{price} ريال</span>
+                        </div>
+                    </div>
+                    <div className="mb-5">
+                        <label className="block text-sm text-gray-700 mb-2">
+                            المناسبة
+                        </label>
+                        <ul className="space-y-2 text-sm">
+                            {[
+                                ["all", "جميع المناسبات"],
+                                ["wedding", "زفاف"],
+                                ["anniversary", "ذكرى سنوية"],
+                                ["graduation", "تخرج"],
+                                ["engagement", "خطوبة"],
+                                ["newborn", "مواليد جديد"],
+                                ["getwell", "شفاء عاجل"],
+                                ["thanks", "شكر وتقدير"],
+                            ].map(([key, label]) => (
+                                <li
+                                    key={key}
+                                    className="flex items-center gap-2"
+                                >
+                                    <input
+                                        type="radio"
+                                        name="occ"
+                                        checked={occasion === key}
+                                        onChange={() => {
+                                            setOccasion(key);
+                                            setPage(1);
+                                        }}
+                                    />
+                                    <span>{label}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm text-gray-700 mb-2">
+                            اللون
+                        </label>
+                        <div className="flex items-center gap-2">
+                            {[
+                                ["all", "#e5e7eb"],
+                                ["green", "#16a34a"],
+                                ["red", "#f43f5e"],
+                                ["orange", "#f97316"],
+                                ["cyan", "#06b6d4"],
+                                ["violet", "#8b5cf6"],
+                                ["amber", "#f59e0b"],
+                            ].map(([key, c]) => (
+                                <button
+                                    key={key}
+                                    aria-label={key as string}
+                                    onClick={() => {
+                                        setColor(key as string);
+                                        setPage(1);
+                                    }}
+                                    className={`h-5 w-5 rounded-full border ${
+                                        color === key
+                                            ? "ring-2 ring-offset-2 ring-[#5A5E4D]"
+                                            : ""
+                                    }`}
+                                    style={{ backgroundColor: c as string }}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    <button
+                        onClick={reset}
+                        className="mt-4 w-full rounded-md py-2 border text-sm"
+                        style={{ borderColor: "#cbd5e1" }}
+                    >
+                        إعادة ضبط الفلاتر
+                    </button>
+                </div>
+            </aside>
+        );
+    }
+
     return (
         <div className="space-y-4" dir="rtl">
             {/* Mobile Filter Toggle Button */}
             <ToggleButton />
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                {/* TODO: Move to separate component */}
                 {/* Sidebar */}
-                <aside
-                    className={`lg:col-span-1 transition-all duration-300 ${
-                        isFiltersOpen ? "block lg:block" : "hidden lg:block"
-                    }`}
-                >
-                    <div
-                        className={`bg-white rounded-xl shadow p-4 transition-all duration-300 ${
-                            isFiltersOpen
-                                ? "opacity-100 translate-y-0"
-                                : "opacity-0 translate-y-2 lg:opacity-100 lg:translate-y-0"
-                        }`}
-                    >
-                        <div className="flex items-center justify-between mb-4">
-                            <h3
-                                className="font-bold text-gray-800 hidden lg:block"
-                                style={{ fontFamily: "var(--font-almarai)" }}
-                            >
-                                تصفية النتائج
-                            </h3>
-                            <button
-                                onClick={() => setIsFiltersOpen(false)}
-                                className="lg:hidden p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200"
-                            >
-                                <X className="w-5 h-5" />
-                            </button>
-                        </div>
-                        <div className="mb-5">
-                            <label className="block text-sm text-gray-700 mb-2">
-                                نطاق السعر
-                            </label>
-                            <input
-                                type="range"
-                                min={0}
-                                max={1000}
-                                value={price}
-                                onChange={(e) => {
-                                    setPrice(Number(e.target.value));
-                                    setPage(1);
-                                }}
-                                className="w-full"
-                            />
-                            <div className="flex justify-between text-[12px] text-gray-500 mt-1">
-                                <span>0 ريال</span>
-                                <span>{price} ريال</span>
-                            </div>
-                        </div>
-                        <div className="mb-5">
-                            <label className="block text-sm text-gray-700 mb-2">
-                                المناسبة
-                            </label>
-                            <ul className="space-y-2 text-sm">
-                                {[
-                                    ["all", "جميع المناسبات"],
-                                    ["wedding", "زفاف"],
-                                    ["anniversary", "ذكرى سنوية"],
-                                    ["graduation", "تخرج"],
-                                    ["engagement", "خطوبة"],
-                                    ["newborn", "مواليد جديد"],
-                                    ["getwell", "شفاء عاجل"],
-                                    ["thanks", "شكر وتقدير"],
-                                ].map(([key, label]) => (
-                                    <li
-                                        key={key}
-                                        className="flex items-center gap-2"
-                                    >
-                                        <input
-                                            type="radio"
-                                            name="occ"
-                                            checked={occasion === key}
-                                            onChange={() => {
-                                                setOccasion(key);
-                                                setPage(1);
-                                            }}
-                                        />
-                                        <span>{label}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm text-gray-700 mb-2">
-                                اللون
-                            </label>
-                            <div className="flex items-center gap-2">
-                                {[
-                                    ["all", "#e5e7eb"],
-                                    ["green", "#16a34a"],
-                                    ["red", "#f43f5e"],
-                                    ["orange", "#f97316"],
-                                    ["cyan", "#06b6d4"],
-                                    ["violet", "#8b5cf6"],
-                                    ["amber", "#f59e0b"],
-                                ].map(([key, c]) => (
-                                    <button
-                                        key={key}
-                                        aria-label={key as string}
-                                        onClick={() => {
-                                            setColor(key as string);
-                                            setPage(1);
-                                        }}
-                                        className={`h-5 w-5 rounded-full border ${
-                                            color === key
-                                                ? "ring-2 ring-offset-2 ring-[#5A5E4D]"
-                                                : ""
-                                        }`}
-                                        style={{ backgroundColor: c as string }}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                        <button
-                            onClick={reset}
-                            className="mt-4 w-full rounded-md py-2 border text-sm"
-                            style={{ borderColor: "#cbd5e1" }}
-                        >
-                            إعادة ضبط الفلاتر
-                        </button>
-                    </div>
-                </aside>
+                <Sidebar />
 
                 {/* Grid + toolbar + pager */}
                 <div className="lg:col-span-3 space-y-4">

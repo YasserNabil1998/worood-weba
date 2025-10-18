@@ -5,15 +5,14 @@ import OccasionsSection from "@/src/components/common/OccasionsSection";
 import CustomBouquetSection from "@/src/components/common/CustomBouquetSection";
 import { Item } from "@/src/@types/bouquets/index.type";
 import { ROUTES } from "@/src/constants/routes";
+import { badges, colors } from "@/src/content/bouquets";
 
 async function fetchProducts(): Promise<Item[]> {
     const res = await fetch("https://dummyjson.com/products?limit=18", {
         next: { revalidate: 120 },
     });
     const data = await res.json();
-    // TODO: Add to content
-    const badges = ["الأكثر شهرة", "عرض خاص", "جديد"];
-    const colors = ["green", "red", "orange", "cyan", "violet", "amber"];
+
     // FIXME: Fake data
     const occs = [
         "wedding",
@@ -47,6 +46,64 @@ async function fetchProducts(): Promise<Item[]> {
 
 // Card rendering moved to Client Component `components/ProductCard.tsx`
 
+// HERO SECTION
+const Hero = () => {
+    return (
+        <section className="py-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="relative h-[400px] rounded-xl overflow-hidden">
+                    <Image
+                        src="/images/hero/DIV-133.png"
+                        alt="متجر زهور"
+                        fill
+                        className="object-cover"
+                        priority
+                        quality={90}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                    />
+                    {/* Blur تدريجي من اليمين */}
+                    <div
+                        className="absolute inset-0 backdrop-blur-sm"
+                        style={{
+                            maskImage:
+                                "linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0) 60%)",
+                            WebkitMaskImage:
+                                "linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0) 60%)",
+                        }}
+                    ></div>
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            backgroundColor: "#5A5E4D",
+                            opacity: 0.08,
+                        }}
+                    ></div>
+                    <div className="absolute inset-0 bg-gradient-to-l from-black/35 via-black/15 to-transparent"></div>
+                    <div className="relative z-10 h-full flex items-center">
+                        <div className="w-full px-6 md:px-10 text-right">
+                            <div className="max-w-2xl ml-auto">
+                                <h2 className="text-[36px] font-bold leading-[40px] text-white mb-3 tracking-[0px]">
+                                    باقات مميزة لكل مناسبة
+                                </h2>
+                                <p className="text-[18px] font-normal leading-[28px] text-white/90 mb-6 tracking-[0px]">
+                                    اختر من تشكيلتنا الواسعة من الباقات المصممة
+                                    بعناية لتناسب جميع المناسبات والأذواق
+                                </p>
+                                <a
+                                    href="#bouquets-section"
+                                    className="inline-block bg-white hover:bg-[#5A5E4D] text-[#5A5E4D] hover:text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300"
+                                >
+                                    تصفح الباقات
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
 export default async function BouquetsPage() {
     const items = await fetchProducts();
     return (
@@ -67,61 +124,8 @@ export default async function BouquetsPage() {
                     </div>
                 </section>
 
-                {/* TODO: Move to separate component */}
-                {/* Hero */}
-                <section className="py-6">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="relative h-[400px] rounded-xl overflow-hidden">
-                            <Image
-                                src="/images/hero/DIV-133.png"
-                                alt="متجر زهور"
-                                fill
-                                className="object-cover"
-                                priority
-                                quality={90}
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-                            />
-                            {/* Blur تدريجي من اليمين */}
-                            <div
-                                className="absolute inset-0 backdrop-blur-sm"
-                                style={{
-                                    maskImage:
-                                        "linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0) 60%)",
-                                    WebkitMaskImage:
-                                        "linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0) 60%)",
-                                }}
-                            ></div>
-                            <div
-                                className="absolute inset-0"
-                                style={{
-                                    backgroundColor: "#5A5E4D",
-                                    opacity: 0.08,
-                                }}
-                            ></div>
-                            <div className="absolute inset-0 bg-gradient-to-l from-black/35 via-black/15 to-transparent"></div>
-                            <div className="relative z-10 h-full flex items-center">
-                                <div className="w-full px-6 md:px-10 text-right">
-                                    <div className="max-w-2xl ml-auto">
-                                        <h2 className="text-[36px] font-bold leading-[40px] text-white mb-3 tracking-[0px]">
-                                            باقات مميزة لكل مناسبة
-                                        </h2>
-                                        <p className="text-[18px] font-normal leading-[28px] text-white/90 mb-6 tracking-[0px]">
-                                            اختر من تشكيلتنا الواسعة من الباقات
-                                            المصممة بعناية لتناسب جميع المناسبات
-                                            والأذواق
-                                        </p>
-                                        <a
-                                            href="#bouquets-section"
-                                            className="inline-block bg-white hover:bg-[#5A5E4D] text-[#5A5E4D] hover:text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300"
-                                        >
-                                            تصفح الباقات
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <Hero />
+
 
                 {/* Content */}
                 <section id="bouquets-section" className="py-8">

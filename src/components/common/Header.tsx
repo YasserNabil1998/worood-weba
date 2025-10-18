@@ -145,7 +145,10 @@ const Header = () => {
                         >
                             <ShoppingCart className="w-6 h-6" />
                             {totalItems > 0 && (
-                                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                                <span
+                                    suppressHydrationWarning
+                                    className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold"
+                                >
                                     {totalItems}
                                 </span>
                             )}
@@ -243,7 +246,10 @@ const Header = () => {
                         >
                             <ShoppingCart className="w-6 h-6" />
                             {totalItems > 0 && (
-                                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                                <span
+                                    suppressHydrationWarning
+                                    className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold"
+                                >
                                     {totalItems}
                                 </span>
                             )}
@@ -337,7 +343,10 @@ const Header = () => {
                         >
                             <ShoppingCart className="w-6 h-6" />
                             {totalItems > 0 && (
-                                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                                <span
+                                    suppressHydrationWarning
+                                    className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold"
+                                >
                                     {totalItems}
                                 </span>
                             )}
