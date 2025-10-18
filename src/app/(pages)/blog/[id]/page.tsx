@@ -90,7 +90,6 @@ export default function BlogDetailPage() {
                                         alt={post.title}
                                         fill
                                         className="object-cover transition-transform duration-300 hover:scale-105"
-                                        quality={100}
                                         priority
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 600px"
                                     />
@@ -183,7 +182,6 @@ export default function BlogDetailPage() {
                                                 alt={relatedPost.title}
                                                 fill
                                                 className="object-cover"
-                                                quality={95}
                                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
                                                 loading="lazy"
                                             />

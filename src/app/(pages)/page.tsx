@@ -1,7 +1,6 @@
 import HeroSection from "@/src/components/home/HeroSection";
 import OccasionsSection from "@/src/components/common/OccasionsSection";
 import ProductsSlider from "@/src/components/home/ProductsSlider";
-import OccasionsSlider from "@/src/components/home/OccasionsSlider";
 import FeaturedBouquets from "@/src/components/FeaturedBouquets";
 import CustomBouquetSection from "@/src/components/common/CustomBouquetSection";
 import CustomerReviewsSlider from "@/src/components/home/CustomerReviewsSlider";
@@ -16,7 +15,6 @@ export default function Home() {
                 <HeroSection />
                 <OccasionsSection />
                 <ProductsSlider />
-                <OccasionsSlider />
                 <FeaturedBouquets />
                 <CustomBouquetSection />
                 <CustomerReviewsSlider />

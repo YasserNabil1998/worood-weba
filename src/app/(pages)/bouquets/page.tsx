@@ -58,7 +58,6 @@ const Hero = () => {
                         fill
                         className="object-cover"
                         priority
-                        quality={90}
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                     />
                     {/* Blur تدريجي من اليمين */}
@@ -125,7 +124,6 @@ export default async function BouquetsPage() {
                 </section>
 
                 <Hero />
-
 
                 {/* Content */}
                 <section id="bouquets-section" className="py-8">

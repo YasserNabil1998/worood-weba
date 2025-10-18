@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { useNotification } from "@/src/providers/notification-provider";
 import { CartItem } from "@/src/@types/checkout/CartItem.type";
 
-
-
 export default function CheckoutPage() {
     const [items, setItems] = useState<CartItem[]>([]);
     const [address, setAddress] = useState({
@@ -16,7 +14,7 @@ export default function CheckoutPage() {
         phone: "",
     });
     const [payMethod, setPayMethod] = useState<
-        "mada" | "apple" | "stc" | "cod"
+        "mada" | "visa" | "apple" | "cod"
     >("mada");
     const { showNotification } = useNotification();
 
@@ -141,18 +139,18 @@ export default function CheckoutPage() {
                                     {[
                                         {
                                             key: "mada",
-                                            label: "بطاقة مدى",
+                                            label: "Mada",
+                                            icon: "💳",
+                                        },
+                                        {
+                                            key: "visa",
+                                            label: "Visa",
                                             icon: "💳",
                                         },
                                         {
                                             key: "apple",
                                             label: "Apple Pay",
-                                            icon: "",
-                                        },
-                                        {
-                                            key: "stc",
-                                            label: "STC Pay",
-                                            icon: "💠",
+                                            icon: "🍎",
                                         },
                                         {
                                             key: "cod",

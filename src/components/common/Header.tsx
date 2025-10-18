@@ -95,12 +95,20 @@ const Header = () => {
                 <div className="hidden lg:flex justify-between items-center h-20">
                     {/* Logo */}
                     <Link href="/" className="flex items-center">
-                        <Image
+                        {/* <Image
                             src={ASSETS.logos.main}
                             alt="زهور الشمس"
                             width={200}
                             height={48}
                             className="h-12 w-auto object-contain"
+                            priority
+                        /> */}
+                        <Image
+                            src={ASSETS.logos.main}
+                            alt="زهور الشمس"
+                            width={200}
+                            height={48}
+                            className="w-auto h-auto max-h-12 object-contain"
                             priority
                         />
                     </Link>
@@ -145,10 +153,7 @@ const Header = () => {
                         >
                             <ShoppingCart className="w-6 h-6" />
                             {totalItems > 0 && (
-                                <span
-                                    suppressHydrationWarning
-                                    className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold"
-                                >
+                                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
                                     {totalItems}
                                 </span>
                             )}
@@ -246,10 +251,7 @@ const Header = () => {
                         >
                             <ShoppingCart className="w-6 h-6" />
                             {totalItems > 0 && (
-                                <span
-                                    suppressHydrationWarning
-                                    className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold"
-                                >
+                                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
                                     {totalItems}
                                 </span>
                             )}
@@ -343,10 +345,7 @@ const Header = () => {
                         >
                             <ShoppingCart className="w-6 h-6" />
                             {totalItems > 0 && (
-                                <span
-                                    suppressHydrationWarning
-                                    className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold"
-                                >
+                                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
                                     {totalItems}
                                 </span>
                             )}

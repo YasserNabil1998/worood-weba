@@ -16,10 +16,9 @@ export interface Assets {
         alternate: string;
     };
     payment: {
+        mada: string;
         visa: string;
-        mastercard: string;
         applePay: string;
-        paypal: string;
     };
     icons: {
         occasions: {
@@ -55,10 +54,9 @@ export const ASSETS: Assets = {
 
     // أيقونات طرق الدفع - Payment Methods
     payment: {
+        mada: "/images/payment/mada.svg",
         visa: "/images/payment/visa.svg",
-        mastercard: "/images/payment/mastercard.svg",
         applePay: "/images/payment/applePay.svg",
-        paypal: "/images/payment/paypal.svg",
     },
 
     // أيقونات المناسبات - Occasion Icons (using Lucide icons)

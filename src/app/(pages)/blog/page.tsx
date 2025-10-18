@@ -5,7 +5,6 @@ import NewsletterSection from "@/src/components/NewsletterSection";
 import blogData from "./blog-data.json";
 import { BlogPost } from "@/src/@types/blog/index.type";
 
-
 export default function BlogPage() {
     return (
         <div
@@ -35,7 +34,6 @@ export default function BlogPage() {
                                 fill
                                 className="object-cover"
                                 priority
-                                quality={90}
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                             />
                             {/* Blur تدريجي من اليمين */}
@@ -109,7 +107,6 @@ export default function BlogPage() {
                                             alt={post.title}
                                             fill
                                             className="object-cover"
-                                            quality={95}
                                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
                                             loading="lazy"
                                         />

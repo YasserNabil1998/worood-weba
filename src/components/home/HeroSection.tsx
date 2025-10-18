@@ -110,7 +110,6 @@ export default function HeroSection() {
                                 className="object-cover"
                                 priority={index === 0}
                                 loading={index === 0 ? undefined : "lazy"}
-                                quality={90}
                                 sizes="100vw"
                             />
 

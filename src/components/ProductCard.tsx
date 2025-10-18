@@ -126,7 +126,6 @@ export default function ProductCard({ item }: { item: ProductItem }) {
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    quality={85}
                     loading="lazy"
                 />
                 <div className="absolute top-2 left-2 flex items-center gap-2 z-10">

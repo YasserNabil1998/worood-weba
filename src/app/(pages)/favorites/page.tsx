@@ -219,7 +219,6 @@ export default function FavoritesPage() {
                                                         fill
                                                         className="object-cover"
                                                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                                                        quality={85}
                                                         loading="lazy"
                                                     />
                                                     <div className="absolute top-2 right-2 bg-[#5A5E4D] text-white px-3 py-1 rounded-full text-xs font-semibold">
@@ -351,7 +350,6 @@ export default function FavoritesPage() {
                                         fill
                                         className="object-cover"
                                         sizes="(max-width: 768px) 100vw, 50vw"
-                                        quality={85}
                                         loading="lazy"
                                     />
                                 </div>

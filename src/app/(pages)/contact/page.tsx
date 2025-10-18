@@ -53,7 +53,6 @@ export default function ContactPage() {
                                 fill
                                 className="object-cover object-center"
                                 priority
-                                quality={90}
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                                 style={{
                                     transform: "scale(1.02)",

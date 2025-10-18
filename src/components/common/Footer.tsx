@@ -132,19 +132,19 @@ const Footer = () => {
                         </p>
                         <div className="mt-2 sm:mt-3 flex items-center justify-center gap-2 sm:gap-3 opacity-90">
                             <Image
+                                src={ASSETS.payment.mada}
+                                alt="Mada"
+                                width={60}
+                                height={40}
+                                className="h-8 sm:h-10 w-auto object-contain"
+                                loading="lazy"
+                            />
+                            <Image
                                 src={ASSETS.payment.visa}
                                 alt="Visa"
                                 width={60}
                                 height={40}
-                                className="h-8 sm:h-10 w-auto object-cover"
-                                loading="lazy"
-                            />
-                            <Image
-                                src={ASSETS.payment.mastercard}
-                                alt="Mastercard"
-                                width={60}
-                                height={40}
-                                className="h-8 sm:h-10 w-auto object-cover"
+                                className="h-8 sm:h-10 w-auto object-contain"
                                 loading="lazy"
                             />
                             <Image
@@ -152,15 +152,7 @@ const Footer = () => {
                                 alt="Apple Pay"
                                 width={60}
                                 height={40}
-                                className="h-8 sm:h-10 w-auto object-cover"
-                                loading="lazy"
-                            />
-                            <Image
-                                src={ASSETS.payment.paypal}
-                                alt="PayPal"
-                                width={60}
-                                height={40}
-                                className="h-8 sm:h-10 w-auto object-cover"
+                                className="h-8 sm:h-10 w-auto object-contain"
                                 loading="lazy"
                             />
                         </div>

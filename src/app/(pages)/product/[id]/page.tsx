@@ -215,7 +215,6 @@ export default function ProductDetailPage() {
                                                 width={96}
                                                 height={96}
                                                 className="object-cover"
-                                                quality={85}
                                                 loading="lazy"
                                             />
                                         </button>
@@ -239,7 +238,6 @@ export default function ProductDetailPage() {
                                                 : "lazy"
                                         }
                                         sizes="(max-width: 1024px) 100vw, 50vw"
-                                        quality={90}
                                     />
                                 </div>
                             </div>

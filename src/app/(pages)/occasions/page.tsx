@@ -62,7 +62,6 @@ export default function OccasionsPage() {
                                 fill
                                 className="object-cover"
                                 priority
-                                quality={90}
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                             />
                             {/* Blur تدريجي من اليمين */}
@@ -142,7 +141,6 @@ export default function OccasionsPage() {
                                             fill
                                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                                             sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                                            quality={85}
                                             loading="lazy"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
@@ -194,7 +192,6 @@ export default function OccasionsPage() {
                                 fill
                                 className="object-cover"
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-                                quality={90}
                                 loading="lazy"
                             />
                             <div className="absolute inset-0 backdrop-blur-[1px]"></div>
@@ -281,7 +278,6 @@ export default function OccasionsPage() {
                                                     fill
                                                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                                                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                                    quality={85}
                                                     loading="lazy"
                                                 />
                                                 {/* شارات المنتج */}
@@ -376,7 +372,6 @@ export default function OccasionsPage() {
                                             fill
                                             className="object-cover"
                                             sizes="(max-width: 768px) 100vw, 50vw"
-                                            quality={85}
                                             loading="lazy"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
@@ -426,7 +421,6 @@ export default function OccasionsPage() {
                                                             fill
                                                             className="object-cover group-hover:scale-110 transition-transform duration-500"
                                                             sizes="(max-width: 768px) 33vw, 16vw"
-                                                            quality={85}
                                                             loading="lazy"
                                                         />
                                                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -464,7 +458,6 @@ export default function OccasionsPage() {
                                                     fill
                                                     className="object-cover"
                                                     sizes="(max-width: 768px) 100vw, 50vw"
-                                                    quality={85}
                                                     loading="lazy"
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
@@ -521,9 +514,6 @@ export default function OccasionsPage() {
                                                                         fill
                                                                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                                                                         sizes="(max-width: 768px) 33vw, 16vw"
-                                                                        quality={
-                                                                            85
-                                                                        }
                                                                         loading="lazy"
                                                                     />
                                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

@@ -157,7 +157,6 @@ const OccasionsSlider = () => {
                                                     fill
                                                     className="object-contain group-hover:scale-110 transition-transform duration-300 p-6"
                                                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-                                                    quality={85}
                                                     loading="lazy"
                                                 />
                                             </div>

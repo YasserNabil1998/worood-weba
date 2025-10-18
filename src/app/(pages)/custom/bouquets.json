@@ -209,18 +209,18 @@
   "paymentMethods": [
     {
       "key": "mada",
-      "label": "بطاقة مدى",
+      "label": "Mada",
+      "icon": "💳"
+    },
+    {
+      "key": "visa",
+      "label": "Visa",
       "icon": "💳"
     },
     {
       "key": "apple",
       "label": "Apple Pay",
       "icon": "🍎"
-    },
-    {
-      "key": "stc",
-      "label": "STC Pay",
-      "icon": "💠"
     },
     {
       "key": "cod",
