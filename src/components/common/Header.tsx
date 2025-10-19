@@ -95,20 +95,12 @@ const Header = () => {
                 <div className="hidden lg:flex justify-between items-center h-20">
                     {/* Logo */}
                     <Link href="/" className="flex items-center">
-                        {/* <Image
-                            src={ASSETS.logos.main}
-                            alt="زهور الشمس"
-                            width={200}
-                            height={48}
-                            className="h-12 w-auto object-contain"
-                            priority
-                        /> */}
                         <Image
                             src={ASSETS.logos.main}
                             alt="زهور الشمس"
                             width={200}
                             height={48}
-                            className="w-auto h-auto max-h-12 object-contain"
+                            className="h-12 w-auto object-contain"
                             priority
                         />
                     </Link>

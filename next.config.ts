@@ -4,14 +4,6 @@ const nextConfig: NextConfig = {
   // تحسين الأداء
   experimental: {
     optimizePackageImports: ['@heroicons/react'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
   },
   
   // تحسين الصور
