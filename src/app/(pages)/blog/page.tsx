@@ -64,12 +64,12 @@ export default function BlogPage() {
                                             اكتشف أسرار العناية بالورود ونصائح
                                             الخبراء لجعل باقاتك أكثر جمالاً
                                         </p>
-                                        <a
+                                        <Link
                                             href="#blog-section"
                                             className="inline-block bg-white hover:bg-[#5A5E4D] text-[#5A5E4D] hover:text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300"
                                         >
                                             تصفح المقالات
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

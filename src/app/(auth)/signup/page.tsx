@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 export default function SignupPage() {
     const [form, setForm] = useState({
@@ -214,9 +215,9 @@ export default function SignupPage() {
                         {submitting ? "... جاري الإنشاء" : "إنشاء حساب"}
                     </button>
                     <div className="text-center text-xs text-gray-600">
-                        <a href="/login" className="hover:underline">
+                        <Link href="/login" className="hover:underline">
                             لديك حساب؟ تسجيل الدخول
-                        </a>
+                        </Link>
                     </div>
                 </form>
             </div>

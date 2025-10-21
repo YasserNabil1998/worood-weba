@@ -14,4 +14,5 @@ export const ROUTES = {
   FAVORITES: "/favorites",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  FORGOT_PASSWORD: "/forgot-password",
 } as const;

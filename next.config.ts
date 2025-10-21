@@ -3,7 +3,17 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // تحسين الأداء
   experimental: {
-    optimizePackageImports: ['@heroicons/react'],
+    optimizePackageImports: ['@heroicons/react', 'lucide-react'],
+  },
+  
+  // إعدادات Turbopack
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
   },
   
   // تحسين الصور
@@ -44,6 +54,22 @@ const nextConfig: NextConfig = {
   
   // إعدادات التطوير
   reactStrictMode: true,
+  
+  // تحسينات إضافية للأداء
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  
+  // تحسينات Turbopack
+  webpack: (config, { dev, isServer }) => {
+    if (dev && !isServer) {
+      config.watchOptions = {
+        poll: false,
+        ignored: /node_modules/,
+      };
+    }
+    return config;
+  },
   
   // إعدادات التصدير (إذا كان مطلوباً)
   // output: 'export',

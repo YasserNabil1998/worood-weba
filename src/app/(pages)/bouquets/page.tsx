@@ -88,12 +88,12 @@ const Hero = () => {
                                     اختر من تشكيلتنا الواسعة من الباقات المصممة
                                     بعناية لتناسب جميع المناسبات والأذواق
                                 </p>
-                                <a
+                                <Link
                                     href="#bouquets-section"
                                     className="inline-block bg-white hover:bg-[#5A5E4D] text-[#5A5E4D] hover:text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300"
                                 >
                                     تصفح الباقات
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>

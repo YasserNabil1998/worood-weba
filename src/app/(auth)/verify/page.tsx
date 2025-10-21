@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 export default function VerifyPage() {
     const [phone, setPhone] = useState("");
@@ -126,9 +127,9 @@ export default function VerifyPage() {
                         {submitting ? "... تسجيل الدخول" : "تسجيل الدخول"}
                     </button>
                     <div className="text-center text-xs text-gray-600 space-y-2">
-                        <a href="/login" className="block hover:underline">
+                        <Link href="/login" className="block hover:underline">
                             العودة لتغيير رقم الهاتف
-                        </a>
+                        </Link>
                         <button
                             type="button"
                             className="text-gray-700 hover:underline"

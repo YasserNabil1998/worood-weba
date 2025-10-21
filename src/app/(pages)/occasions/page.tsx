@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
     Baby,
     GraduationCap,
@@ -91,12 +92,12 @@ export default function OccasionsPage() {
                                         <p className="text-[18px] font-normal leading-[28px] text-white/90 mb-6 tracking-[0px]">
                                             {pageContent.hero.description}
                                         </p>
-                                        <a
+                                        <Link
                                             href={pageContent.hero.buttonLink}
                                             className="inline-block bg-white hover:bg-[#5A5E4D] text-[#5A5E4D] hover:text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300"
                                         >
                                             {pageContent.hero.buttonText}
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +121,7 @@ export default function OccasionsPage() {
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             {categories.map((c) => (
-                                <a
+                                <Link
                                     key={c.key}
                                     href={`#${c.sectionId}`}
                                     className="group block rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.18)] transition-all duration-300 bg-white cursor-pointer"
@@ -170,7 +171,7 @@ export default function OccasionsPage() {
                                             </p>
                                         </div>
                                     </div>
-                                </a>
+                                </Link>
                             ))}
                         </div>
                     </div>
@@ -253,7 +254,7 @@ export default function OccasionsPage() {
                                     >
                                         {featuredSection.sectionTitle}
                                     </h3>
-                                    <a
+                                    <Link
                                         href={featuredSection.viewAllLink}
                                         className="text-sm text-[#5A5E4D] font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all"
                                     >
@@ -261,12 +262,12 @@ export default function OccasionsPage() {
                                             {featuredSection.viewAllText}
                                         </span>
                                         <ArrowLeft className="w-5 h-5 inline" />
-                                    </a>
+                                    </Link>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     {featuredSection.bouquets.map((b) => (
-                                        <a
+                                        <Link
                                             key={b.id}
                                             href={b.productLink}
                                             className="group rounded-2xl border border-gray-200 overflow-hidden bg-white hover:shadow-xl transition-all duration-300 block"
@@ -346,7 +347,7 @@ export default function OccasionsPage() {
                                                     أضف إلى السلة
                                                 </button>
                                             </div>
-                                        </a>
+                                        </Link>
                                     ))}
                                 </div>
                             </div>
@@ -396,12 +397,12 @@ export default function OccasionsPage() {
                                                     {blk.title}
                                                 </h3>
                                             </div>
-                                            <a
+                                            <Link
                                                 href={blk.categoryLink}
                                                 className="inline-block self-start rounded-lg bg-white/95 hover:bg-white px-5 py-2 text-sm font-semibold text-gray-900 transition-all duration-300 hover:shadow-lg"
                                             >
                                                 {blk.buttonText}
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
 
@@ -409,7 +410,7 @@ export default function OccasionsPage() {
                                     <div className="bg-white p-4">
                                         <div className="grid grid-cols-3 gap-4">
                                             {blk.products.map((product) => (
-                                                <a
+                                                <Link
                                                     key={product.id}
                                                     href={product.productLink}
                                                     className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 block"
@@ -425,7 +426,7 @@ export default function OccasionsPage() {
                                                         />
                                                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                     </div>
-                                                </a>
+                                                </Link>
                                             ))}
                                         </div>
                                     </div>
@@ -482,14 +483,14 @@ export default function OccasionsPage() {
                                                             {occasion.title}
                                                         </h3>
                                                     </div>
-                                                    <a
+                                                    <Link
                                                         href={
                                                             occasion.categoryLink
                                                         }
                                                         className="inline-block self-start rounded-lg bg-white/95 hover:bg-white px-5 py-2 text-sm font-semibold text-gray-900 transition-all duration-300 hover:shadow-lg"
                                                     >
                                                         {occasion.buttonText}
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                             </div>
 
@@ -498,7 +499,7 @@ export default function OccasionsPage() {
                                                 <div className="grid grid-cols-3 gap-4">
                                                     {occasion.products?.map(
                                                         (product) => (
-                                                            <a
+                                                            <Link
                                                                 key={product.id}
                                                                 href={
                                                                     product.productLink
@@ -518,7 +519,7 @@ export default function OccasionsPage() {
                                                                     />
                                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                                 </div>
-                                                            </a>
+                                                            </Link>
                                                         )
                                                     )}
                                                 </div>

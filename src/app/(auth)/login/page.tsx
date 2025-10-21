@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import isValidEmail from "../../../validations/isValidEmail";
+import Link from "next/link";
 
 export default function LoginPage() {
-    const [form, setForm] = useState({ phone: "" });
+    const [form, setForm] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [submitting, setSubmitting] = useState(false);
 
@@ -14,11 +16,19 @@ export default function LoginPage() {
 
     const validate = () => {
         const err: Record<string, string> = {};
-        const cleaned = form.phone.replace(/\s|-/g, "");
-        const saPattern = /^(?:\+?966|00966)?5\d{8}$|^05\d{8}$/; // 05XXXXXXXX or +9665XXXXXXXX ...
-        if (!saPattern.test(cleaned))
-            err.phone =
-                "الرجاء إدخال رقم سعودي صحيح (مثال: 05XXXXXXXX أو +9665XXXXXXXX)";
+
+        if (!form.email.trim()) {
+            err.email = "البريد الإلكتروني مطلوب";
+        } else if (!isValidEmail(form.email)) {
+            err.email = "الرجاء إدخال بريد إلكتروني صحيح";
+        }
+
+        if (!form.password.trim()) {
+            err.password = "كلمة المرور مطلوبة";
+        } else if (form.password.length < 6) {
+            err.password = "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
+        }
+
         setErrors(err);
         return Object.keys(err).length === 0;
     };
@@ -27,20 +37,17 @@ export default function LoginPage() {
         e.preventDefault();
         if (!validate()) return;
         setSubmitting(true);
-        // normalize to E.164
-        const raw = form.phone.replace(/\s|-/g, "");
-        let normalized = raw;
-        if (/^05\d{8}$/.test(raw)) normalized = "+966" + raw.slice(1);
-        else if (/^5\d{8}$/.test(raw)) normalized = "+966" + raw;
-        else if (/^009665\d{8}$/.test(raw)) normalized = "+966" + raw.slice(5);
-        else if (/^9665\d{8}$/.test(raw)) normalized = "+966" + raw.slice(3);
-        else if (!/^\+\d{10,15}$/.test(raw)) normalized = "+" + raw;
 
+        // Mock API call - سيتم استبدالها بالـ API الحقيقي لاحقاً
         setTimeout(() => {
             setSubmitting(false);
-            window.location.href = `/verify?phone=${encodeURIComponent(
-                normalized
-            )}`;
+            // TODO: Replace with actual API call and redirect to dashboard
+            console.log("Login attempt:", {
+                email: form.email,
+                password: form.password,
+            });
+            // Temporary redirect - سيتم تحديثها لاحقاً
+            alert("تم تسجيل الدخول بنجاح! (سيتم الربط بالـ API لاحقاً)");
         }, 600);
     };
 
@@ -65,23 +72,56 @@ export default function LoginPage() {
                     <div>
                         <label
                             className="block text-sm text-gray-700 mb-1"
-                            htmlFor="phone"
+                            htmlFor="email"
                         >
-                            رقم الهاتف
+                            البريد الإلكتروني
                         </label>
                         <input
-                            id="phone"
-                            name="phone"
-                            value={form.phone}
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={form.email}
                             onChange={handleChange}
                             className="w-full h-10 rounded-md border border-gray-300 bg-white px-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
-                            placeholder="مثال: 05XXXXXXXX أو +9665XXXXXXXX"
+                            placeholder="example@mail.com"
                         />
-                        {errors.phone && (
+                        {errors.email && (
                             <p className="mt-1 text-xs text-red-600">
-                                {errors.phone}
+                                {errors.email}
                             </p>
                         )}
+                    </div>
+
+                    <div>
+                        <label
+                            className="block text-sm text-gray-700 mb-1"
+                            htmlFor="password"
+                        >
+                            كلمة المرور
+                        </label>
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            value={form.password}
+                            onChange={handleChange}
+                            className="w-full h-10 rounded-md border border-gray-300 bg-white px-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
+                            placeholder="********"
+                        />
+                        {errors.password && (
+                            <p className="mt-1 text-xs text-red-600">
+                                {errors.password}
+                            </p>
+                        )}
+                    </div>
+
+                    <div className="text-right">
+                        <Link
+                            href="/forgot-password"
+                            className="text-xs text-[#5A5E4D] hover:underline"
+                        >
+                            نسيت كلمة المرور؟
+                        </Link>
                     </div>
 
                     <button
@@ -94,12 +134,12 @@ export default function LoginPage() {
                             fontFamily: "var(--font-almarai)",
                         }}
                     >
-                        {submitting ? "... جاري الإرسال" : "إرسال الرمز"}
+                        {submitting ? "... جاري تسجيل الدخول" : "تسجيل الدخول"}
                     </button>
                     <div className="text-center text-xs text-gray-600">
-                        <a href="/signup" className="hover:underline">
+                        <Link href="/signup" className="hover:underline">
                             ليس لديك حساب؟ إنشاء حساب
-                        </a>
+                        </Link>
                     </div>
                 </form>
             </div>

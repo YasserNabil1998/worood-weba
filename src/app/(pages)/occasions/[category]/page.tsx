@@ -146,12 +146,12 @@ export default async function OccasionPage({
                         className="flex items-center gap-2 text-sm"
                         style={{ fontFamily: "var(--font-almarai)" }}
                     >
-                        <a
+                        <Link
                             href="/"
                             className="text-gray-600 hover:text-gray-800"
                         >
                             الرئيسية
-                        </a>
+                        </Link>
                         <span className="text-gray-400">×</span>
                         <span className="text-[#5A5E4D] font-medium">
                             {occasionData.title}
