@@ -1884,9 +1884,6 @@ function CustomBuilderContent() {
                         </div>
                     </div>
                 </section>
-
-                {/* قسم الباقات المميزة */}
-                <FeaturedBouquets />
             </main>
         </div>
     );

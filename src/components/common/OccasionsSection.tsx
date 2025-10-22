@@ -63,70 +63,216 @@ const OccasionsSection = ({
                     </p>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                {/* تصميم Grid متداخل مثل الصورة - ترتيب Bento Box */}
+                <div className="grid grid-cols-4 grid-rows-2 gap-3 sm:gap-4 md:gap-6 h-[350px] sm:h-[400px] md:h-[450px] lg:h-[500px]">
                     {isLoading && (
                         <div
-                            className="col-span-full text-center text-gray-600"
+                            className="col-span-full row-span-full text-center text-gray-600 flex items-center justify-center h-full"
                             style={{ fontFamily: "var(--font-almarai)" }}
                         >
                             جاري التحميل...
                         </div>
                     )}
-                    {memoizedOccasions.map((occasion) => (
-                        <Link
-                            key={occasion.id}
-                            href={
-                                occasion.href ||
-                                ROUTES.OCCASIONS +
-                                    `/${occasion.title
-                                        .toLowerCase()
-                                        .replace(/\s+/g, "-")}`
-                            }
-                            className="group cursor-pointer"
-                        >
-                            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300">
-                                <div className="relative w-full aspect-[4/5]">
-                                    <Image
-                                        src={occasion.image}
-                                        alt={occasion.title}
-                                        fill
-                                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
-                                        loading="lazy"
-                                    />
-                                </div>
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
-                                {/* النص والأيقونة */}
-                                <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-center">
-                                    {/* الأيقونة */}
-                                    {occasion.icon && (
-                                        <div className="flex justify-center mb-1 sm:mb-2">
-                                            {(() => {
-                                                const IconComponent =
-                                                    getIconComponent(
-                                                        occasion.icon
-                                                    );
-                                                return (
-                                                    <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white opacity-90" />
-                                                );
-                                            })()}
-                                        </div>
-                                    )}
-
-                                    {/* النص */}
-                                    <h3
-                                        className="text-sm sm:text-base md:text-lg font-semibold text-white"
-                                        style={{
-                                            fontFamily: "var(--font-almarai)",
-                                        }}
-                                    >
-                                        {occasion.title}
-                                    </h3>
-                                </div>
+                    {/* العنصر الأول - مربع صغير في الأعلى اليسار */}
+                    <Link
+                        href={
+                            memoizedOccasions[0]?.href ||
+                            ROUTES.OCCASIONS +
+                                `/${memoizedOccasions[0]?.title
+                                    ?.toLowerCase()
+                                    .replace(/\s+/g, "-")}`
+                        }
+                        className="group cursor-pointer col-span-1 row-span-1"
+                    >
+                        <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 h-full">
+                            <div className="relative w-full h-full">
+                                <Image
+                                    src={memoizedOccasions[0]?.image || ""}
+                                    alt={memoizedOccasions[0]?.title || ""}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                    sizes="(max-width: 640px) 25vw, (max-width: 768px) 25vw, 12.5vw"
+                                    loading="lazy"
+                                />
                             </div>
-                        </Link>
-                    ))}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                            <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 text-center">
+                                {memoizedOccasions[0]?.icon && (
+                                    <div className="flex justify-center mb-1">
+                                        {(() => {
+                                            const IconComponent =
+                                                getIconComponent(
+                                                    memoizedOccasions[0]
+                                                        ?.icon || ""
+                                                );
+                                            return (
+                                                <IconComponent className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white opacity-90" />
+                                            );
+                                        })()}
+                                    </div>
+                                )}
+                                <h3
+                                    className="text-xs sm:text-sm font-semibold text-white"
+                                    style={{
+                                        fontFamily: "var(--font-almarai)",
+                                    }}
+                                >
+                                    {memoizedOccasions[0]?.title}
+                                </h3>
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* العنصر الثاني - مستطيل عريض في الأعلى اليمين */}
+                    <Link
+                        href={
+                            memoizedOccasions[1]?.href ||
+                            ROUTES.OCCASIONS +
+                                `/${memoizedOccasions[1]?.title
+                                    ?.toLowerCase()
+                                    .replace(/\s+/g, "-")}`
+                        }
+                        className="group cursor-pointer col-span-3 row-span-1"
+                    >
+                        <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 h-full">
+                            <div className="relative w-full h-full">
+                                <Image
+                                    src={memoizedOccasions[1]?.image || ""}
+                                    alt={memoizedOccasions[1]?.title || ""}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                    sizes="(max-width: 640px) 75vw, (max-width: 768px) 75vw, 37.5vw"
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                            <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-center">
+                                {memoizedOccasions[1]?.icon && (
+                                    <div className="flex justify-center mb-1 sm:mb-2">
+                                        {(() => {
+                                            const IconComponent =
+                                                getIconComponent(
+                                                    memoizedOccasions[1]
+                                                        ?.icon || ""
+                                                );
+                                            return (
+                                                <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white opacity-90" />
+                                            );
+                                        })()}
+                                    </div>
+                                )}
+                                <h3
+                                    className="text-sm sm:text-base md:text-lg font-semibold text-white"
+                                    style={{
+                                        fontFamily: "var(--font-almarai)",
+                                    }}
+                                >
+                                    {memoizedOccasions[1]?.title}
+                                </h3>
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* العنصر الثالث - مستطيل عريض في الأسفل اليسار */}
+                    <Link
+                        href={
+                            memoizedOccasions[2]?.href ||
+                            ROUTES.OCCASIONS +
+                                `/${memoizedOccasions[2]?.title
+                                    ?.toLowerCase()
+                                    .replace(/\s+/g, "-")}`
+                        }
+                        className="group cursor-pointer col-span-3 row-span-1"
+                    >
+                        <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 h-full">
+                            <div className="relative w-full h-full">
+                                <Image
+                                    src={memoizedOccasions[2]?.image || ""}
+                                    alt={memoizedOccasions[2]?.title || ""}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                    sizes="(max-width: 640px) 75vw, (max-width: 768px) 75vw, 37.5vw"
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                            <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-center">
+                                {memoizedOccasions[2]?.icon && (
+                                    <div className="flex justify-center mb-1 sm:mb-2">
+                                        {(() => {
+                                            const IconComponent =
+                                                getIconComponent(
+                                                    memoizedOccasions[2]
+                                                        ?.icon || ""
+                                                );
+                                            return (
+                                                <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white opacity-90" />
+                                            );
+                                        })()}
+                                    </div>
+                                )}
+                                <h3
+                                    className="text-sm sm:text-base md:text-lg font-semibold text-white"
+                                    style={{
+                                        fontFamily: "var(--font-almarai)",
+                                    }}
+                                >
+                                    {memoizedOccasions[2]?.title}
+                                </h3>
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* العنصر الرابع - مربع صغير في الأسفل اليمين */}
+                    <Link
+                        href={
+                            memoizedOccasions[3]?.href ||
+                            ROUTES.OCCASIONS +
+                                `/${memoizedOccasions[3]?.title
+                                    ?.toLowerCase()
+                                    .replace(/\s+/g, "-")}`
+                        }
+                        className="group cursor-pointer col-span-1 row-span-1"
+                    >
+                        <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 h-full">
+                            <div className="relative w-full h-full">
+                                <Image
+                                    src={memoizedOccasions[3]?.image || ""}
+                                    alt={memoizedOccasions[3]?.title || ""}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                    sizes="(max-width: 640px) 25vw, (max-width: 768px) 25vw, 12.5vw"
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                            <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 text-center">
+                                {memoizedOccasions[3]?.icon && (
+                                    <div className="flex justify-center mb-1">
+                                        {(() => {
+                                            const IconComponent =
+                                                getIconComponent(
+                                                    memoizedOccasions[3]
+                                                        ?.icon || ""
+                                                );
+                                            return (
+                                                <IconComponent className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white opacity-90" />
+                                            );
+                                        })()}
+                                    </div>
+                                )}
+                                <h3
+                                    className="text-xs sm:text-sm font-semibold text-white"
+                                    style={{
+                                        fontFamily: "var(--font-almarai)",
+                                    }}
+                                >
+                                    {memoizedOccasions[3]?.title}
+                                </h3>
+                            </div>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </section>
