@@ -1,0 +1,236 @@
+{
+  "flowers": [
+    {
+      "id": 1,
+      "name": "ورد جوري",
+      "price": 25,
+      "image": "/images/bouquets/IMG-196.png"
+    },
+    {
+      "id": 2,
+      "name": "توليب",
+      "price": 30,
+      "image": "/images/bouquets/DIV-237.png"
+    },
+    {
+      "id": 3,
+      "name": "زنبق",
+      "price": 35,
+      "image": "/images/bouquets/IMG-210.png"
+    },
+    {
+      "id": 4,
+      "name": "أوركيد",
+      "price": 45,
+      "image": "/images/bouquets/IMG-224.png"
+    },
+    {
+      "id": 5,
+      "name": "جربيرا",
+      "price": 20,
+      "image": "/images/bouquets/IMG-210.png"
+    },
+    {
+      "id": 6,
+      "name": "فرازيا",
+      "price": 25,
+      "image": "/images/bouquets/IMG-224.png"
+    },
+    {
+      "id": 7,
+      "name": "إسبيريشن",
+      "price": 30,
+      "image": "/images/bouquets/IMG-196.png"
+    },
+    {
+      "id": 8,
+      "name": "الهيدرانجيا",
+      "price": 40,
+      "image": "/images/bouquets/DIV-237.png"
+    }
+  ],
+  "bouquetSizes": [
+    {
+      "key": "large",
+      "label": "كبير",
+      "price": 450,
+      "stems": "18-25 زهرة"
+    },
+    {
+      "key": "medium",
+      "label": "متوسط",
+      "price": 350,
+      "stems": "12-15 زهرة"
+    },
+    {
+      "key": "small",
+      "label": "صغير",
+      "price": 250,
+      "stems": "7-10 زهرة"
+    }
+  ],
+  "bouquetStyles": [
+    {
+      "key": "classic",
+      "label": "كلاسيك",
+      "price": 20,
+      "image": "/images/bouquets/IMG-196.png"
+    },
+    {
+      "key": "premium",
+      "label": "فاخر",
+      "price": 50,
+      "image": "/images/bouquets/IMG-210.png"
+    },
+    {
+      "key": "gift",
+      "label": "هدية",
+      "price": 35,
+      "image": "/images/bouquets/DIV-237.png"
+    },
+    {
+      "key": "eco",
+      "label": "صديق للبيئة",
+      "price": 25,
+      "image": "/images/bouquets/IMG-224.png"
+    }
+  ],
+  "colors": [
+    {
+      "id": 1,
+      "color": "#EF4444",
+      "name": "أحمر"
+    },
+    {
+      "id": 2,
+      "color": "#F97316",
+      "name": "برتقالي"
+    },
+    {
+      "id": 3,
+      "color": "#F59E0B",
+      "name": "أصفر"
+    },
+    {
+      "id": 4,
+      "color": "#22C55E",
+      "name": "أخضر"
+    },
+    {
+      "id": 5,
+      "color": "#3B82F6",
+      "name": "أزرق"
+    },
+    {
+      "id": 6,
+      "color": "#8B5CF6",
+      "name": "بنفسجي"
+    },
+    {
+      "id": 7,
+      "color": "#EC4899",
+      "name": "وردي"
+    },
+    {
+      "id": 8,
+      "color": "#ffffff",
+      "name": "بيضاء"
+    }
+  ],
+  "occasions": [
+    {
+      "id": 1,
+      "name": "عيد ميلاد",
+      "message": "كل عام وأنت بخير"
+    },
+    {
+      "id": 2,
+      "name": "تخرج",
+      "message": "مبروك التخرج"
+    },
+    {
+      "id": 3,
+      "name": "خطوبة",
+      "message": "ألف مبروك الخطوبة"
+    },
+    {
+      "id": 4,
+      "name": "زواج",
+      "message": "ألف مبروك الزواج"
+    },
+    {
+      "id": 5,
+      "name": "تهنئة",
+      "message": "تهانينا القلبية"
+    },
+    {
+      "id": 6,
+      "name": "شكر",
+      "message": "شكراً لك"
+    },
+    {
+      "id": 7,
+      "name": "اعتذار",
+      "message": "أعتذر إليك"
+    },
+    {
+      "id": 8,
+      "name": "شفاء",
+      "message": "شفاك الله وعافاك"
+    },
+    {
+      "id": 9,
+      "name": "ترحيب",
+      "message": "أهلاً وسهلاً"
+    },
+    {
+      "id": 10,
+      "name": "مولود جديد",
+      "message": "مبروك المولود الجديد"
+    }
+  ],
+  "deliveryTimes": [
+    {
+      "id": 1,
+      "label": "صباحًا (9-12)",
+      "value": "morning"
+    },
+    {
+      "id": 2,
+      "label": "ظهرًا (12-15)",
+      "value": "noon"
+    },
+    {
+      "id": 3,
+      "label": "مساءً (15-21)",
+      "value": "evening"
+    }
+  ],
+  "paymentMethods": [
+    {
+      "key": "mada",
+      "label": "Mada",
+      "icon": "💳"
+    },
+    {
+      "key": "visa",
+      "label": "Visa",
+      "icon": "💳"
+    },
+    {
+      "key": "apple",
+      "label": "Apple Pay",
+      "icon": "🍎"
+    },
+    {
+      "key": "cod",
+      "label": "الدفع عند الاستلام",
+      "icon": "💵"
+    }
+  ],
+  "config": {
+    "vatRate": 0.15,
+    "cardPrice": 15
+  }
+}
+

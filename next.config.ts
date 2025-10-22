@@ -3,13 +3,15 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // تحسين الأداء
   experimental: {
-    optimizePackageImports: ['@heroicons/react'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+    optimizePackageImports: ['@heroicons/react', 'lucide-react'],
+  },
+  
+  // إعدادات Turbopack
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     },
   },
@@ -20,7 +22,7 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
-    dangerouslyAllowSVG: false,
+    dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
@@ -35,6 +37,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'dummyjson.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   
@@ -46,6 +54,22 @@ const nextConfig: NextConfig = {
   
   // إعدادات التطوير
   reactStrictMode: true,
+  
+  // تحسينات إضافية للأداء
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  
+  // تحسينات Turbopack
+  webpack: (config, { dev, isServer }) => {
+    if (dev && !isServer) {
+      config.watchOptions = {
+        poll: false,
+        ignored: /node_modules/,
+      };
+    }
+    return config;
+  },
   
   // إعدادات التصدير (إذا كان مطلوباً)
   // output: 'export',

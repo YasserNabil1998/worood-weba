@@ -1,0 +1,13 @@
+{
+  "userData": {
+    "name": "أحمد محمد",
+    "email": "ahmed@example.com",
+    "phone": "0501234567",
+    "profileImage": null,
+    "gender": "ذكر",
+    "address": "الرياض، حي النخيل، شارع الملك فهد",
+    "joinDate": "يناير 2024",
+    "totalOrders": 12,
+    "totalSpent": 2450
+  }
+}

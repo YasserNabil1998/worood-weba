@@ -26,7 +26,6 @@
 - blog/keep-flowers-fresh.jpg - الحفاظ على الورود
 
 ### طرق الدفع:
+- payment/mada.svg
 - payment/visa.svg
-- payment/mastercard.svg
-- payment/apple-pay.svg
-- payment/paypal.svg
+- payment/applePay.svg
