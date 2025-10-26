@@ -132,3 +132,11 @@ export function debounce<T extends (...args: any[]) => any>(
   };
 }
 
+
+/**
+ * دمج class names مع clsx
+ * Combine class names with clsx
+ */
+export function cn(...classes: (string | undefined | null | false)[]): string {
+  return classes.filter(Boolean).join(' ');
+}
