@@ -19,6 +19,8 @@ export const STORAGE_KEYS = {
   USER: "user",
   AUTH_TOKEN: "authToken",
   EDIT_ITEM_ID: "editItemId",
+  ORDERS: "orders",
+  CHECKOUT_ITEMS: "checkoutItems",
 } as const;
 
 // الألوان

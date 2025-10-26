@@ -82,13 +82,18 @@ export default function BouquetPreview({
         </div>
         <div className="p-3 sm:p-4">
           {/* Total always visible */}
-          <div className="flex items-center justify-between py-2 px-2 sm:px-3 border-b border-gray-200 rounded-md mb-3 sm:mb-4">
-            <span className="text-gray-700 text-xs sm:text-sm font-semibold">
-              الإجمالي
-            </span>
-            <span className="text-base sm:text-lg font-bold text-[#5A5E4D]">
-              {total.toFixed(0)} ريال
-            </span>
+          <div className="py-2 px-2 sm:px-3 border-b border-gray-200 rounded-md mb-3 sm:mb-4">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-700 text-xs sm:text-sm font-semibold">
+                الإجمالي
+              </span>
+              <span className="text-base sm:text-lg font-bold text-[#5A5E4D]">
+                {total.toFixed(0)} ريال
+              </span>
+            </div>
+            <div className="text-[10px] text-gray-500 mt-1">
+              غير شامل الضريبة
+            </div>
           </div>
 
           <PriceBreakdown

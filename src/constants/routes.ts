@@ -5,7 +5,6 @@ export const ROUTES = {
   BOUQUETS: "/bouquets",
   CUSTOM: "/custom",
   OCCASIONS: "/occasions",
-  BLOG: "/blog",
   CONTACT: "/contact",
   CART: "/cart",
   CHECKOUT: "/checkout",

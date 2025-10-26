@@ -114,7 +114,8 @@ export function usePriceCalculations({
     ]);
 
     const vat = useMemo(() => subtotal * config.vatRate, [subtotal, config]);
-    const total = useMemo(() => subtotal + vat, [subtotal, vat]);
+    // السعر النهائي بدون ضريبة - الضريبة ستُضاف فقط في السلة والدفع
+    const total = useMemo(() => subtotal, [subtotal]);
 
     return {
         totalFlowersCount,

@@ -5,4 +5,7 @@ export interface CartItem {
     style: string;
     color: string;
     total: number;
+    image?: string;
+    isCustom?: boolean;
+    price?: number;
 }
