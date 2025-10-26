@@ -16,6 +16,7 @@ export interface Order {
     totalAmount: number;
     items: OrderItem[];
     deliveryAddress: string;
+    phoneNumber: string;
     paymentMethod: string;
     notes?: string;
     trackingNumber?: string;
