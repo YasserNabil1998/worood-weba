@@ -5,9 +5,5 @@ export interface OccasionData {
     description: string;
     productsCount: number;
     image: string;
-    subcategories: {
-        id: number;
-        name: string;
-        image: string;
-    }[];
+    icon: string;
 }
