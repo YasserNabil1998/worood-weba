@@ -16,6 +16,7 @@ export const APP_CONFIG = {
 export const STORAGE_KEYS = {
   CART: "cart",
   FAVORITES: "favorites",
+  BOUQUET_FAVORITES: "bouquetFavorites",
   USER: "user",
   AUTH_TOKEN: "authToken",
   EDIT_ITEM_ID: "editItemId",

@@ -1,6 +1,8 @@
+import { FlowerWithQuantity } from "@/src/@types/custom/index.type";
+
 export interface CustomBouquet {
     id: number;
-    flowers: any[];
+    flowers: FlowerWithQuantity[];
     colors: string[];
     size: string;
     style: string;
@@ -10,4 +12,4 @@ export interface CustomBouquet {
     total: number;
     image: string;
     createdAt: string;
-};
+}

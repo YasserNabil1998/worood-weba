@@ -17,3 +17,9 @@ export interface DeliveryTime   { id: number; label: string; value: string };
 export interface PaymentMethod   { key: string; label: string; icon: string };
 export interface Config   { vatRate: number; cardPrice: number };
 export type PackagingType = 'paper' | 'vase';
+
+// Flower with quantity for custom bouquets
+export interface FlowerWithQuantity {
+    flower: Flower;
+    quantity: number;
+}
