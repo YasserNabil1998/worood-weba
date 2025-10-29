@@ -36,7 +36,6 @@ export default function OrdersPage() {
   const handleRatingSubmit = (review: ReviewItem) => {
     // حفظ التقييم في النظام المحلي
     addReview(review);
-    console.log("New review submitted:", review);
   };
 
   const openRatingPopup = (orderNumber: string, productName: string) => {

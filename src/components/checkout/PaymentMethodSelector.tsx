@@ -37,13 +37,13 @@ const getPaymentIcon = (method: PaymentMethod) => {
   switch (method) {
     case PAYMENT_METHODS.MADA:
     case PAYMENT_METHODS.VISA:
-      return <CreditCard size={20} className="text-gray-700" />;
+      return <CreditCard size={22} className="text-gray-700" />;
     case PAYMENT_METHODS.APPLE_PAY:
-      return <Smartphone size={20} className="text-gray-700" />;
+      return <Smartphone size={22} className="text-gray-700" />;
     case PAYMENT_METHODS.COD:
-      return <DollarSign size={20} className="text-gray-700" />;
+      return <DollarSign size={22} className="text-gray-700" />;
     default:
-      return <CreditCard size={20} className="text-gray-700" />;
+      return <CreditCard size={22} className="text-gray-700" />;
   }
 };
 
@@ -52,9 +52,9 @@ export default function PaymentMethodSelector({
   onMethodChange,
 }: PaymentMethodSelectorProps) {
   return (
-    <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
+    <section className="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300 p-6">
       <h2
-        className="text-lg font-semibold mb-3"
+        className="text-lg font-semibold mb-5 text-gray-800"
         style={{ fontFamily: "var(--font-almarai)" }}
       >
         طريقة الدفع
@@ -66,24 +66,44 @@ export default function PaymentMethodSelector({
             key={option.key}
             type="button"
             onClick={() => onMethodChange(option.key)}
-            className={`w-full flex items-center justify-between rounded-md border px-3 py-2 text-right transition-colors ${
+            className={`w-full flex items-center justify-between rounded-lg border px-4 py-3.5 text-right transition-all duration-200 ${
               selectedMethod === option.key
-                ? "border-[#5A5E4D] bg-[#5A5E4D]/5"
-                : "border-gray-200 bg-white hover:bg-gray-50"
+                ? "border-[#5A5E4D] bg-[#5A5E4D]/10 shadow-sm"
+                : "border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 hover:shadow-sm"
             }`}
             aria-pressed={selectedMethod === option.key}
           >
             <span className="flex items-center gap-3">
-              {getPaymentIcon(option.key)}
-              <span className="text-sm text-gray-800">{option.label}</span>
+              <span
+                className={`transition-transform duration-200 ${
+                  selectedMethod === option.key ? "scale-110" : ""
+                }`}
+              >
+                {getPaymentIcon(option.key)}
+              </span>
+              <span
+                className={`text-sm font-medium transition-colors ${
+                  selectedMethod === option.key
+                    ? "text-[#5A5E4D]"
+                    : "text-gray-800"
+                }`}
+              >
+                {option.label}
+              </span>
             </span>
             <span
-              className={`h-4 w-4 rounded-full border transition-colors ${
+              className={`h-5 w-5 rounded-full border-2 transition-all duration-200 ${
                 selectedMethod === option.key
-                  ? "border-[#5A5E4D] ring-2 ring-[#5A5E4D]/30 bg-[#5A5E4D]"
-                  : "border-gray-300"
+                  ? "border-[#5A5E4D] ring-2 ring-[#5A5E4D]/30 bg-[#5A5E4D] scale-110"
+                  : "border-gray-300 bg-white"
               }`}
-            />
+            >
+              {selectedMethod === option.key && (
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="w-2 h-2 rounded-full bg-white" />
+                </div>
+              )}
+            </span>
           </button>
         ))}
       </div>

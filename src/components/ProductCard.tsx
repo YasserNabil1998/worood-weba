@@ -2,68 +2,56 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useCallback } from "react";
 import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS } from "@/src/constants";
 import { addProductToCart } from "@/src/lib/cartUtils";
 import { Heart } from "lucide-react";
 import { BouquetItem } from "@/src/@types/bouquets/index.type";
+import { useNotification } from "@/src/providers/notification-provider";
+import { useFavorites } from "@/src/hooks/useFavorites";
+import { CartItem } from "@/src/@types/cart/CartItem.type";
 
 // Keep ProductItem for backward compatibility
 export type ProductItem = BouquetItem;
 
 export default function ProductCard({ item }: { item: BouquetItem }) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { showNotification } = useNotification();
+  const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
 
-  // Check if item is in favorites
-  useEffect(() => {
-    const favorites = storage.get<ProductItem[]>(STORAGE_KEYS.FAVORITES, []);
-    const isInFavorites = favorites.some(
-      (fav: ProductItem) => fav.id === item.id
-    );
-    setIsFavorite(isInFavorites);
-  }, [item.id]);
+  const itemId = typeof item.id === "number" ? item.id : Number(item.id);
+  const isCurrentlyFavorite = isFavorite(itemId);
 
-  const toggleFavorite = () => {
-    const favorites = storage.get<ProductItem[]>(STORAGE_KEYS.FAVORITES, []);
-
-    if (isFavorite) {
-      // Remove from favorites
-      const updatedFavorites = favorites.filter(
-        (fav: ProductItem) => fav.id !== item.id
-      );
-      storage.set(STORAGE_KEYS.FAVORITES, updatedFavorites);
-      setIsFavorite(false);
-
-      // Show notification
-      const notification = document.createElement("div");
-      notification.className =
-        "fixed top-4 right-4 bg-gray-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in";
-      notification.textContent = "تم إزالة المنتج من المفضلة";
-      document.body.appendChild(notification);
-      setTimeout(() => notification.remove(), 3000);
-    } else {
-      // Add to favorites
-      favorites.push(item);
-      storage.set(STORAGE_KEYS.FAVORITES, favorites);
-      setIsFavorite(true);
-
-      // Show notification
-      const notification = document.createElement("div");
-      notification.className =
-        "fixed top-4 right-4 bg-[#5A5E4D] text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in";
-      notification.textContent = "تم إضافة المنتج إلى المفضلة ❤️";
-      document.body.appendChild(notification);
-      setTimeout(() => notification.remove(), 3000);
+  const toggleFavorite = useCallback(() => {
+    try {
+      const currentlyFavorite = isFavorite(itemId);
+      if (currentlyFavorite) {
+        removeFromFavorites(itemId);
+        showNotification("تم إزالة المنتج من المفضلة", "info");
+      } else {
+        // تحويل item إلى النوع الصحيح المتوقع من useFavorites
+        const favoriteItem: BouquetItem = {
+          ...item,
+          id: itemId, // تأكد من أن id هو number
+        };
+        addToFavorites(favoriteItem);
+        showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
+      }
+    } catch (error) {
+      console.error("خطأ في تبديل المفضلة:", error);
+      showNotification("حدث خطأ في تحديث المفضلة", "error");
     }
+  }, [
+    itemId,
+    item,
+    isFavorite,
+    addToFavorites,
+    removeFromFavorites,
+    showNotification,
+  ]);
 
-    // Dispatch event for other components to update
-    window.dispatchEvent(new Event("favoritesUpdated"));
-  };
-
-  const handleAddToCart = () => {
-    // Get existing cart
-    const cart = storage.get<any[]>(STORAGE_KEYS.CART, []);
+  const handleAddToCart = useCallback(() => {
+    const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
 
     // إنشاء منتج مع خصائص افتراضية
     const productToAdd = {
@@ -77,26 +65,14 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
 
     const { cart: updatedCart, isNew } = addProductToCart(cart, productToAdd);
 
-    // Save updated cart
     storage.set(STORAGE_KEYS.CART, updatedCart);
-
-    // Dispatch custom event to update cart count
     window.dispatchEvent(new Event("cartUpdated"));
 
-    // Show notification with different message based on whether it's new or existing
-    const notification = document.createElement("div");
-    notification.className =
-      "fixed top-4 right-4 bg-[#5A5E4D] text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in";
-    notification.textContent = isNew
+    const message = isNew
       ? "تم إضافة المنتج إلى السلة ✓"
       : "تم زيادة كمية المنتج في السلة ✓";
-    document.body.appendChild(notification);
-
-    // Remove notification after 3 seconds
-    setTimeout(() => {
-      notification.remove();
-    }, 3000);
-  };
+    showNotification(message, "success");
+  }, [item, showNotification]);
 
   return (
     <Link
@@ -121,14 +97,14 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
               toggleFavorite();
             }}
             className={`h-8 w-8 rounded-full backdrop-blur flex items-center justify-center shadow transition-all duration-300 hover:scale-110 ${
-              isFavorite
+              isCurrentlyFavorite
                 ? "bg-[#5A5E4D] text-white"
                 : "bg-white/90 text-gray-700 hover:bg-[#5A5E4D] hover:text-white"
             }`}
           >
             <Heart
               className="w-4 h-4 transition-colors"
-              fill={isFavorite ? "currentColor" : "none"}
+              fill={isCurrentlyFavorite ? "currentColor" : "none"}
               stroke="currentColor"
               strokeWidth={2}
             />
@@ -161,10 +137,9 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
         </div>
 
         <div className="mt-auto">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-sm text-gray-600">السعر:</span>
+          <div className="flex items-center justify-start mb-3">
             <div className="font-bold text-lg text-[#5A5E4D]">
-              {item.price} ريال
+              {item.price} ر.س
             </div>
           </div>
           <button

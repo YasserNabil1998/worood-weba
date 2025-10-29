@@ -111,7 +111,6 @@ const Header = () => {
               { href: "/", label: "الرئيسية" },
               { href: "/bouquets", label: "الباقات الجاهزة" },
               { href: "/custom", label: "تنسيق خاص" },
-              { href: "/occasions", label: "المناسبات" },
               { href: "/contact", label: "تواصل معنا" },
             ].map((link) => (
               <Link
@@ -373,7 +372,6 @@ const Header = () => {
                 { href: "/", label: "الرئيسية" },
                 { href: "/bouquets", label: "الباقات الجاهزة" },
                 { href: "/custom", label: "تنسيق خاص" },
-                { href: "/occasions", label: "المناسبات" },
                 { href: "/contact", label: "تواصل معنا" },
               ].map((link) => (
                 <Link

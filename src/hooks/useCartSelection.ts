@@ -5,13 +5,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
-import { removeSelectedItems } from "@/src/lib/cartHelpers";
+import { removeSelectedItems, getItemId } from "@/src/lib/cartHelpers";
 import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS } from "@/src/constants";
 
 interface UseCartSelectionReturn {
-    selectedItems: Set<number>;
-    toggleSelectItem: (itemId: number) => void;
+    selectedItems: Set<string | number>;
+    toggleSelectItem: (itemId: string | number) => void;
     toggleSelectAll: (items: CartItem[]) => void;
     removeSelected: (items: CartItem[]) => CartItem[];
     isAllSelected: (items: CartItem[]) => boolean;
@@ -22,17 +22,17 @@ interface UseCartSelectionReturn {
  * Hook لإدارة اختيار المنتجات في السلة
  */
 export function useCartSelection(initialItems: CartItem[] = []): UseCartSelectionReturn {
-    const [selectedItems, setSelectedItems] = useState<Set<number>>(new Set());
+    const [selectedItems, setSelectedItems] = useState<Set<string | number>>(new Set());
 
     // تحديد جميع العناصر افتراضياً عند التحميل
     useEffect(() => {
         if (initialItems.length > 0 && selectedItems.size === 0) {
-            setSelectedItems(new Set(initialItems.map((item) => item.id)));
+            setSelectedItems(new Set(initialItems.map((item) => getItemId(item))));
         }
     }, [initialItems.length]); // Only run when items length changes
 
     // تحديد/إلغاء تحديد عنصر واحد
-    const toggleSelectItem = useCallback((itemId: number) => {
+    const toggleSelectItem = useCallback((itemId: string | number) => {
         setSelectedItems((prev) => {
             const newSet = new Set(prev);
             if (newSet.has(itemId)) {
@@ -47,12 +47,13 @@ export function useCartSelection(initialItems: CartItem[] = []): UseCartSelectio
     // تحديد/إلغاء تحديد الكل
     const toggleSelectAll = useCallback((items: CartItem[]) => {
         setSelectedItems((prev) => {
-            if (prev.size === items.length) {
+            const allItemIds = new Set(items.map((item) => getItemId(item)));
+            if (prev.size === items.length && items.every((item) => prev.has(getItemId(item)))) {
                 // إلغاء تحديد الكل
                 return new Set();
             } else {
                 // تحديد الكل
-                return new Set(items.map((item) => item.id));
+                return allItemIds;
             }
         });
     }, []);
@@ -75,7 +76,8 @@ export function useCartSelection(initialItems: CartItem[] = []): UseCartSelectio
     // التحقق من تحديد الكل
     const isAllSelected = useCallback(
         (items: CartItem[]): boolean => {
-            return items.length > 0 && selectedItems.size === items.length;
+            if (items.length === 0) return false;
+            return items.every((item) => selectedItems.has(getItemId(item)));
         },
         [selectedItems]
     );

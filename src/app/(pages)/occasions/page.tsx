@@ -319,7 +319,6 @@ export default function OccasionsPage() {
                           onClick={(e) => {
                             e.preventDefault();
                             // TODO: Integrate with cart functionality
-                            console.log(`Adding ${b.title} to cart`);
                           }}
                           className="w-full py-3 rounded-lg text-white text-sm font-semibold bg-[#5A5E4D] hover:bg-[#4a4e3d] transition-colors"
                         >

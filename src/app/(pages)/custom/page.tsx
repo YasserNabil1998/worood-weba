@@ -32,6 +32,7 @@ import FlowerSelectionStep from "@/src/components/custom/steps/FlowerSelectionSt
 import SizeAndPackagingStep from "@/src/components/custom/steps/SizeAndPackagingStep";
 import CustomizationStep from "@/src/components/custom/steps/CustomizationStep";
 import DeliveryStep from "@/src/components/custom/steps/DeliveryStep";
+import DataLoader from "@/src/components/DataLoader";
 
 function CustomBuilderContent() {
   const searchParams = useSearchParams();
@@ -97,6 +98,41 @@ function CustomBuilderContent() {
         state.setCardMessage(design.cardMessage || "");
         state.setIncludeCard(design.includeCard || false);
         state.setNotes(design.notes || "");
+
+        // Load packaging data
+        if (design.packagingType) {
+          state.setPackagingType(design.packagingType);
+        }
+        if (design.selectedVase) {
+          state.setSelectedVase(design.selectedVase);
+        }
+
+        // Load delivery data
+        if (design.deliveryDate) {
+          state.setDeliveryDate(design.deliveryDate);
+        }
+        if (design.deliveryTime) {
+          state.setDeliveryTime(design.deliveryTime);
+        }
+        if (design.city) {
+          state.setCity(design.city);
+        }
+        if (design.district) {
+          state.setDistrict(design.district);
+        }
+        if (design.street) {
+          state.setStreet(design.street);
+        }
+        if (design.landmark) {
+          state.setLandmark(design.landmark);
+        }
+        if (design.phone) {
+          state.setPhone(design.phone);
+        }
+        if (design.payMethod) {
+          state.setPayMethod(design.payMethod);
+        }
+
         if (design.image) {
           state.setBouquetImage(design.image);
         }
@@ -223,168 +259,175 @@ function CustomBuilderContent() {
     );
   }
 
+  const isEditMode = searchParams.get("edit") === "true";
+  const loadingText = isEditMode
+    ? "جاري تحديث الباقة في السلة..."
+    : "جاري إضافة الباقة إلى السلة...";
+
   return (
-    <div className="min-h-screen" dir="rtl">
-      <NotificationToast
-        message={state.notification.message}
-        visible={state.notification.visible}
-      />
+    <DataLoader isLoading={state.isAddingToCart} loadingText={loadingText}>
+      <div className="min-h-screen" dir="rtl">
+        <NotificationToast
+          message={state.notification.message}
+          visible={state.notification.visible}
+        />
 
-      <main>
-        {/* Page Title Section */}
-        <section className="pt-8 pb-4">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-right">
-            <h1 className="text-[36px] font-bold leading-[40px] text-[#2D3319] mb-2 tracking-[0px]">
-              تنسيق باقة خاص
-            </h1>
-            <p className="text-[16px] font-normal leading-[24px] text-[#5A5E4D] tracking-[0px]">
-              صمّم باقتك الخاصة بالزهور التي تفضّلها
-            </p>
-          </div>
-        </section>
-
-        {/* Content Section */}
-        <section className="py-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-              {/* Left - selector */}
-              <div className="order-2 lg:order-2 lg:col-span-2">
-                <div className="bg-white rounded-lg border border-gray-200 p-3 sm:p-5 mb-4">
-                  <StepIndicator
-                    currentStep={state.step}
-                    onStepChange={state.setStep}
-                  />
-
-                  {/* Section title */}
-                  <div className="flex items-center justify-between mb-2">
-                    <h3
-                      className="text-sm font-semibold text-gray-800"
-                      style={{
-                        fontFamily: "var(--font-almarai)",
-                      }}
-                    >
-                      {state.step === 1 && "اختر الزهور"}
-                      {state.step === 2 && "اختيار الحجم والتغليف"}
-                      {state.step === 3 && "التخصيص"}
-                      {state.step === 4 && "التوصيل"}
-                    </h3>
-                  </div>
-
-                  {/* Step content */}
-                  {state.step === 1 && (
-                    <FlowerSelectionStep
-                      flowers={flowers}
-                      selectedFlowers={state.selectedFlowers}
-                      totalFlowersCount={prices.totalFlowersCount}
-                      searchQuery={state.searchQuery}
-                      onSearchChange={state.setSearchQuery}
-                      onInc={flowerManagement.inc}
-                      onDec={flowerManagement.dec}
-                      qty={flowerManagement.qty}
-                      onNextStep={() => state.setStep(2)}
-                    />
-                  )}
-
-                  {state.step === 2 && (
-                    <SizeAndPackagingStep
-                      selectedFlowers={state.selectedFlowers}
-                      flowers={flowers}
-                      colors={colors}
-                      selectedColors={state.selectedColors}
-                      expandedFlower={state.expandedFlower}
-                      onToggleFlowerExpansion={toggleFlowerExpansion}
-                      onSetFlowerColor={flowerManagement.setFlowerColor}
-                      bouquetSizes={bouquetSizes}
-                      size={state.size}
-                      totalFlowersCount={prices.totalFlowersCount}
-                      customFlowerCount={state.customFlowerCount}
-                      onCustomFlowerCountChange={state.setCustomFlowerCount}
-                      onSizeChange={flowerManagement.handleSizeChange}
-                      packagingType={state.packagingType}
-                      onPackagingTypeChange={state.setPackagingType}
-                      bouquetStyles={bouquetStyles}
-                      style={state.style}
-                      onStyleChange={state.setStyle}
-                      vases={vases}
-                      selectedVase={state.selectedVase}
-                      onVaseChange={state.setSelectedVase}
-                      onPrevStep={() => state.setStep(1)}
-                      onNextStep={() => {
-                        flowerManagement.completeFlowersForSize();
-                        state.setStep(3);
-                      }}
-                    />
-                  )}
-
-                  {state.step === 3 && (
-                    <CustomizationStep
-                      occasions={occasions}
-                      occasion={state.occasion}
-                      onOccasionChange={state.setOccasion}
-                      includeCard={state.includeCard}
-                      onIncludeCardChange={state.setIncludeCard}
-                      cardMessage={state.cardMessage}
-                      onCardMessageChange={state.setCardMessage}
-                      showSuggestions={state.showSuggestions}
-                      onShowSuggestionsToggle={() =>
-                        state.setShowSuggestions(!state.showSuggestions)
-                      }
-                      cardSuggestions={cardSuggestionsData.cardSuggestions}
-                      notes={state.notes}
-                      onNotesChange={state.setNotes}
-                      config={config}
-                      onPrevStep={() => state.setStep(2)}
-                      onNextStep={() => state.setStep(4)}
-                    />
-                  )}
-
-                  {state.step === 4 && (
-                    <DeliveryStep
-                      deliveryType={state.deliveryType}
-                      onDeliveryTypeChange={state.setDeliveryType}
-                      deliveryTimes={deliveryTimes}
-                      deliveryTime={state.deliveryTime}
-                      onDeliveryTimeChange={state.setDeliveryTime}
-                      deliveryDate={state.deliveryDate}
-                      onDeliveryDateChange={state.setDeliveryDate}
-                      isAddingToCart={state.isAddingToCart}
-                      onPrevStep={() => state.setStep(3)}
-                      onAddToCart={cartOps.addToCart}
-                    />
-                  )}
-                </div>
-              </div>
-
-              <BouquetPreview
-                bouquetImage={state.bouquetImage}
-                total={prices.total}
-                totalFlowersCount={prices.totalFlowersCount}
-                packagingType={state.packagingType}
-                style={state.style}
-                selectedVase={state.selectedVase}
-                stylePrice={prices.stylePrice}
-                vasePrice={prices.vasePrice}
-                flowersPrice={prices.flowersPrice}
-                includeCard={state.includeCard}
-                cardPrice={prices.cardPrice}
-                vat={prices.vat}
-                vases={vases}
-                size={state.size}
-                customFlowerCount={state.customFlowerCount}
-                selectedFlowers={state.selectedFlowers}
-                flowers={flowers}
-                selectedColors={state.selectedColors}
-                colors={colors}
-                onSaveToFavorites={historyOps.saveToFavorites}
-                onShareDesign={historyOps.shareDesign}
-                getStyleLabel={getStyleLabel}
-                getVaseName={getVaseName}
-              />
+        <main>
+          {/* Page Title Section */}
+          <section className="pt-8 pb-4">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-right">
+              <h1 className="text-[36px] font-bold leading-[40px] text-[#2D3319] mb-2 tracking-[0px]">
+                تنسيق باقة خاص
+              </h1>
+              <p className="text-[16px] font-normal leading-[24px] text-[#5A5E4D] tracking-[0px]">
+                صمّم باقتك الخاصة بالزهور التي تفضّلها
+              </p>
             </div>
-          </div>
-        </section>
-      </main>
-    </div>
+          </section>
+
+          {/* Content Section */}
+          <section className="py-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                {/* Left - selector */}
+                <div className="order-2 lg:order-2 lg:col-span-2">
+                  <div className="bg-white rounded-lg border border-gray-200 p-3 sm:p-5 mb-4">
+                    <StepIndicator
+                      currentStep={state.step}
+                      onStepChange={state.setStep}
+                    />
+
+                    {/* Section title */}
+                    <div className="flex items-center justify-between mb-2">
+                      <h3
+                        className="text-sm font-semibold text-gray-800"
+                        style={{
+                          fontFamily: "var(--font-almarai)",
+                        }}
+                      >
+                        {state.step === 1 && "اختر الزهور"}
+                        {state.step === 2 && "اختيار الحجم والتغليف"}
+                        {state.step === 3 && "التخصيص"}
+                        {state.step === 4 && "التوصيل"}
+                      </h3>
+                    </div>
+
+                    {/* Step content */}
+                    {state.step === 1 && (
+                      <FlowerSelectionStep
+                        flowers={flowers}
+                        selectedFlowers={state.selectedFlowers}
+                        totalFlowersCount={prices.totalFlowersCount}
+                        searchQuery={state.searchQuery}
+                        onSearchChange={state.setSearchQuery}
+                        onInc={flowerManagement.inc}
+                        onDec={flowerManagement.dec}
+                        qty={flowerManagement.qty}
+                        onNextStep={() => state.setStep(2)}
+                      />
+                    )}
+
+                    {state.step === 2 && (
+                      <SizeAndPackagingStep
+                        selectedFlowers={state.selectedFlowers}
+                        flowers={flowers}
+                        colors={colors}
+                        selectedColors={state.selectedColors}
+                        expandedFlower={state.expandedFlower}
+                        onToggleFlowerExpansion={toggleFlowerExpansion}
+                        onSetFlowerColor={flowerManagement.setFlowerColor}
+                        bouquetSizes={bouquetSizes}
+                        size={state.size}
+                        totalFlowersCount={prices.totalFlowersCount}
+                        customFlowerCount={state.customFlowerCount}
+                        onCustomFlowerCountChange={state.setCustomFlowerCount}
+                        onSizeChange={flowerManagement.handleSizeChange}
+                        packagingType={state.packagingType}
+                        onPackagingTypeChange={state.setPackagingType}
+                        bouquetStyles={bouquetStyles}
+                        style={state.style}
+                        onStyleChange={state.setStyle}
+                        vases={vases}
+                        selectedVase={state.selectedVase}
+                        onVaseChange={state.setSelectedVase}
+                        onPrevStep={() => state.setStep(1)}
+                        onNextStep={() => {
+                          flowerManagement.completeFlowersForSize();
+                          state.setStep(3);
+                        }}
+                      />
+                    )}
+
+                    {state.step === 3 && (
+                      <CustomizationStep
+                        occasions={occasions}
+                        occasion={state.occasion}
+                        onOccasionChange={state.setOccasion}
+                        includeCard={state.includeCard}
+                        onIncludeCardChange={state.setIncludeCard}
+                        cardMessage={state.cardMessage}
+                        onCardMessageChange={state.setCardMessage}
+                        showSuggestions={state.showSuggestions}
+                        onShowSuggestionsToggle={() =>
+                          state.setShowSuggestions(!state.showSuggestions)
+                        }
+                        cardSuggestions={cardSuggestionsData.cardSuggestions}
+                        notes={state.notes}
+                        onNotesChange={state.setNotes}
+                        config={config}
+                        onPrevStep={() => state.setStep(2)}
+                        onNextStep={() => state.setStep(4)}
+                      />
+                    )}
+
+                    {state.step === 4 && (
+                      <DeliveryStep
+                        deliveryType={state.deliveryType}
+                        onDeliveryTypeChange={state.setDeliveryType}
+                        deliveryTimes={deliveryTimes}
+                        deliveryTime={state.deliveryTime}
+                        onDeliveryTimeChange={state.setDeliveryTime}
+                        deliveryDate={state.deliveryDate}
+                        onDeliveryDateChange={state.setDeliveryDate}
+                        isAddingToCart={state.isAddingToCart}
+                        onPrevStep={() => state.setStep(3)}
+                        onAddToCart={cartOps.addToCart}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                <BouquetPreview
+                  bouquetImage={state.bouquetImage}
+                  total={prices.total}
+                  totalFlowersCount={prices.totalFlowersCount}
+                  packagingType={state.packagingType}
+                  style={state.style}
+                  selectedVase={state.selectedVase}
+                  stylePrice={prices.stylePrice}
+                  vasePrice={prices.vasePrice}
+                  flowersPrice={prices.flowersPrice}
+                  includeCard={state.includeCard}
+                  cardPrice={prices.cardPrice}
+                  vat={prices.vat}
+                  vases={vases}
+                  size={state.size}
+                  customFlowerCount={state.customFlowerCount}
+                  selectedFlowers={state.selectedFlowers}
+                  flowers={flowers}
+                  selectedColors={state.selectedColors}
+                  colors={colors}
+                  onSaveToFavorites={historyOps.saveToFavorites}
+                  onShareDesign={historyOps.shareDesign}
+                  getStyleLabel={getStyleLabel}
+                  getVaseName={getVaseName}
+                />
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </DataLoader>
   );
 }
 

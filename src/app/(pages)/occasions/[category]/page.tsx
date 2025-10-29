@@ -1,3 +1,4 @@
+import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -8,8 +9,13 @@ import {
   Sparkles,
   Gift,
 } from "lucide-react";
-import { OccasionData } from "@/src/@types/occasions/category/OccasionData.type";
+import {
+  OccasionData,
+  OccasionProduct,
+} from "@/src/@types/occasions/category/OccasionData.type";
 import occasionsDataJson from "@/src/data/occasions-data.json";
+import ProductCard from "@/src/components/ProductCard";
+import { BouquetItem } from "@/src/@types/bouquets/index.type";
 
 const occasionsData: Record<string, OccasionData> = occasionsDataJson;
 
@@ -35,6 +41,19 @@ const getIconComponent = (iconName: string) => {
     Gift,
   };
   return iconMap[iconName] || Heart;
+};
+
+// تحويل منتج المناسبة إلى عنصر باقة
+const convertToBouquetItem = (product: OccasionProduct): BouquetItem => {
+  return {
+    id: product.id,
+    title: product.title,
+    image: product.image,
+    price: product.price,
+    badge:
+      product.badge || (product.isBestseller ? "الأكثر مبيعاً" : undefined),
+    isPopular: product.isPopular,
+  };
 };
 
 export default async function OccasionPage({
@@ -116,12 +135,21 @@ export default async function OccasionPage({
                       <Link
                         key={occasion.key}
                         href={`/occasions/${occasion.key}`}
-                        className={`flex items-center justify-end gap-3 p-3 rounded-xl transition-all duration-200 group ${
+                        className={`flex items-center justify-start gap-3 p-3 rounded-xl transition-all duration-200 group ${
                           isActive
                             ? "bg-[#F5F3ED] text-[#5A5E4D] shadow-md"
                             : "hover:bg-[#F8F6F0] text-gray-700 hover:text-gray-900"
                         }`}
                       >
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
+                            isActive
+                              ? "bg-[#5A5E4D]/10 scale-110"
+                              : "bg-[#F5F1E8] group-hover:scale-110"
+                          }`}
+                        >
+                          <IconComponent className="w-4 h-4" />
+                        </div>
                         <span
                           className={`text-sm font-medium ${
                             isActive
@@ -134,15 +162,6 @@ export default async function OccasionPage({
                         >
                           {occasion.name}
                         </span>
-                        <div
-                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-                            isActive
-                              ? "bg-[#5A5E4D]/10 scale-110"
-                              : "bg-[#F5F1E8] group-hover:scale-110"
-                          }`}
-                        >
-                          <IconComponent className="w-4 h-4" />
-                        </div>
                       </Link>
                     );
                   })}
@@ -152,44 +171,55 @@ export default async function OccasionPage({
 
             {/* Products Grid */}
             <div className="flex-1">
-              <div className="flex items-center justify-center min-h-[400px]">
-                <div className="text-center max-w-md">
-                  <div className="mb-6">
-                    {(() => {
-                      const IconComponent = getIconComponent(occasionData.icon);
-                      return (
-                        <IconComponent className="w-16 h-16 mx-auto text-[#5A5E4D]/30" />
-                      );
-                    })()}
-                  </div>
-                  <h3
-                    className="text-xl font-bold text-gray-800 mb-3"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
-                  >
-                    المنتجات قيد التحضير
-                  </h3>
-                  <p
-                    className="text-gray-600 mb-6"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
-                  >
-                    نعمل حالياً على إضافة منتجات {occasionData.title} المميزة.
-                    تابعونا قريباً لرؤية تشكيلتنا الرائعة!
-                  </p>
-                  <Link
-                    href="/occasions"
-                    className="inline-block bg-[#5A5E4D] text-white px-6 py-3 rounded-lg hover:bg-[#4a4e3d] transition-colors"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
-                  >
-                    العودة إلى المناسبات
-                  </Link>
+              {occasionData.products && occasionData.products.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {occasionData.products.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      item={convertToBouquetItem(product)}
+                    />
+                  ))}
                 </div>
-              </div>
+              ) : (
+                (() => {
+                  const EmptyIcon = getIconComponent(occasionData.icon);
+                  return (
+                    <div className="flex items-center justify-center min-h-[400px]">
+                      <div className="text-center max-w-md">
+                        <div className="mb-6">
+                          <EmptyIcon className="w-16 h-16 mx-auto text-[#5A5E4D]/30" />
+                        </div>
+                        <h3
+                          className="text-xl font-bold text-gray-800 mb-3"
+                          style={{
+                            fontFamily: "var(--font-almarai)",
+                          }}
+                        >
+                          المنتجات قيد التحضير
+                        </h3>
+                        <p
+                          className="text-gray-600 mb-6"
+                          style={{
+                            fontFamily: "var(--font-almarai)",
+                          }}
+                        >
+                          نعمل حالياً على إضافة منتجات {occasionData.title}{" "}
+                          المميزة. تابعونا قريباً لرؤية تشكيلتنا الرائعة!
+                        </p>
+                        <Link
+                          href="/occasions"
+                          className="inline-block bg-[#5A5E4D] text-white px-6 py-3 rounded-lg hover:bg-[#4a4e3d] transition-colors"
+                          style={{
+                            fontFamily: "var(--font-almarai)",
+                          }}
+                        >
+                          العودة إلى المناسبات
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })()
+              )}
             </div>
           </div>
         </section>

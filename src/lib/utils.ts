@@ -26,6 +26,15 @@ export const storage = {
         return defaultValue;
       }
       
+      // التحقق من نوع object
+      if (defaultValue !== null && typeof defaultValue === 'object' && !Array.isArray(defaultValue)) {
+        if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
+          console.warn(`Expected object for key "${key}", got ${Array.isArray(parsed) ? 'array' : typeof parsed}. Resetting to default.`);
+          localStorage.setItem(key, JSON.stringify(defaultValue));
+          return defaultValue;
+        }
+      }
+      
       return parsed;
     } catch (error) {
       console.warn(`Error reading localStorage key "${key}":`, error);
@@ -109,13 +118,24 @@ export const formatDate = (date: string | Date): string => {
   }).format(d);
 };
 
-
+/**
+ * الحصول على التاريخ بالعربية
+ */
+export const getArabicDate = (): string => {
+  const date = new Date();
+  // استخدام dynamic import لتجنب circular dependency
+  const ARABIC_MONTHS = [
+    "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
+    "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+  ];
+  return `${date.getDate()} ${ARABIC_MONTHS[date.getMonth()]} ${date.getFullYear()}`;
+};
 
 /**
  * توليد معرف فريد
  */
 export const generateId = (): string => {
-  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
 };
 
 /**
@@ -132,11 +152,23 @@ export function debounce<T extends (...args: any[]) => any>(
   };
 }
 
-
 /**
  * دمج class names مع clsx
  * Combine class names with clsx
  */
-export function cn(...classes: (string | undefined | null | false)[]): string {
-  return classes.filter(Boolean).join(' ');
+export function cn(...classes: (string | undefined | null | false | Record<string, boolean>)[]): string {
+  return classes
+    .filter(Boolean)
+    .map((cls) => {
+      if (typeof cls === 'string') return cls;
+      if (typeof cls === 'object' && cls !== null) {
+        return Object.entries(cls)
+          .filter(([, value]) => value)
+          .map(([key]) => key)
+          .join(' ');
+      }
+      return '';
+    })
+    .filter(Boolean)
+    .join(' ');
 }

@@ -26,9 +26,18 @@ export interface CustomOccasion {
 
 export interface CustomBouquetData {
     flowers?: CustomFlower[];
-    colors?: string[];
+    colors?: string[] | { [flowerId: string]: number[] };
     size?: CustomSize;
     style?: CustomStyle;
+    packaging?: {
+        type?: string;
+        style?: CustomStyle;
+        vase?: {
+            id: string;
+            name: string;
+            price: number;
+        };
+    };
     occasion?: CustomOccasion;
     cardMessage?: string;
     includeCard?: boolean;
@@ -37,6 +46,20 @@ export interface CustomBouquetData {
     flowersCount?: number;
     basePrice?: number;
     totalPrice?: number;
+    deliveryInfo?: {
+        date?: string;
+        time?: string;
+        timeLabel?: string;
+        address?: {
+            city?: string;
+            district?: string;
+            street?: string;
+            landmark?: string;
+        };
+        phone?: string;
+        paymentMethod?: string;
+        paymentMethodLabel?: string;
+    };
 }
 
 export interface CartItem {

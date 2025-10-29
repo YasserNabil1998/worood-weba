@@ -19,15 +19,15 @@ export default function AddressForm({
   };
 
   return (
-    <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
+    <section className="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300 p-6">
       <h2
-        className="text-lg font-semibold mb-3"
+        className="text-lg font-semibold mb-6 text-gray-800"
         style={{ fontFamily: "var(--font-almarai)" }}
       >
         عنوان التوصيل
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
         {/* المدينة */}
         <div>
           <label htmlFor="city" className="sr-only">
@@ -39,16 +39,19 @@ export default function AddressForm({
             placeholder="المدينة *"
             value={address.city}
             onChange={(e) => handleInputChange("city", e.target.value)}
-            className={`rounded-lg border px-3 py-2 w-full ${
+            className={`rounded-lg border px-4 py-3 w-full transition-all duration-200 outline-none ${
               errors.address?.city
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                : "border-gray-200 focus:border-[#5A5E4D] focus:ring-[#5A5E4D]"
+                ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50"
+                : "border-gray-200 focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 bg-white hover:border-gray-300"
             }`}
             aria-invalid={!!errors.address?.city}
             aria-describedby={errors.address?.city ? "city-error" : undefined}
           />
           {errors.address?.city && (
-            <p id="city-error" className="text-red-500 text-xs mt-1">
+            <p
+              id="city-error"
+              className="text-red-500 text-xs mt-1.5 font-medium animate-fadeIn"
+            >
               {errors.address.city}
             </p>
           )}
@@ -65,10 +68,10 @@ export default function AddressForm({
             placeholder="الحي *"
             value={address.district}
             onChange={(e) => handleInputChange("district", e.target.value)}
-            className={`rounded-lg border px-3 py-2 w-full ${
+            className={`rounded-lg border px-4 py-3 w-full transition-all duration-200 outline-none ${
               errors.address?.district
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                : "border-gray-200 focus:border-[#5A5E4D] focus:ring-[#5A5E4D]"
+                ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50"
+                : "border-gray-200 focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 bg-white hover:border-gray-300"
             }`}
             aria-invalid={!!errors.address?.district}
             aria-describedby={
@@ -76,7 +79,10 @@ export default function AddressForm({
             }
           />
           {errors.address?.district && (
-            <p id="district-error" className="text-red-500 text-xs mt-1">
+            <p
+              id="district-error"
+              className="text-red-500 text-xs mt-1.5 font-medium animate-fadeIn"
+            >
               {errors.address.district}
             </p>
           )}
@@ -93,10 +99,10 @@ export default function AddressForm({
             placeholder="الشارع *"
             value={address.street}
             onChange={(e) => handleInputChange("street", e.target.value)}
-            className={`rounded-lg border px-3 py-2 w-full ${
+            className={`rounded-lg border px-4 py-3 w-full transition-all duration-200 outline-none ${
               errors.address?.street
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                : "border-gray-200 focus:border-[#5A5E4D] focus:ring-[#5A5E4D]"
+                ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50"
+                : "border-gray-200 focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 bg-white hover:border-gray-300"
             }`}
             aria-invalid={!!errors.address?.street}
             aria-describedby={
@@ -104,7 +110,10 @@ export default function AddressForm({
             }
           />
           {errors.address?.street && (
-            <p id="street-error" className="text-red-500 text-xs mt-1">
+            <p
+              id="street-error"
+              className="text-red-500 text-xs mt-1.5 font-medium animate-fadeIn"
+            >
               {errors.address.street}
             </p>
           )}
@@ -121,10 +130,10 @@ export default function AddressForm({
             placeholder="أقرب معلم (اختياري)"
             value={address.landmark}
             onChange={(e) => handleInputChange("landmark", e.target.value)}
-            className={`rounded-lg border px-3 py-2 w-full ${
+            className={`rounded-lg border px-4 py-3 w-full transition-all duration-200 outline-none ${
               errors.address?.landmark
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                : "border-gray-200 focus:border-[#5A5E4D] focus:ring-[#5A5E4D]"
+                ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50"
+                : "border-gray-200 focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 bg-white hover:border-gray-300"
             }`}
             aria-invalid={!!errors.address?.landmark}
             aria-describedby={
@@ -132,7 +141,10 @@ export default function AddressForm({
             }
           />
           {errors.address?.landmark && (
-            <p id="landmark-error" className="text-red-500 text-xs mt-1">
+            <p
+              id="landmark-error"
+              className="text-red-500 text-xs mt-1.5 font-medium animate-fadeIn"
+            >
               {errors.address.landmark}
             </p>
           )}
@@ -146,19 +158,23 @@ export default function AddressForm({
           <input
             id="phone"
             type="tel"
-            placeholder="رقم الجوال *"
+            placeholder="* رقم الجوال "
             value={address.phone}
             onChange={(e) => handleInputChange("phone", e.target.value)}
-            className={`rounded-lg border px-3 py-2 w-full ${
+            dir="rtl"
+            className={`rounded-lg border px-4 py-3 w-full transition-all duration-200 outline-none text-right ${
               errors.address?.phone
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                : "border-gray-200 focus:border-[#5A5E4D] focus:ring-[#5A5E4D]"
+                ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50"
+                : "border-gray-200 focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 bg-white hover:border-gray-300"
             }`}
             aria-invalid={!!errors.address?.phone}
             aria-describedby={errors.address?.phone ? "phone-error" : undefined}
           />
           {errors.address?.phone && (
-            <p id="phone-error" className="text-red-500 text-xs mt-1">
+            <p
+              id="phone-error"
+              className="text-red-500 text-xs mt-1.5 font-medium animate-fadeIn"
+            >
               {errors.address.phone}
             </p>
           )}

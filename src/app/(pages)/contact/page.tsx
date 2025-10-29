@@ -24,8 +24,6 @@ export default function ContactPage() {
     // Simulate API call - TODO: replace with real API
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    console.log("Form submitted:", formData);
-
     setIsSubmitting(false);
   };
 

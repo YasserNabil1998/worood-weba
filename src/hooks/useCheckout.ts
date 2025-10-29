@@ -2,17 +2,27 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useNotification } from "@/src/providers/notification-provider";
 import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS, APP_CONFIG, ARABIC_MONTHS, PAYMENT_METHOD_LABELS } from "@/src/constants";
+import { STORAGE_KEYS, APP_CONFIG } from "@/src/constants";
 import { CartItem } from "@/src/@types/checkout/CartItem.type";
 import { Order } from "@/src/@types/orders/order.type";
 import { 
   Address, 
-  PaymentMethod, 
   CheckoutFormData, 
   CheckoutFormErrors,
   CheckoutTotals 
 } from "@/src/@types/checkout/CheckoutForm.type";
 import { validateCheckoutForm, isFormValid } from "@/src/validations/checkoutValidation";
+import { createOrderFromCheckoutItems } from "@/src/lib/ordersHelpers";
+
+/**
+ * حساب سعر عنصر checkout
+ */
+function getCheckoutItemPrice(item: CartItem): number {
+  if (item.isCustom) {
+    return item.price ?? 0;
+  }
+  return item.total ?? item.price ?? 0;
+}
 
 export function useCheckout() {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -30,7 +40,7 @@ export function useCheckout() {
   const [errors, setErrors] = useState<CheckoutFormErrors>({
     address: {},
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { showNotification } = useNotification();
@@ -38,28 +48,38 @@ export function useCheckout() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      setIsLoading(true);
       try {
         const checkoutItems = storage.get(STORAGE_KEYS.CHECKOUT_ITEMS, []);
         const safeItems = Array.isArray(checkoutItems) ? checkoutItems : [];
 
-        if (safeItems.length === 0) {
+        // إزالة العناصر المكررة بناءً على id
+        const uniqueItems = safeItems.filter((item: CartItem, index: number, self: CartItem[]) =>
+          index === self.findIndex((t: CartItem) => t.id === item.id)
+        ) as CartItem[];
+
+        if (uniqueItems.length === 0) {
           router.push("/cart");
+          setIsLoading(false);
           return;
         }
 
-        setItems(safeItems);
+        setItems(uniqueItems);
       } catch (error) {
         console.error("خطأ في تحميل المنتجات:", error);
         showNotification("خطأ في تحميل المنتجات", "error", 4000);
         router.push("/cart");
+      } finally {
+        setIsLoading(false);
       }
+    } else {
+      setIsLoading(false);
     }
   }, [router, showNotification]);
 
   const totals = useMemo((): CheckoutTotals => {
-    const subtotal = items.reduce((s, i) => {
-      const itemPrice = i.isCustom ? i.price ?? 0 : i.total ?? i.price ?? 0;
-      return s + itemPrice;
+    const subtotal = items.reduce((sum, item) => {
+      return sum + getCheckoutItemPrice(item);
     }, 0);
     const vat = Math.round(subtotal * APP_CONFIG.VAT_RATE);
     const grand = subtotal + vat;
@@ -67,31 +87,30 @@ export function useCheckout() {
     return { subtotal, vat, grand };
   }, [items]);
 
-  const generateOrderNumber = useCallback((): string => {
-    const year = new Date().getFullYear();
-    const existingOrders = storage.get<Order[]>(STORAGE_KEYS.ORDERS, []);
-    const orderCount = existingOrders.length + 1;
-    return `ORD-${year}-${String(orderCount).padStart(3, "0")}`;
-  }, []);
-
-  const getArabicDate = useCallback((): string => {
-    const date = new Date();
-    return `${date.getDate()} ${ARABIC_MONTHS[date.getMonth()]} ${date.getFullYear()}`;
-  }, []);
-
   const updateFormData = useCallback((updates: Partial<CheckoutFormData>) => {
     setFormData(prev => ({ ...prev, ...updates }));
     
-    if (Object.keys(errors).length > 0) {
-      setErrors({ address: {} });
-    }
-  }, [errors]);
+    // مسح الأخطاء عند تحديث البيانات
+    setErrors(prev => {
+      if (Object.keys(prev.address).length > 0 || prev.general) {
+        return { address: {} };
+      }
+      return prev;
+    });
+  }, []);
 
   const updateAddress = useCallback((addressUpdates: Partial<Address>) => {
-    updateFormData({
-      address: { ...formData.address, ...addressUpdates }
-    });
-  }, [formData.address, updateFormData]);
+    setFormData(prev => ({
+      ...prev,
+      address: { ...prev.address, ...addressUpdates }
+    }));
+    
+    // مسح أخطاء العنوان عند التحديث
+    setErrors(prev => ({
+      ...prev,
+      address: {}
+    }));
+  }, []);
 
   const validateForm = useCallback((): boolean => {
     const validationErrors = validateCheckoutForm(formData);
@@ -115,32 +134,8 @@ export function useCheckout() {
     setIsSubmitting(true);
 
     try {
-      const orderId = Date.now().toString();
-      const orderNumber = generateOrderNumber();
-      const orderDate = getArabicDate();
-      
-      const newOrder: Order = {
-        id: orderId,
-        orderNumber: orderNumber,
-        status: "قيد المعالجة",
-        statusColor: "bg-orange-100 text-orange-800",
-        date: orderDate,
-        totalAmount: totals.grand,
-        items: items.map((item) => ({
-          id: item.id.toString(),
-          name: item.title,
-          image: item.image || "/images/bouquets/IMG-196.png",
-          price: item.total,
-          quantity: 1,
-          bouquetType: `${item.size} - ${item.style}`,
-        })),
-        deliveryAddress: `${formData.address.city}، ${formData.address.district}، ${
-          formData.address.street
-        }${formData.address.landmark ? `، ${formData.address.landmark}` : ""}`,
-        phoneNumber: formData.address.phone,
-        paymentMethod: PAYMENT_METHOD_LABELS[formData.paymentMethod],
-        notes: formData.notes || undefined,
-      };
+      // إنشاء الطلب باستخدام الدالة المساعدة
+      const newOrder = createOrderFromCheckoutItems(items, formData, totals);
 
       // حفظ الطلب
       const existingOrders = storage.get<Order[]>(STORAGE_KEYS.ORDERS, []);
@@ -148,10 +143,10 @@ export function useCheckout() {
       storage.set(STORAGE_KEYS.ORDERS, updatedOrders);
 
       // تنظيف السلة
-      const fullCart = storage.get(STORAGE_KEYS.CART, []);
+      const fullCart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
       const itemIdsToRemove = items.map((item) => item.id);
       const updatedCart = fullCart.filter(
-        (cartItem: any) => !itemIdsToRemove.includes(cartItem.id)
+        (cartItem: CartItem) => !itemIdsToRemove.includes(cartItem.id)
       );
       storage.set(STORAGE_KEYS.CART, updatedCart);
 
@@ -176,9 +171,7 @@ export function useCheckout() {
     validateForm,
     items,
     formData,
-    totals.grand,
-    generateOrderNumber,
-    getArabicDate,
+    totals,
     showNotification,
     router,
   ]);

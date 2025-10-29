@@ -22,9 +22,9 @@ export default function CheckoutPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center" dir="rtl">
-        <div className="text-center">
-          <div className="text-2xl mb-2">⏳</div>
-          <p className="text-gray-600">جاري التحميل...</p>
+        <div className="text-center animate-fadeIn">
+          <div className="w-16 h-16 border-4 border-[#5A5E4D] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-600 text-lg font-medium">جاري التحميل...</p>
         </div>
       </div>
     );
@@ -32,18 +32,24 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen" dir="rtl">
-      <main className="py-10">
+      <main className="py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1
-            className="text-2xl md:text-3xl font-extrabold text-gray-800 mb-6"
-            style={{ fontFamily: "var(--font-almarai)" }}
+            className="text-3xl md:text-4xl font-extrabold mb-8 md:mb-10 animate-fadeIn"
+            style={{
+              fontFamily: "var(--font-almarai)",
+              background: "linear-gradient(135deg, #5A5E4D 0%, #4A4E3D 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
           >
             متابعة الدفع
           </h1>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 animate-fadeIn">
             {/* Form */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-6 lg:space-y-8">
               {/* عنوان التوصيل */}
               <AddressForm
                 address={formData.address}
@@ -60,9 +66,9 @@ export default function CheckoutPage() {
               />
 
               {/* ملاحظات إضافية */}
-              <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
+              <section className="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300 p-6">
                 <h2
-                  className="text-lg font-semibold mb-3"
+                  className="text-lg font-semibold mb-4 text-gray-800"
                   style={{ fontFamily: "var(--font-almarai)" }}
                 >
                   ملاحظات إضافية
@@ -71,8 +77,8 @@ export default function CheckoutPage() {
                   placeholder="ملاحظات إضافية (اختياري)"
                   value={formData.notes}
                   onChange={(e) => updateFormData({ notes: e.target.value })}
-                  className="rounded-lg border border-gray-200 px-3 py-2 w-full resize-none"
-                  rows={3}
+                  className="rounded-lg border border-gray-200 px-4 py-3 w-full resize-none transition-all duration-200 focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 outline-none"
+                  rows={4}
                 />
               </section>
             </div>

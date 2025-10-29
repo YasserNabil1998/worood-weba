@@ -37,6 +37,11 @@ export const NOTIFICATION_DURATION = {
   LONG: 5000,
 } as const;
 
+// مدة الانتظار قبل التنقل
+export const NAVIGATION_DELAY = {
+  CART_REDIRECT: 1500,
+} as const;
+
 // طرق الدفع
 export const PAYMENT_METHODS = {
   MADA: "mada",

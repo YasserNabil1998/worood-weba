@@ -12,8 +12,6 @@ export const addReview = (review: ReviewItem): void => {
         
         // حفظ في localStorage
         localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(updatedReviews));
-        
-        console.log("Review saved successfully:", review);
     } catch (error) {
         console.error("Error saving review:", error);
     }

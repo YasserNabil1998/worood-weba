@@ -91,7 +91,6 @@ export async function fetchBouquets(): Promise<BouquetItem[]> {
     console.error("Failed to fetch bouquets from API:", error);
     
     // Return fallback data in case of API failure
-    console.log("Using fallback bouquet data");
     return FALLBACK_BOUQUETS;
   }
 }

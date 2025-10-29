@@ -1,5 +1,15 @@
-import { useCallback } from "react";
+import { useCallback, useMemo, useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { storage } from "@/src/lib/utils";
+import { STORAGE_KEYS, NAVIGATION_DELAY } from "@/src/constants";
+import { CartItem } from "@/src/@types/cart/CartItem.type";
+import { generateProductKey } from "@/src/lib/cartUtils";
+import {
+    buildCustomData,
+    validateAndNormalizePrices,
+    type CustomBouquetInput,
+    type BouquetDataSources,
+} from "@/src/lib/customBouquetBuilders";
 import {
     Flower,
     BouquetSize,
@@ -50,229 +60,274 @@ interface UseCartOperationsProps {
     config: Config;
 }
 
+function validateInput(totalFlowersCount: number, isAddingToCart: boolean): {
+    isValid: boolean;
+    message?: string;
+} {
+    if (isAddingToCart) {
+        return { isValid: false };
+    }
+
+    if (totalFlowersCount === 0) {
+        return { isValid: false, message: "يرجى اختيار الزهور أولاً" };
+    }
+
+    return { isValid: true };
+}
+
+function buildCartItem(
+    input: CustomBouquetInput,
+    sources: BouquetDataSources
+): Omit<CartItem, "id" | "uniqueKey"> {
+    const { subtotal, vat, total } = validateAndNormalizePrices(
+        input.subtotal,
+        input.vat,
+        input.total
+    );
+
+    const customData = buildCustomData(input, sources);
+
+    return {
+        title: "باقة مخصصة",
+        price: total,
+        subtotal,
+        vat,
+        quantity: 1,
+        image: input.bouquetImage,
+        isCustom: true,
+        customData,
+    };
+}
+
+function handleEditMode(
+    cart: CartItem[],
+    itemWithKey: CartItem,
+    editItemId: string | null
+): { cart: CartItem[]; success: boolean; message: string } {
+    if (!editItemId) {
+        return {
+            cart: [...cart, { ...itemWithKey, id: Date.now() }],
+            success: true,
+            message: "تمت إضافة الباقة إلى السلة بنجاح!",
+        };
+    }
+
+    const itemIdToEdit = Number(editItemId);
+    const itemIndex = cart.findIndex(
+        (item) =>
+            Number(item.id) === itemIdToEdit ||
+            item.id.toString() === editItemId
+    );
+
+    if (itemIndex === -1) {
+        return {
+            cart: [...cart, { ...itemWithKey, id: Date.now() }],
+            success: true,
+            message: "تمت إضافة الباقة إلى السلة بنجاح!",
+        };
+    }
+
+    const originalItem = cart[itemIndex];
+    const updatedCart = [...cart];
+    updatedCart[itemIndex] = {
+        ...itemWithKey,
+        id: originalItem.id,
+        uniqueKey: originalItem.uniqueKey || itemWithKey.uniqueKey,
+    };
+
+    return {
+        cart: updatedCart,
+        success: true,
+        message: "تم تحديث الباقة بنجاح!",
+    };
+}
+
+function handleAddMode(
+    cart: CartItem[],
+    itemWithKey: CartItem
+): { cart: CartItem[]; message: string } {
+    const newCart = [...cart, { ...itemWithKey, id: Date.now() }];
+    return {
+        cart: newCart,
+        message: "تمت إضافة الباقة إلى السلة بنجاح!",
+    };
+}
+
+function saveAndNavigate(cart: CartItem[]): ReturnType<typeof setTimeout> {
+    storage.set(STORAGE_KEYS.CART, cart);
+    window.dispatchEvent(new Event("cartUpdated"));
+
+    return setTimeout(() => {
+        window.location.href = "/cart";
+    }, NAVIGATION_DELAY.CART_REDIRECT);
+}
+
 export function useCartOperations(props: UseCartOperationsProps) {
     const searchParams = useSearchParams();
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const addToCart = useCallback(async () => {
+    const dataSources = useMemo<BouquetDataSources>(
+        () => ({
+            flowers: props.flowers,
+            bouquetSizes: props.bouquetSizes,
+            bouquetStyles: props.bouquetStyles,
+            vases: props.vases,
+            occasions: props.occasions,
+            deliveryTimes: props.deliveryTimes,
+            paymentMethods: props.paymentMethods,
+            config: props.config,
+        }),
+        [
+            props.flowers,
+            props.bouquetSizes,
+            props.bouquetStyles,
+            props.vases,
+            props.occasions,
+            props.deliveryTimes,
+            props.paymentMethods,
+            props.config,
+        ]
+    );
+
+    const inputData = useMemo<CustomBouquetInput>(
+        () => ({
+            selectedFlowers: props.selectedFlowers,
+            selectedColors: props.selectedColors,
+            size: props.size,
+            style: props.style,
+            packagingType: props.packagingType,
+            selectedVase: props.selectedVase,
+            occasion: props.occasion,
+            cardMessage: props.cardMessage,
+            includeCard: props.includeCard,
+            notes: props.notes,
+            deliveryDate: props.deliveryDate,
+            deliveryTime: props.deliveryTime,
+            city: props.city,
+            district: props.district,
+            street: props.street,
+            landmark: props.landmark,
+            phone: props.phone,
+            payMethod: props.payMethod,
+            bouquetImage: props.bouquetImage,
+            totalFlowersCount: props.totalFlowersCount,
+            subtotal: props.subtotal,
+            vat: props.vat,
+            total: props.total,
+        }),
+        [
+            props.selectedFlowers,
+            props.selectedColors,
+            props.size,
+            props.style,
+            props.packagingType,
+            props.selectedVase,
+            props.occasion,
+            props.cardMessage,
+            props.includeCard,
+            props.notes,
+            props.deliveryDate,
+            props.deliveryTime,
+            props.city,
+            props.district,
+            props.street,
+            props.landmark,
+            props.phone,
+            props.payMethod,
+            props.bouquetImage,
+            props.totalFlowersCount,
+            props.subtotal,
+            props.vat,
+            props.total,
+        ]
+    );
+
+    const addToCart = useCallback(() => {
         if (typeof window === "undefined") return;
 
-        // Prevent multiple clicks
-        if (props.isAddingToCart) return;
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
+        }
 
-        // Verify flowers are selected
-        if (props.totalFlowersCount === 0) {
-            props.showNotification("⚠️ يرجى اختيار الزهور أولاً");
+        const validation = validateInput(
+            props.totalFlowersCount,
+            props.isAddingToCart
+        );
+        if (!validation.isValid) {
+            if (validation.message) {
+                props.showNotification(validation.message);
+            }
             return;
         }
 
-        // Activate loading state
         props.setIsAddingToCart(true);
 
-        // Prepare flower details
-        const flowersDetails = Object.entries(props.selectedFlowers)
-            .filter(([_, qty]) => qty > 0)
-            .map(([id, quantity]) => {
-                const flower = props.flowers.find((f) => f.id === Number(id));
-                return {
-                    id: Number(id),
-                    name: flower?.name || "",
-                    price: flower?.price || 0,
-                    quantity,
-                    total: (flower?.price || 0) * quantity,
-                };
-            });
+        try {
+            const itemData = buildCartItem(inputData, dataSources);
+            // إنشاء كائن مؤقت يحتوي على id لاستخدامه في generateProductKey
+            const tempItemForKey = { ...itemData, id: 0 };
+            const itemWithKey: CartItem = {
+                ...itemData,
+                id: 0,
+                uniqueKey: generateProductKey(tempItemForKey),
+            };
 
-        // Size details
-        const sizeDetails = props.bouquetSizes.find((s) => s.key === props.size);
+            const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
+            const safeCart = Array.isArray(cart) ? cart : [];
 
-        // Style details
-        const styleDetails = props.bouquetStyles.find((s) => s.key === props.style);
-
-        // Occasion details
-        const occasionDetails = props.occasions.find((o) => o.name === props.occasion);
-
-        // Validate values
-        const finalSubtotal = isNaN(props.subtotal) || props.subtotal === 0 ? 0 : props.subtotal;
-        const finalVat = isNaN(props.vat) || props.vat === 0 ? 0 : props.vat;
-        const finalTotal = isNaN(props.total) || props.total === 0 ? 0 : props.total;
-
-        // Check if editing
-        const editItemId = localStorage.getItem("editItemId");
-        const isEditMode = searchParams.get("edit") === "true" && editItemId;
-
-        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        const safeCart = Array.isArray(cart) ? cart : [];
-
-        const itemData = {
-            title: "باقة مخصصة",
-            price: Number(finalTotal.toFixed(2)) || 0,
-            subtotal: Number(finalSubtotal.toFixed(2)) || 0,
-            vat: Number(finalVat.toFixed(2)) || 0,
-            quantity: 1,
-            image: props.bouquetImage,
-            isCustom: true,
-            customData: {
-                // Step 1 - Flowers with full details
-                flowers: flowersDetails,
-                flowersCount: props.totalFlowersCount,
-                colors: props.selectedColors,
-
-                // Step 2 - Size and packaging with details
-                size: {
-                    key: props.size,
-                    label: sizeDetails?.label || "",
-                    price: sizeDetails?.price || 0,
-                    stems: sizeDetails?.stems || "",
-                },
-                packaging: {
-                    type: props.packagingType,
-                    ...(props.packagingType === "paper"
-                        ? {
-                              style: {
-                                  key: props.style,
-                                  label: styleDetails?.label || "",
-                                  price: styleDetails?.price || 0,
-                              },
-                          }
-                        : {}),
-                    ...(props.packagingType === "vase" && props.selectedVase
-                        ? {
-                              vase: {
-                                  id: props.selectedVase,
-                                  name:
-                                      props.vases.find(
-                                          (v) => v.id.toString() === props.selectedVase
-                                      )?.name || "",
-                                  price:
-                                      props.vases.find(
-                                          (v) => v.id.toString() === props.selectedVase
-                                      )?.price || 0,
-                              },
-                          }
-                        : {}),
-                },
-
-                // Step 3 - Customization
-                occasion: {
-                    name: props.occasion,
-                    message: occasionDetails?.message || "",
-                },
-                cardMessage: props.cardMessage,
-                includeCard: props.includeCard,
-                cardPrice: props.includeCard ? props.config.cardPrice : 0,
-                notes: props.notes,
-
-                // Step 4 - Delivery and payment
-                deliveryInfo: {
-                    date: props.deliveryDate,
-                    time: props.deliveryTime,
-                    timeLabel:
-                        props.deliveryTimes.find((t) => t.value === props.deliveryTime)
-                            ?.label || "",
-                    address: {
-                        city: props.city,
-                        district: props.district,
-                        street: props.street,
-                        landmark: props.landmark,
-                    },
-                    phone: props.phone,
-                    paymentMethod: props.payMethod,
-                    paymentMethodLabel:
-                        props.paymentMethods.find((p) => p.key === props.payMethod)
-                            ?.label || "",
-                },
-            },
-        };
-
-        // Add uniqueKey for custom bouquet
-        const { addProductToCart } = await import("@/src/lib/cartUtils");
-        const { generateProductKey } = await import("@/src/lib/cartUtils");
-
-        const itemWithKey = {
-            ...itemData,
-            uniqueKey: generateProductKey(itemData),
-        };
-
-        if (isEditMode) {
-            // Edit mode: update existing item
-            const itemIndex = safeCart.findIndex(
-                (item: any) => item.id.toString() === editItemId
+            const editItemId = storage.get<string | null>(
+                STORAGE_KEYS.EDIT_ITEM_ID,
+                null
             );
-            if (itemIndex !== -1) {
-                // Keep original id
-                safeCart[itemIndex] = {
-                    ...itemWithKey,
-                    id: safeCart[itemIndex].id,
-                };
-                props.showNotification("تم تحديث الباقة بنجاح! ✅");
+            const isEditMode =
+                searchParams.get("edit") === "true" && editItemId;
+
+            let updatedCart: CartItem[];
+            let message: string;
+
+            if (isEditMode) {
+                const editResult = handleEditMode(
+                    safeCart,
+                    itemWithKey,
+                    editItemId
+                );
+                updatedCart = editResult.cart;
+                message = editResult.message;
+                storage.remove(STORAGE_KEYS.EDIT_ITEM_ID);
             } else {
-                // If item not found, add as new
-                safeCart.push({
-                    ...itemWithKey,
-                    id: Date.now(),
-                });
-                props.showNotification("تمت إضافة الباقة إلى السلة بنجاح! 🛒");
+                const addResult = handleAddMode(safeCart, itemWithKey);
+                updatedCart = addResult.cart;
+                message = addResult.message;
             }
-            // Remove edit ID
-            localStorage.removeItem("editItemId");
-        } else {
-            // Normal add mode
-            safeCart.push({
-                ...itemWithKey,
-                id: Date.now(),
-            });
-            props.showNotification("تمت إضافة الباقة إلى السلة بنجاح! 🛒");
+
+            timeoutRef.current = saveAndNavigate(updatedCart);
+
+            props.showNotification(message);
+            props.saveToHistory();
+        } catch (error) {
+            console.error("Error adding to cart:", error);
+            props.showNotification("حدث خطأ أثناء إضافة الباقة إلى السلة");
+            props.setIsAddingToCart(false);
         }
-
-        localStorage.setItem("cart", JSON.stringify(safeCart));
-
-        // Dispatch event
-        window.dispatchEvent(new Event("cartUpdated"));
-
-        props.saveToHistory();
-
-        setTimeout(() => {
-            window.location.href = "/cart";
-        }, 1500);
     }, [
         props.isAddingToCart,
         props.totalFlowersCount,
-        props.selectedFlowers,
-        props.flowers,
-        props.bouquetSizes,
-        props.size,
-        props.bouquetStyles,
-        props.style,
-        props.occasions,
-        props.occasion,
-        props.subtotal,
-        props.vat,
-        props.total,
-        props.bouquetImage,
-        props.selectedColors,
-        props.packagingType,
-        props.selectedVase,
-        props.vases,
-        props.cardMessage,
-        props.includeCard,
-        props.config,
-        props.notes,
-        props.deliveryDate,
-        props.deliveryTime,
-        props.deliveryTimes,
-        props.city,
-        props.district,
-        props.street,
-        props.landmark,
-        props.phone,
-        props.payMethod,
-        props.paymentMethods,
         props.setIsAddingToCart,
         props.showNotification,
         props.saveToHistory,
+        inputData,
+        dataSources,
         searchParams,
     ]);
 
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        };
+    }, []);
+
     return { addToCart };
 }
-

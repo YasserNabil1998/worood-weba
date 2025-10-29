@@ -1,4 +1,4 @@
-import { BouquetItem } from "@/types";
+import { BouquetItem } from "@/src/@types/bouquets/index.type";
 
  
 export const defaultBouquets: BouquetItem[] = [

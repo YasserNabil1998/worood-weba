@@ -1,6 +1,17 @@
-import { Order } from "@/src/@types/orders/order.type";
+import { Order, OrderItem } from "@/src/@types/orders/order.type";
 import { Package, Truck, CheckCircle, Clock, X } from "lucide-react";
 import { ReactElement } from "react";
+import { CartItem } from "@/src/@types/checkout/CartItem.type";
+import {
+  Address,
+  CheckoutFormData,
+  CheckoutTotals,
+  PaymentMethod,
+} from "@/src/@types/checkout/CheckoutForm.type";
+import { PAYMENT_METHOD_LABELS } from "@/src/constants";
+import { storage } from "@/src/lib/utils";
+import { STORAGE_KEYS } from "@/src/constants";
+import { getArabicDate } from "@/src/lib/utils";
 
 /**
  * دمج الطلبات المحفوظة مع الطلبات التجريبية
@@ -82,3 +93,69 @@ export const ORDER_STATUS_OPTIONS = [
 export const almaraiFont = {
   fontFamily: "var(--font-almarai)",
 } as const;
+
+/**
+ * تنسيق عنوان التسليم
+ */
+export function formatDeliveryAddress(address: Address): string {
+  const parts = [address.city, address.district, address.street];
+  if (address.landmark?.trim()) {
+    parts.push(address.landmark);
+  }
+  return parts.join("، ");
+}
+
+/**
+ * توليد رقم الطلب
+ */
+export function generateOrderNumber(): string {
+  const year = new Date().getFullYear();
+  const existingOrders = storage.get<Order[]>(STORAGE_KEYS.ORDERS, []);
+  const orderCount = existingOrders.length + 1;
+  return `ORD-${year}-${String(orderCount).padStart(3, "0")}`;
+}
+
+/**
+ * تحويل عنصر السلة إلى عنصر الطلب
+ */
+function mapCartItemToOrderItem(item: CartItem): OrderItem {
+  return {
+    id: item.id.toString(),
+    name: item.title,
+    image: item.image || "/images/bouquets/IMG-196.png",
+    price: item.total || item.price || 0,
+    quantity: 1,
+    bouquetType: `${item.size} - ${item.style}`,
+  };
+}
+
+/**
+ * إنشاء طلب من عناصر checkout
+ */
+export function createOrderFromCheckoutItems(
+  items: CartItem[],
+  formData: CheckoutFormData,
+  totals: CheckoutTotals
+): Order {
+  const orderId = Date.now().toString();
+  const orderNumber = generateOrderNumber();
+  const orderDate = getArabicDate();
+  const deliveryAddress = formatDeliveryAddress(formData.address);
+  const paymentMethodLabel =
+    PAYMENT_METHOD_LABELS[formData.paymentMethod as PaymentMethod] ||
+    formData.paymentMethod;
+
+  return {
+    id: orderId,
+    orderNumber: orderNumber,
+    status: "قيد المعالجة",
+    statusColor: "bg-orange-100 text-orange-800",
+    date: orderDate,
+    totalAmount: totals.grand,
+    items: items.map(mapCartItemToOrderItem),
+    deliveryAddress: deliveryAddress,
+    phoneNumber: formData.address.phone,
+    paymentMethod: paymentMethodLabel,
+    notes: formData.notes || undefined,
+  };
+}
