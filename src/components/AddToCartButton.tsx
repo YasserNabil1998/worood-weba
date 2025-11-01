@@ -1,5 +1,7 @@
 "use client";
 
+import type { JSX } from "react";
+
 import { useNotification } from "../providers/notification-provider";
 import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS } from "@/src/constants";
@@ -7,7 +9,7 @@ import type { CartItem } from "@/src/@types/cart/CartItem.type";
 import { addProductToCart } from "@/src/lib/cartUtils";
 
 interface AddToCartButtonProps {
-  productId: string;
+  productId: number | string;
   productName: string;
   productPrice: number;
   productImage: string;
@@ -18,15 +20,24 @@ export default function AddToCartButton({
   productName,
   productPrice,
   productImage,
-}: AddToCartButtonProps) {
+}: AddToCartButtonProps): JSX.Element {
   const { showNotification } = useNotification();
 
   const handleAddToCart = () => {
     try {
+      const normalizedProductId =
+        typeof productId === "number" ? productId : Number(productId);
+
+      if (Number.isNaN(normalizedProductId)) {
+        console.error("معرف المنتج غير صالح:", productId);
+        showNotification("تعذر إضافة المنتج بسبب معرف غير صالح", "error");
+        return;
+      }
+
       const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
 
       const productToAdd = {
-        id: productId,
+        id: normalizedProductId,
         title: productName,
         price: productPrice,
         quantity: 1,

@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { Flower } from "@/src/@types/custom/index.type";
+import { storage } from "@/src/lib/utils";
 
 interface UseHistoryOperationsProps {
     selectedFlowers: Record<number, number>;
@@ -49,9 +50,7 @@ export function useHistoryOperations({
             timestamp: Date.now(),
         };
 
-        const history = JSON.parse(
-            localStorage.getItem("designHistory") || "[]"
-        );
+        const history = storage.get<any[]>("designHistory", []);
         history.unshift(designData);
 
         // Keep only last 50 designs
@@ -59,7 +58,7 @@ export function useHistoryOperations({
             history.splice(50);
         }
 
-        localStorage.setItem("designHistory", JSON.stringify(history));
+        storage.set("designHistory", history);
     }, [selectedFlowers, selectedColors, size, style, occasion, cardMessage, includeCard, notes, total, bouquetImage]);
 
     // Save to favorites
@@ -86,11 +85,9 @@ export function useHistoryOperations({
             timestamp: Date.now(),
         };
 
-        const favorites = JSON.parse(
-            localStorage.getItem("bouquetFavorites") || "[]"
-        );
+        const favorites = storage.get<any[]>("bouquetFavorites", []);
         favorites.push(designData);
-        localStorage.setItem("bouquetFavorites", JSON.stringify(favorites));
+        storage.set("bouquetFavorites", favorites);
 
         saveToHistory();
         showNotification("تم حفظ التصميم في المفضلة بنجاح! ❤️");

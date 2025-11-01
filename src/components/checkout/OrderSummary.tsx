@@ -1,4 +1,4 @@
-import { CartItem } from "@/src/@types/checkout/CartItem.type";
+import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { CheckoutTotals } from "@/src/@types/checkout/CheckoutForm.type";
 import { APP_CONFIG, COLORS } from "@/src/constants";
 

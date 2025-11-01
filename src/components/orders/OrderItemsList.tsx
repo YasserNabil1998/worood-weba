@@ -19,7 +19,7 @@ export default function OrderItemsList({ items }: OrderItemsListProps) {
         </h4>
       </div>
 
-      <div className="space-y-3">
+      <div className="h-[300px] overflow-y-auto overflow-x-hidden space-y-3 p-2 scrollbar-hide">
         {items.map((item) => (
           <div
             key={item.id}

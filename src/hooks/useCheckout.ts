@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useNotification } from "@/src/providers/notification-provider";
 import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS, APP_CONFIG } from "@/src/constants";
-import { CartItem } from "@/src/@types/checkout/CartItem.type";
+import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { Order } from "@/src/@types/orders/order.type";
 import { 
   Address, 

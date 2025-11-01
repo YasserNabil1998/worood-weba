@@ -95,7 +95,7 @@ export default function SizeAndPackagingStep({
             return (
               <button
                 key={opt.key}
-                onClick={() => onSizeChange(opt.key as any)}
+                onClick={() => onSizeChange(opt.key as "small" | "medium" | "large" | "custom")}
                 disabled={totalFlowersCount === 0}
                 className={`text-center rounded-lg border px-3 py-2 transition-all flex-1 ${
                   size === opt.key
@@ -213,7 +213,7 @@ export default function SizeAndPackagingStep({
               {bouquetStyles.map((styleOption) => (
                 <button
                   key={styleOption.key}
-                  onClick={() => onStyleChange(styleOption.key as any)}
+                  onClick={() => onStyleChange(styleOption.key as "classic" | "premium" | "gift" | "eco")}
                   className={`text-center rounded-lg border p-3 transition-all ${
                     style === styleOption.key
                       ? "border-[#5A5E4D] bg-[#5A5E4D]/10"

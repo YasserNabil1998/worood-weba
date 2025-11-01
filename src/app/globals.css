@@ -13,10 +13,10 @@
 :root {
   --background: linear-gradient(
     180deg,
-    #f1f4e8 0%,
-    #e6ead7 35%,
-    #dce2cc 65%,
-    #d3dac4 100%
+    #ffffff 0%,
+    #fffef9 35%,
+    #f9f7f0 65%,
+    #f5f5dc 100%
   );
   --foreground: #171717;
 }
@@ -32,10 +32,10 @@
   :root {
     --background: linear-gradient(
       180deg,
-      #f1f4e8 0%,
-      #e6ead7 35%,
-      #dce2cc 65%,
-      #d3dac4 100%
+      #ffffff 0%,
+      #fffef9 35%,
+      #f9f7f0 65%,
+      #f5f5dc 100%
     );
     --foreground: #171717;
   }
@@ -213,4 +213,23 @@ select option {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Custom scrollbar for order items list */
+.order-items-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.order-items-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.order-items-scrollbar::-webkit-scrollbar-thumb {
+  background: #5A5E4D;
+  border-radius: 10px;
+}
+
+.order-items-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6B6F5E;
 }

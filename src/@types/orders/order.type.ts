@@ -10,7 +10,7 @@ export interface OrderItem {
 export interface Order {
     id: string;
     orderNumber: string;
-    status: "قيد المعالجة" | "تم التجهيز" | "في الطريق" | "تم التسليم" | "ملغي";
+    status: "قيد التجهيز" | "تم التجهيز" | "في الطريق" | "تم التسليم" | "ملغي";
     statusColor: string;
     date: string;
     totalAmount: number;

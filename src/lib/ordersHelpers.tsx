@@ -1,7 +1,7 @@
 import { Order, OrderItem } from "@/src/@types/orders/order.type";
 import { Package, Truck, CheckCircle, Clock, X } from "lucide-react";
 import { ReactElement } from "react";
-import { CartItem } from "@/src/@types/checkout/CartItem.type";
+import { CartItem } from "@/src/@types/cart/CartItem.type";
 import {
   Address,
   CheckoutFormData,
@@ -60,7 +60,7 @@ export function filterOrdersByStatus(orders: Order[], status: string): Order[] {
  */
 export function getStatusIcon(status: string): ReactElement | null {
   switch (status) {
-    case "قيد المعالجة":
+    case "قيد التجهيز":
       return <Clock className="w-5 h-5" />;
     case "تم التجهيز":
       return <Package className="w-5 h-5" />;
@@ -80,7 +80,7 @@ export function getStatusIcon(status: string): ReactElement | null {
  */
 export const ORDER_STATUS_OPTIONS = [
   "الكل",
-  "قيد المعالجة",
+  "قيد التجهيز",
   "تم التجهيز",
   "في الطريق",
   "تم التسليم",
@@ -148,7 +148,7 @@ export function createOrderFromCheckoutItems(
   return {
     id: orderId,
     orderNumber: orderNumber,
-    status: "قيد المعالجة",
+    status: "قيد التجهيز",
     statusColor: "bg-orange-100 text-orange-800",
     date: orderDate,
     totalAmount: totals.grand,

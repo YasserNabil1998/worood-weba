@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, X, ShoppingCart, Trash2, Sparkles } from "lucide-react";
+import { Heart, X, ShoppingCart, Trash2, Sparkles, Pencil } from "lucide-react";
 
 import ProductCard from "@/src/components/ProductCard";
 import { CustomBouquet } from "@/src/@types/favorites/CustomBouquet.type";
@@ -17,6 +17,7 @@ export default function FavoritesPage() {
     loading: customLoading,
     removeFromFavorites: removeCustomBouquet,
     addToCart: addCustomBouquetToCart,
+    editCustomBouquet,
   } = useCustomBouquetFavorites();
 
   const [selectedBouquet, setSelectedBouquet] = useState<CustomBouquet | null>(
@@ -190,13 +191,13 @@ export default function FavoritesPage() {
                               {bouquet.total} ر.س
                             </span>
                           </div>
-                          <div className="flex gap-2">
+                          <div className="flex flex-col gap-2">
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 addCustomBouquetToCart(bouquet);
                               }}
-                              className="flex-1 flex items-center justify-center gap-2 bg-[#5A5E4D] text-white py-2.5 px-4 rounded-xl text-sm font-semibold hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-md active:scale-95"
+                              className="flex items-center justify-center gap-2 bg-[#5A5E4D] text-white py-2.5 px-4 rounded-xl text-sm font-semibold hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-md active:scale-95"
                               style={{
                                 fontFamily: "var(--font-almarai)",
                               }}
@@ -204,18 +205,33 @@ export default function FavoritesPage() {
                               <ShoppingCart className="w-4 h-4" />
                               أضف إلى السلة
                             </button>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                removeCustomBouquet(bouquet.id);
-                              }}
-                              className="flex items-center justify-center gap-2 bg-red-50 text-red-600 py-2.5 px-4 rounded-xl text-sm font-semibold hover:bg-red-100 transition-all duration-300 active:scale-95"
-                              style={{
-                                fontFamily: "var(--font-almarai)",
-                              }}
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
+                            <div className="flex gap-2">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  editCustomBouquet(bouquet);
+                                }}
+                                className="flex-1 flex items-center justify-center gap-2 bg-[#5A5E4D]/10 text-[#5A5E4D] py-2.5 px-4 rounded-xl text-sm font-semibold hover:bg-[#5A5E4D]/20 transition-all duration-300 active:scale-95"
+                                style={{
+                                  fontFamily: "var(--font-almarai)",
+                                }}
+                              >
+                                <Pencil className="w-4 h-4" />
+                                تعديل
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  removeCustomBouquet(bouquet.id);
+                                }}
+                                className="flex items-center justify-center gap-2 bg-red-50 text-red-600 py-2.5 px-4 rounded-xl text-sm font-semibold hover:bg-red-100 transition-all duration-300 active:scale-95"
+                                style={{
+                                  fontFamily: "var(--font-almarai)",
+                                }}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -451,10 +467,10 @@ export default function FavoritesPage() {
               </div>
 
               {/* Buttons */}
-              <div className="flex gap-3 pt-6 mt-6 border-t border-gray-200">
+              <div className="flex flex-col gap-3 pt-6 mt-6 border-t border-gray-200">
                 <button
                   onClick={() => handleAddToCart(selectedBouquet)}
-                  className="flex-1 flex items-center justify-center gap-2 bg-[#5A5E4D] text-white py-3 px-6 rounded-xl text-sm font-semibold hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-lg active:scale-95"
+                  className="flex items-center justify-center gap-2 bg-[#5A5E4D] text-white py-3 px-6 rounded-xl text-sm font-semibold hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-lg active:scale-95"
                   style={{
                     fontFamily: "var(--font-almarai)",
                   }}
@@ -462,19 +478,34 @@ export default function FavoritesPage() {
                   <ShoppingCart className="w-4 h-4" />
                   أضف إلى السلة
                 </button>
-                <button
-                  onClick={() => {
-                    removeCustomBouquet(selectedBouquet.id);
-                    closePreview();
-                  }}
-                  className="flex items-center justify-center gap-2 bg-red-50 text-red-600 py-3 px-6 rounded-xl text-sm font-semibold hover:bg-red-100 transition-all duration-300 active:scale-95"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
-                  <Trash2 className="w-4 h-4" />
-                  حذف
-                </button>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => {
+                      editCustomBouquet(selectedBouquet);
+                      closePreview();
+                    }}
+                    className="flex-1 flex items-center justify-center gap-2 bg-[#5A5E4D]/10 text-[#5A5E4D] py-3 px-6 rounded-xl text-sm font-semibold hover:bg-[#5A5E4D]/20 transition-all duration-300 active:scale-95"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                  >
+                    <Pencil className="w-4 h-4" />
+                    تعديل
+                  </button>
+                  <button
+                    onClick={() => {
+                      removeCustomBouquet(selectedBouquet.id);
+                      closePreview();
+                    }}
+                    className="flex items-center justify-center gap-2 bg-red-50 text-red-600 py-3 px-6 rounded-xl text-sm font-semibold hover:bg-red-100 transition-all duration-300 active:scale-95"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    حذف
+                  </button>
+                </div>
               </div>
             </div>
           </div>

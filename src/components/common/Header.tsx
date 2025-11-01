@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useNotification } from "../../providers/notification-provider";
+import { useNotification } from "@/src/providers/notification-provider";
 import { ASSETS } from "@/src/assets";
 import { useCart } from "@/src/hooks/useCart";
+import { storage } from "@/src/lib/utils";
 import { ShoppingCart, User, Menu } from "lucide-react";
 
 const Header = () => {
@@ -64,8 +65,8 @@ const Header = () => {
 
   const handleLogout = () => {
     // مسح بيانات المستخدم من localStorage
-    localStorage.removeItem("user");
-    localStorage.removeItem("authToken");
+    storage.remove("user");
+    storage.remove("authToken");
 
     setIsUserMenuOpen(false);
 

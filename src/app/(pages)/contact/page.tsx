@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import contactData from "./contact-data.json";
-import ContactHero from "../../../components/contact/ContactHero";
-import ContactForm from "../../../components/contact/ContactForm";
-import ContactInfo from "../../../components/contact/ContactInfo";
-import SocialMediaLinks from "../../../components/contact/SocialMediaLinks";
-import ContactFAQ from "../../../components/contact/ContactFAQ";
+import ContactHero from "@/src/components/contact/ContactHero";
+import ContactForm from "@/src/components/contact/ContactForm";
+import ContactInfo from "@/src/components/contact/ContactInfo";
+import SocialMediaLinks from "@/src/components/contact/SocialMediaLinks";
+import ContactFAQ from "@/src/components/contact/ContactFAQ";
 import {
   ContactData,
   ContactFormData,
-} from "../../../@types/contact/index.type";
+} from "@/src/@types/contact/index.type";
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,7 +21,8 @@ export default function ContactPage() {
   const handleFormSubmit = async (formData: ContactFormData) => {
     setIsSubmitting(true);
 
-    // Simulate API call - TODO: replace with real API
+    // Simulate API call - In production, replace with actual API endpoint
+    // Example: await fetch('/api/contact', { method: 'POST', body: JSON.stringify(formData) });
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setIsSubmitting(false);

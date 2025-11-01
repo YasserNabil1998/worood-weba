@@ -1,7 +1,7 @@
 "use client";
 
 import { Instagram, Twitter, Facebook, MessageCircle } from "lucide-react";
-import { SocialMediaLinksProps } from "../../@types/contact/index.type";
+import { SocialMediaLinksProps } from "@/src/@types/contact/index.type";
 
 const iconMap = {
   instagram: Instagram,

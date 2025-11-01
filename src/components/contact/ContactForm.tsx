@@ -6,12 +6,12 @@ import {
   ContactFormProps,
   ContactFormData,
   ContactFormErrors,
-} from "../../@types/contact/index.type";
+} from "@/src/@types/contact/index.type";
 import {
   validateContactForm,
   hasFormErrors,
   cleanFormData,
-} from "../../validations/contactValidation";
+} from "@/src/validations/contactValidation";
 import {
   INPUT_HEIGHT,
   TEXTAREA_ROWS,
@@ -19,8 +19,8 @@ import {
   MESSAGES,
   BORDER_COLORS,
   BACKGROUND_COLORS,
-} from "../../constants/contact";
-import { cn } from "../../lib/utils";
+} from "@/src/constants/contact";
+import { cn } from "@/src/lib/utils";
 
 export default function ContactForm({ data, onSubmit }: ContactFormProps) {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -36,7 +36,8 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  // TODO: Add form persistence to localStorage
+  // Form persistence: Consider adding localStorage caching for better UX
+  // Example: useEffect(() => { localStorage.setItem('contactForm', JSON.stringify(formData)); }, [formData]);
 
   const handleChange = (
     e: React.ChangeEvent<

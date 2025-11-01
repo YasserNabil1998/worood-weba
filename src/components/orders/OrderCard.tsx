@@ -2,6 +2,7 @@ import { Order } from "@/src/@types/orders/order.type";
 import OrderCardHeader from "./OrderCardHeader";
 import OrderItemsList from "./OrderItemsList";
 import OrderDetailsPanel from "./OrderDetailsPanel";
+import OrderStatusTracker from "./OrderStatusTracker";
 
 interface OrderCardProps {
   order: Order;
@@ -16,7 +17,10 @@ export default function OrderCard({ order, onRateOrder }: OrderCardProps) {
       <div className="p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <OrderItemsList items={order.items} />
-          <OrderDetailsPanel order={order} onRateOrder={onRateOrder} />
+          <div className="space-y-4">
+            <OrderStatusTracker status={order.status} />
+            <OrderDetailsPanel order={order} onRateOrder={onRateOrder} />
+          </div>
         </div>
       </div>
     </div>

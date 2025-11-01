@@ -4,9 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useMemo } from "react";
 import { ASSETS } from "@/src/assets";
-import { OccasionItem, OccasionWithHref } from "../../@types/home/index.type";
-import { defaultOccasions } from "../../content/occasions";
-import { ROUTES } from "../../constants/routes";
+import { OccasionItem, OccasionWithHref } from "@/src/@types/home/index.type";
+import { defaultOccasions } from "@/src/content/occasions";
+import { ROUTES } from "@/src/constants/routes";
 import {
   Baby,
   GraduationCap,
@@ -35,7 +35,10 @@ const OccasionsSection = ({
 
   // Map icon names to Lucide components
   const getIconComponent = (iconName: string) => {
-    const iconMap: Record<string, React.ComponentType<any>> = {
+    const iconMap: Record<
+      string,
+      React.ComponentType<{ className?: string }>
+    > = {
       Baby,
       GraduationCap,
       Heart,
@@ -107,7 +110,7 @@ const OccasionsSection = ({
                   loading="lazy"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
               <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 text-center">
                 {memoizedOccasions[0]?.icon && (
                   <div className="flex justify-center mb-1">
@@ -155,7 +158,7 @@ const OccasionsSection = ({
                   loading="lazy"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
               <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-center">
                 {memoizedOccasions[1]?.icon && (
                   <div className="flex justify-center mb-1 sm:mb-2">
@@ -203,7 +206,7 @@ const OccasionsSection = ({
                   loading="lazy"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
               <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-center">
                 {memoizedOccasions[2]?.icon && (
                   <div className="flex justify-center mb-1 sm:mb-2">
@@ -251,7 +254,7 @@ const OccasionsSection = ({
                   loading="lazy"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
               <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 text-center">
                 {memoizedOccasions[3]?.icon && (
                   <div className="flex justify-center mb-1">

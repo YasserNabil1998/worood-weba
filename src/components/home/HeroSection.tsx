@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { ROUTES } from "../../constants/routes";
+import { ROUTES } from "@/src/constants/routes";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function HeroSection() {

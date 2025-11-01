@@ -6,6 +6,9 @@ import { PRODUCT_DATA } from "@/src/constants/productData";
 import { addProductToCart } from "@/src/lib/cartUtils";
 import { useNotification } from "@/src/providers/notification-provider";
 import { useDataLoading } from "./useDataLoading";
+import { CartItem } from "@/src/@types/cart/CartItem.type";
+import { STORAGE_KEYS } from "@/src/constants";
+import { storage } from "@/src/lib/utils";
 
 interface ProductOptions {
     selectedSize: string;
@@ -108,7 +111,7 @@ export function useProductDetails(productId: string) {
 
         if (typeof window !== "undefined") {
             try {
-                const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+                const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
                 const safeCart = Array.isArray(cart) ? cart : [];
 
                 const cartItem = {
@@ -130,7 +133,7 @@ export function useProductDetails(productId: string) {
                     cartItem
                 );
 
-                localStorage.setItem("cart", JSON.stringify(updatedCart));
+                storage.set(STORAGE_KEYS.CART, updatedCart);
                 window.dispatchEvent(new CustomEvent("cartUpdated"));
 
                 const message = isNew
@@ -139,7 +142,7 @@ export function useProductDetails(productId: string) {
                 showNotification(message, "success");
             } catch (error) {
                 console.error("خطأ:", error);
-                localStorage.setItem("cart", "[]");
+                storage.set(STORAGE_KEYS.CART, []);
                 showNotification("حدث خطأ في إضافة المنتج للسلة", "error");
             }
         }

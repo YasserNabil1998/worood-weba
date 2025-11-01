@@ -138,7 +138,7 @@ export default function OrderDetailsPanel({
 
         {order.status === "في الطريق" && (
           <button
-            className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 text-sm font-semibold flex items-center justify-center gap-2 transform hover:scale-105"
+            className="flex-1 bg-gradient-to-r from-[#5A5E4D] to-[#6B6F5E] text-white px-4 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 text-sm font-semibold flex items-center justify-center gap-2 transform hover:scale-105"
             style={almaraiFont}
             onClick={() => showNotification("تتبع الطلب قريباً!", "info")}
           >

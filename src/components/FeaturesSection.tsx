@@ -1,8 +1,8 @@
 "use client";
 
 import { Gift, Heart, Truck } from "lucide-react";
-import type { FeatureItem } from "../../types";
-import { localFeatures } from "../content/features";
+import type { FeatureItem } from "@/types";
+import { localFeatures } from "@/src/content/features";
 import { useEffect, useRef, useState } from "react";
 
 type FeaturesSectionProps = {

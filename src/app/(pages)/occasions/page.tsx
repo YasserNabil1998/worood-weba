@@ -25,7 +25,7 @@ export default function OccasionsPage() {
 
   // Map icon names to Lucide components
   const getIconComponent = (iconName: string) => {
-    const iconMap: Record<string, React.ComponentType<any>> = {
+    const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
       Baby,
       GraduationCap,
       Heart,
@@ -41,18 +41,6 @@ export default function OccasionsPage() {
       dir="rtl"
     >
       <main>
-        {/* Page Title Section */}
-        <section className="pt-8 pb-4">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-right">
-            <h1 className="text-[36px] font-bold leading-[40px] text-[#2D3319] mb-2 tracking-[0px]">
-              {pageContent.title}
-            </h1>
-            <p className="text-[16px] font-normal leading-[24px] text-[#5A5E4D] tracking-[0px]">
-              {pageContent.subtitle}
-            </p>
-          </div>
-        </section>
-
         {/* Hero */}
         <section className="py-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -87,7 +75,7 @@ export default function OccasionsPage() {
                 <div className="w-full px-6 md:px-10 text-right">
                   <div className="max-w-2xl ml-auto">
                     <h2 className="text-[36px] font-bold leading-[40px] text-white mb-3 tracking-[0px]">
-                      {pageContent.hero.title}
+                      المناسبات
                     </h2>
                     <p className="text-[18px] font-normal leading-[28px] text-white/90 mb-6 tracking-[0px]">
                       {pageContent.hero.description}
@@ -318,7 +306,8 @@ export default function OccasionsPage() {
                         <button
                           onClick={(e) => {
                             e.preventDefault();
-                            // TODO: Integrate with cart functionality
+                            // Note: Cart integration is handled through AddToCartButton component
+                            // This button is a placeholder for demo purposes
                           }}
                           className="w-full py-3 rounded-lg text-white text-sm font-semibold bg-[#5A5E4D] hover:bg-[#4a4e3d] transition-colors"
                         >

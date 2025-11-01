@@ -32,7 +32,7 @@ const allOccasions = [
 
 // Map icon names to Lucide components
 const getIconComponent = (iconName: string) => {
-  const iconMap: Record<string, React.ComponentType<any>> = {
+  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
     Heart,
     GraduationCap,
     Baby,

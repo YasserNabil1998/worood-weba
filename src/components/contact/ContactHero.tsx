@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { ContactHeroProps } from "../../@types/contact/index.type";
-import { renderMultilineText } from "../../lib/textUtils";
-import { HERO_HEIGHT } from "../../constants/contact";
+import { ContactHeroProps } from "@/src/@types/contact/index.type";
+import { renderMultilineText } from "@/src/lib/textUtils";
+import { HERO_HEIGHT } from "@/src/constants/contact";
 
 export default function ContactHero({ data }: ContactHeroProps) {
   return (

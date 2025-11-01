@@ -11,4 +11,5 @@ export interface BouquetItem {
 }
 
 // Keep the old interface for backward compatibility
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface Item extends BouquetItem {}

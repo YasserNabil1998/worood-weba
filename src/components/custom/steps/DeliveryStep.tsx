@@ -32,13 +32,6 @@ export default function DeliveryStep({
 
   return (
     <div className="space-y-5">
-      <div
-        className="text-sm font-semibold text-gray-800"
-        style={{ fontFamily: "var(--font-almarai)" }}
-      >
-        التوصيل
-      </div>
-
       {/* Delivery type */}
       <div>
         <div className="mb-3 text-sm text-gray-700">نوع التوصيل</div>

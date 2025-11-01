@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function SignupPage() {
     const [form, setForm] = useState({
@@ -45,11 +46,14 @@ export default function SignupPage() {
     return (
         <div className="mx-auto w-full max-w-md rounded-xl bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
             <div className="py-6 text-center">
-                <div
-                    className="text-2xl font-extrabold tracking-widest text-gray-800"
-                    style={{ fontFamily: "var(--font-almarai)" }}
-                >
-                    SHAMS
+                <div className="flex justify-center">
+                    <Image
+                        src="/Logo-shams.svg"
+                        alt="شعار الموقع"
+                        width={120}
+                        height={60}
+                        priority
+                    />
                 </div>
                 <p
                     className="mt-2 text-sm text-gray-600"

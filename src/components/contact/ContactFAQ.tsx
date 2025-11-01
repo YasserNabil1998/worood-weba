@@ -1,8 +1,8 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import { ContactFAQProps } from "../../@types/contact/index.type";
-import { generateId } from "../../lib/utils";
+import { ContactFAQProps } from "@/src/@types/contact/index.type";
+import { generateId } from "@/src/lib/utils";
 
 export default function ContactFAQ({ data }: ContactFAQProps) {
   return (

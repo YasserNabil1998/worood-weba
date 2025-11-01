@@ -73,7 +73,7 @@
     {
       "id": "4",
       "orderNumber": "ORD-2024-004",
-      "status": "قيد المعالجة",
+      "status": "قيد التجهيز",
       "statusColor": "bg-orange-100 text-orange-800",
       "date": "22 ديسمبر 2024",
       "totalAmount": 180,

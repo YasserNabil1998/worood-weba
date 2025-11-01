@@ -1,4 +1,5 @@
 import type { ReviewItem } from "@/types";
+import { storage } from "@/src/lib/utils";
 
 const REVIEWS_STORAGE_KEY = "customer_reviews";
 
@@ -11,7 +12,7 @@ export const addReview = (review: ReviewItem): void => {
         const updatedReviews = [...existingReviews, review];
         
         // حفظ في localStorage
-        localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(updatedReviews));
+        storage.set(REVIEWS_STORAGE_KEY, updatedReviews);
     } catch (error) {
         console.error("Error saving review:", error);
     }
@@ -19,8 +20,7 @@ export const addReview = (review: ReviewItem): void => {
 
 export const getReviews = (): ReviewItem[] => {
     try {
-        const reviews = localStorage.getItem(REVIEWS_STORAGE_KEY);
-        return reviews ? JSON.parse(reviews) : [];
+        return storage.get<ReviewItem[]>(REVIEWS_STORAGE_KEY, []);
     } catch (error) {
         console.error("Error getting reviews:", error);
         return [];
@@ -82,5 +82,5 @@ export const getAllReviews = (): ReviewItem[] => {
 };
 
 export const clearReviews = (): void => {
-    localStorage.removeItem(REVIEWS_STORAGE_KEY);
+    storage.remove(REVIEWS_STORAGE_KEY);
 };

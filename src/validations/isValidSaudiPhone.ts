@@ -13,7 +13,7 @@ export default function isValidSaudiPhone(phone: string): boolean {
   }
 
   // تنظيف الرقم من المسافات والرموز
-  const cleanPhone = phone.replace(/[\s\-\(\)\.]/g, '');
+  const cleanPhone = phone.replace(/[\s\-().]/g, '');
   
   // التحقق من الصيغ المختلفة
   const patterns = [
@@ -45,7 +45,7 @@ export function normalizeSaudiPhone(phone: string): string {
   }
 
   // تنظيف الرقم
-  const cleanPhone = phone.replace(/[\s\-\(\)\.]/g, '');
+  const cleanPhone = phone.replace(/[\s\-().]/g, '');
   
   // استخراج الرقم الأساسي
   let normalizedPhone = '';

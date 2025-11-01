@@ -1,8 +1,8 @@
 "use client";
 
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
-import { ContactInfoProps } from "../../@types/contact/index.type";
-import { renderMultilineText } from "../../lib/textUtils";
+import { ContactInfoProps } from "@/src/@types/contact/index.type";
+import { renderMultilineText } from "@/src/lib/textUtils";
 
 const iconMap = {
   address: MapPin,

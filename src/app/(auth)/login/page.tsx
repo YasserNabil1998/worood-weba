@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import isValidEmail from "../../../validations/isValidEmail";
+import isValidEmail from "@/src/validations/isValidEmail";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function LoginPage() {
     const [form, setForm] = useState({ email: "", password: "" });
@@ -41,11 +42,10 @@ export default function LoginPage() {
         // Mock API call - سيتم استبدالها بالـ API الحقيقي لاحقاً
         setTimeout(() => {
             setSubmitting(false);
-            // TODO: Replace with actual API call and redirect to dashboard
-            console.log("Login attempt:", {
-                email: form.email,
-                password: form.password,
-            });
+            // Placeholder: In production, replace with actual API authentication
+            // Example: const response = await fetch('/api/auth/login', { method: 'POST', body: JSON.stringify(form) });
+            // if (response.ok) window.location.href = '/profile';
+            
             // Temporary redirect - سيتم تحديثها لاحقاً
             alert("تم تسجيل الدخول بنجاح! (سيتم الربط بالـ API لاحقاً)");
         }, 600);
@@ -54,11 +54,14 @@ export default function LoginPage() {
     return (
         <div className="mx-auto w-full max-w-md rounded-xl bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
             <div className="py-6 text-center">
-                <div
-                    className="text-2xl font-extrabold tracking-widest text-gray-800"
-                    style={{ fontFamily: "var(--font-almarai)" }}
-                >
-                    SHAMS
+                <div className="flex justify-center">
+                    <Image
+                        src="/Logo-shams.svg"
+                        alt="شعار الموقع"
+                        width={120}
+                        height={60}
+                        priority
+                    />
                 </div>
                 <p
                     className="mt-2 text-sm text-gray-600"

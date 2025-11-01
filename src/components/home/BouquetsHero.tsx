@@ -47,7 +47,7 @@ export default function BouquetsHero() {
             <div className="w-full px-6 md:px-10 text-right">
               <div className="max-w-2xl ml-auto">
                 <h2 className="text-[36px] font-bold leading-[40px] text-white mb-3 tracking-[0px]">
-                  باقات مميزة لكل مناسبة
+                  الباقات الجاهزة
                 </h2>
                 <p className="text-[18px] font-normal leading-[28px] text-white/90 mb-6 tracking-[0px]">
                   اختر من تشكيلتنا الواسعة من الباقات المصممة بعناية لتناسب جميع

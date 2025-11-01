@@ -1,4 +1,8 @@
 import type { NextConfig } from "next";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
   // تحسين الأداء
@@ -8,12 +12,19 @@ const nextConfig: NextConfig = {
   
   // إعدادات Turbopack
   turbopack: {
+    root: projectRoot,
     rules: {
       '*.svg': {
         loaders: ['@svgr/webpack'],
         as: '*.js',
       },
     },
+  },
+
+  outputFileTracingRoot: projectRoot,
+
+  eslint: {
+    dirs: ['src'],
   },
   
   // تحسين الصور

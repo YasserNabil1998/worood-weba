@@ -6,6 +6,7 @@
 import { Heart } from "lucide-react";
 import { CustomBouquetData } from "@/src/@types/cart/CartItem.type";
 import { CART_LABELS } from "@/src/constants/cart";
+import bouquetsData from "@/src/app/(pages)/custom/bouquets.json";
 
 interface CustomBouquetDetailsProps {
   customData: CustomBouquetData;
@@ -78,53 +79,56 @@ export default function CustomBouquetDetails({
             {CART_LABELS.FLOWERS}:
           </span>
           <div className="space-y-2">
-            {customData.flowers.map((f, idx) => (
-              <div
-                key={idx}
-                className="flex items-center justify-between bg-gray-50 rounded-lg p-2"
-              >
-                <span className="font-medium text-gray-700">{f.name}</span>
-                <div className="flex items-center gap-2 text-xs">
-                  <span className="bg-[#5A5E4D]/10 text-[#5A5E4D] px-2 py-1 rounded-full">
-                    × {f.quantity}
-                  </span>
-                  <span className="font-bold text-[#5A5E4D]">
-                    = {f.total} ريال
-                  </span>
+            {customData.flowers.map((f, idx) => {
+              // Get color IDs for this flower
+              const colorsObj = customData.colors && typeof customData.colors === "object" && !Array.isArray(customData.colors)
+                ? customData.colors
+                : {};
+              const colorIds = colorsObj[String(f.id)] || [];
+
+              return (
+                <div
+                  key={idx}
+                  className="flex items-center justify-between bg-gray-50 rounded-lg p-2"
+                >
+                  <div className="flex flex-col gap-1 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-gray-700">{f.name}</span>
+                      {/* Display colors next to flower name */}
+                      {colorIds.length > 0 && (
+                        <div className="flex gap-1">
+                          {colorIds.map((colorId: number) => {
+                            const color = bouquetsData.colors.find(
+                              (c) => c.id === colorId
+                            );
+                            return color ? (
+                              <span
+                                key={colorId}
+                                className="inline-block h-5 w-5 rounded-full border-2 border-white shadow-md"
+                                style={{ backgroundColor: color.color }}
+                                title={color.name}
+                              />
+                            ) : null;
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs">
+                    <span className="bg-[#5A5E4D]/10 text-[#5A5E4D] px-2 py-1 rounded-full">
+                      × {f.quantity}
+                    </span>
+                    <span className="font-bold text-[#5A5E4D]">
+                      = {f.total} ريال
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
 
-      {/* الألوان */}
-      {(() => {
-        const colorsArray = Array.isArray(customData.colors)
-          ? customData.colors
-          : customData.colors && typeof customData.colors === "object"
-          ? Object.values(customData.colors).flat()
-          : [];
-
-        return colorsArray.length > 0 ? (
-          <div className="bg-white rounded-lg p-3 shadow-sm">
-            <div className="flex items-center gap-3">
-              <span className="font-bold text-[#5A5E4D]">
-                {CART_LABELS.COLORS}:
-              </span>
-              <div className="flex gap-2">
-                {colorsArray.map((color, idx) => (
-                  <span
-                    key={idx}
-                    className="inline-block h-6 w-6 rounded-full border-2 border-white shadow-md"
-                    style={{ backgroundColor: String(color) }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : null;
-      })()}
 
       {/* المناسبة */}
       {customData.occasion?.name && (

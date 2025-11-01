@@ -6,6 +6,7 @@ import { STORAGE_KEYS } from "@/src/constants";
 import { CustomBouquet } from "@/src/@types/favorites/CustomBouquet.type";
 import { useCart } from "./useCart";
 import { useNotification } from "@/src/providers/notification-provider";
+import { CART_ROUTES } from "@/src/constants/cart";
 
 export function useCustomBouquetFavorites() {
   const [customBouquets, setCustomBouquets] = useState<CustomBouquet[]>([]);
@@ -111,6 +112,33 @@ export function useCustomBouquetFavorites() {
     window.dispatchEvent(new CustomEvent("favoritesUpdated"));
   }, []);
 
+  const editCustomBouquet = useCallback((bouquet: CustomBouquet) => {
+    try {
+      // إنشاء البيانات للتعديل من الباقة المخصصة في المفضلة
+      const editData = {
+        flowers:
+          bouquet.flowers?.reduce((acc, f) => {
+            acc[f.flower.id] = f.quantity;
+            return acc;
+          }, {} as Record<string | number, number>) || {},
+        colors: bouquet.colors || [],
+        size: bouquet.size || "medium",
+        style: bouquet.style || "classic",
+        occasion: bouquet.occasion || "",
+        cardMessage: bouquet.cardMessage || "",
+        notes: bouquet.notes || "",
+        image: bouquet.image,
+      };
+
+      // الانتقال إلى صفحة التنسيق الخاص مع البيانات
+      const encodedData = encodeURIComponent(JSON.stringify(editData));
+      window.location.href = `${CART_ROUTES.CUSTOM}?design=${encodedData}&editFromFavorites=true&favoriteId=${bouquet.id}`;
+    } catch (error) {
+      console.error("خطأ في تعديل الباقة:", error);
+      showNotification("حدث خطأ في تعديل الباقة", "error");
+    }
+  }, [showNotification]);
+
   return {
     customBouquets,
     loading,
@@ -119,6 +147,7 @@ export function useCustomBouquetFavorites() {
     addToCart,
     isFavorite,
     clearFavorites,
+    editCustomBouquet,
   };
 }
 

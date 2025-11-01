@@ -51,15 +51,15 @@ export default function CartItem({
 
   return (
     <div
-      className={`bg-white rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 transition-all duration-300 hover:shadow-lg hover:scale-[1.01] sm:hover:scale-[1.02] ${
+      className={`bg-white rounded-xl sm:rounded-2xl shadow-sm p-3 sm:p-6 transition-all duration-300 hover:shadow-lg hover:scale-[1.01] sm:hover:scale-[1.02] ${
         isSelected ? "shadow-lg ring-2 ring-[#5A5E4D]/20" : ""
       }`}
     >
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+      <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-4">
         {/* Checkbox والصور */}
-        <div className="flex gap-3 sm:gap-4">
+        <div className="flex gap-2.5 sm:gap-4">
           {/* Checkbox للاختيار */}
-          <div className="flex items-start pt-1 sm:pt-2">
+          <div className="flex items-start pt-0.5 sm:pt-2">
             <input
               type="checkbox"
               checked={isSelected}
@@ -75,8 +75,8 @@ export default function CartItem({
           <div
             className={`${
               isCustom
-                ? "w-20 h-20 sm:w-28 sm:h-28"
-                : "w-20 h-20 sm:w-24 sm:h-24"
+                ? "w-[4.75rem] h-[4.75rem] sm:w-28 sm:h-28"
+                : "w-[4.5rem] h-[4.5rem] sm:w-24 sm:h-24"
             } flex-shrink-0`}
           >
             <Image
@@ -85,7 +85,7 @@ export default function CartItem({
               width={112}
               height={112}
               className={`rounded-xl sm:rounded-2xl object-cover shadow-md transition-all duration-300 hover:shadow-lg ${
-                isCustom ? "h-20 sm:h-28" : "h-20 sm:h-24"
+                isCustom ? "h-[4.75rem] sm:h-28" : "h-[4.5rem] sm:h-24"
               }`}
               loading="lazy"
             />
@@ -94,7 +94,7 @@ export default function CartItem({
 
         {/* التفاصيل */}
         <div className="flex-1 min-w-0">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0 mb-3">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0 mb-2">
             <div className="flex-1 min-w-0">
               <h3 className="font-bold text-gray-800 text-base sm:text-lg md:text-xl mb-2 line-clamp-2">
                 {item.title}
@@ -184,8 +184,8 @@ export default function CartItem({
           )}
 
           {/* السعر وعداد الكمية */}
-          <div className="mt-4 border-t pt-4 border-gray-200">
-            <div className="flex justify-between items-center mb-3">
+          <div className="mt-3 border-t pt-3 border-gray-200">
+            <div className="flex justify-between items-center mb-2">
               <div className="text-xs sm:text-sm font-medium text-gray-600">
                 {CART_LABELS.PRICE}
               </div>
@@ -195,7 +195,7 @@ export default function CartItem({
             </div>
 
             {/* عداد الكمية */}
-            <div className="flex justify-between items-center bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg sm:rounded-xl p-2 sm:p-3 mb-3">
+            <div className="flex justify-between items-center bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg sm:rounded-xl p-1.5 sm:p-3 mb-2.5">
               <span className="text-xs sm:text-sm font-semibold text-gray-700">
                 {CART_LABELS.QUANTITY}
               </span>
@@ -208,7 +208,7 @@ export default function CartItem({
             </div>
 
             {/* إجمالي السعر للكمية */}
-            <div className="flex justify-between items-center bg-gradient-to-r from-[#5A5E4D]/5 to-[#4A4E3D]/5 rounded-lg sm:rounded-xl p-2 sm:p-3">
+            <div className="flex justify-between items-center bg-gradient-to-r from-[#5A5E4D]/5 to-[#4A4E3D]/5 rounded-lg sm:rounded-xl p-1.5 sm:p-3">
               <span className="font-bold text-sm sm:text-base text-gray-800">
                 {CART_LABELS.TOTAL_PRICE}:
               </span>
