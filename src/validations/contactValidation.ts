@@ -1,6 +1,6 @@
 // Contact form validation - basic checks
-import isValidEmail from './isValidEmail';
-import isValidSaudiPhone from './isValidSaudiPhone';
+import isValidEmail from "./isValidEmail";
+import isValidSaudiPhone from "./isValidSaudiPhone";
 
 export interface ContactFormData {
   name: string;
@@ -24,39 +24,39 @@ export const validateContactForm = (data: ContactFormData): ContactFormErrors =>
 
   // Name validation
   if (!data.name.trim()) {
-    errors.name = 'الاسم مطلوب';
+    errors.name = "الاسم مطلوب";
   } else if (data.name.trim().length < 2) {
-    errors.name = 'الاسم يجب أن يكون أكثر من حرفين';
+    errors.name = "الاسم يجب أن يكون أكثر من حرفين";
   } else if (data.name.trim().length > 50) {
-    errors.name = 'الاسم يجب أن يكون أقل من 50 حرف';
+    errors.name = "الاسم يجب أن يكون أقل من 50 حرف";
   }
 
   // Email validation
   if (!data.email.trim()) {
-    errors.email = 'البريد الإلكتروني مطلوب';
+    errors.email = "البريد الإلكتروني مطلوب";
   } else if (!isValidEmail(data.email.trim())) {
-    errors.email = 'البريد الإلكتروني غير صحيح';
+    errors.email = "البريد الإلكتروني غير صحيح";
   }
 
   // Phone validation
   if (!data.phone.trim()) {
-    errors.phone = 'رقم الهاتف مطلوب';
+    errors.phone = "رقم الهاتف مطلوب";
   } else if (!isValidSaudiPhone(data.phone.trim())) {
-    errors.phone = 'رقم الهاتف السعودي غير صحيح';
+    errors.phone = "رقم الهاتف السعودي غير صحيح";
   }
 
   // Subject validation
   if (!data.subject.trim()) {
-    errors.subject = 'الموضوع مطلوب';
+    errors.subject = "الموضوع مطلوب";
   }
 
   // Message validation
   if (!data.message.trim()) {
-    errors.message = 'الرسالة مطلوبة';
+    errors.message = "الرسالة مطلوبة";
   } else if (data.message.trim().length < 10) {
-    errors.message = 'الرسالة يجب أن تكون أكثر من 10 أحرف';
+    errors.message = "الرسالة يجب أن تكون أكثر من 10 أحرف";
   } else if (data.message.trim().length > 1000) {
-    errors.message = 'الرسالة يجب أن تكون أقل من 1000 حرف';
+    errors.message = "الرسالة يجب أن تكون أقل من 1000 حرف";
   }
 
   return errors;

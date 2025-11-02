@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Heart } from "lucide-react";
+import Script from "next/script";
 
 import DataLoader from "@/src/components/DataLoader";
 import {
@@ -14,6 +15,7 @@ import {
 } from "@/src/components/product";
 import { useProductDetails } from "@/src/hooks/useProductDetails";
 import { PRODUCT_DATA } from "@/src/constants/productData";
+import { generateProductSchema, generateBreadcrumbSchema } from "@/src/lib/structuredData";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -30,8 +32,44 @@ export default function ProductDetailPage() {
     handleAddToCart,
   } = useProductDetails(id);
 
+  // Generate structured data for SEO
+  const productSchema = product
+    ? generateProductSchema({
+        id: product.id,
+        name: product.title,
+        description: product.description,
+        image: `https://shamsflowers.com${product.images[0]}`,
+        price: product.price,
+        currency: product.currency,
+      })
+    : null;
+
+  const breadcrumbSchema = product
+    ? generateBreadcrumbSchema([
+        { name: "الرئيسية", url: "https://shamsflowers.com/" },
+        { name: "الباقات", url: "https://shamsflowers.com/bouquets" },
+        { name: product.title, url: `https://shamsflowers.com/product/${product.id}` },
+      ])
+    : null;
+
   return (
     <DataLoader isLoading={isLoading} loadingText="جاري تحميل المنتج...">
+      {/* Structured Data for SEO */}
+      {productSchema && (
+        <Script
+          id="product-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+        />
+      )}
+      {breadcrumbSchema && (
+        <Script
+          id="breadcrumb-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
+
       <div className="min-h-screen bg-gradient-to-br from-[#faf9f6] to-white">
         {!product ? (
           <div className="max-w-7xl mx-auto px-4 py-20 text-center">
@@ -39,12 +77,8 @@ export default function ProductDetailPage() {
               <div className="w-20 h-20 bg-[#5A5E4D]/10 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Heart className="w-10 h-10 text-[#5A5E4D]" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-800 mb-4">
-                المنتج غير موجود
-              </h1>
-              <p className="text-gray-600 mb-6">
-                عذراً، لم نتمكن من العثور على المنتج المطلوب
-              </p>
+              <h1 className="text-2xl font-bold text-gray-800 mb-4">المنتج غير موجود</h1>
+              <p className="text-gray-600 mb-6">عذراً، لم نتمكن من العثور على المنتج المطلوب</p>
               <Link
                 href="/bouquets"
                 className="inline-block bg-[#5A5E4D] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#4A4E3D] transition-all transform hover:scale-105"
@@ -57,10 +91,7 @@ export default function ProductDetailPage() {
           <main className="max-w-7xl mx-auto px-4 py-8 lg:py-12">
             {/* Breadcrumb */}
             <nav className="flex items-center gap-2 text-sm mb-8">
-              <Link
-                href="/"
-                className="text-gray-500 hover:text-[#5A5E4D] transition-colors"
-              >
+              <Link href="/" className="text-gray-500 hover:text-[#5A5E4D] transition-colors">
                 الرئيسية
               </Link>
               <span className="text-gray-400">/</span>
@@ -71,9 +102,7 @@ export default function ProductDetailPage() {
                 الباقات
               </Link>
               <span className="text-gray-400">/</span>
-              <span className="text-[#5A5E4D] font-medium">
-                {product.title}
-              </span>
+              <span className="text-[#5A5E4D] font-medium">{product.title}</span>
             </nav>
 
             {/* Product Content */}
@@ -117,15 +146,9 @@ export default function ProductDetailPage() {
                     giftWrap={options.giftWrap}
                     cardMessage={options.cardMessage}
                     onCardToggle={(checked) => updateOption("addCard", checked)}
-                    onChocolateToggle={(checked) =>
-                      updateOption("addChocolate", checked)
-                    }
-                    onGiftWrapToggle={(checked) =>
-                      updateOption("giftWrap", checked)
-                    }
-                    onCardMessageChange={(message) =>
-                      updateOption("cardMessage", message)
-                    }
+                    onChocolateToggle={(checked) => updateOption("addChocolate", checked)}
+                    onGiftWrapToggle={(checked) => updateOption("giftWrap", checked)}
+                    onCardMessageChange={(message) => updateOption("cardMessage", message)}
                   />
 
                   {/* Quantity & Add to Cart */}
@@ -133,9 +156,7 @@ export default function ProductDetailPage() {
                     quantity={options.quantity}
                     totalPrice={getTotalPrice()}
                     currency={product.currency}
-                    onQuantityChange={(quantity) =>
-                      updateOption("quantity", quantity)
-                    }
+                    onQuantityChange={(quantity) => updateOption("quantity", quantity)}
                     onAddToCart={handleAddToCart}
                   />
                 </div>

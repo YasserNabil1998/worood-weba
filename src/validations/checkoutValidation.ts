@@ -39,7 +39,7 @@ export const validateCheckoutForm = (formData: {
 }): CheckoutFormErrors => {
   const addressErrors = validateAddress(formData.address);
   const hasAddressErrors = Object.keys(addressErrors).length > 0;
-  
+
   return {
     address: addressErrors,
     general: hasAddressErrors ? "يرجى تصحيح الأخطاء في العنوان" : undefined,

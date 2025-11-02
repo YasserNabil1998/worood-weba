@@ -9,10 +9,7 @@ export default function ContactHero({ data }: ContactHeroProps) {
   return (
     <section className="py-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-          className="relative rounded-xl overflow-hidden"
-          style={{ height: `${HERO_HEIGHT}px` }}
-        >
+        <div className="relative rounded-xl overflow-hidden" style={{ height: `${HERO_HEIGHT}px` }}>
           <Image
             src={data.image}
             alt={data.title}
@@ -57,8 +54,7 @@ export default function ContactHero({ data }: ContactHeroProps) {
                   className="text-3xl md:text-4xl font-extrabold text-white mb-3 drop-shadow-xl"
                   style={{
                     fontFamily: "var(--font-almarai)",
-                    textShadow:
-                      "0 3px 6px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.2)",
+                    textShadow: "0 3px 6px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.2)",
                   }}
                 >
                   {data.title}

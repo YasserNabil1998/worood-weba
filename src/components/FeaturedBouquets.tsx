@@ -31,8 +31,7 @@ const FeaturedBouquets = ({
       e.stopPropagation();
 
       try {
-        const bouquetId =
-          typeof bouquet.id === "number" ? bouquet.id : Number(bouquet.id);
+        const bouquetId = typeof bouquet.id === "number" ? bouquet.id : Number(bouquet.id);
         const isCurrentlyFavorite = isFavorite(bouquetId);
 
         if (isCurrentlyFavorite) {
@@ -75,17 +74,12 @@ const FeaturedBouquets = ({
           giftWrap: false,
         };
 
-        const { cart: updatedCart, isNew } = addProductToCart(
-          cart,
-          productToAdd
-        );
+        const { cart: updatedCart, isNew } = addProductToCart(cart, productToAdd);
 
         storage.set(STORAGE_KEYS.CART, updatedCart);
         window.dispatchEvent(new CustomEvent("cartUpdated"));
 
-        const message = isNew
-          ? "تم إضافة المنتج إلى السلة ✓"
-          : "تم زيادة كمية المنتج في السلة";
+        const message = isNew ? "تم إضافة المنتج إلى السلة ✓" : "تم زيادة كمية المنتج في السلة";
         showNotification(message, "success");
       } catch (error) {
         console.error("خطأ في إضافة المنتج للسلة:", error);
@@ -126,10 +120,7 @@ const FeaturedBouquets = ({
           )}
           {bouquets && bouquets.length > 0 ? (
             bouquets.slice(0, 3).map((bouquet) => {
-              const bouquetId =
-                typeof bouquet.id === "number"
-                  ? bouquet.id
-                  : Number(bouquet.id);
+              const bouquetId = typeof bouquet.id === "number" ? bouquet.id : Number(bouquet.id);
               const isBouquetFavorite = isFavorite(bouquetId);
 
               return (
@@ -183,12 +174,9 @@ const FeaturedBouquets = ({
 
                     <div className="mt-auto">
                       <div className="flex items-center justify-between mb-2 sm:mb-3">
-                        <span className="text-xs sm:text-sm text-gray-600">
-                          السعر:
-                        </span>
+                        <span className="text-xs sm:text-sm text-gray-600">السعر:</span>
                         <div className="font-bold text-base sm:text-lg text-[#5A5E4D]">
-                          {bouquet.price}{" "}
-                          {bouquet.currency || APP_CONFIG.CURRENCY}
+                          {bouquet.price} {bouquet.currency || APP_CONFIG.CURRENCY}
                         </div>
                       </div>
                       <button

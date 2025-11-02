@@ -35,8 +35,8 @@ export function useFavorites() {
 
   const addToFavorites = useCallback((item: BouquetItem) => {
     const current = storage.get<BouquetItem[]>(STORAGE_KEYS.FAVORITES, []);
-    const exists = current.some(fav => fav.id === item.id);
-    
+    const exists = current.some((fav) => fav.id === item.id);
+
     if (!exists) {
       const updated = [...current, item];
       storage.set(STORAGE_KEYS.FAVORITES, updated);
@@ -48,15 +48,18 @@ export function useFavorites() {
 
   const removeFromFavorites = useCallback((id: number) => {
     const current = storage.get<BouquetItem[]>(STORAGE_KEYS.FAVORITES, []);
-    const updated = current.filter(item => item.id !== id);
-    
+    const updated = current.filter((item) => item.id !== id);
+
     storage.set(STORAGE_KEYS.FAVORITES, updated);
     window.dispatchEvent(new CustomEvent("favoritesUpdated"));
   }, []);
 
-  const isFavorite = useCallback((id: number): boolean => {
-    return favorites.some(item => item.id === id);
-  }, [favorites]);
+  const isFavorite = useCallback(
+    (id: number): boolean => {
+      return favorites.some((item) => item.id === id);
+    },
+    [favorites]
+  );
 
   const clearFavorites = useCallback(() => {
     storage.set(STORAGE_KEYS.FAVORITES, []);
@@ -72,4 +75,3 @@ export function useFavorites() {
     clearFavorites,
   };
 }
-

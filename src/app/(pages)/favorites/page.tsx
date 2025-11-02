@@ -20,9 +20,7 @@ export default function FavoritesPage() {
     editCustomBouquet,
   } = useCustomBouquetFavorites();
 
-  const [selectedBouquet, setSelectedBouquet] = useState<CustomBouquet | null>(
-    null
-  );
+  const [selectedBouquet, setSelectedBouquet] = useState<CustomBouquet | null>(null);
   const [showPreview, setShowPreview] = useState(false);
 
   const loading = favoritesLoading || customLoading;
@@ -48,10 +46,7 @@ export default function FavoritesPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#5A5E4D] mx-auto"></div>
-            <p
-              className="mt-6 text-gray-600 text-lg"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="mt-6 text-gray-600 text-lg" style={{ fontFamily: "var(--font-almarai)" }}>
               جاري التحميل...
             </p>
           </div>
@@ -61,10 +56,7 @@ export default function FavoritesPage() {
   }
 
   return (
-    <div
-      className="min-h-screen bg-gradient-to-b from-[#FDFFF7] to-[#ECF1DD]"
-      dir="rtl"
-    >
+    <div className="min-h-screen bg-gradient-to-b from-[#FDFFF7] to-[#ECF1DD]" dir="rtl">
       <main className="py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page Title */}
@@ -388,8 +380,8 @@ export default function FavoritesPage() {
                           {selectedBouquet.size === "small"
                             ? "صغير"
                             : selectedBouquet.size === "medium"
-                            ? "متوسط"
-                            : "كبير"}
+                              ? "متوسط"
+                              : "كبير"}
                         </p>
                       </div>
                       <div className="bg-white p-3 rounded-lg text-center shadow-sm border border-gray-100">
@@ -410,10 +402,10 @@ export default function FavoritesPage() {
                           {selectedBouquet.style === "classic"
                             ? "كلاسيكي"
                             : selectedBouquet.style === "premium"
-                            ? "فاخر"
-                            : selectedBouquet.style === "gift"
-                            ? "هدية"
-                            : "صديق للبيئة"}
+                              ? "فاخر"
+                              : selectedBouquet.style === "gift"
+                                ? "هدية"
+                                : "صديق للبيئة"}
                         </p>
                       </div>
                     </div>

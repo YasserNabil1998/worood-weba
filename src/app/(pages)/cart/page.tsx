@@ -17,19 +17,11 @@ import { CART_MESSAGES } from "@/src/constants/cart";
 import { COLORS } from "@/src/constants";
 
 export default function CartPage() {
-  const [expandedItems, setExpandedItems] = useState<Set<string | number>>(
-    new Set()
-  );
+  const [expandedItems, setExpandedItems] = useState<Set<string | number>>(new Set());
 
   // استخدام الـ hooks المخصصة
-  const {
-    items,
-    isLoading,
-    error,
-    updateItemQuantity,
-    removeItem,
-    editCustomItem,
-  } = useCartItems();
+  const { items, isLoading, error, updateItemQuantity, removeItem, editCustomItem } =
+    useCartItems();
 
   const {
     selectedItems,
@@ -114,10 +106,7 @@ export default function CartPage() {
   });
 
   return (
-    <div
-      className="min-h-screen bg-gradient-to-br from-[#f1f4e8] to-[#e6ead7]"
-      dir="rtl"
-    >
+    <div className="min-h-screen bg-gradient-to-br from-[#f1f4e8] to-[#e6ead7]" dir="rtl">
       <main className="py-6 sm:py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page Title */}
@@ -197,9 +186,7 @@ export default function CartPage() {
                     <div className="bg-gradient-to-r from-red-50 to-pink-50 border border-red-300 rounded-lg sm:rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-red-800 shadow-sm">
                       <div className="flex items-center gap-2">
                         <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                        <span className="font-medium">
-                          {CART_MESSAGES.NO_SELECTION_WARNING}
-                        </span>
+                        <span className="font-medium">{CART_MESSAGES.NO_SELECTION_WARNING}</span>
                       </div>
                     </div>
                   )}

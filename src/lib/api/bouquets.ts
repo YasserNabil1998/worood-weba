@@ -1,5 +1,11 @@
 import { BouquetItem } from "@/src/@types/bouquets/index.type";
-import { BOUQUET_CONSTANTS, OCCASIONS, BADGES, BOUQUET_IMAGES, COLORS } from "@/src/constants/bouquets";
+import {
+  BOUQUET_CONSTANTS,
+  OCCASIONS,
+  BADGES,
+  BOUQUET_IMAGES,
+  COLORS,
+} from "@/src/constants/bouquets";
 
 // External API response type
 interface ExternalProduct {
@@ -89,7 +95,7 @@ export async function fetchBouquets(): Promise<BouquetItem[]> {
     }));
   } catch (error) {
     console.error("Failed to fetch bouquets from API:", error);
-    
+
     // Return fallback data in case of API failure
     return FALLBACK_BOUQUETS;
   }
@@ -103,7 +109,7 @@ export async function fetchBouquets(): Promise<BouquetItem[]> {
 export async function fetchBouquetById(id: number): Promise<BouquetItem | null> {
   try {
     const bouquets = await fetchBouquets();
-    return bouquets.find(bouquet => bouquet.id === id) || null;
+    return bouquets.find((bouquet) => bouquet.id === id) || null;
   } catch (error) {
     console.error(`Failed to fetch bouquet with ID ${id}:`, error);
     return null;

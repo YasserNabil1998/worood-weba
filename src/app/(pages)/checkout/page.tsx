@@ -60,9 +60,7 @@ export default function CheckoutPage() {
               {/* طريقة الدفع */}
               <PaymentMethodSelector
                 selectedMethod={formData.paymentMethod}
-                onMethodChange={(method) =>
-                  updateFormData({ paymentMethod: method })
-                }
+                onMethodChange={(method) => updateFormData({ paymentMethod: method })}
               />
 
               {/* ملاحظات إضافية */}

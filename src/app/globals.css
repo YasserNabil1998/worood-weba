@@ -11,13 +11,7 @@
 }
 
 :root {
-  --background: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    #fffef9 35%,
-    #f9f7f0 65%,
-    #f5f5dc 100%
-  );
+  --background: linear-gradient(180deg, #ffffff 0%, #fffef9 35%, #f9f7f0 65%, #f5f5dc 100%);
   --foreground: #171717;
 }
 
@@ -30,13 +24,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: linear-gradient(
-      180deg,
-      #ffffff 0%,
-      #fffef9 35%,
-      #f9f7f0 65%,
-      #f5f5dc 100%
-    );
+    --background: linear-gradient(180deg, #ffffff 0%, #fffef9 35%, #f9f7f0 65%, #f5f5dc 100%);
     --foreground: #171717;
   }
 }
@@ -226,10 +214,24 @@ select option {
 }
 
 .order-items-scrollbar::-webkit-scrollbar-thumb {
-  background: #5A5E4D;
+  background: #5a5e4d;
   border-radius: 10px;
 }
 
 .order-items-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #6B6F5E;
+  background: #6b6f5e;
+}
+
+/* Skeleton Loading Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite linear;
 }

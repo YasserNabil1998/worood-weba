@@ -22,10 +22,10 @@ export function useCart() {
   const loadCart = useCallback(() => {
     const safeCart = getSafeCart();
     setItems(safeCart);
-    
+
     const itemsCount = safeCart.reduce((sum, item) => sum + (item.quantity || 1), 0);
     const price = safeCart.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
-    
+
     setTotalItems(itemsCount);
     setTotalPrice(price);
   }, [getSafeCart]);
@@ -39,7 +39,7 @@ export function useCart() {
   useEffect(() => {
     const handleUpdate = () => loadCart();
     window.addEventListener("cartUpdated", handleUpdate);
-    
+
     // storage event يعمل فقط من tabs أخرى، لذلك نستخدم custom event فقط
     // وإضافة listener للـ storage للـ tabs الأخرى
     const handleStorageChange = (e: StorageEvent) => {
@@ -48,7 +48,7 @@ export function useCart() {
       }
     };
     window.addEventListener("storage", handleStorageChange);
-    
+
     return () => {
       window.removeEventListener("cartUpdated", handleUpdate);
       window.removeEventListener("storage", handleStorageChange);
@@ -56,36 +56,45 @@ export function useCart() {
   }, [loadCart]);
 
   // إضافة منتج
-  const addItem = useCallback((item: CartItem) => {
-    const safeCart = getSafeCart();
-    const { cart: updatedCart } = addProductToCart(safeCart, item);
-    
-    storage.set(STORAGE_KEYS.CART, updatedCart);
-    window.dispatchEvent(new CustomEvent("cartUpdated"));
-  }, [getSafeCart]);
+  const addItem = useCallback(
+    (item: CartItem) => {
+      const safeCart = getSafeCart();
+      const { cart: updatedCart } = addProductToCart(safeCart, item);
+
+      storage.set(STORAGE_KEYS.CART, updatedCart);
+      window.dispatchEvent(new CustomEvent("cartUpdated"));
+    },
+    [getSafeCart]
+  );
 
   // حذف منتج
-  const removeItem = useCallback((id: string | number) => {
-    const safeCart = getSafeCart();
-    const updated = removeCartItem(safeCart, id);
-    
-    storage.set(STORAGE_KEYS.CART, updated);
-    window.dispatchEvent(new CustomEvent("cartUpdated"));
-  }, [getSafeCart]);
+  const removeItem = useCallback(
+    (id: string | number) => {
+      const safeCart = getSafeCart();
+      const updated = removeCartItem(safeCart, id);
 
-  // تحديث الكمية
-  const updateQuantity = useCallback((id: string | number, quantity: number) => {
-    const safeCart = getSafeCart();
-    
-    try {
-      const updated = updateCartItemQuantity(safeCart, id, quantity);
       storage.set(STORAGE_KEYS.CART, updated);
       window.dispatchEvent(new CustomEvent("cartUpdated"));
-    } catch (error) {
-      // معالجة الخطأ إذا كانت الكمية غير صالحة
-      console.error("Error updating quantity:", error);
-    }
-  }, [getSafeCart]);
+    },
+    [getSafeCart]
+  );
+
+  // تحديث الكمية
+  const updateQuantity = useCallback(
+    (id: string | number, quantity: number) => {
+      const safeCart = getSafeCart();
+
+      try {
+        const updated = updateCartItemQuantity(safeCart, id, quantity);
+        storage.set(STORAGE_KEYS.CART, updated);
+        window.dispatchEvent(new CustomEvent("cartUpdated"));
+      } catch (error) {
+        // معالجة الخطأ إذا كانت الكمية غير صالحة
+        console.error("Error updating quantity:", error);
+      }
+    },
+    [getSafeCart]
+  );
 
   // مسح السلة
   const clearCart = useCallback(() => {
@@ -103,4 +112,3 @@ export function useCart() {
     clearCart,
   };
 }
-

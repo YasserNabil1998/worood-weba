@@ -78,10 +78,7 @@ export default function RatingPopup({
     onClose();
   };
 
-  const renderStars = (
-    currentRating: number,
-    isInteractive: boolean = false
-  ) => {
+  const renderStars = (currentRating: number, isInteractive: boolean = false) => {
     return Array.from({ length: 5 }, (_, index) => (
       <button
         key={index}
@@ -96,9 +93,7 @@ export default function RatingPopup({
       >
         <Star
           className={`w-full h-full ${
-            index < (hoveredRating || currentRating)
-              ? "text-yellow-400"
-              : "text-gray-300"
+            index < (hoveredRating || currentRating) ? "text-yellow-400" : "text-gray-300"
           }`}
           fill="currentColor"
         />
@@ -133,10 +128,7 @@ export default function RatingPopup({
         <div className="p-6 space-y-6">
           {/* Order Info */}
           <div className="bg-gray-50 rounded-lg p-4">
-            <p
-              className="text-sm text-gray-600 mb-1"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="text-sm text-gray-600 mb-1" style={{ fontFamily: "var(--font-almarai)" }}>
               رقم الطلب: {orderNumber}
             </p>
             <p
@@ -186,9 +178,7 @@ export default function RatingPopup({
               كيف تقيم تجربتك؟
             </label>
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1">
-                {renderStars(rating, true)}
-              </div>
+              <div className="flex items-center gap-1">{renderStars(rating, true)}</div>
               {rating > 0 && (
                 <p
                   className="text-sm font-medium text-gray-700"
@@ -222,10 +212,7 @@ export default function RatingPopup({
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5A5E4D] focus:border-transparent resize-none"
               style={{ fontFamily: "var(--font-almarai)" }}
             />
-            <p
-              className="text-xs text-gray-500 mt-1"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: "var(--font-almarai)" }}>
               {comment.length} / 500 حرف
             </p>
           </div>

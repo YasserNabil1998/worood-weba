@@ -7,10 +7,7 @@ import ContactForm from "@/src/components/contact/ContactForm";
 import ContactInfo from "@/src/components/contact/ContactInfo";
 import SocialMediaLinks from "@/src/components/contact/SocialMediaLinks";
 import ContactFAQ from "@/src/components/contact/ContactFAQ";
-import {
-  ContactData,
-  ContactFormData,
-} from "@/src/@types/contact/index.type";
+import { ContactData, ContactFormData } from "@/src/@types/contact/index.type";
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,10 +35,7 @@ export default function ContactPage() {
         <section className="py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Form */}
-            <ContactForm
-              data={typedContactData.form}
-              onSubmit={handleFormSubmit}
-            />
+            <ContactForm data={typedContactData.form} onSubmit={handleFormSubmit} />
 
             {/* Contact Info */}
             <div className="order-2 lg:order-2">

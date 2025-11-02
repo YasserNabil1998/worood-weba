@@ -236,9 +236,7 @@ function CustomBuilderContent() {
 
   // Toggle flower expansion
   const toggleFlowerExpansion = (flowerId: string) => {
-    state.setExpandedFlower(
-      state.expandedFlower === flowerId ? null : flowerId
-    );
+    state.setExpandedFlower(state.expandedFlower === flowerId ? null : flowerId);
   };
 
   // Loading state
@@ -292,10 +290,7 @@ function CustomBuilderContent() {
                 {/* Left - selector */}
                 <div className="order-2 lg:order-2 lg:col-span-2">
                   <div className="bg-white rounded-lg border border-gray-200 p-3 sm:p-5 mb-4">
-                    <StepIndicator
-                      currentStep={state.step}
-                      onStepChange={state.setStep}
-                    />
+                    <StepIndicator currentStep={state.step} onStepChange={state.setStep} />
 
                     {/* Section title */}
                     <div className="flex items-center justify-between mb-2">
@@ -435,9 +430,7 @@ export default function CustomBuilderPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          جاري التحميل...
-        </div>
+        <div className="min-h-screen flex items-center justify-center">جاري التحميل...</div>
       }
     >
       <CustomBuilderContent />

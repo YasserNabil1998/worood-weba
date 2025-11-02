@@ -16,10 +16,7 @@ import { getArabicDate } from "@/src/lib/utils";
 /**
  * دمج الطلبات المحفوظة مع الطلبات التجريبية
  */
-export function mergeOrders(
-  savedOrders: Order[],
-  demoOrders: Order[]
-): Order[] {
+export function mergeOrders(savedOrders: Order[], demoOrders: Order[]): Order[] {
   return [...savedOrders, ...demoOrders];
 }
 
@@ -142,8 +139,7 @@ export function createOrderFromCheckoutItems(
   const orderDate = getArabicDate();
   const deliveryAddress = formatDeliveryAddress(formData.address);
   const paymentMethodLabel =
-    PAYMENT_METHOD_LABELS[formData.paymentMethod as PaymentMethod] ||
-    formData.paymentMethod;
+    PAYMENT_METHOD_LABELS[formData.paymentMethod as PaymentMethod] || formData.paymentMethod;
 
   return {
     id: orderId,

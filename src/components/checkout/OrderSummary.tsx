@@ -27,18 +27,14 @@ export default function OrderSummary({
       {/* قائمة المنتجات */}
       <ul className="mb-6 divide-y divide-gray-100">
         {items.map((item, index) => {
-          const itemPrice = item.isCustom
-            ? item.price ?? 0
-            : item.total ?? item.price ?? 0;
+          const itemPrice = item.isCustom ? (item.price ?? 0) : (item.total ?? item.price ?? 0);
 
           return (
             <li
               key={`${item.id}-${index}-${item.title}`}
               className="py-3 flex items-center justify-between text-sm transition-colors hover:bg-gray-50/50 -mx-2 px-2 rounded"
             >
-              <span className="text-gray-700 flex-1 text-right pr-2">
-                {item.title}
-              </span>
+              <span className="text-gray-700 flex-1 text-right pr-2">{item.title}</span>
               <span className="font-semibold text-gray-900 whitespace-nowrap">
                 {APP_CONFIG.CURRENCY} {itemPrice.toFixed(2)}
               </span>
@@ -67,10 +63,7 @@ export default function OrderSummary({
 
         <div className="flex justify-between font-bold border-t-2 border-gray-200 pt-4 mt-4">
           <span className="text-gray-800">المجموع</span>
-          <span
-            className="text-xl font-extrabold"
-            style={{ color: COLORS.PRIMARY }}
-          >
+          <span className="text-xl font-extrabold" style={{ color: COLORS.PRIMARY }}>
             {APP_CONFIG.CURRENCY} {totals.grand.toFixed(2)}
           </span>
         </div>

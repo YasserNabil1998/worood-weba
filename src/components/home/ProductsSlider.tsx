@@ -83,15 +83,11 @@ const ProductsSlider = () => {
   ];
 
   const nextSlide = () => {
-    setCurrentIndex((prev) =>
-      prev >= products.length - visibleCount ? 0 : prev + 1
-    );
+    setCurrentIndex((prev) => (prev >= products.length - visibleCount ? 0 : prev + 1));
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? products.length - visibleCount : prev - 1
-    );
+    setCurrentIndex((prev) => (prev === 0 ? products.length - visibleCount : prev - 1));
   };
 
   // Auto slide every 5 seconds
@@ -130,18 +126,15 @@ const ProductsSlider = () => {
                 visibleCount === 1
                   ? "grid-cols-1"
                   : visibleCount === 2
-                  ? "grid-cols-1 sm:grid-cols-2"
-                  : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+                    ? "grid-cols-1 sm:grid-cols-2"
+                    : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
               }`}
             >
               {products
                 .slice(currentIndex, currentIndex + visibleCount)
                 .concat(
                   currentIndex + visibleCount > products.length
-                    ? products.slice(
-                        0,
-                        currentIndex + visibleCount - products.length
-                      )
+                    ? products.slice(0, currentIndex + visibleCount - products.length)
                     : []
                 )
                 .slice(0, visibleCount)
@@ -199,14 +192,14 @@ const ProductsSlider = () => {
           {/* Navigation Arrows - Outside the container */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-8 md:-translate-x-12 lg:-translate-x-16 bg-white hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+            className="absolute left-2 lg:left-0 top-1/2 -translate-y-1/2 lg:-translate-x-16 bg-white hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
             aria-label="Previous"
           >
             <ChevronLeftIcon className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-8 md:translate-x-12 lg:translate-x-16 bg-white hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+            className="absolute right-2 lg:right-0 top-1/2 -translate-y-1/2 lg:translate-x-16 bg-white hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
             aria-label="Next"
           >
             <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />

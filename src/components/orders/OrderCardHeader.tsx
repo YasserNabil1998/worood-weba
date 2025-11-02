@@ -15,10 +15,7 @@ export default function OrderCardHeader({ order }: OrderCardHeaderProps) {
             {getStatusIcon(order.status)}
           </div>
           <div>
-            <h3
-              className="text-xl font-bold text-gray-800 mb-1"
-              style={almaraiFont}
-            >
+            <h3 className="text-xl font-bold text-gray-800 mb-1" style={almaraiFont}>
               طلب #{order.orderNumber}
             </h3>
             <div className="flex items-center gap-2 text-gray-600">
@@ -37,10 +34,7 @@ export default function OrderCardHeader({ order }: OrderCardHeaderProps) {
           >
             {order.status}
           </div>
-          <p
-            className="text-gray-800 font-bold text-xl mt-2"
-            style={almaraiFont}
-          >
+          <p className="text-gray-800 font-bold text-xl mt-2" style={almaraiFont}>
             {order.totalAmount} ر.س
           </p>
         </div>

@@ -19,8 +19,7 @@ import CustomBouquetSection from "@/src/components/common/CustomBouquetSection";
 import occasionsData from "./data/occasions.json";
 
 export default function OccasionsPage() {
-  const { pageContent, categories, featuredSection, occasionBlocks } =
-    occasionsData;
+  const { pageContent, categories, featuredSection, occasionBlocks } = occasionsData;
   const [showWeddingBouquets, setShowWeddingBouquets] = useState(false);
 
   // Map icon names to Lucide components
@@ -36,10 +35,7 @@ export default function OccasionsPage() {
     return iconMap[iconName] || Heart; // Default to Heart if not found
   };
   return (
-    <div
-      className="min-h-screen bg-gradient-to-b from-[#FDFFF7] to-[#ECF1DD]"
-      dir="rtl"
-    >
+    <div className="min-h-screen bg-gradient-to-b from-[#FDFFF7] to-[#ECF1DD]" dir="rtl">
       <main>
         {/* Hero */}
         <section className="py-6">
@@ -103,9 +99,7 @@ export default function OccasionsPage() {
               >
                 {pageContent.categoriesSection.title}
               </h2>
-              <p className="text-sm text-gray-600">
-                {pageContent.categoriesSection.subtitle}
-              </p>
+              <p className="text-sm text-gray-600">{pageContent.categoriesSection.subtitle}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {categories.map((c) => (
@@ -135,9 +129,7 @@ export default function OccasionsPage() {
                       <div className="flex items-center gap-2 mb-2">
                         {(() => {
                           const IconComponent = getIconComponent(c.icon);
-                          return (
-                            <IconComponent className="w-7 h-7 text-white" />
-                          );
+                          return <IconComponent className="w-7 h-7 text-white" />;
                         })()}
                         <h3
                           className="text-white text-lg md:text-xl font-bold"
@@ -215,9 +207,7 @@ export default function OccasionsPage() {
             {/* Bouquets Section - Toggle */}
             <div
               className={`transition-all duration-500 ease-in-out overflow-hidden ${
-                showWeddingBouquets
-                  ? "max-h-[2000px] opacity-100"
-                  : "max-h-0 opacity-0"
+                showWeddingBouquets ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
               <div className="bg-white rounded-t-none rounded-b-2xl p-6 shadow-lg -mt-2">
@@ -264,11 +254,7 @@ export default function OccasionsPage() {
                           )}
                           {b.oldPrice && (
                             <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                              خصم{" "}
-                              {Math.round(
-                                ((b.oldPrice - b.price) / b.oldPrice) * 100
-                              )}
-                              %
+                              خصم {Math.round(((b.oldPrice - b.price) / b.oldPrice) * 100)}%
                             </span>
                           )}
                         </div>
@@ -293,9 +279,7 @@ export default function OccasionsPage() {
                         {/* السعر */}
                         <div className="text-center mb-3">
                           <div className="flex items-center justify-center gap-2">
-                            <span className="text-lg font-bold text-[#5A5E4D]">
-                              {b.price} ریال
-                            </span>
+                            <span className="text-lg font-bold text-[#5A5E4D]">{b.price} ریال</span>
                             {b.oldPrice && (
                               <span className="text-sm text-gray-400 line-through">
                                 {b.oldPrice} ریال
@@ -347,9 +331,7 @@ export default function OccasionsPage() {
                       <div className="flex items-center gap-2 mb-3">
                         {(() => {
                           const IconComponent = getIconComponent(blk.icon);
-                          return (
-                            <IconComponent className="w-7 h-7 text-white" />
-                          );
+                          return <IconComponent className="w-7 h-7 text-white" />;
                         })()}
                         <h3
                           className="text-white text-xl md:text-2xl font-bold"
@@ -428,12 +410,8 @@ export default function OccasionsPage() {
                         <div className="absolute inset-0 p-5 flex flex-col justify-end">
                           <div className="flex items-center gap-2 mb-3">
                             {(() => {
-                              const IconComponent = getIconComponent(
-                                occasion.icon
-                              );
-                              return (
-                                <IconComponent className="w-7 h-7 text-white" />
-                              );
+                              const IconComponent = getIconComponent(occasion.icon);
+                              return <IconComponent className="w-7 h-7 text-white" />;
                             })()}
                             <h3
                               className="text-white text-xl md:text-2xl font-bold"

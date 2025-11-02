@@ -66,9 +66,7 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
                                     rounded-2xl 
                                     p-4 sm:p-6
                                     shadow-lg shadow-gray-200/60
-                                    hover:shadow-2xl ${getCardGradient(
-                                      feature.id
-                                    )}
+                                    hover:shadow-2xl ${getCardGradient(feature.id)}
                                     border border-gray-100/50
                                     backdrop-blur-sm
                                     relative
@@ -76,11 +74,7 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
                                     group
                                     h-56 sm:h-64
                                     flex flex-col
-                                    ${
-                                      isVisible
-                                        ? "animate-fadeInUp"
-                                        : "opacity-0"
-                                    }
+                                    ${isVisible ? "animate-fadeInUp" : "opacity-0"}
                                 `}
                 style={{
                   animationDelay: `${index * 150}ms`,
@@ -107,9 +101,7 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
                       {/* Icon glow effect */}
                       <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
 
-                      <div className="text-white relative z-10">
-                        {feature.icon}
-                      </div>
+                      <div className="text-white relative z-10">{feature.icon}</div>
                     </div>
                   </div>
                 </div>

@@ -41,14 +41,7 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
       console.error("خطأ في تبديل المفضلة:", error);
       showNotification("حدث خطأ في تحديث المفضلة", "error");
     }
-  }, [
-    itemId,
-    item,
-    isFavorite,
-    addToFavorites,
-    removeFromFavorites,
-    showNotification,
-  ]);
+  }, [itemId, item, isFavorite, addToFavorites, removeFromFavorites, showNotification]);
 
   const handleAddToCart = useCallback(() => {
     const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
@@ -68,9 +61,7 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
     storage.set(STORAGE_KEYS.CART, updatedCart);
     window.dispatchEvent(new Event("cartUpdated"));
 
-    const message = isNew
-      ? "تم إضافة المنتج إلى السلة ✓"
-      : "تم زيادة كمية المنتج في السلة ✓";
+    const message = isNew ? "تم إضافة المنتج إلى السلة ✓" : "تم زيادة كمية المنتج في السلة ✓";
     showNotification(message, "success");
   }, [item, showNotification]);
 
@@ -81,14 +72,16 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
       dir="rtl"
       data-product-card
     >
-      <div className="relative h-80 overflow-hidden">
+      <div className="relative h-80 overflow-hidden bg-gray-100">
         <Image
           src={item.image}
           alt={item.title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-110"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
           loading="lazy"
+          placeholder="blur"
+          blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQ3NSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4="
         />
         <div className="absolute top-2 left-2 flex items-center gap-2 z-10">
           <button
@@ -138,9 +131,7 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
 
         <div className="mt-auto">
           <div className="flex items-center justify-start mb-3">
-            <div className="font-bold text-lg text-[#5A5E4D]">
-              {item.price} ر.س
-            </div>
+            <div className="font-bold text-lg text-[#5A5E4D]">{item.price} ر.س</div>
           </div>
           <button
             onClick={(e) => {

@@ -12,9 +12,7 @@ export default async function Home() {
   // جلب الباقات وتصفيتها لإظهار الأكثر طلباً
   const allBouquets = await fetchBouquets();
   const mostRequestedBouquets = allBouquets
-    .filter(
-      (bouquet) => bouquet.isPopular === true || bouquet.badge === "الأكثر شهرة"
-    )
+    .filter((bouquet) => bouquet.isPopular === true || bouquet.badge === "الأكثر شهرة")
     .slice(0, 3); // أخذ أول 3 باقات فقط
 
   return (

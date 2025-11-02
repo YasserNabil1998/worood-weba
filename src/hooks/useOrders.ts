@@ -2,11 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Order } from "@/src/@types/orders/order.type";
 import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS } from "@/src/constants";
-import {
-  mergeOrders,
-  sortOrders,
-  filterOrdersByStatus,
-} from "@/src/lib/ordersHelpers";
+import { mergeOrders, sortOrders, filterOrdersByStatus } from "@/src/lib/ordersHelpers";
 import ordersData from "@/src/app/(pages)/orders/orders-data.json";
 
 /**
@@ -43,4 +39,3 @@ export function useOrders() {
     setSelectedStatus,
   };
 }
-

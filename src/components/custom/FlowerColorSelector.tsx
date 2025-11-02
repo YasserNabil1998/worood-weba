@@ -19,9 +19,7 @@ export default function FlowerColorSelector({
   onToggleFlowerExpansion,
   onSetFlowerColor,
 }: FlowerColorSelectorProps) {
-  const selectedFlowerEntries = Object.entries(selectedFlowers).filter(
-    ([_, qty]) => qty > 0
-  );
+  const selectedFlowerEntries = Object.entries(selectedFlowers).filter(([_, qty]) => qty > 0);
 
   if (selectedFlowerEntries.length === 0) {
     return null;
@@ -58,9 +56,7 @@ export default function FlowerColorSelector({
                   className="w-8 h-8 object-cover rounded-md flex-shrink-0"
                 />
                 <div className="flex-1 text-right">
-                  <h4 className="font-medium text-gray-900 text-sm">
-                    {flower?.name}
-                  </h4>
+                  <h4 className="font-medium text-gray-900 text-sm">{flower?.name}</h4>
                   <p className="text-xs text-gray-500">{quantity} زهرة</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -71,9 +67,7 @@ export default function FlowerColorSelector({
                           key={colorId}
                           className="w-4 h-4 rounded-full border border-gray-300"
                           style={{
-                            backgroundColor: colors.find(
-                              (c) => c.id === colorId
-                            )?.color,
+                            backgroundColor: colors.find((c) => c.id === colorId)?.color,
                           }}
                         />
                       ))}

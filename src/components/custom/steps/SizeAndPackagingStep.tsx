@@ -84,10 +84,7 @@ export default function SizeAndPackagingStep({
         {totalFlowersCount > 0 && (
           <div className="mb-3 bg-[#5A5E4D]/10 border border-[#d0d2c7]/30 rounded-md p-2 text-xs text-[#5A5E4D] flex items-center gap-2">
             <Lightbulb className="w-4 h-4 flex-shrink-0" />
-            <span>
-              تم اختيار الحجم تلقائياً. يمكنك تغييره وسيتم تعديل عدد الزهور بنفس
-              النسبة
-            </span>
+            <span>تم اختيار الحجم تلقائياً. يمكنك تغييره وسيتم تعديل عدد الزهور بنفس النسبة</span>
           </div>
         )}
         <div className="flex gap-2 pb-2">
@@ -101,8 +98,8 @@ export default function SizeAndPackagingStep({
                   size === opt.key
                     ? "border-[#d0d2c7] bg-[#5A5E4D]/5"
                     : totalFlowersCount === 0
-                    ? "border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed"
-                    : "border-gray-200 bg-white hover:border-[#b5bf95]/30 hover:bg-gray-50 cursor-pointer"
+                      ? "border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed"
+                      : "border-gray-200 bg-white hover:border-[#b5bf95]/30 hover:bg-gray-50 cursor-pointer"
                 }`}
               >
                 <div className="mx-auto mb-1 h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
@@ -120,20 +117,12 @@ export default function SizeAndPackagingStep({
                     <span className="text-lg">🌺</span>
                   )}
                 </div>
-                <div className="font-semibold text-gray-800 text-xs mb-1">
-                  {opt.label}
-                </div>
+                <div className="font-semibold text-gray-800 text-xs mb-1">{opt.label}</div>
                 <div className="text-[10px] text-gray-500">{opt.stems}</div>
                 {size === opt.key &&
-                  (opt.key === "custom"
-                    ? customFlowerCount > 0
-                    : totalFlowersCount > 0) && (
+                  (opt.key === "custom" ? customFlowerCount > 0 : totalFlowersCount > 0) && (
                     <div className="mt-2 text-xs text-[#5A5E4D] font-semibold bg-[#5A5E4D]/10 rounded px-2 py-1">
-                      ✓{" "}
-                      {opt.key === "custom"
-                        ? customFlowerCount
-                        : totalFlowersCount}{" "}
-                      زهرة
+                      ✓ {opt.key === "custom" ? customFlowerCount : totalFlowersCount} زهرة
                     </div>
                   )}
               </button>
@@ -144,25 +133,19 @@ export default function SizeAndPackagingStep({
         {/* Custom flower count input */}
         {size === "custom" && (
           <div className="mt-4">
-            <div className="mb-2 text-xs font-medium text-gray-700">
-              عدد الزهور المطلوب
-            </div>
+            <div className="mb-2 text-xs font-medium text-gray-700">عدد الزهور المطلوب</div>
             <div className="flex items-center gap-3">
               <input
                 type="number"
                 min="5"
                 max="1000"
                 value={customFlowerCount}
-                onChange={(e) =>
-                  onCustomFlowerCountChange(Number(e.target.value))
-                }
+                onChange={(e) => onCustomFlowerCountChange(Number(e.target.value))}
                 className="w-32 px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
               />
               <span className="text-sm text-gray-600">زهرة</span>
             </div>
-            <p className="mt-1 text-xs text-gray-500">
-              يمكنك اختيار من 5 إلى 1000 زهرة
-            </p>
+            <p className="mt-1 text-xs text-gray-500">يمكنك اختيار من 5 إلى 1000 زهرة</p>
           </div>
         )}
 
@@ -213,7 +196,9 @@ export default function SizeAndPackagingStep({
               {bouquetStyles.map((styleOption) => (
                 <button
                   key={styleOption.key}
-                  onClick={() => onStyleChange(styleOption.key as "classic" | "premium" | "gift" | "eco")}
+                  onClick={() =>
+                    onStyleChange(styleOption.key as "classic" | "premium" | "gift" | "eco")
+                  }
                   className={`text-center rounded-lg border p-3 transition-all ${
                     style === styleOption.key
                       ? "border-[#5A5E4D] bg-[#5A5E4D]/10"
@@ -225,12 +210,8 @@ export default function SizeAndPackagingStep({
                     alt={styleOption.label}
                     className="w-12 h-12 object-cover rounded-md mx-auto mb-2"
                   />
-                  <div className="text-xs font-medium text-gray-900">
-                    {styleOption.label}
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    +{styleOption.price} ر.س
-                  </div>
+                  <div className="text-xs font-medium text-gray-900">{styleOption.label}</div>
+                  <div className="text-xs text-gray-500">+{styleOption.price} ر.س</div>
                 </button>
               ))}
             </div>
@@ -255,9 +236,7 @@ export default function SizeAndPackagingStep({
                     alt={vase.name}
                     className="w-12 h-12 object-cover rounded-md mx-auto mb-2"
                   />
-                  <div className="text-xs font-medium text-gray-900">
-                    {vase.name}
-                  </div>
+                  <div className="text-xs font-medium text-gray-900">{vase.name}</div>
                   <div className="text-xs text-gray-500">+{vase.price} ر.س</div>
                 </button>
               ))}

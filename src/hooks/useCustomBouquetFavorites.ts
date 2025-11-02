@@ -17,10 +17,7 @@ export function useCustomBouquetFavorites() {
   // تحميل التصاميم المخصصة
   const loadCustomBouquets = useCallback(() => {
     try {
-      const stored = storage.get<CustomBouquet[]>(
-        STORAGE_KEYS.BOUQUET_FAVORITES,
-        []
-      );
+      const stored = storage.get<CustomBouquet[]>(STORAGE_KEYS.BOUQUET_FAVORITES, []);
       setCustomBouquets(stored);
     } catch (error) {
       console.error("خطأ في تحميل التصاميم المخصصة:", error);
@@ -42,11 +39,8 @@ export function useCustomBouquetFavorites() {
   }, [loadCustomBouquets]);
 
   const addToFavorites = useCallback((bouquet: CustomBouquet) => {
-    const current = storage.get<CustomBouquet[]>(
-      STORAGE_KEYS.BOUQUET_FAVORITES,
-      []
-    );
-    const exists = current.some(b => b.id === bouquet.id);
+    const current = storage.get<CustomBouquet[]>(STORAGE_KEYS.BOUQUET_FAVORITES, []);
+    const exists = current.some((b) => b.id === bouquet.id);
 
     if (!exists) {
       const updated = [...current, bouquet];
@@ -58,11 +52,8 @@ export function useCustomBouquetFavorites() {
   }, []);
 
   const removeFromFavorites = useCallback((id: number) => {
-    const current = storage.get<CustomBouquet[]>(
-      STORAGE_KEYS.BOUQUET_FAVORITES,
-      []
-    );
-    const updated = current.filter(b => b.id !== id);
+    const current = storage.get<CustomBouquet[]>(STORAGE_KEYS.BOUQUET_FAVORITES, []);
+    const updated = current.filter((b) => b.id !== id);
 
     storage.set(STORAGE_KEYS.BOUQUET_FAVORITES, updated);
     window.dispatchEvent(new CustomEvent("favoritesUpdated"));
@@ -102,7 +93,7 @@ export function useCustomBouquetFavorites() {
 
   const isFavorite = useCallback(
     (id: number): boolean => {
-      return customBouquets.some(b => b.id === id);
+      return customBouquets.some((b) => b.id === id);
     },
     [customBouquets]
   );
@@ -112,32 +103,38 @@ export function useCustomBouquetFavorites() {
     window.dispatchEvent(new CustomEvent("favoritesUpdated"));
   }, []);
 
-  const editCustomBouquet = useCallback((bouquet: CustomBouquet) => {
-    try {
-      // إنشاء البيانات للتعديل من الباقة المخصصة في المفضلة
-      const editData = {
-        flowers:
-          bouquet.flowers?.reduce((acc, f) => {
-            acc[f.flower.id] = f.quantity;
-            return acc;
-          }, {} as Record<string | number, number>) || {},
-        colors: bouquet.colors || [],
-        size: bouquet.size || "medium",
-        style: bouquet.style || "classic",
-        occasion: bouquet.occasion || "",
-        cardMessage: bouquet.cardMessage || "",
-        notes: bouquet.notes || "",
-        image: bouquet.image,
-      };
+  const editCustomBouquet = useCallback(
+    (bouquet: CustomBouquet) => {
+      try {
+        // إنشاء البيانات للتعديل من الباقة المخصصة في المفضلة
+        const editData = {
+          flowers:
+            bouquet.flowers?.reduce(
+              (acc, f) => {
+                acc[f.flower.id] = f.quantity;
+                return acc;
+              },
+              {} as Record<string | number, number>
+            ) || {},
+          colors: bouquet.colors || [],
+          size: bouquet.size || "medium",
+          style: bouquet.style || "classic",
+          occasion: bouquet.occasion || "",
+          cardMessage: bouquet.cardMessage || "",
+          notes: bouquet.notes || "",
+          image: bouquet.image,
+        };
 
-      // الانتقال إلى صفحة التنسيق الخاص مع البيانات
-      const encodedData = encodeURIComponent(JSON.stringify(editData));
-      window.location.href = `${CART_ROUTES.CUSTOM}?design=${encodedData}&editFromFavorites=true&favoriteId=${bouquet.id}`;
-    } catch (error) {
-      console.error("خطأ في تعديل الباقة:", error);
-      showNotification("حدث خطأ في تعديل الباقة", "error");
-    }
-  }, [showNotification]);
+        // الانتقال إلى صفحة التنسيق الخاص مع البيانات
+        const encodedData = encodeURIComponent(JSON.stringify(editData));
+        window.location.href = `${CART_ROUTES.CUSTOM}?design=${encodedData}&editFromFavorites=true&favoriteId=${bouquet.id}`;
+      } catch (error) {
+        console.error("خطأ في تعديل الباقة:", error);
+        showNotification("حدث خطأ في تعديل الباقة", "error");
+      }
+    },
+    [showNotification]
+  );
 
   return {
     customBouquets,
@@ -150,4 +147,3 @@ export function useCustomBouquetFavorites() {
     editCustomBouquet,
   };
 }
-

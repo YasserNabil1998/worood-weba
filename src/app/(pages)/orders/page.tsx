@@ -13,8 +13,7 @@ import EmptyOrders from "@/src/components/orders/EmptyOrders";
 import OrderCard from "@/src/components/orders/OrderCard";
 
 export default function OrdersPage() {
-  const { orders, filteredOrders, selectedStatus, setSelectedStatus } =
-    useOrders();
+  const { orders, filteredOrders, selectedStatus, setSelectedStatus } = useOrders();
   const { showNotification } = useNotification();
 
   const [ratingPopup, setRatingPopup] = useState<{
@@ -62,10 +61,7 @@ export default function OrdersPage() {
           <OrdersPageHeader totalOrders={orders.length} />
 
           {/* Filter Section */}
-          <OrderStatusFilter
-            selectedStatus={selectedStatus}
-            onStatusChange={setSelectedStatus}
-          />
+          <OrderStatusFilter selectedStatus={selectedStatus} onStatusChange={setSelectedStatus} />
 
           {/* Orders List */}
           {filteredOrders.length === 0 ? (
@@ -73,11 +69,7 @@ export default function OrdersPage() {
           ) : (
             <div className="space-y-4">
               {filteredOrders.map((order: Order) => (
-                <OrderCard
-                  key={order.id}
-                  order={order}
-                  onRateOrder={openRatingPopup}
-                />
+                <OrderCard key={order.id} order={order} onRateOrder={openRatingPopup} />
               ))}
             </div>
           )}

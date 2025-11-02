@@ -1,17 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
-import {
-  ContactFormProps,
-  ContactFormData,
-  ContactFormErrors,
-} from "@/src/@types/contact/index.type";
-import {
-  validateContactForm,
-  hasFormErrors,
-  cleanFormData,
-} from "@/src/validations/contactValidation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ChevronDown, Loader2 } from "lucide-react";
+import { ContactFormProps } from "@/src/@types/contact/index.type";
+import { contactSchema, ContactFormData } from "@/src/validations/schemas/contactSchema";
 import {
   INPUT_HEIGHT,
   TEXTAREA_ROWS,
@@ -23,85 +17,51 @@ import {
 import { cn } from "@/src/lib/utils";
 
 export default function ContactForm({ data, onSubmit }: ContactFormProps) {
-  const [formData, setFormData] = useState<ContactFormData>({
-    name: "",
-    email: "",
-    phone: "",
-    subject: data.fields.subject.options[0],
-    message: "",
-  });
-
-  const [errors, setErrors] = useState<ContactFormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  // Form persistence: Consider adding localStorage caching for better UX
-  // Example: useEffect(() => { localStorage.setItem('contactForm', JSON.stringify(formData)); }, [formData]);
+  // Initialize React Hook Form with Zod validation
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      subject: data.fields.subject.options[0],
+      message: "",
+    },
+  });
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev: ContactFormData) => ({ ...prev, [name]: value }));
-
-    // Clear field error when user types
-    if (errors[name as keyof ContactFormErrors]) {
-      setErrors((prev: ContactFormErrors) => ({ ...prev, [name]: undefined }));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validate form data
-    const cleanedData = cleanFormData(formData);
-    const validationErrors = validateContactForm(cleanedData);
-
-    if (hasFormErrors(validationErrors)) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    setIsSubmitting(true);
+  // Handle form submission
+  const onSubmitForm = async (formData: ContactFormData) => {
     setIsError(false);
-    setErrors({});
 
     try {
-      await onSubmit(cleanedData);
+      await onSubmit(formData);
       setIsSuccess(true);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: data.fields.subject.options[0],
-        message: "",
-      });
+      reset(); // Reset form after successful submission
 
-      // Hide success message after timeout - could be improved with better UX
+      // Hide success message after timeout
       setTimeout(() => {
         setIsSuccess(false);
       }, FORM_SUCCESS_TIMEOUT);
     } catch (error) {
       console.error("Form submission error:", error);
       setIsError(true);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
-  const getInputClasses = (fieldName: keyof ContactFormErrors) => {
+  // Get input classes based on error state
+  const getInputClasses = (hasError: boolean, isTextarea = false) => {
     const baseClasses = `w-full rounded-lg border px-4 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 transition-colors`;
-    const heightClass =
-      fieldName === "message" ? "py-3" : `h-${INPUT_HEIGHT / 4}`;
-    const borderClass = errors[fieldName]
-      ? BORDER_COLORS.ERROR
-      : BORDER_COLORS.DEFAULT;
-    const focusBorderClass = errors[fieldName]
-      ? "focus:border-red-500"
-      : "focus:border-[#5A5E4D]";
+    const heightClass = isTextarea ? "py-3" : `h-${INPUT_HEIGHT / 4}`;
+    const borderClass = hasError ? BORDER_COLORS.ERROR : BORDER_COLORS.DEFAULT;
+    const focusBorderClass = hasError ? "focus:border-red-500" : "focus:border-[#5A5E4D]";
 
     return cn(baseClasses, heightClass, borderClass, focusBorderClass);
   };
@@ -128,10 +88,7 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
         </div>
       )}
 
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4"
-      >
+      <form onSubmit={handleSubmit(onSubmitForm)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Name field */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -139,15 +96,11 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
           </label>
           <input
             type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
             placeholder="أدخل اسمك الكامل"
-            className={getInputClasses("name")}
+            className={getInputClasses(!!errors.name)}
+            {...register("name")}
           />
-          {errors.name && (
-            <p className="mt-1 text-sm text-red-600">{errors.name}</p>
-          )}
+          {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
         </div>
 
         {/* Email field */}
@@ -157,15 +110,11 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
           </label>
           <input
             type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
             placeholder="أدخل بريدك الإلكتروني"
-            className={getInputClasses("email")}
+            className={getInputClasses(!!errors.email)}
+            {...register("email")}
           />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-          )}
+          {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
         </div>
 
         {/* Phone field */}
@@ -175,15 +124,11 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
           </label>
           <input
             type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
             placeholder="أدخل رقم هاتفك"
-            className={getInputClasses("phone")}
+            className={getInputClasses(!!errors.phone)}
+            {...register("phone")}
           />
-          {errors.phone && (
-            <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
-          )}
+          {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>}
         </div>
 
         {/* Subject field */}
@@ -193,24 +138,18 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
           </label>
           <div className="relative">
             <select
-              name="subject"
-              value={formData.subject}
-              onChange={handleChange}
               className={cn(
-                getInputClasses("subject"),
+                getInputClasses(!!errors.subject),
                 "pl-4 pr-10 appearance-none bg-white text-sm md:text-base"
               )}
               style={{
                 direction: "rtl",
                 maxWidth: "100%",
               }}
+              {...register("subject")}
             >
               {data.fields.subject.options.map((option: string) => (
-                <option
-                  key={option}
-                  value={option}
-                  style={{ direction: "rtl" }}
-                >
+                <option key={option} value={option} style={{ direction: "rtl" }}>
                   {option}
                 </option>
               ))}
@@ -220,9 +159,7 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"
             />
           </div>
-          {errors.subject && (
-            <p className="mt-1 text-sm text-red-600">{errors.subject}</p>
-          )}
+          {errors.subject && <p className="mt-1 text-sm text-red-600">{errors.subject.message}</p>}
         </div>
 
         {/* Message field */}
@@ -231,16 +168,12 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
             {data.fields.message.label}
           </label>
           <textarea
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
             rows={TEXTAREA_ROWS}
-            className={cn(getInputClasses("message"), "resize-none")}
+            className={cn(getInputClasses(!!errors.message, true), "resize-none")}
             placeholder={data.fields.message.placeholder}
+            {...register("message")}
           />
-          {errors.message && (
-            <p className="mt-1 text-sm text-red-600">{errors.message}</p>
-          )}
+          {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>}
         </div>
 
         {/* Submit button */}
@@ -249,18 +182,19 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
             type="submit"
             disabled={isSubmitting}
             className={cn(
-              "w-full rounded-lg text-white font-semibold transition-colors duration-200",
+              "w-full rounded-lg text-white font-semibold transition-colors duration-200 flex items-center justify-center gap-2",
               `h-${INPUT_HEIGHT / 4}`,
               isSubmitting
                 ? "bg-gray-400 cursor-not-allowed"
                 : cn(BACKGROUND_COLORS.PRIMARY, BACKGROUND_COLORS.PRIMARY_HOVER)
             )}
           >
+            {isSubmitting && <Loader2 className="w-5 h-5 animate-spin" />}
             {isSubmitting
               ? MESSAGES.LOADING
               : isSuccess
-              ? data.submitButton.sentText
-              : data.submitButton.text}
+                ? data.submitButton.sentText
+                : data.submitButton.text}
           </button>
         </div>
       </form>

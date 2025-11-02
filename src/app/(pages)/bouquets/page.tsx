@@ -9,10 +9,7 @@ import { fetchBouquets } from "@/src/lib/api/bouquets";
 export default async function BouquetsPage() {
   const items = await fetchBouquets();
   return (
-    <div
-      className="min-h-screen bg-gradient-to-b from-[#FDFFF7] to-[#ECF1DD]"
-      dir="rtl"
-    >
+    <div className="min-h-screen bg-gradient-to-b from-[#FDFFF7] to-[#ECF1DD]" dir="rtl">
       <main>
         <BouquetsHero />
 

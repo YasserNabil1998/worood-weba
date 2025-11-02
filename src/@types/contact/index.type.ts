@@ -57,7 +57,7 @@ export interface ContactInfo {
 
 // روابط التواصل الاجتماعي
 export interface SocialMediaLink {
-  platform: 'instagram' | 'twitter' | 'facebook' | 'whatsapp';
+  platform: "instagram" | "twitter" | "facebook" | "whatsapp";
   url: string;
   title: string;
 }

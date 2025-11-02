@@ -3,10 +3,10 @@ export const BOUQUET_CONSTANTS = {
   // API Configuration
   API_LIMIT: 18,
   REVALIDATE_TIME: 120, // seconds
-  
+
   // Pagination
   PAGE_SIZE: 9,
-  
+
   // Price Range
   MAX_PRICE: 1000,
   MIN_PRICE: 0,
@@ -65,8 +65,8 @@ export const SORT_OPTIONS = [
 ] as const;
 
 // Type definitions for better type safety
-export type OccasionKey = typeof OCCASIONS[number]["key"];
-export type ColorKey = typeof COLORS[number]["key"];
-export type BadgeType = typeof BADGES[number];
-export type SortKey = typeof SORT_OPTIONS[number]["key"];
-export type PriceRangeKey = typeof PRICE_RANGES[number]["key"];
+export type OccasionKey = (typeof OCCASIONS)[number]["key"];
+export type ColorKey = (typeof COLORS)[number]["key"];
+export type BadgeType = (typeof BADGES)[number];
+export type SortKey = (typeof SORT_OPTIONS)[number]["key"];
+export type PriceRangeKey = (typeof PRICE_RANGES)[number]["key"];

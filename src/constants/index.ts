@@ -45,7 +45,7 @@ export const NAVIGATION_DELAY = {
 // طرق الدفع
 export const PAYMENT_METHODS = {
   MADA: "mada",
-  VISA: "visa", 
+  VISA: "visa",
   APPLE_PAY: "apple",
   COD: "cod",
 } as const;
@@ -59,7 +59,7 @@ export const PAYMENT_METHOD_LABELS = {
 
 export const PAYMENT_METHOD_ICONS = {
   [PAYMENT_METHODS.MADA]: "💳",
-  [PAYMENT_METHODS.VISA]: "💳", 
+  [PAYMENT_METHODS.VISA]: "💳",
   [PAYMENT_METHODS.APPLE_PAY]: "🍎",
   [PAYMENT_METHODS.COD]: "💵",
 } as const;
@@ -67,7 +67,7 @@ export const PAYMENT_METHOD_ICONS = {
 // الشهور العربية
 export const ARABIC_MONTHS = [
   "يناير",
-  "فبراير", 
+  "فبراير",
   "مارس",
   "أبريل",
   "مايو",
@@ -88,5 +88,3 @@ export const VALIDATION_MESSAGES = {
   MIN_LENGTH: (min: number) => `يجب أن يكون النص ${min} أحرف على الأقل`,
   MAX_LENGTH: (max: number) => `يجب أن يكون النص ${max} أحرف على الأكثر`,
 } as const;
-
-

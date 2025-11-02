@@ -1,8 +1,5 @@
 import { CreditCard, Smartphone, DollarSign } from "lucide-react";
-import {
-  PaymentMethod,
-  PaymentMethodOption,
-} from "@/src/@types/checkout/CheckoutForm.type";
+import { PaymentMethod, PaymentMethodOption } from "@/src/@types/checkout/CheckoutForm.type";
 import { PAYMENT_METHODS, PAYMENT_METHOD_LABELS } from "@/src/constants";
 
 interface PaymentMethodSelectorProps {
@@ -83,9 +80,7 @@ export default function PaymentMethodSelector({
               </span>
               <span
                 className={`text-sm font-medium transition-colors ${
-                  selectedMethod === option.key
-                    ? "text-[#5A5E4D]"
-                    : "text-gray-800"
+                  selectedMethod === option.key ? "text-[#5A5E4D]" : "text-gray-800"
                 }`}
               >
                 {option.label}

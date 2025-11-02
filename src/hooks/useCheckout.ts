@@ -5,11 +5,11 @@ import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS, APP_CONFIG } from "@/src/constants";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { Order } from "@/src/@types/orders/order.type";
-import { 
-  Address, 
-  CheckoutFormData, 
+import {
+  Address,
+  CheckoutFormData,
   CheckoutFormErrors,
-  CheckoutTotals 
+  CheckoutTotals,
 } from "@/src/@types/checkout/CheckoutForm.type";
 import { validateCheckoutForm, isFormValid } from "@/src/validations/checkoutValidation";
 import { createOrderFromCheckoutItems } from "@/src/lib/ordersHelpers";
@@ -54,8 +54,9 @@ export function useCheckout() {
         const safeItems = Array.isArray(checkoutItems) ? checkoutItems : [];
 
         // إزالة العناصر المكررة بناءً على id
-        const uniqueItems = safeItems.filter((item: CartItem, index: number, self: CartItem[]) =>
-          index === self.findIndex((t: CartItem) => t.id === item.id)
+        const uniqueItems = safeItems.filter(
+          (item: CartItem, index: number, self: CartItem[]) =>
+            index === self.findIndex((t: CartItem) => t.id === item.id)
         ) as CartItem[];
 
         if (uniqueItems.length === 0) {
@@ -88,10 +89,10 @@ export function useCheckout() {
   }, [items]);
 
   const updateFormData = useCallback((updates: Partial<CheckoutFormData>) => {
-    setFormData(prev => ({ ...prev, ...updates }));
-    
+    setFormData((prev) => ({ ...prev, ...updates }));
+
     // مسح الأخطاء عند تحديث البيانات
-    setErrors(prev => {
+    setErrors((prev) => {
       if (Object.keys(prev.address).length > 0 || prev.general) {
         return { address: {} };
       }
@@ -100,15 +101,15 @@ export function useCheckout() {
   }, []);
 
   const updateAddress = useCallback((addressUpdates: Partial<Address>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      address: { ...prev.address, ...addressUpdates }
+      address: { ...prev.address, ...addressUpdates },
     }));
-    
+
     // مسح أخطاء العنوان عند التحديث
-    setErrors(prev => ({
+    setErrors((prev) => ({
       ...prev,
-      address: {}
+      address: {},
     }));
   }, []);
 
@@ -159,22 +160,13 @@ export function useCheckout() {
       setTimeout(() => {
         router.push("/orders");
       }, 1000);
-
     } catch (error) {
       console.error("خطأ في تأكيد الطلب:", error);
       showNotification("حدث خطأ في تأكيد الطلب، يرجى المحاولة مرة أخرى", "error", 5000);
     } finally {
       setIsSubmitting(false);
     }
-  }, [
-    isSubmitting,
-    validateForm,
-    items,
-    formData,
-    totals,
-    showNotification,
-    router,
-  ]);
+  }, [isSubmitting, validateForm, items, formData, totals, showNotification, router]);
 
   return {
     // State
@@ -184,7 +176,7 @@ export function useCheckout() {
     isLoading,
     isSubmitting,
     totals,
-    
+
     // Actions
     updateFormData,
     updateAddress,

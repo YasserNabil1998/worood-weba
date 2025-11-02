@@ -7,15 +7,7 @@ import { ASSETS } from "@/src/assets";
 import { OccasionItem, OccasionWithHref } from "@/src/@types/home/index.type";
 import { defaultOccasions } from "@/src/content/occasions";
 import { ROUTES } from "@/src/constants/routes";
-import {
-  Baby,
-  GraduationCap,
-  Heart,
-  Gift,
-  Sparkles,
-  Calendar,
-  ArrowLeft,
-} from "lucide-react";
+import { Baby, GraduationCap, Heart, Gift, Sparkles, Calendar, ArrowLeft } from "lucide-react";
 
 type ShopByOccasionSectionProps = {
   occasions?: OccasionWithHref[];
@@ -90,8 +82,7 @@ const ShopByOccasionSection = ({
               key={occasion.id}
               href={
                 occasion.href ||
-                ROUTES.OCCASIONS +
-                  `/${occasion.title.toLowerCase().replace(/\s+/g, "-")}`
+                ROUTES.OCCASIONS + `/${occasion.title.toLowerCase().replace(/\s+/g, "-")}`
               }
               className="group cursor-pointer"
             >
@@ -115,9 +106,7 @@ const ShopByOccasionSection = ({
                   {occasion.icon && (
                     <div className="flex justify-center mb-1 sm:mb-2">
                       {(() => {
-                        const IconComponent = getIconComponent(
-                          occasion.icon || ""
-                        );
+                        const IconComponent = getIconComponent(occasion.icon || "");
                         return (
                           <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white opacity-90" />
                         );

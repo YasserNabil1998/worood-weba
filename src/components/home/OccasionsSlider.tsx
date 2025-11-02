@@ -81,15 +81,11 @@ const OccasionsSlider = () => {
   ];
 
   const nextSlide = () => {
-    setCurrentIndex((prev) =>
-      prev >= occasions.length - visibleCount ? 0 : prev + 1
-    );
+    setCurrentIndex((prev) => (prev >= occasions.length - visibleCount ? 0 : prev + 1));
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? occasions.length - visibleCount : prev - 1
-    );
+    setCurrentIndex((prev) => (prev === 0 ? occasions.length - visibleCount : prev - 1));
   };
 
   // Auto slide every 5 seconds
@@ -138,8 +134,8 @@ const OccasionsSlider = () => {
                 visibleCount === 2
                   ? "grid-cols-2"
                   : visibleCount === 3
-                  ? "grid-cols-2 sm:grid-cols-3"
-                  : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
+                    ? "grid-cols-2 sm:grid-cols-3"
+                    : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
               }`}
             >
               {getVisibleOccasions().map((occasion, idx) => (

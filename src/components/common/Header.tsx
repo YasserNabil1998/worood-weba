@@ -48,10 +48,7 @@ const Header = () => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      if (
-        !target.closest(".user-menu-dropdown") &&
-        !target.closest(".user-menu-button")
-      ) {
+      if (!target.closest(".user-menu-dropdown") && !target.closest(".user-menu-button")) {
         setIsUserMenuOpen(false);
       }
     };
@@ -306,10 +303,7 @@ const Header = () => {
 
           {/* Right: Icons */}
           <div className="flex items-center gap-4">
-            <Link
-              href="/cart"
-              className="relative text-gray-700 hover:text-[#5A5E4D]"
-            >
+            <Link href="/cart" className="relative text-gray-700 hover:text-[#5A5E4D]">
               <ShoppingCart className="w-6 h-6" />
               {totalItems > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">

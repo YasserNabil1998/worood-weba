@@ -1,18 +1,8 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import {
-  Heart,
-  GraduationCap,
-  Baby,
-  Calendar,
-  Sparkles,
-  Gift,
-} from "lucide-react";
-import {
-  OccasionData,
-  OccasionProduct,
-} from "@/src/@types/occasions/category/OccasionData.type";
+import { Heart, GraduationCap, Baby, Calendar, Sparkles, Gift } from "lucide-react";
+import { OccasionData, OccasionProduct } from "@/src/@types/occasions/category/OccasionData.type";
 import occasionsDataJson from "@/src/data/occasions-data.json";
 import ProductCard from "@/src/components/ProductCard";
 import { BouquetItem } from "@/src/@types/bouquets/index.type";
@@ -50,17 +40,12 @@ const convertToBouquetItem = (product: OccasionProduct): BouquetItem => {
     title: product.title,
     image: product.image,
     price: product.price,
-    badge:
-      product.badge || (product.isBestseller ? "الأكثر مبيعاً" : undefined),
+    badge: product.badge || (product.isBestseller ? "الأكثر مبيعاً" : undefined),
     isPopular: product.isPopular,
   };
 };
 
-export default async function OccasionPage({
-  params,
-}: {
-  params: Promise<{ category: string }>;
-}) {
+export default async function OccasionPage({ params }: { params: Promise<{ category: string }> }) {
   const { category } = await params;
   const occasionData = occasionsData[category];
 
@@ -81,9 +66,7 @@ export default async function OccasionPage({
               الرئيسية
             </Link>
             <span className="text-gray-400">×</span>
-            <span className="text-[#5A5E4D] font-medium">
-              {occasionData.title}
-            </span>
+            <span className="text-[#5A5E4D] font-medium">{occasionData.title}</span>
           </div>
         </div>
 
@@ -152,9 +135,7 @@ export default async function OccasionPage({
                         </div>
                         <span
                           className={`text-sm font-medium ${
-                            isActive
-                              ? "text-[#5A5E4D]"
-                              : "text-gray-700 group-hover:text-gray-900"
+                            isActive ? "text-[#5A5E4D]" : "text-gray-700 group-hover:text-gray-900"
                           }`}
                           style={{
                             fontFamily: "var(--font-almarai)",
@@ -174,10 +155,7 @@ export default async function OccasionPage({
               {occasionData.products && occasionData.products.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {occasionData.products.map((product) => (
-                    <ProductCard
-                      key={product.id}
-                      item={convertToBouquetItem(product)}
-                    />
+                    <ProductCard key={product.id} item={convertToBouquetItem(product)} />
                   ))}
                 </div>
               ) : (
@@ -203,8 +181,8 @@ export default async function OccasionPage({
                             fontFamily: "var(--font-almarai)",
                           }}
                         >
-                          نعمل حالياً على إضافة منتجات {occasionData.title}{" "}
-                          المميزة. تابعونا قريباً لرؤية تشكيلتنا الرائعة!
+                          نعمل حالياً على إضافة منتجات {occasionData.title} المميزة. تابعونا قريباً
+                          لرؤية تشكيلتنا الرائعة!
                         </p>
                         <Link
                           href="/occasions"

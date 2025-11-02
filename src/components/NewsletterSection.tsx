@@ -76,9 +76,7 @@ const NewsletterSection = () => {
                 type="submit"
                 aria-label="اشتراك في النشرة"
                 className={`px-5 md:px-6 h-10 md:h-11 rounded-md text-white font-semibold shrink-0 transition-all ${
-                  isLoading
-                    ? "opacity-80 cursor-not-allowed"
-                    : "hover:opacity-95"
+                  isLoading ? "opacity-80 cursor-not-allowed" : "hover:opacity-95"
                 }`}
                 style={{
                   backgroundColor: "#5A5E4D",

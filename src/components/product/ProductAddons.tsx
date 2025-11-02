@@ -34,9 +34,7 @@ export default function ProductAddons({
 }: ProductAddonsProps) {
   return (
     <div className="mb-4">
-      <h3 className="text-sm font-semibold text-gray-900 mb-2">
-        إضافات اختيارية
-      </h3>
+      <h3 className="text-sm font-semibold text-gray-900 mb-2">إضافات اختيارية</h3>
       <div className="space-y-1.5">
         {/* بطاقة تهنئة */}
         <label className="flex items-center justify-between p-2 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
@@ -63,9 +61,7 @@ export default function ProductAddons({
               onChange={(e) => onChocolateToggle(e.target.checked)}
               className="w-3.5 h-3.5 text-[#5A5E4D] rounded focus:ring-[#5A5E4D]"
             />
-            <span className="text-xs text-gray-700">
-              {chocolateAddon.label}
-            </span>
+            <span className="text-xs text-gray-700">{chocolateAddon.label}</span>
           </div>
           <span className="text-xs text-[#5A5E4D] font-medium">
             +{chocolateAddon.price} {currency}
@@ -92,9 +88,7 @@ export default function ProductAddons({
       {/* رسالة البطاقة */}
       {addCard && (
         <div className="mt-2 animate-fadeIn">
-          <label className="block text-xs font-medium text-gray-700 mb-1.5">
-            رسالة البطاقة
-          </label>
+          <label className="block text-xs font-medium text-gray-700 mb-1.5">رسالة البطاقة</label>
           <textarea
             value={cardMessage}
             onChange={(e) => onCardMessageChange(e.target.value)}

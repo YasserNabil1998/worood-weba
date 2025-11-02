@@ -26,9 +26,7 @@ export default function EmptyCart() {
       >
         {CART_MESSAGES.EMPTY_CART}
       </h2>
-      <p className="text-gray-600 mb-6 sm:mb-8 text-base sm:text-lg">
-        ابدأ رحلتك مع أجمل الباقات
-      </p>
+      <p className="text-gray-600 mb-6 sm:mb-8 text-base sm:text-lg">ابدأ رحلتك مع أجمل الباقات</p>
       <button
         onClick={handleBrowseBouquets}
         className="px-6 sm:px-8 py-3 sm:py-4 text-white rounded-lg sm:rounded-xl hover:shadow-lg hover:scale-105 cursor-pointer transition-all duration-300 font-bold text-base sm:text-lg bg-gradient-to-r from-[#5A5E4D] to-[#4A4E3D] hover:from-[#4A4E3D] hover:to-[#3A3E2D] flex items-center justify-center gap-2 mx-auto"

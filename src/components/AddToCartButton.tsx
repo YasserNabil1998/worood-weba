@@ -25,8 +25,7 @@ export default function AddToCartButton({
 
   const handleAddToCart = () => {
     try {
-      const normalizedProductId =
-        typeof productId === "number" ? productId : Number(productId);
+      const normalizedProductId = typeof productId === "number" ? productId : Number(productId);
 
       if (Number.isNaN(normalizedProductId)) {
         console.error("معرف المنتج غير صالح:", productId);
@@ -54,9 +53,7 @@ export default function AddToCartButton({
       storage.set(STORAGE_KEYS.CART, updatedCart);
       window.dispatchEvent(new CustomEvent("cartUpdated"));
 
-      const message = isNew
-        ? "تم إضافة المنتج إلى السلة"
-        : "تم زيادة كمية المنتج في السلة";
+      const message = isNew ? "تم إضافة المنتج إلى السلة" : "تم زيادة كمية المنتج في السلة";
       showNotification(message, "success");
     } catch (error) {
       console.error("خطأ في إضافة المنتج للسلة:", error);

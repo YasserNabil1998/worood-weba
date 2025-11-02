@@ -32,9 +32,7 @@ export default function CustomBouquetDetails({
           {customData.occasion?.name && (
             <>
               <span className="text-gray-400">•</span>
-              <span className="font-medium text-[#5A5E4D]">
-                {customData.occasion.name}
-              </span>
+              <span className="font-medium text-[#5A5E4D]">{customData.occasion.name}</span>
             </>
           )}
         </div>
@@ -49,9 +47,7 @@ export default function CustomBouquetDetails({
       <div className="bg-white rounded-lg p-2 sm:p-3 shadow-sm">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[#5A5E4D] text-xs sm:text-sm">
-              {CART_LABELS.SIZE}:
-            </span>
+            <span className="font-bold text-[#5A5E4D] text-xs sm:text-sm">{CART_LABELS.SIZE}:</span>
             <span className="bg-[#5A5E4D]/10 text-[#5A5E4D] px-2 py-1 rounded-full text-xs font-semibold">
               {customData.size?.label || "غير محدد"}
             </span>
@@ -61,12 +57,9 @@ export default function CustomBouquetDetails({
               {CART_LABELS.WRAPPING}:
             </span>
             <span className="bg-[#5A5E4D]/10 text-[#5A5E4D] px-2 py-1 rounded-full text-xs font-semibold">
-              {customData.packaging?.type === "vase" &&
-              customData.packaging?.vase?.name
+              {customData.packaging?.type === "vase" && customData.packaging?.vase?.name
                 ? customData.packaging.vase.name
-                : customData.packaging?.style?.label ||
-                  customData.style?.label ||
-                  "غير محدد"}
+                : customData.packaging?.style?.label || customData.style?.label || "غير محدد"}
             </span>
           </div>
         </div>
@@ -81,9 +74,12 @@ export default function CustomBouquetDetails({
           <div className="space-y-2">
             {customData.flowers.map((f, idx) => {
               // Get color IDs for this flower
-              const colorsObj = customData.colors && typeof customData.colors === "object" && !Array.isArray(customData.colors)
-                ? customData.colors
-                : {};
+              const colorsObj =
+                customData.colors &&
+                typeof customData.colors === "object" &&
+                !Array.isArray(customData.colors)
+                  ? customData.colors
+                  : {};
               const colorIds = colorsObj[String(f.id)] || [];
 
               return (
@@ -98,9 +94,7 @@ export default function CustomBouquetDetails({
                       {colorIds.length > 0 && (
                         <div className="flex gap-1">
                           {colorIds.map((colorId: number) => {
-                            const color = bouquetsData.colors.find(
-                              (c) => c.id === colorId
-                            );
+                            const color = bouquetsData.colors.find((c) => c.id === colorId);
                             return color ? (
                               <span
                                 key={colorId}
@@ -118,9 +112,7 @@ export default function CustomBouquetDetails({
                     <span className="bg-[#5A5E4D]/10 text-[#5A5E4D] px-2 py-1 rounded-full">
                       × {f.quantity}
                     </span>
-                    <span className="font-bold text-[#5A5E4D]">
-                      = {f.total} ريال
-                    </span>
+                    <span className="font-bold text-[#5A5E4D]">= {f.total} ريال</span>
                   </div>
                 </div>
               );
@@ -129,14 +121,11 @@ export default function CustomBouquetDetails({
         </div>
       )}
 
-
       {/* المناسبة */}
       {customData.occasion?.name && (
         <div className="bg-white rounded-lg p-3 shadow-sm">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[#5A5E4D]">
-              {CART_LABELS.OCCASION}:
-            </span>
+            <span className="font-bold text-[#5A5E4D]">{CART_LABELS.OCCASION}:</span>
             <span className="bg-[#5A5E4D]/10 text-[#5A5E4D] px-3 py-1 rounded-full text-sm font-semibold">
               {customData.occasion.name}
             </span>
@@ -148,10 +137,7 @@ export default function CustomBouquetDetails({
       {customData.includeCard && (
         <div className="bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm">
           <div className="flex items-center gap-2 mb-2">
-            <Heart
-              className="w-4 h-4 sm:w-5 sm:h-5 text-pink-600"
-              fill="currentColor"
-            />
+            <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-pink-600" fill="currentColor" />
             <span className="font-bold text-[#5A5E4D] text-xs sm:text-sm">
               {CART_LABELS.GREETING_CARD} ({customData.cardPrice} ريال)
             </span>

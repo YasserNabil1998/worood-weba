@@ -24,10 +24,7 @@ export default function EmptyOrders({ selectedStatus }: EmptyOrdersProps) {
         {isAllStatus ? "لا توجد طلبات حتى الآن" : "لا توجد نتائج"}
       </h3>
 
-      <p
-        className="text-gray-600 text-base mb-6 max-w-md mx-auto"
-        style={almaraiFont}
-      >
+      <p className="text-gray-600 text-base mb-6 max-w-md mx-auto" style={almaraiFont}>
         {isAllStatus
           ? "ابدأ رحلة التسوق الآن واختر من بين مجموعة رائعة من الباقات"
           : `لا توجد طلبات بحالة "${selectedStatus}" في الوقت الحالي`}

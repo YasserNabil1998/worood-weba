@@ -28,10 +28,7 @@ export default function ProfileDetailsForm({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Name Field */}
         <div className="border border-gray-200 rounded-lg p-4">
-          <label
-            className="block text-base font-bold text-[#5A5E4D] mb-2"
-            style={fontStyle}
-          >
+          <label className="block text-base font-bold text-[#5A5E4D] mb-2" style={fontStyle}>
             الاسم الكامل
           </label>
           {isEditing ? (
@@ -44,10 +41,7 @@ export default function ProfileDetailsForm({
               placeholder="أدخل الاسم الكامل"
             />
           ) : (
-            <p
-              className="text-gray-900 py-3 text-base font-medium"
-              style={fontStyle}
-            >
+            <p className="text-gray-900 py-3 text-base font-medium" style={fontStyle}>
               {userData.name}
             </p>
           )}
@@ -55,10 +49,7 @@ export default function ProfileDetailsForm({
 
         {/* Email Field */}
         <div className="border border-gray-200 rounded-lg p-4">
-          <label
-            className="block text-base font-bold text-[#5A5E4D] mb-2"
-            style={fontStyle}
-          >
+          <label className="block text-base font-bold text-[#5A5E4D] mb-2" style={fontStyle}>
             البريد الإلكتروني
           </label>
           {isEditing ? (
@@ -75,10 +66,7 @@ export default function ProfileDetailsForm({
               placeholder="example@email.com"
             />
           ) : (
-            <p
-              className="text-gray-900 py-3 text-base font-medium"
-              style={fontStyle}
-            >
+            <p className="text-gray-900 py-3 text-base font-medium" style={fontStyle}>
               {userData.email}
             </p>
           )}
@@ -86,10 +74,7 @@ export default function ProfileDetailsForm({
 
         {/* Phone Field */}
         <div className="border border-gray-200 rounded-lg p-4">
-          <label
-            className="block text-base font-bold text-[#5A5E4D] mb-2"
-            style={fontStyle}
-          >
+          <label className="block text-base font-bold text-[#5A5E4D] mb-2" style={fontStyle}>
             رقم الهاتف
           </label>
           {isEditing ? (
@@ -108,10 +93,7 @@ export default function ProfileDetailsForm({
               dir="ltr"
             />
           ) : (
-            <p
-              className="text-gray-900 py-3 text-base font-medium"
-              style={fontStyle}
-            >
+            <p className="text-gray-900 py-3 text-base font-medium" style={fontStyle}>
               {userData.phone}
             </p>
           )}
@@ -119,10 +101,7 @@ export default function ProfileDetailsForm({
 
         {/* Gender Field */}
         <div className="border border-gray-200 rounded-lg p-4">
-          <label
-            className="block text-base font-bold text-[#5A5E4D] mb-2"
-            style={fontStyle}
-          >
+          <label className="block text-base font-bold text-[#5A5E4D] mb-2" style={fontStyle}>
             الجنس
           </label>
           {isEditing ? (
@@ -136,10 +115,7 @@ export default function ProfileDetailsForm({
               <option value="أنثى">أنثى</option>
             </select>
           ) : (
-            <p
-              className="text-gray-900 py-3 text-base font-medium"
-              style={fontStyle}
-            >
+            <p className="text-gray-900 py-3 text-base font-medium" style={fontStyle}>
               {userData.gender}
             </p>
           )}
@@ -147,10 +123,7 @@ export default function ProfileDetailsForm({
 
         {/* Address Field */}
         <div className="border border-gray-200 rounded-lg p-4 md:col-span-2">
-          <label
-            className="block text-base font-bold text-[#5A5E4D] mb-2"
-            style={fontStyle}
-          >
+          <label className="block text-base font-bold text-[#5A5E4D] mb-2" style={fontStyle}>
             العنوان
           </label>
           {isEditing ? (
@@ -163,10 +136,7 @@ export default function ProfileDetailsForm({
               placeholder="أدخل العنوان الكامل"
             />
           ) : (
-            <p
-              className="text-gray-900 py-3 text-base font-medium"
-              style={fontStyle}
-            >
+            <p className="text-gray-900 py-3 text-base font-medium" style={fontStyle}>
               {userData.address}
             </p>
           )}

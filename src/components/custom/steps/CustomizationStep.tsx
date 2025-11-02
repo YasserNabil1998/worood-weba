@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  MessageSquare,
-  ChevronDown,
-  ChevronUp,
-  ChevronRight,
-  ChevronLeft,
-} from "lucide-react";
+import { MessageSquare, ChevronDown, ChevronUp, ChevronRight, ChevronLeft } from "lucide-react";
 import { Occasion, Config } from "@/src/@types/custom/index.type";
 import CardSuggestions from "../CardSuggestions";
 
@@ -117,9 +111,7 @@ export default function CustomizationStep({
               <div className="flex items-center gap-3 mb-3">
                 <textarea
                   value={cardMessage}
-                  onChange={(e) =>
-                    onCardMessageChange(e.target.value.slice(0, 150))
-                  }
+                  onChange={(e) => onCardMessageChange(e.target.value.slice(0, 150))}
                   placeholder="اكتب رسالتك هنا أو اختر من الاقتراحات أدناه..."
                   className="flex-1 h-28 resize-none rounded-md border border-gray-200 p-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
                   style={{

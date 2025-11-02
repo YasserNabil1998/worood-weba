@@ -1,7 +1,4 @@
-import {
-  Address,
-  CheckoutFormErrors,
-} from "@/src/@types/checkout/CheckoutForm.type";
+import { Address, CheckoutFormErrors } from "@/src/@types/checkout/CheckoutForm.type";
 
 interface AddressFormProps {
   address: Address;
@@ -9,11 +6,7 @@ interface AddressFormProps {
   onAddressChange: (addressUpdates: Partial<Address>) => void;
 }
 
-export default function AddressForm({
-  address,
-  errors,
-  onAddressChange,
-}: AddressFormProps) {
+export default function AddressForm({ address, errors, onAddressChange }: AddressFormProps) {
   const handleInputChange = (field: keyof Address, value: string) => {
     onAddressChange({ [field]: value });
   };
@@ -48,10 +41,7 @@ export default function AddressForm({
             aria-describedby={errors.address?.city ? "city-error" : undefined}
           />
           {errors.address?.city && (
-            <p
-              id="city-error"
-              className="text-red-500 text-xs mt-1.5 font-medium animate-fadeIn"
-            >
+            <p id="city-error" className="text-red-500 text-xs mt-1.5 font-medium animate-fadeIn">
               {errors.address.city}
             </p>
           )}
@@ -74,9 +64,7 @@ export default function AddressForm({
                 : "border-gray-200 focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 bg-white hover:border-gray-300"
             }`}
             aria-invalid={!!errors.address?.district}
-            aria-describedby={
-              errors.address?.district ? "district-error" : undefined
-            }
+            aria-describedby={errors.address?.district ? "district-error" : undefined}
           />
           {errors.address?.district && (
             <p
@@ -105,15 +93,10 @@ export default function AddressForm({
                 : "border-gray-200 focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 bg-white hover:border-gray-300"
             }`}
             aria-invalid={!!errors.address?.street}
-            aria-describedby={
-              errors.address?.street ? "street-error" : undefined
-            }
+            aria-describedby={errors.address?.street ? "street-error" : undefined}
           />
           {errors.address?.street && (
-            <p
-              id="street-error"
-              className="text-red-500 text-xs mt-1.5 font-medium animate-fadeIn"
-            >
+            <p id="street-error" className="text-red-500 text-xs mt-1.5 font-medium animate-fadeIn">
               {errors.address.street}
             </p>
           )}
@@ -136,9 +119,7 @@ export default function AddressForm({
                 : "border-gray-200 focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 bg-white hover:border-gray-300"
             }`}
             aria-invalid={!!errors.address?.landmark}
-            aria-describedby={
-              errors.address?.landmark ? "landmark-error" : undefined
-            }
+            aria-describedby={errors.address?.landmark ? "landmark-error" : undefined}
           />
           {errors.address?.landmark && (
             <p
@@ -171,10 +152,7 @@ export default function AddressForm({
             aria-describedby={errors.address?.phone ? "phone-error" : undefined}
           />
           {errors.address?.phone && (
-            <p
-              id="phone-error"
-              className="text-red-500 text-xs mt-1.5 font-medium animate-fadeIn"
-            >
+            <p id="phone-error" className="text-red-500 text-xs mt-1.5 font-medium animate-fadeIn">
               {errors.address.phone}
             </p>
           )}

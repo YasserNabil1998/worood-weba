@@ -23,29 +23,24 @@ interface OrderStatusTrackerProps {
   status: Order["status"];
 }
 
-export default function OrderStatusTracker({
-  status,
-}: OrderStatusTrackerProps) {
+export default function OrderStatusTracker({ status }: OrderStatusTrackerProps) {
   const activeIndex = STATUS_INDEX[status] ?? -1;
   const isCancelled = status === "ملغي";
   const isPending = activeIndex < 0 && !isCancelled;
   const indicatorPosition = isCancelled
     ? 0
     : activeIndex < 0
-    ? 0
-    : (activeIndex / (TRACK_STEPS.length - 1)) * 100;
-  const trackFillWidth = Math.max(
-    0,
-    Math.min(100, isPending ? 0 : indicatorPosition)
-  );
+      ? 0
+      : (activeIndex / (TRACK_STEPS.length - 1)) * 100;
+  const trackFillWidth = Math.max(0, Math.min(100, isPending ? 0 : indicatorPosition));
   const indicatorRight = Math.max(0, Math.min(100, indicatorPosition));
   const indicatorStyle = isCancelled
     ? {}
     : indicatorRight <= 0
-    ? { right: "0%", transform: "translate(0, -50%)" }
-    : indicatorRight >= 100
-    ? { right: "100%", transform: "translate(100%, -50%)" }
-    : { right: `${indicatorRight}%`, transform: "translate(50%, -50%)" };
+      ? { right: "0%", transform: "translate(0, -50%)" }
+      : indicatorRight >= 100
+        ? { right: "100%", transform: "translate(100%, -50%)" }
+        : { right: `${indicatorRight}%`, transform: "translate(50%, -50%)" };
 
   return (
     <div className="w-full">
@@ -80,11 +75,7 @@ export default function OrderStatusTracker({
           <div className="mt-6 flex justify-between text-xs font-semibold">
             {TRACK_STEPS.map((step, index) => {
               const stepState =
-                activeIndex > index
-                  ? "complete"
-                  : activeIndex === index
-                  ? "current"
-                  : "upcoming";
+                activeIndex > index ? "complete" : activeIndex === index ? "current" : "upcoming";
 
               return (
                 <span
@@ -93,8 +84,8 @@ export default function OrderStatusTracker({
                     stepState === "complete"
                       ? "text-[#5A5E4D]"
                       : stepState === "current"
-                      ? "text-[#6B6F5E]"
-                      : "text-gray-400"
+                        ? "text-[#6B6F5E]"
+                        : "text-gray-400"
                   }`}
                 >
                   {step.label}

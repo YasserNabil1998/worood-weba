@@ -1,4 +1,3 @@
-
 // المسارات (Routes)
 export const ROUTES = {
   HOME: "/",

@@ -20,8 +20,8 @@ const Footer = () => {
               className="text-gray-300 leading-relaxed text-sm"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
-              أجمل الباقات لأجمل المناسبات. تقدم خدمات تنسيق الزهور لجميع
-              المناسبات بأعلى جودة وأفضل الأسعار.
+              أجمل الباقات لأجمل المناسبات. تقدم خدمات تنسيق الزهور لجميع المناسبات بأعلى جودة وأفضل
+              الأسعار.
             </p>
           </div>
 
@@ -33,31 +33,19 @@ const Footer = () => {
             >
               روابط سريعة
             </h3>
-            <ul
-              className="space-y-2 text-sm"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <ul className="space-y-2 text-sm" style={{ fontFamily: "var(--font-almarai)" }}>
               <li>
-                <Link
-                  href="/bouquets"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
+                <Link href="/bouquets" className="text-gray-300 hover:text-white transition-colors">
                   الباقات الجاهزة
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/custom"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
+                <Link href="/custom" className="text-gray-300 hover:text-white transition-colors">
                   تنسيق باقة خاصة
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/contact"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
+                <Link href="/contact" className="text-gray-300 hover:text-white transition-colors">
                   الاشتراكات
                 </Link>
               </li>
@@ -102,10 +90,7 @@ const Footer = () => {
                 <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
               </a>
             </div>
-            <div
-              className="space-y-1 text-sm"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <div className="space-y-1 text-sm" style={{ fontFamily: "var(--font-almarai)" }}>
               <p className="text-gray-300">+966 12 345 6789</p>
               <p className="text-gray-300">info@shamsflowers.com</p>
             </div>

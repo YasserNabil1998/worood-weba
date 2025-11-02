@@ -15,9 +15,7 @@ export default function ContactFAQ({ data }: ContactFAQProps) {
           >
             {data.title}
           </h3>
-          <p className="text-gray-600 text-base">
-            إجابات على الأسئلة الأكثر شيوعاً
-          </p>
+          <p className="text-gray-600 text-base">إجابات على الأسئلة الأكثر شيوعاً</p>
         </div>
 
         <div className="space-y-4">

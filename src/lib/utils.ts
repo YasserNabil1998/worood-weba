@@ -11,30 +11,38 @@ export const storage = {
   /**
    * قراءة قيمة من localStorage
    */
-  get: <T,>(key: string, defaultValue: T): T => {
+  get: <T>(key: string, defaultValue: T): T => {
     if (typeof window === "undefined") return defaultValue;
     try {
       const item = localStorage.getItem(key);
       if (!item) return defaultValue;
-      
+
       const parsed = JSON.parse(item);
-      
+
       // التحقق من أن النوع يطابق القيمة الافتراضية
       if (Array.isArray(defaultValue) && !Array.isArray(parsed)) {
-        console.warn(`Expected array for key "${key}", got ${typeof parsed}. Resetting to default.`);
+        console.warn(
+          `Expected array for key "${key}", got ${typeof parsed}. Resetting to default.`
+        );
         localStorage.setItem(key, JSON.stringify(defaultValue));
         return defaultValue;
       }
-      
+
       // التحقق من نوع object
-      if (defaultValue !== null && typeof defaultValue === 'object' && !Array.isArray(defaultValue)) {
-        if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
-          console.warn(`Expected object for key "${key}", got ${Array.isArray(parsed) ? 'array' : typeof parsed}. Resetting to default.`);
+      if (
+        defaultValue !== null &&
+        typeof defaultValue === "object" &&
+        !Array.isArray(defaultValue)
+      ) {
+        if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+          console.warn(
+            `Expected object for key "${key}", got ${Array.isArray(parsed) ? "array" : typeof parsed}. Resetting to default.`
+          );
           localStorage.setItem(key, JSON.stringify(defaultValue));
           return defaultValue;
         }
       }
-      
+
       return parsed;
     } catch (error) {
       console.warn(`Error reading localStorage key "${key}":`, error);
@@ -51,7 +59,7 @@ export const storage = {
   /**
    * حفظ قيمة في localStorage
    */
-  set: <T,>(key: string, value: T): boolean => {
+  set: <T>(key: string, value: T): boolean => {
     if (typeof window === "undefined") return false;
     try {
       localStorage.setItem(key, JSON.stringify(value));
@@ -125,8 +133,18 @@ export const getArabicDate = (): string => {
   const date = new Date();
   // استخدام dynamic import لتجنب circular dependency
   const ARABIC_MONTHS = [
-    "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
-    "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+    "يناير",
+    "فبراير",
+    "مارس",
+    "أبريل",
+    "مايو",
+    "يونيو",
+    "يوليو",
+    "أغسطس",
+    "سبتمبر",
+    "أكتوبر",
+    "نوفمبر",
+    "ديسمبر",
   ];
   return `${date.getDate()} ${ARABIC_MONTHS[date.getMonth()]} ${date.getFullYear()}`;
 };
@@ -156,19 +174,21 @@ export function debounce<T extends (...args: any[]) => any>(
  * دمج class names مع clsx
  * Combine class names with clsx
  */
-export function cn(...classes: (string | undefined | null | false | Record<string, boolean>)[]): string {
+export function cn(
+  ...classes: (string | undefined | null | false | Record<string, boolean>)[]
+): string {
   return classes
     .filter(Boolean)
     .map((cls) => {
-      if (typeof cls === 'string') return cls;
-      if (typeof cls === 'object' && cls !== null) {
+      if (typeof cls === "string") return cls;
+      if (typeof cls === "object" && cls !== null) {
         return Object.entries(cls)
           .filter(([, value]) => value)
           .map(([key]) => key)
-          .join(' ');
+          .join(" ");
       }
-      return '';
+      return "";
     })
     .filter(Boolean)
-    .join(' ');
+    .join(" ");
 }

@@ -17,10 +17,7 @@ export default function OrderStatusFilter({
           <div className="bg-gradient-to-br from-[#5A5E4D] to-[#6B6F5E] p-2 rounded-lg">
             <Filter className="w-4 h-4 text-white" />
           </div>
-          <span
-            className="text-gray-800 font-semibold text-base"
-            style={almaraiFont}
-          >
+          <span className="text-gray-800 font-semibold text-base" style={almaraiFont}>
             فلترة حسب الحالة:
           </span>
         </div>

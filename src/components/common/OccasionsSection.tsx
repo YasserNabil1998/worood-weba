@@ -7,15 +7,7 @@ import { ASSETS } from "@/src/assets";
 import { OccasionItem, OccasionWithHref } from "@/src/@types/home/index.type";
 import { defaultOccasions } from "@/src/content/occasions";
 import { ROUTES } from "@/src/constants/routes";
-import {
-  Baby,
-  GraduationCap,
-  Heart,
-  Gift,
-  Sparkles,
-  Calendar,
-  ArrowLeft,
-} from "lucide-react";
+import { Baby, GraduationCap, Heart, Gift, Sparkles, Calendar, ArrowLeft } from "lucide-react";
 
 type OccasionsSectionProps = {
   occasions?: OccasionWithHref[];
@@ -35,10 +27,7 @@ const OccasionsSection = ({
 
   // Map icon names to Lucide components
   const getIconComponent = (iconName: string) => {
-    const iconMap: Record<
-      string,
-      React.ComponentType<{ className?: string }>
-    > = {
+    const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
       Baby,
       GraduationCap,
       Heart,
@@ -93,9 +82,7 @@ const OccasionsSection = ({
             href={
               memoizedOccasions[0]?.href ||
               ROUTES.OCCASIONS +
-                `/${memoizedOccasions[0]?.title
-                  ?.toLowerCase()
-                  .replace(/\s+/g, "-")}`
+                `/${memoizedOccasions[0]?.title?.toLowerCase().replace(/\s+/g, "-")}`
             }
             className="group cursor-pointer col-span-1 row-span-1"
           >
@@ -115,9 +102,7 @@ const OccasionsSection = ({
                 {memoizedOccasions[0]?.icon && (
                   <div className="flex justify-center mb-1">
                     {(() => {
-                      const IconComponent = getIconComponent(
-                        memoizedOccasions[0]?.icon || ""
-                      );
+                      const IconComponent = getIconComponent(memoizedOccasions[0]?.icon || "");
                       return (
                         <IconComponent className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white opacity-90" />
                       );
@@ -141,9 +126,7 @@ const OccasionsSection = ({
             href={
               memoizedOccasions[1]?.href ||
               ROUTES.OCCASIONS +
-                `/${memoizedOccasions[1]?.title
-                  ?.toLowerCase()
-                  .replace(/\s+/g, "-")}`
+                `/${memoizedOccasions[1]?.title?.toLowerCase().replace(/\s+/g, "-")}`
             }
             className="group cursor-pointer col-span-3 row-span-1"
           >
@@ -163,9 +146,7 @@ const OccasionsSection = ({
                 {memoizedOccasions[1]?.icon && (
                   <div className="flex justify-center mb-1 sm:mb-2">
                     {(() => {
-                      const IconComponent = getIconComponent(
-                        memoizedOccasions[1]?.icon || ""
-                      );
+                      const IconComponent = getIconComponent(memoizedOccasions[1]?.icon || "");
                       return (
                         <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white opacity-90" />
                       );
@@ -189,9 +170,7 @@ const OccasionsSection = ({
             href={
               memoizedOccasions[2]?.href ||
               ROUTES.OCCASIONS +
-                `/${memoizedOccasions[2]?.title
-                  ?.toLowerCase()
-                  .replace(/\s+/g, "-")}`
+                `/${memoizedOccasions[2]?.title?.toLowerCase().replace(/\s+/g, "-")}`
             }
             className="group cursor-pointer col-span-3 row-span-1"
           >
@@ -211,9 +190,7 @@ const OccasionsSection = ({
                 {memoizedOccasions[2]?.icon && (
                   <div className="flex justify-center mb-1 sm:mb-2">
                     {(() => {
-                      const IconComponent = getIconComponent(
-                        memoizedOccasions[2]?.icon || ""
-                      );
+                      const IconComponent = getIconComponent(memoizedOccasions[2]?.icon || "");
                       return (
                         <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white opacity-90" />
                       );
@@ -237,9 +214,7 @@ const OccasionsSection = ({
             href={
               memoizedOccasions[3]?.href ||
               ROUTES.OCCASIONS +
-                `/${memoizedOccasions[3]?.title
-                  ?.toLowerCase()
-                  .replace(/\s+/g, "-")}`
+                `/${memoizedOccasions[3]?.title?.toLowerCase().replace(/\s+/g, "-")}`
             }
             className="group cursor-pointer col-span-1 row-span-1"
           >
@@ -259,9 +234,7 @@ const OccasionsSection = ({
                 {memoizedOccasions[3]?.icon && (
                   <div className="flex justify-center mb-1">
                     {(() => {
-                      const IconComponent = getIconComponent(
-                        memoizedOccasions[3]?.icon || ""
-                      );
+                      const IconComponent = getIconComponent(memoizedOccasions[3]?.icon || "");
                       return (
                         <IconComponent className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white opacity-90" />
                       );

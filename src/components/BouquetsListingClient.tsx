@@ -27,21 +27,16 @@ function useBouquetListing(
     let filteredItems = items;
 
     if (priceRange !== "all") {
-      const selectedRange = PRICE_RANGES.find(
-        (range) => range.key === priceRange
-      );
+      const selectedRange = PRICE_RANGES.find((range) => range.key === priceRange);
       if (selectedRange) {
         filteredItems = filteredItems.filter(
-          (item) =>
-            item.price >= selectedRange.min && item.price <= selectedRange.max
+          (item) => item.price >= selectedRange.min && item.price <= selectedRange.max
         );
       }
     }
 
     if (occasion !== "all") {
-      filteredItems = filteredItems.filter(
-        (item) => item.occasion === occasion
-      );
+      filteredItems = filteredItems.filter((item) => item.occasion === occasion);
     }
 
     if (color !== "all") {
@@ -109,10 +104,7 @@ export default function BouquetsListingClient({
 
   return (
     <div className="space-y-4" dir="rtl">
-      <ToggleButton
-        isFiltersOpen={isFiltersOpen}
-        setIsFiltersOpen={setIsFiltersOpen}
-      />
+      <ToggleButton isFiltersOpen={isFiltersOpen} setIsFiltersOpen={setIsFiltersOpen} />
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <Sidebar
           isFiltersOpen={isFiltersOpen}
@@ -219,11 +211,7 @@ export default function BouquetsListingClient({
             </div>
           )}
           {sorted.length > 0 && (
-            <Pagination
-              page={page}
-              totalPages={totalPages}
-              onPageChange={setPage}
-            />
+            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
           )}
         </div>
       </div>

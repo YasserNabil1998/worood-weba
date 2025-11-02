@@ -112,16 +112,12 @@ export default function CartItem({
                   >
                     {isExpanded ? (
                       <>
-                        <span className="font-medium">
-                          {CART_LABELS.HIDE_DETAILS}
-                        </span>
+                        <span className="font-medium">{CART_LABELS.HIDE_DETAILS}</span>
                         <ChevronUp size={14} />
                       </>
                     ) : (
                       <>
-                        <span className="font-medium">
-                          {CART_LABELS.SHOW_DETAILS}
-                        </span>
+                        <span className="font-medium">{CART_LABELS.SHOW_DETAILS}</span>
                         <ChevronDown size={14} />
                       </>
                     )}
@@ -151,10 +147,7 @@ export default function CartItem({
 
           {/* التفاصيل - باقة مخصصة أو عادية */}
           {isCustom && item.customData ? (
-            <CustomBouquetDetails
-              customData={item.customData}
-              isExpanded={isExpanded}
-            />
+            <CustomBouquetDetails customData={item.customData} isExpanded={isExpanded} />
           ) : (
             // تفاصيل الباقات الجاهزة
             <div className="text-sm text-gray-600">
@@ -212,10 +205,7 @@ export default function CartItem({
               <span className="font-bold text-sm sm:text-base text-gray-800">
                 {CART_LABELS.TOTAL_PRICE}:
               </span>
-              <span
-                className="font-bold text-lg sm:text-xl"
-                style={{ color: COLORS.PRIMARY }}
-              >
+              <span className="font-bold text-lg sm:text-xl" style={{ color: COLORS.PRIMARY }}>
                 {itemTotal.toFixed(2)} {APP_CONFIG.CURRENCY}
               </span>
             </div>

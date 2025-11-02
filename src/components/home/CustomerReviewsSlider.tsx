@@ -63,9 +63,7 @@ const CustomerReviewsSlider = ({
     if (!isAutoPlaying || reviews.length <= visibleCount) return;
 
     const interval = setInterval(() => {
-      setCurrentSlide(
-        (prev) => (prev + 1) % (reviews.length - visibleCount + 1)
-      );
+      setCurrentSlide((prev) => (prev + 1) % (reviews.length - visibleCount + 1));
     }, 4000);
 
     return () => clearInterval(interval);
@@ -81,8 +79,7 @@ const CustomerReviewsSlider = ({
   const prevSlide = () => {
     setCurrentSlide(
       (prev) =>
-        (prev - 1 + (reviews.length - visibleCount + 1)) %
-        (reviews.length - visibleCount + 1)
+        (prev - 1 + (reviews.length - visibleCount + 1)) % (reviews.length - visibleCount + 1)
     );
     setIsAutoPlaying(false);
   };
@@ -91,9 +88,7 @@ const CustomerReviewsSlider = ({
     return Array.from({ length: 5 }, (_, index) => (
       <Star
         key={index}
-        className={`w-5 h-5 ${
-          index < rating ? "text-yellow-400" : "text-gray-300"
-        }`}
+        className={`w-5 h-5 ${index < rating ? "text-yellow-400" : "text-gray-300"}`}
         fill="currentColor"
       />
     ));
@@ -104,10 +99,7 @@ const CustomerReviewsSlider = ({
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div
-              className="text-gray-600"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <div className="text-gray-600" style={{ fontFamily: "var(--font-almarai)" }}>
               جاري التحميل...
             </div>
           </div>
@@ -127,10 +119,7 @@ const CustomerReviewsSlider = ({
             >
               آراء عملائنا
             </h2>
-            <p
-              className="text-gray-600"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="text-gray-600" style={{ fontFamily: "var(--font-almarai)" }}>
               لا توجد تقييمات متاحة حالياً
             </p>
           </div>
@@ -140,10 +129,7 @@ const CustomerReviewsSlider = ({
   }
 
   // Show reviews based on screen size
-  const visibleReviews = reviews.slice(
-    currentSlide,
-    currentSlide + visibleCount
-  );
+  const visibleReviews = reviews.slice(currentSlide, currentSlide + visibleCount);
   // Determine which item is the visual center
   const centerIndex = Math.floor(visibleCount / 2);
   const showNavigation = reviews.length > visibleCount;
@@ -220,9 +206,7 @@ const CustomerReviewsSlider = ({
                           طلب: {review.productName}
                         </p>
                       )}
-                      <div className="flex items-center mb-3">
-                        {renderStars(review.rating)}
-                      </div>
+                      <div className="flex items-center mb-3">{renderStars(review.rating)}</div>
                       {review.date && (
                         <p
                           className="text-xs text-gray-500"
@@ -277,23 +261,20 @@ const CustomerReviewsSlider = ({
           {/* Dots Indicator */}
           {showNavigation && (
             <div className="flex justify-center mt-6 sm:mt-8 space-x-2">
-              {Array.from(
-                { length: reviews.length - visibleCount + 1 },
-                (_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      setCurrentSlide(index);
-                      setIsAutoPlaying(false);
-                    }}
-                    className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
-                      index === currentSlide
-                        ? "bg-[#5A5E4D] scale-125"
-                        : "bg-gray-300 hover:bg-gray-400"
-                    }`}
-                  />
-                )
-              )}
+              {Array.from({ length: reviews.length - visibleCount + 1 }, (_, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setCurrentSlide(index);
+                    setIsAutoPlaying(false);
+                  }}
+                  className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+                    index === currentSlide
+                      ? "bg-[#5A5E4D] scale-125"
+                      : "bg-gray-300 hover:bg-gray-400"
+                  }`}
+                />
+              ))}
             </div>
           )}
         </div>

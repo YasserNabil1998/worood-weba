@@ -17,11 +17,7 @@ interface CartSummaryProps {
   selectedItems: CartItem[];
 }
 
-export default function CartSummary({
-  totals,
-  totalItems,
-  selectedItems,
-}: CartSummaryProps) {
+export default function CartSummary({ totals, totalItems, selectedItems }: CartSummaryProps) {
   const { subtotal, vat, total, itemsCount, totalItemsCount } = totals;
 
   const handleProceedToCheckout = () => {
@@ -63,9 +59,7 @@ export default function CartSummary({
         {itemsCount === 0 ? (
           <div className="text-center py-4 sm:py-6 text-gray-500 bg-gray-50 rounded-lg sm:rounded-xl">
             <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-2 text-yellow-600" />
-            <p className="text-xs sm:text-sm font-medium">
-              {CART_MESSAGES.SELECT_AT_LEAST_ONE}
-            </p>
+            <p className="text-xs sm:text-sm font-medium">{CART_MESSAGES.SELECT_AT_LEAST_ONE}</p>
           </div>
         ) : (
           <div className="space-y-2 sm:space-y-3">
@@ -109,8 +103,7 @@ export default function CartSummary({
           className="mt-4 sm:mt-6 w-full rounded-lg sm:rounded-xl py-3 sm:py-4 transition-all duration-300 text-white hover:shadow-lg hover:scale-105 cursor-pointer text-center font-bold text-sm sm:text-lg bg-gradient-to-r from-[#5A5E4D] to-[#4A4E3D] hover:from-[#4A4E3D] hover:to-[#3A3E2D] flex items-center justify-center gap-2"
         >
           <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
-          {CART_MESSAGES.PROCEED_TO_CHECKOUT} ({totalItemsCount}{" "}
-          {CART_MESSAGES.PIECES})
+          {CART_MESSAGES.PROCEED_TO_CHECKOUT} ({totalItemsCount} {CART_MESSAGES.PIECES})
         </Link>
       )}
     </aside>

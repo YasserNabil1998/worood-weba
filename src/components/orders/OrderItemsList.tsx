@@ -37,10 +37,7 @@ export default function OrderItemsList({ items }: OrderItemsListProps) {
             </div>
 
             <div className="flex-1 min-w-0">
-              <h5
-                className="font-semibold text-gray-800 text-sm truncate"
-                style={almaraiFont}
-              >
+              <h5 className="font-semibold text-gray-800 text-sm truncate" style={almaraiFont}>
                 {item.name}
               </h5>
 
@@ -57,10 +54,7 @@ export default function OrderItemsList({ items }: OrderItemsListProps) {
                 >
                   {item.quantity} ×
                 </span>
-                <span
-                  className="text-xs font-semibold text-gray-700"
-                  style={almaraiFont}
-                >
+                <span className="text-xs font-semibold text-gray-700" style={almaraiFont}>
                   {item.price} ر.س
                 </span>
               </div>

@@ -47,12 +47,7 @@ export default function FlowerSelectionStep({
             onClick={() => onSearchChange("")}
             className="absolute left-10 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
           >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -80,10 +75,7 @@ export default function FlowerSelectionStep({
           {filteredFlowers.map((f) => {
             const currentQty = qty(f.id);
             return (
-              <div
-                key={f.id}
-                className="rounded-lg border border-gray-200 p-2 sm:p-3 text-center"
-              >
+              <div key={f.id} className="rounded-lg border border-gray-200 p-2 sm:p-3 text-center">
                 <div className="mx-auto h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden mb-2 border border-gray-200 bg-gray-50 p-1">
                   <img
                     src={f.image}
@@ -91,12 +83,8 @@ export default function FlowerSelectionStep({
                     className="h-full w-full object-cover rounded-full"
                   />
                 </div>
-                <div className="text-[11px] sm:text-[12px] font-semibold truncate">
-                  {f.name}
-                </div>
-                <div className="text-[10px] sm:text-[11px] text-gray-500 mb-2">
-                  {f.price} ر.س
-                </div>
+                <div className="text-[11px] sm:text-[12px] font-semibold truncate">{f.name}</div>
+                <div className="text-[10px] sm:text-[11px] text-gray-500 mb-2">{f.price} ر.س</div>
                 {currentQty === 0 ? (
                   <button
                     onClick={() => onInc(f.id)}

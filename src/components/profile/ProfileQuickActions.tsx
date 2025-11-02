@@ -12,12 +12,7 @@ export default function ProfileQuickActions() {
         className="group bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border border-gray-100 hover:border-[#5A5E4D]/20"
       >
         <div className="w-14 h-14 bg-[#5A5E4D] rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-          <svg
-            className="w-7 h-7 text-white"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -68,12 +63,7 @@ export default function ProfileQuickActions() {
         className="group bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border border-gray-100 hover:border-[#5A5E4D]/20"
       >
         <div className="w-14 h-14 bg-[#5A5E4D] rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-          <svg
-            className="w-7 h-7 text-white"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

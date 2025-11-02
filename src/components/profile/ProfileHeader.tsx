@@ -56,12 +56,7 @@ export default function ProfileHeader({
           {isEditing && (
             <label className="absolute bottom-0 right-0 bg-[#5A5E4D] text-white p-2 rounded-full cursor-pointer hover:bg-[#4A4E3D] transition-colors">
               <Edit className="w-4 h-4" />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={onImageUpload}
-                className="hidden"
-              />
+              <input type="file" accept="image/*" onChange={onImageUpload} className="hidden" />
             </label>
           )}
         </div>

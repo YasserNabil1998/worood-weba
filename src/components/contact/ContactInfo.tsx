@@ -57,9 +57,7 @@ export default function ContactInfo({ data }: ContactInfoProps) {
                 <IconComponent size={16} />
               </span>
               <div>
-                <div className="font-semibold text-gray-900 mb-1 text-sm">
-                  {item.title}
-                </div>
+                <div className="font-semibold text-gray-900 mb-1 text-sm">{item.title}</div>
                 <p className="text-gray-600 leading-5 text-sm">
                   {renderMultilineText(item.content)}
                 </p>

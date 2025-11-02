@@ -50,8 +50,7 @@ export default function BouquetsHero() {
                   الباقات الجاهزة
                 </h2>
                 <p className="text-[18px] font-normal leading-[28px] text-white/90 mb-6 tracking-[0px]">
-                  اختر من تشكيلتنا الواسعة من الباقات المصممة بعناية لتناسب جميع
-                  المناسبات والأذواق
+                  اختر من تشكيلتنا الواسعة من الباقات المصممة بعناية لتناسب جميع المناسبات والأذواق
                 </p>
                 <Link
                   href="#bouquets-section"

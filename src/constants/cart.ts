@@ -61,4 +61,3 @@ export const CART_ROUTES = {
   CHECKOUT: "/checkout",
   CUSTOM: "/custom",
 } as const;
-
