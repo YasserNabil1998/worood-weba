@@ -189,17 +189,17 @@ const ProductsSlider = () => {
             </div>
           </div>
 
-          {/* Navigation Arrows - Outside the container */}
+          {/* Navigation Arrows - Inside the container */}
           <button
             onClick={prevSlide}
-            className="absolute left-2 lg:left-0 top-1/2 -translate-y-1/2 lg:-translate-x-16 bg-white hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
             aria-label="Previous"
           >
             <ChevronLeftIcon className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-2 lg:right-0 top-1/2 -translate-y-1/2 lg:translate-x-16 bg-white hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
             aria-label="Next"
           >
             <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />

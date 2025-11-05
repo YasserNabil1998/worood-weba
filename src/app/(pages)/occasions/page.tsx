@@ -35,7 +35,7 @@ export default function OccasionsPage() {
     return iconMap[iconName] || Heart; // Default to Heart if not found
   };
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#FDFFF7] to-[#ECF1DD]" dir="rtl">
+    <div className="min-h-screen" dir="rtl">
       <main>
         {/* Hero */}
         <section className="py-6">

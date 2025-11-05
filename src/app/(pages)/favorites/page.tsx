@@ -42,7 +42,7 @@ export default function FavoritesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#FDFFF7] to-[#ECF1DD] flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#5A5E4D] mx-auto"></div>
@@ -56,7 +56,7 @@ export default function FavoritesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#FDFFF7] to-[#ECF1DD]" dir="rtl">
+    <div className="min-h-screen" dir="rtl">
       <main className="py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page Title */}

@@ -54,7 +54,7 @@ export default async function OccasionPage({ params }: { params: Promise<{ categ
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <main>
         {/* Breadcrumb */}
         <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-24 2xl:px-32 py-6">

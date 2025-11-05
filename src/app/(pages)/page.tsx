@@ -16,7 +16,7 @@ export default async function Home() {
     .slice(0, 3); // أخذ أول 3 باقات فقط
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#FDFFF7] to-[#ECF1DD]">
+    <div className="min-h-screen">
       <main>
         <HeroSection />
         <OccasionsSection />

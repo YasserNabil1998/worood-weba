@@ -70,7 +70,7 @@ export default function ProductDetailPage() {
         />
       )}
 
-      <div className="min-h-screen bg-gradient-to-br from-[#faf9f6] to-white">
+      <div className="min-h-screen">
         {!product ? (
           <div className="max-w-7xl mx-auto px-4 py-20 text-center">
             <div className="bg-white rounded-3xl shadow-xl p-12 max-w-md mx-auto">

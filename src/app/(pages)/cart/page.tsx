@@ -80,7 +80,7 @@ export default function CartPage() {
   if (error) {
     return (
       <div
-        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f1f4e8] to-[#e6ead7]"
+        className="min-h-screen flex items-center justify-center"
         dir="rtl"
       >
         <div className="text-center bg-white rounded-2xl shadow-lg p-8 border border-red-200 max-w-md mx-4">
@@ -106,7 +106,7 @@ export default function CartPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f1f4e8] to-[#e6ead7]" dir="rtl">
+    <div className="min-h-screen" dir="rtl">
       <main className="py-6 sm:py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page Title */}

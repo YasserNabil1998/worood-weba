@@ -25,7 +25,7 @@ export default function ProfilePage() {
   } = useProfile(initialUserData);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#E3E6D8] via-[#D1D6C4] to-[#C5C9B8]">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-5xl mx-auto">
           <ProfileHeader

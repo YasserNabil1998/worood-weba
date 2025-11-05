@@ -154,14 +154,14 @@ const CustomerReviewsSlider = ({
             <>
               <button
                 onClick={prevSlide}
-                className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 sm:-translate-x-6 md:-translate-x-10 lg:-translate-x-16 bg-white hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-20 cursor-pointer"
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-20 cursor-pointer"
                 aria-label="Previous"
               >
                 <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
               <button
                 onClick={nextSlide}
-                className="absolute right-2 sm:right-0 top-1/2 -translate-y-1/2 sm:translate-x-6 md:translate-x-10 lg:translate-x-16 bg-white hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-20 cursor-pointer"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-20 cursor-pointer"
                 aria-label="Next"
               >
                 <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
