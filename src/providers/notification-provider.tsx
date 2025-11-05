@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import { CheckCircle2, XCircle, AlertCircle, Info, X } from "lucide-react";
+import { COLORS } from "@/src/constants";
 
 interface Notification {
   id: string;
@@ -62,43 +63,14 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
   };
 
   const getNotificationConfig = (type: string) => {
-    switch (type) {
-      case "success":
-        return {
-          bg: "bg-green-50 border-green-200",
-          text: "text-green-800",
-          icon: <CheckCircle2 className="w-5 h-5 text-green-600" />,
-          progressBg: "bg-green-500",
-        };
-      case "error":
-        return {
-          bg: "bg-red-50 border-red-200",
-          text: "text-red-800",
-          icon: <XCircle className="w-5 h-5 text-red-600" />,
-          progressBg: "bg-red-500",
-        };
-      case "warning":
-        return {
-          bg: "bg-yellow-50 border-yellow-200",
-          text: "text-yellow-800",
-          icon: <AlertCircle className="w-5 h-5 text-yellow-600" />,
-          progressBg: "bg-yellow-500",
-        };
-      case "info":
-        return {
-          bg: "bg-blue-50 border-blue-200",
-          text: "text-blue-800",
-          icon: <Info className="w-5 h-5 text-blue-600" />,
-          progressBg: "bg-blue-500",
-        };
-      default:
-        return {
-          bg: "bg-gray-50 border-gray-200",
-          text: "text-gray-800",
-          icon: <Info className="w-5 h-5 text-gray-600" />,
-          progressBg: "bg-gray-500",
-        };
-    }
+    // استخدام اللون الأساسي للمشروع لجميع أنواع الإشعارات
+    const primaryColor = COLORS.PRIMARY;
+    return {
+      bg: "bg-[#5A5E4D] border-[#5A5E4D]",
+      text: "text-white",
+      icon: <Info className="w-5 h-5 text-white" />,
+      progressBg: "bg-white/30",
+    };
   };
 
   return (
@@ -141,7 +113,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
               {/* Close Button */}
               <button
                 onClick={() => removeNotification(notification.id)}
-                className="flex-shrink-0 hover:opacity-70 transition-opacity"
+                className="flex-shrink-0 hover:opacity-70 transition-opacity text-white"
                 aria-label="إغلاق الإشعار"
               >
                 <X className="w-4 h-4" />
