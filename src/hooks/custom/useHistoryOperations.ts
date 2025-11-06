@@ -136,11 +136,51 @@ export function useHistoryOperations({
     const encodedDesign = encodeURIComponent(JSON.stringify(designData));
     const shareUrl = `${window.location.origin}/custom?design=${encodedDesign}`;
 
-    navigator.clipboard
-      .writeText(shareUrl)
-      .then(() => {
-        saveToHistory();
-        showNotification("تم نسخ رابط التصميم بنجاح! 🔗");
+    // دالة مساعدة للنسخ مع دعم الطرق البديلة
+    const copyToClipboard = async (text: string): Promise<boolean> => {
+      // الطريقة 1: Clipboard API (الأفضل - يتطلب HTTPS أو localhost)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (err) {
+          // إذا فشلت، جرب الطريقة البديلة
+        }
+      }
+
+      // الطريقة 2: execCommand (البديل - يعمل في معظم المتصفحات)
+      try {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        const successful = document.execCommand("copy");
+        document.body.removeChild(textArea);
+
+        if (successful) {
+          return true;
+        }
+      } catch (err) {
+        // فشلت الطريقة البديلة أيضاً
+      }
+
+      return false;
+    };
+
+    copyToClipboard(shareUrl)
+      .then((success) => {
+        if (success) {
+          saveToHistory();
+          showNotification("تم نسخ رابط التصميم بنجاح! 🔗");
+        } else {
+          showNotification("فشل نسخ الرابط، حاول مرة أخرى");
+        }
       })
       .catch(() => {
         showNotification("فشل نسخ الرابط، حاول مرة أخرى");

@@ -14,7 +14,7 @@ export const addReview = (review: ReviewItem): void => {
     // حفظ في localStorage
     storage.set(REVIEWS_STORAGE_KEY, updatedReviews);
   } catch (error) {
-    console.error("Error saving review:", error);
+    // معالجة صامتة للأخطاء
   }
 };
 
@@ -22,7 +22,6 @@ export const getReviews = (): ReviewItem[] => {
   try {
     return storage.get<ReviewItem[]>(REVIEWS_STORAGE_KEY, []);
   } catch (error) {
-    console.error("Error getting reviews:", error);
     return [];
   }
 };

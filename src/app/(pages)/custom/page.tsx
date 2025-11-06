@@ -76,7 +76,6 @@ function CustomBuilderContent() {
 
         setIsLoading(false);
       } catch (error) {
-        console.error("Error loading bouquet data:", error);
         setIsLoading(false);
       }
     };
@@ -137,7 +136,7 @@ function CustomBuilderContent() {
           state.setBouquetImage(design.image);
         }
       } catch (e) {
-        console.error("Failed to parse design data:", e);
+        // معالجة صامتة للأخطاء
       }
     }
   }, [searchParams]);

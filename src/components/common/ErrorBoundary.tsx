@@ -40,7 +40,7 @@ class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // يمكنك هنا إرسال الخطأ إلى خدمة مراقبة مثل Sentry
-    console.error("Error caught by ErrorBoundary:", error, errorInfo);
+    // معالجة صامتة للأخطاء
 
     this.setState({
       error,

@@ -3,13 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCallback } from "react";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
-import { addProductToCart } from "@/src/lib/cartUtils";
 import { Heart } from "lucide-react";
 import { BouquetItem } from "@/src/@types/bouquets/index.type";
 import { useNotification } from "@/src/providers/notification-provider";
 import { useFavorites } from "@/src/hooks/useFavorites";
+import { useCartStore } from "@/src/stores/cartStore";
+import { findProductInCart } from "@/src/lib/cartUtils";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
 
 // Keep ProductItem for backward compatibility
@@ -18,6 +17,10 @@ export type ProductItem = BouquetItem;
 export default function ProductCard({ item }: { item: BouquetItem }) {
   const { showNotification } = useNotification();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
+
+  // استخدام hooks selectors من Zustand store
+  const addItem = useCartStore((state) => state.addItem);
+  const items = useCartStore((state) => state.items);
 
   const itemId = typeof item.id === "number" ? item.id : Number(item.id);
   const isCurrentlyFavorite = isFavorite(itemId);
@@ -38,16 +41,13 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
         showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
       }
     } catch (error) {
-      console.error("خطأ في تبديل المفضلة:", error);
       showNotification("حدث خطأ في تحديث المفضلة", "error");
     }
   }, [itemId, item, isFavorite, addToFavorites, removeFromFavorites, showNotification]);
 
   const handleAddToCart = useCallback(() => {
-    const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
-
     // إنشاء منتج مع خصائص افتراضية
-    const productToAdd = {
+    const productToAdd: CartItem = {
       ...item,
       quantity: 1,
       size: "default", // القيمة الافتراضية للمنتجات البسيطة
@@ -56,14 +56,16 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
       giftWrap: false,
     };
 
-    const { cart: updatedCart, isNew } = addProductToCart(cart, productToAdd);
+    // التحقق من وجود المنتج لتحديد الرسالة
+    const existingIndex = findProductInCart(items, productToAdd);
+    const isNew = existingIndex === -1;
 
-    storage.set(STORAGE_KEYS.CART, updatedCart);
-    window.dispatchEvent(new Event("cartUpdated"));
+    // إضافة المنتج باستخدام store
+    addItem(productToAdd);
 
     const message = isNew ? "تم إضافة المنتج إلى السلة ✓" : "تم زيادة كمية المنتج في السلة ✓";
     showNotification(message, "success");
-  }, [item, showNotification]);
+  }, [item, items, addItem, showNotification]);
 
   return (
     <Link

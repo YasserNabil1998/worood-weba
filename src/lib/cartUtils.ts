@@ -14,12 +14,10 @@ export type ProductInput = Partial<CartItem> & {
  * @returns معرف فريد للمنتج
  */
 export function generateProductKey(product: ProductInput): string {
-  // التحقق من وجود id
   if (product.id === undefined || product.id === null) {
     throw new Error("المنتج يجب أن يحتوي على id");
   }
 
-  // إنشاء كائن يحتوي على جميع الخصائص المهمة
   const productProps = {
     id: product.id,
     size: product.size || "default",
@@ -29,19 +27,16 @@ export function generateProductKey(product: ProductInput): string {
     giftWrap: product.giftWrap || false,
     style: product.style || "default",
     color: product.color || "default",
-    // إضافة أي خصائص أخرى قد تكون مهمة
     customData: product.customData ? JSON.stringify(product.customData) : null,
   };
 
-  // تحويل الكائن إلى JSON وإزالة المسافات
   const jsonString = JSON.stringify(productProps, Object.keys(productProps).sort());
 
-  // إنشاء hash بسيط من النص (دالة hash محسّنة)
   let hash = 0;
   for (let i = 0; i < jsonString.length; i++) {
     const char = jsonString.charCodeAt(i);
     hash = (hash << 5) - hash + char;
-    hash = hash | 0; // تحويل إلى عدد صحيح 32 بت (إصلاح الخطأ السابق)
+    hash = hash | 0;
   }
 
   return `${product.id}_${Math.abs(hash)}`;
@@ -60,11 +55,9 @@ export function findProductInCart(cart: CartItem[], product: ProductInput): numb
 
   const productKey = generateProductKey(product);
   return cart.findIndex((item: CartItem) => {
-    // استخدام uniqueKey إذا كان موجوداً لتسريع البحث
     if (item.uniqueKey) {
       return item.uniqueKey === productKey;
     }
-    // إذا لم يكن موجوداً، إنشاء المفتاح للمقارنة
     const itemKey = generateProductKey(item);
     return itemKey === productKey;
   });
@@ -80,7 +73,6 @@ export function addProductToCart(
   cart: CartItem[],
   product: ProductInput
 ): { cart: CartItem[]; isNew: boolean } {
-  // التحقق من صحة البيانات
   if (!Array.isArray(cart)) {
     throw new Error("السلة يجب أن تكون مصفوفة");
   }
@@ -89,28 +81,27 @@ export function addProductToCart(
     throw new Error("المنتج يجب أن يحتوي على id");
   }
 
-  // التحقق من أن الكمية رقم صحيح موجب
   const quantity = product.quantity ?? 1;
   if (!Number.isInteger(quantity) || quantity < 1) {
     throw new Error("الكمية يجب أن تكون رقماً صحيحاً موجباً");
   }
 
-  // إنشاء نسخة جديدة من السلة (immutable)
   const updatedCart = [...cart];
   const existingIndex = findProductInCart(updatedCart, product);
 
   if (existingIndex >= 0) {
-    // المنتج موجود بنفس الخصائص، زيادة الكمية
     updatedCart[existingIndex] = {
       ...updatedCart[existingIndex],
       quantity: updatedCart[existingIndex].quantity + quantity,
     };
     return { cart: updatedCart, isNew: false };
   } else {
-    // منتج جديد أو بخصائص مختلفة، إضافته كمنتج منفصل
+    const newId = product.id === 0 ? Date.now() : product.id;
+    
     const newProduct: CartItem = {
       ...product,
-      uniqueKey: generateProductKey(product), // حفظ المعرف الفريد للاستخدام المستقبلي
+      id: newId,
+      uniqueKey: generateProductKey(product),
       quantity: quantity,
     } as CartItem;
 

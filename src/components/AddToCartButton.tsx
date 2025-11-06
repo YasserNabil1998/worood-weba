@@ -3,10 +3,9 @@
 import type { JSX } from "react";
 
 import { useNotification } from "../providers/notification-provider";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
+import { useCartStore } from "@/src/stores/cartStore";
+import { findProductInCart } from "@/src/lib/cartUtils";
 import type { CartItem } from "@/src/@types/cart/CartItem.type";
-import { addProductToCart } from "@/src/lib/cartUtils";
 
 interface AddToCartButtonProps {
   productId: number | string;
@@ -22,20 +21,19 @@ export default function AddToCartButton({
   productImage,
 }: AddToCartButtonProps): JSX.Element {
   const { showNotification } = useNotification();
+  const addItem = useCartStore((state) => state.addItem);
+  const items = useCartStore((state) => state.items);
 
   const handleAddToCart = () => {
     try {
       const normalizedProductId = typeof productId === "number" ? productId : Number(productId);
 
       if (Number.isNaN(normalizedProductId)) {
-        console.error("معرف المنتج غير صالح:", productId);
         showNotification("تعذر إضافة المنتج بسبب معرف غير صالح", "error");
         return;
       }
 
-      const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
-
-      const productToAdd = {
+      const productToAdd: CartItem = {
         id: normalizedProductId,
         title: productName,
         price: productPrice,
@@ -48,15 +46,16 @@ export default function AddToCartButton({
         giftWrap: false,
       };
 
-      const { cart: updatedCart, isNew } = addProductToCart(cart, productToAdd);
+      // التحقق من وجود المنتج لتحديد الرسالة
+      const existingIndex = findProductInCart(items, productToAdd);
+      const isNew = existingIndex === -1;
 
-      storage.set(STORAGE_KEYS.CART, updatedCart);
-      window.dispatchEvent(new CustomEvent("cartUpdated"));
+      // إضافة المنتج باستخدام store
+      addItem(productToAdd);
 
       const message = isNew ? "تم إضافة المنتج إلى السلة" : "تم زيادة كمية المنتج في السلة";
       showNotification(message, "success");
     } catch (error) {
-      console.error("خطأ في إضافة المنتج للسلة:", error);
       showNotification("حدث خطأ في إضافة المنتج للسلة", "error");
     }
   };
