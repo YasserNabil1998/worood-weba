@@ -4,10 +4,9 @@ export interface OccasionItem {
   image: string;
   icon?: string;
   href?: string;
-};
-
+}
 
 // Extended type for occasions with href
 export interface OccasionWithHref extends OccasionItem {
-    href?: string;
-};
+  href?: string;
+}

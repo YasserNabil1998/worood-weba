@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# Production
+*.min.js
+*.min.css
+
+# Build outputs
+.next/
+.turbo/
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.production.local
+.env.development.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Package manager
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Public assets (don't format images, icons, etc.)
+public/
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+
+# Data files
+*.json
+!package.json
+!tsconfig.json
+

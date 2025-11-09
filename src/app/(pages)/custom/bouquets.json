@@ -4,70 +4,89 @@
       "id": 1,
       "name": "ورد جوري",
       "price": 25,
-      "image": "/images/bouquets/IMG-196.png"
+      "image": "/images/bouquets/IMG-196.png",
+      "availableColors": [1, 7, 8]
     },
     {
       "id": 2,
       "name": "توليب",
       "price": 30,
-      "image": "/images/bouquets/DIV-237.png"
+      "image": "/images/bouquets/DIV-237.png",
+      "availableColors": [1, 2, 3, 7, 8]
     },
     {
       "id": 3,
       "name": "زنبق",
       "price": 35,
-      "image": "/images/bouquets/IMG-210.png"
+      "image": "/images/bouquets/IMG-210.png",
+      "availableColors": [3, 7, 8]
     },
     {
       "id": 4,
       "name": "أوركيد",
       "price": 45,
-      "image": "/images/bouquets/IMG-224.png"
+      "image": "/images/bouquets/IMG-224.png",
+      "availableColors": [6, 7, 8]
     },
     {
       "id": 5,
       "name": "جربيرا",
       "price": 20,
-      "image": "/images/bouquets/IMG-210.png"
+      "image": "/images/bouquets/IMG-210.png",
+      "availableColors": [1, 2, 3, 7, 8]
     },
     {
       "id": 6,
       "name": "فرازيا",
       "price": 25,
-      "image": "/images/bouquets/IMG-224.png"
+      "image": "/images/bouquets/IMG-224.png",
+      "availableColors": [7, 8]
     },
     {
       "id": 7,
       "name": "إسبيريشن",
       "price": 30,
-      "image": "/images/bouquets/IMG-196.png"
+      "image": "/images/bouquets/IMG-196.png",
+      "availableColors": [1, 7, 8]
     },
     {
       "id": 8,
       "name": "الهيدرانجيا",
       "price": 40,
-      "image": "/images/bouquets/DIV-237.png"
+      "image": "/images/bouquets/DIV-237.png",
+      "availableColors": [4, 5, 6, 7, 8]
     }
   ],
   "bouquetSizes": [
     {
+      "key": "custom",
+      "label": "مخصص",
+      "price": 0,
+      "stems": "اختر عدد الزهور",
+      "icon": "🌺"
+    },
+    {
       "key": "large",
       "label": "كبير",
       "price": 450,
-      "stems": "18-25 زهرة"
+      "stems": "18-25 زهرة",
+      "icon": "🌹"
     },
     {
       "key": "medium",
       "label": "متوسط",
       "price": 350,
-      "stems": "12-15 زهرة"
+      "stems": "12-15 زهرة",
+      "icon": "🌸"
     },
     {
       "key": "small",
       "label": "صغير",
       "price": 250,
-      "stems": "7-10 زهرة"
+      "stems": "7-10 زهرة",
+      "icon": "🌼"
     }
+    
   ],
   "bouquetStyles": [
     {
@@ -226,6 +245,32 @@
       "key": "cod",
       "label": "الدفع عند الاستلام",
       "icon": "💵"
+    }
+  ],
+  "vases": [
+    {
+      "id": 1,
+      "name": "مزهرية كلاسيك",
+      "price": 50,
+      "image": "/images/occasions/IMG-346.png"
+    },
+    {
+      "id": 2,
+      "name": "مزهرية أنيقة",
+      "price": 65,
+      "image": "/images/occasions/IMG-353.png"
+    },
+    {
+      "id": 3,
+      "name": "مزهرية فاخرة",
+      "price": 80,
+      "image": "/images/occasions/IMG-360.png"
+    },
+    {
+      "id": 4,
+      "name": "مزهرية مودرن",
+      "price": 70,
+      "image": "/images/occasions/IMG-368.png"
     }
   ],
   "config": {

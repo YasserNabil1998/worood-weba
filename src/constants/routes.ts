@@ -1,11 +1,9 @@
-
 // المسارات (Routes)
 export const ROUTES = {
   HOME: "/",
   BOUQUETS: "/bouquets",
   CUSTOM: "/custom",
   OCCASIONS: "/occasions",
-  BLOG: "/blog",
   CONTACT: "/contact",
   CART: "/cart",
   CHECKOUT: "/checkout",

@@ -4,24 +4,29 @@ import ProductsSlider from "@/src/components/home/ProductsSlider";
 import FeaturedBouquets from "@/src/components/FeaturedBouquets";
 import CustomBouquetSection from "@/src/components/common/CustomBouquetSection";
 import CustomerReviewsSlider from "@/src/components/home/CustomerReviewsSlider";
-import BlogSection from "@/src/components/home/BlogSection";
 import FeaturesSection from "@/src/components/FeaturesSection";
 import NewsletterSection from "@/src/components/NewsletterSection";
+import { fetchBouquets } from "@/src/lib/api/bouquets";
 
-export default function Home() {
-    return (
-        <div className="min-h-screen bg-gradient-to-b from-[#FDFFF7] to-[#ECF1DD]">
-            <main>
-                <HeroSection />
-                <OccasionsSection />
-                <ProductsSlider />
-                <FeaturedBouquets />
-                <CustomBouquetSection />
-                <CustomerReviewsSlider />
-                <BlogSection />
-                <FeaturesSection />
-                <NewsletterSection />
-            </main>
-        </div>
-    );
+export default async function Home() {
+  // جلب الباقات وتصفيتها لإظهار الأكثر طلباً
+  const allBouquets = await fetchBouquets();
+  const mostRequestedBouquets = allBouquets
+    .filter((bouquet) => bouquet.isPopular === true || bouquet.badge === "الأكثر شهرة")
+    .slice(0, 3); // أخذ أول 3 باقات فقط
+
+  return (
+    <div className="min-h-screen">
+      <main>
+        <HeroSection />
+        <OccasionsSection />
+        <CustomBouquetSection />
+        <ProductsSlider />
+        <FeaturedBouquets bouquets={mostRequestedBouquets} />
+        <CustomerReviewsSlider />
+        <FeaturesSection />
+        <NewsletterSection />
+      </main>
+    </div>
+  );
 }

@@ -29,7 +29,28 @@
   },
   "socialMedia": {
     "title": "تابعنا على",
-    "icons": ["","","","▶"]
+    "links": [
+      {
+        "platform": "instagram",
+        "url": "https://www.instagram.com/gulfflowers",
+        "title": "تابعنا على إنستغرام"
+      },
+      {
+        "platform": "twitter",
+        "url": "https://twitter.com/gulfflowers",
+        "title": "تابعنا على تويتر"
+      },
+      {
+        "platform": "facebook",
+        "url": "https://www.facebook.com/gulfflowers",
+        "title": "تابعنا على فيسبوك"
+      },
+      {
+        "platform": "whatsapp",
+        "url": "https://wa.me/966123456789",
+        "title": "تواصل معنا على واتساب"
+      }
+    ]
   },
   "form": {
     "title": "أرسل لنا رسالة",

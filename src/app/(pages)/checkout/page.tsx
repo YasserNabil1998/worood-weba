@@ -1,245 +1,96 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useNotification } from "@/src/providers/notification-provider";
-import { CartItem } from "@/src/@types/checkout/CartItem.type";
+import { useCheckout } from "@/src/hooks/useCheckout";
+import AddressForm from "@/src/components/checkout/AddressForm";
+import PaymentMethodSelector from "@/src/components/checkout/PaymentMethodSelector";
+import OrderSummary from "@/src/components/checkout/OrderSummary";
 
 export default function CheckoutPage() {
-    const [items, setItems] = useState<CartItem[]>([]);
-    const [address, setAddress] = useState({
-        city: "",
-        district: "",
-        street: "",
-        landmark: "",
-        phone: "",
-    });
-    const [payMethod, setPayMethod] = useState<
-        "mada" | "visa" | "apple" | "cod"
-    >("mada");
-    const { showNotification } = useNotification();
+  const {
+    items,
+    formData,
+    errors,
+    isLoading,
+    isSubmitting,
+    totals,
+    updateAddress,
+    updateFormData,
+    placeOrder,
+  } = useCheckout();
 
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            try {
-                const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-                const safeCart = Array.isArray(cart) ? cart : [];
-                setItems(safeCart);
-            } catch (error) {
-                console.error("خطأ في تحميل السلة:", error);
-                localStorage.setItem("cart", "[]");
-                setItems([]);
-            }
-        }
-    }, []);
-
-    const subtotal = items.reduce((s, i) => s + i.total, 0);
-    const vat = Math.round(subtotal * 0.15);
-    const grand = subtotal + vat;
-
-    const placeOrder = () => {
-        showNotification(
-            "تم تأكيد الطلب بنجاح! شكراً لثقتكم بنا",
-            "success",
-            4000
-        );
-        // في مشروع حقيقي: إرسال الطلب إلى الخادم
-    };
-
+  // عرض loading أثناء التحميل
+  if (isLoading) {
     return (
-        <div className="min-h-screen" dir="rtl">
-            <main className="py-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h1
-                        className="text-2xl md:text-3xl font-extrabold text-gray-800 mb-6"
-                        style={{ fontFamily: "var(--font-almarai)" }}
-                    >
-                        متابعة الدفع
-                    </h1>
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {/* Form */}
-                        <div className="lg:col-span-2 space-y-6">
-                            <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
-                                <h2
-                                    className="text-lg font-semibold mb-3"
-                                    style={{
-                                        fontFamily: "var(--font-almarai)",
-                                    }}
-                                >
-                                    عنوان التوصيل
-                                </h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <input
-                                        placeholder="المدينة"
-                                        value={address.city}
-                                        onChange={(e) =>
-                                            setAddress({
-                                                ...address,
-                                                city: e.target.value,
-                                            })
-                                        }
-                                        className="rounded-lg border border-gray-200 px-3 py-2"
-                                    />
-                                    <input
-                                        placeholder="الحي"
-                                        value={address.district}
-                                        onChange={(e) =>
-                                            setAddress({
-                                                ...address,
-                                                district: e.target.value,
-                                            })
-                                        }
-                                        className="rounded-lg border border-gray-200 px-3 py-2"
-                                    />
-                                    <input
-                                        placeholder="الشارع"
-                                        value={address.street}
-                                        onChange={(e) =>
-                                            setAddress({
-                                                ...address,
-                                                street: e.target.value,
-                                            })
-                                        }
-                                        className="rounded-lg border border-gray-200 px-3 py-2"
-                                    />
-                                    <input
-                                        placeholder="أقرب معلم"
-                                        value={address.landmark}
-                                        onChange={(e) =>
-                                            setAddress({
-                                                ...address,
-                                                landmark: e.target.value,
-                                            })
-                                        }
-                                        className="rounded-lg border border-gray-200 px-3 py-2"
-                                    />
-                                    <input
-                                        placeholder="رقم الجوال"
-                                        value={address.phone}
-                                        onChange={(e) =>
-                                            setAddress({
-                                                ...address,
-                                                phone: e.target.value,
-                                            })
-                                        }
-                                        className="rounded-lg border border-gray-200 px-3 py-2"
-                                    />
-                                </div>
-                            </section>
-
-                            <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
-                                <h2
-                                    className="text-lg font-semibold mb-3"
-                                    style={{
-                                        fontFamily: "var(--font-almarai)",
-                                    }}
-                                >
-                                    طريقة الدفع
-                                </h2>
-                                <div className="space-y-3">
-                                    {[
-                                        {
-                                            key: "mada",
-                                            label: "Mada",
-                                            icon: "💳",
-                                        },
-                                        {
-                                            key: "visa",
-                                            label: "Visa",
-                                            icon: "💳",
-                                        },
-                                        {
-                                            key: "apple",
-                                            label: "Apple Pay",
-                                            icon: "🍎",
-                                        },
-                                        {
-                                            key: "cod",
-                                            label: "الدفع عند الاستلام",
-                                            icon: "💵",
-                                        },
-                                    ].map((g: any) => (
-                                        <button
-                                            key={g.key}
-                                            type="button"
-                                            onClick={() => setPayMethod(g.key)}
-                                            className={`w-full flex items-center justify-between rounded-md border px-3 py-2 text-right ${
-                                                payMethod === g.key
-                                                    ? "border-[#5A5E4D] bg-[#5A5E4D]/5"
-                                                    : "border-gray-200 bg-white hover:bg-gray-50"
-                                            }`}
-                                        >
-                                            <span className="flex items-center gap-3">
-                                                <span className="inline-flex h-5 w-5 items-center justify-center text-gray-700">
-                                                    {g.icon}
-                                                </span>
-                                                <span className="text-sm text-gray-800">
-                                                    {g.label}
-                                                </span>
-                                            </span>
-                                            <span
-                                                className={`h-4 w-4 rounded-full border ${
-                                                    payMethod === g.key
-                                                        ? "border-[#5A5E4D] ring-2 ring-[#5A5E4D]/30 bg-[#5A5E4D]"
-                                                        : "border-gray-300"
-                                                }`}
-                                            ></span>
-                                        </button>
-                                    ))}
-                                </div>
-                            </section>
-                        </div>
-
-                        {/* Summary */}
-                        <aside className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 h-fit">
-                            <h2
-                                className="text-lg font-semibold mb-3"
-                                style={{ fontFamily: "var(--font-almarai)" }}
-                            >
-                                ملخص الطلب
-                            </h2>
-                            <ul className="mb-3 divide-y">
-                                {items.map((it) => (
-                                    <li
-                                        key={it.id}
-                                        className="py-2 flex items-center justify-between text-sm"
-                                    >
-                                        <span className="text-gray-700">
-                                            {it.title}
-                                        </span>
-                                        <span className="font-semibold">
-                                            ريال {it.total}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className="space-y-2 text-sm">
-                                <div className="flex justify-between">
-                                    <span className="text-gray-600">
-                                        الإجمالي الفرعي
-                                    </span>
-                                    <span>ريال {subtotal}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-gray-600">
-                                        ضريبة القيمة المضافة 15%
-                                    </span>
-                                    <span>ريال {vat}</span>
-                                </div>
-                                <div className="flex justify-between font-bold border-t pt-2">
-                                    <span>المجموع</span>
-                                    <span>ريال {grand}</span>
-                                </div>
-                            </div>
-                            <button
-                                onClick={placeOrder}
-                                className="mt-4 w-full rounded-md bg-[#5A5E4D] text-white py-2"
-                            >
-                                تأكيد الطلب
-                            </button>
-                        </aside>
-                    </div>
-                </div>
-            </main>
+      <div className="min-h-screen flex items-center justify-center" dir="rtl">
+        <div className="text-center animate-fadeIn">
+          <div className="w-16 h-16 border-4 border-[#5A5E4D] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-600 text-lg font-medium">جاري التحميل...</p>
         </div>
+      </div>
     );
+  }
+
+  return (
+    <div className="min-h-screen" dir="rtl">
+      <main className="py-8 md:py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1
+            className="text-3xl md:text-4xl font-extrabold mb-8 md:mb-10 animate-fadeIn"
+            style={{
+              fontFamily: "var(--font-almarai)",
+              background: "linear-gradient(135deg, #5A5E4D 0%, #4A4E3D 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            متابعة الدفع
+          </h1>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 animate-fadeIn">
+            {/* Form */}
+            <div className="lg:col-span-2 space-y-6 lg:space-y-8">
+              {/* عنوان التوصيل */}
+              <AddressForm
+                address={formData.address}
+                errors={errors}
+                onAddressChange={updateAddress}
+              />
+
+              {/* طريقة الدفع */}
+              <PaymentMethodSelector
+                selectedMethod={formData.paymentMethod}
+                onMethodChange={(method) => updateFormData({ paymentMethod: method })}
+              />
+
+              {/* ملاحظات إضافية */}
+              <section className="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300 p-6">
+                <h2
+                  className="text-lg font-semibold mb-4 text-gray-800"
+                  style={{ fontFamily: "var(--font-almarai)" }}
+                >
+                  ملاحظات إضافية
+                </h2>
+                <textarea
+                  placeholder="ملاحظات إضافية (اختياري)"
+                  value={formData.notes}
+                  onChange={(e) => updateFormData({ notes: e.target.value })}
+                  className="rounded-lg border border-gray-200 px-4 py-3 w-full resize-none transition-all duration-200 focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 outline-none"
+                  rows={4}
+                />
+              </section>
+            </div>
+
+            {/* ملخص الطلب */}
+            <OrderSummary
+              items={items}
+              totals={totals}
+              onPlaceOrder={placeOrder}
+              isSubmitting={isSubmitting}
+            />
+          </div>
+        </div>
+      </main>
+    </div>
+  );
 }
