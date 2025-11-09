@@ -31,7 +31,7 @@ const CustomerReviewsSlider = ({
       const allReviews = getAllReviews();
       setReviews(allReviews);
     } catch (error) {
-      console.error("Error loading reviews:", error);
+      // معالجة صامتة للأخطاء
     } finally {
       setIsLoading(false);
     }

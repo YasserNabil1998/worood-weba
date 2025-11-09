@@ -34,7 +34,6 @@ export default function FavoriteButton({ productId }: FavoriteButtonProps) {
         isFavorited ? "info" : "success"
       );
     } catch (error) {
-      console.error("خطأ في تحديث المفضلة:", error);
       showNotification("حدث خطأ في تحديث المفضلة", "error");
     }
   };

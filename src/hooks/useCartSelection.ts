@@ -1,89 +1,69 @@
-/**
- * useCartSelection Hook
- * Hook لإدارة اختيار المنتجات في السلة
- */
-
-import { useState, useEffect, useCallback } from "react";
+import { useMemo, useCallback, useEffect, useRef } from "react";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
-import { removeSelectedItems, getItemId } from "@/src/lib/cartHelpers";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
+import { getItemId } from "@/src/lib/cartHelpers";
+import { useCartStore } from "@/src/stores/cartStore";
 
 interface UseCartSelectionReturn {
   selectedItems: Set<string | number>;
   toggleSelectItem: (itemId: string | number) => void;
   toggleSelectAll: (items: CartItem[]) => void;
-  removeSelected: (items: CartItem[]) => CartItem[];
+  removeSelected: () => void;
   isAllSelected: (items: CartItem[]) => boolean;
   hasSelection: boolean;
 }
 
-/**
- * Hook لإدارة اختيار المنتجات في السلة
- */
 export function useCartSelection(initialItems: CartItem[] = []): UseCartSelectionReturn {
-  const [selectedItems, setSelectedItems] = useState<Set<string | number>>(new Set());
+  const selectedItems = useCartStore((state) => state.selectedItems);
+  const items = useCartStore((state) => state.items);
 
-  // تحديد جميع العناصر افتراضياً عند التحميل
+  const toggleSelect = useCartStore((state) => state.toggleSelect);
+  const toggleSelectAllAction = useCartStore((state) => state.toggleSelectAll);
+  const removeSelectedAction = useCartStore((state) => state.removeSelected);
+
+  const hasAutoSelectedRef = useRef(false);
+
   useEffect(() => {
-    if (initialItems.length > 0 && selectedItems.size === 0) {
-      setSelectedItems(new Set(initialItems.map((item) => getItemId(item))));
+    if (
+      !hasAutoSelectedRef.current &&
+      initialItems.length > 0 &&
+      selectedItems.size === 0 &&
+      initialItems.length === items.length
+    ) {
+      toggleSelectAllAction(initialItems);
+      hasAutoSelectedRef.current = true;
     }
-  }, [initialItems.length]); // Only run when items length changes
+  }, [initialItems.length, items.length, selectedItems.size, toggleSelectAllAction]);
 
-  // تحديد/إلغاء تحديد عنصر واحد
-  const toggleSelectItem = useCallback((itemId: string | number) => {
-    setSelectedItems((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(itemId)) {
-        newSet.delete(itemId);
-      } else {
-        newSet.add(itemId);
-      }
-      return newSet;
-    });
-  }, []);
+  const toggleSelectItem = useCallback(
+    (itemId: string | number) => {
+      toggleSelect(itemId);
+    },
+    [toggleSelect]
+  );
 
-  // تحديد/إلغاء تحديد الكل
-  const toggleSelectAll = useCallback((items: CartItem[]) => {
-    setSelectedItems((prev) => {
-      const allItemIds = new Set(items.map((item) => getItemId(item)));
-      if (prev.size === items.length && items.every((item) => prev.has(getItemId(item)))) {
-        // إلغاء تحديد الكل
-        return new Set();
-      } else {
-        // تحديد الكل
-        return allItemIds;
-      }
-    });
-  }, []);
+  const toggleSelectAll = useCallback(
+    (itemsToToggle: CartItem[]) => {
+      toggleSelectAllAction(itemsToToggle);
+    },
+    [toggleSelectAllAction]
+  );
 
-  // حذف العناصر المحددة
   const removeSelected = useCallback(
-    (items: CartItem[]): CartItem[] => {
-      const updatedItems = removeSelectedItems(items, selectedItems);
-      setSelectedItems(new Set());
-
-      // حفظ في localStorage
-      storage.set(STORAGE_KEYS.CART, updatedItems);
-      window.dispatchEvent(new CustomEvent("cartUpdated"));
-
-      return updatedItems;
+    () => {
+      removeSelectedAction();
     },
-    [selectedItems]
+    [removeSelectedAction]
   );
 
-  // التحقق من تحديد الكل
   const isAllSelected = useCallback(
-    (items: CartItem[]): boolean => {
-      if (items.length === 0) return false;
-      return items.every((item) => selectedItems.has(getItemId(item)));
+    (itemsToCheck: CartItem[]): boolean => {
+      if (itemsToCheck.length === 0) return false;
+      return itemsToCheck.every((item) => selectedItems.has(getItemId(item)));
     },
     [selectedItems]
   );
 
-  // التحقق من وجود عناصر محددة
-  const hasSelection = selectedItems.size > 0;
+  const hasSelection = useMemo(() => selectedItems.size > 0, [selectedItems.size]);
 
   return {
     selectedItems,
