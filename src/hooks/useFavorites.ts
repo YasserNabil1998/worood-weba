@@ -15,6 +15,7 @@ export function useFavorites() {
       const stored = storage.get<BouquetItem[]>(STORAGE_KEYS.FAVORITES, []);
       setFavorites(stored);
     } catch (error) {
+      console.error("خطأ في تحميل المفضلة:", error);
       setFavorites([]);
     } finally {
       setLoading(false);

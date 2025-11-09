@@ -94,6 +94,8 @@ export async function fetchBouquets(): Promise<BouquetItem[]> {
       occasion: OCCASIONS[(index % (OCCASIONS.length - 1)) + 1].key, // Skip "all" option
     }));
   } catch (error) {
+    console.error("Failed to fetch bouquets from API:", error);
+
     // Return fallback data in case of API failure
     return FALLBACK_BOUQUETS;
   }
@@ -109,6 +111,7 @@ export async function fetchBouquetById(id: number): Promise<BouquetItem | null> 
     const bouquets = await fetchBouquets();
     return bouquets.find((bouquet) => bouquet.id === id) || null;
   } catch (error) {
+    console.error(`Failed to fetch bouquet with ID ${id}:`, error);
     return null;
   }
 }

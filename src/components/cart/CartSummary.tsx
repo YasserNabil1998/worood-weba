@@ -1,10 +1,15 @@
+/**
+ * CartSummary Component
+ * مكون ملخص الطلب
+ */
+
 import Link from "next/link";
 import { Lock, ShoppingCart, AlertTriangle } from "lucide-react";
 import { CartTotals } from "@/src/@types/cart/CartItem.type";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { CART_MESSAGES, CART_ROUTES } from "@/src/constants/cart";
-import { APP_CONFIG, COLORS } from "@/src/constants";
-import { useCartStore } from "@/src/stores/cartStore";
+import { APP_CONFIG, STORAGE_KEYS, COLORS } from "@/src/constants";
+import { storage } from "@/src/lib/utils";
 
 interface CartSummaryProps {
   totals: CartTotals;
@@ -14,10 +19,10 @@ interface CartSummaryProps {
 
 export default function CartSummary({ totals, totalItems, selectedItems }: CartSummaryProps) {
   const { subtotal, vat, total, itemsCount, totalItemsCount } = totals;
-  const setCheckoutItems = useCartStore((state) => state.setCheckoutItems);
 
   const handleProceedToCheckout = () => {
-    setCheckoutItems(selectedItems);
+    // حفظ المنتجات المختارة فقط للـ checkout
+    storage.set(STORAGE_KEYS.CHECKOUT_ITEMS, selectedItems);
   };
 
   return (

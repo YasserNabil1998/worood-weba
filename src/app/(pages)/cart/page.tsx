@@ -52,7 +52,7 @@ export default function CartPage() {
 
   // حذف العناصر المحددة
   const handleRemoveSelected = () => {
-    removeSelected();
+    removeSelected(items);
   };
 
   // حساب عدد العناصر غير المحددة
@@ -79,7 +79,10 @@ export default function CartPage() {
   // عرض رسالة خطأ إذا حدث خطأ
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center" dir="rtl">
+      <div
+        className="min-h-screen flex items-center justify-center"
+        dir="rtl"
+      >
         <div className="text-center bg-white rounded-2xl shadow-lg p-8 border border-red-200 max-w-md mx-4">
           <AlertTriangle className="w-12 h-12 mx-auto mb-4 text-red-600" />
           <h2 className="text-xl font-bold text-red-700 mb-2">حدث خطأ</h2>

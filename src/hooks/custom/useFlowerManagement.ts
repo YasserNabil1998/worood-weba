@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback } from "react";
 
 interface UseFlowerManagementProps {
   selectedFlowers: Record<number, number>;
@@ -29,6 +29,7 @@ export function useFlowerManagement({
   totalFlowersCount,
   isUpdatingFlowersRef,
 }: UseFlowerManagementProps) {
+  // Flower quantity handlers
   const qty = (id: number) => selectedFlowers[id] ?? 0;
 
   const inc = useCallback(
@@ -48,16 +49,19 @@ export function useFlowerManagement({
     [setSelectedFlowers]
   );
 
+  // Color selection handler
   const setFlowerColor = useCallback(
     (flowerId: string, colorId: number) => {
       setSelectedColors((prev) => {
         const current = prev[flowerId] || [];
         if (current.includes(colorId)) {
+          // Remove color
           return {
             ...prev,
             [flowerId]: current.filter((c) => c !== colorId),
           };
         } else {
+          // Add color
           return {
             ...prev,
             [flowerId]: [...current, colorId],
@@ -68,6 +72,7 @@ export function useFlowerManagement({
     [setSelectedColors]
   );
 
+  // Complete flowers for size
   const completeFlowersForSize = useCallback(() => {
     const targetCount = size === "large" ? 18 : size === "medium" ? 12 : 7;
 
@@ -95,6 +100,7 @@ export function useFlowerManagement({
     }
   }, [size, totalFlowersCount, selectedFlowers, setSelectedFlowers]);
 
+  // Handle size change
   const handleSizeChange = useCallback(
     (newSize: "small" | "medium" | "large" | "custom") => {
       const currentCount = totalFlowersCount;
@@ -143,6 +149,7 @@ export function useFlowerManagement({
     [totalFlowersCount, customFlowerCount, selectedFlowers, setSelectedFlowers, setSize]
   );
 
+  // Auto-select size based on flower count
   useEffect(() => {
     if (size === "custom") {
       return;
@@ -162,8 +169,7 @@ export function useFlowerManagement({
     }
   }, [totalFlowersCount, size, setSize]);
 
-  const lastUpdatedCountRef = useRef<number>(customFlowerCount);
-
+  // Auto-update flowers for custom count
   useEffect(() => {
     if (
       size === "custom" &&
@@ -171,11 +177,9 @@ export function useFlowerManagement({
       customFlowerCount !== totalFlowersCount &&
       customFlowerCount >= 5 &&
       customFlowerCount <= 1000 &&
-      customFlowerCount !== lastUpdatedCountRef.current &&
       !isUpdatingFlowersRef.current
     ) {
       isUpdatingFlowersRef.current = true;
-      lastUpdatedCountRef.current = customFlowerCount;
 
       const currentFlowers = Object.entries(selectedFlowers).filter(([_, qty]) => qty > 0);
 
@@ -195,24 +199,21 @@ export function useFlowerManagement({
           }
         });
 
-        const hasChanged =
-          Object.keys(newFlowers).some(
-            (id) => newFlowers[Number(id)] !== selectedFlowers[Number(id)]
-          ) ||
-          Object.keys(selectedFlowers).some(
-            (id) => !Object.prototype.hasOwnProperty.call(newFlowers, Number(id))
-          );
-
-        if (hasChanged) {
-          setSelectedFlowers(newFlowers);
-        }
+        setSelectedFlowers(newFlowers);
       }
 
       setTimeout(() => {
         isUpdatingFlowersRef.current = false;
       }, 0);
     }
-  }, [customFlowerCount, size, totalFlowersCount, setSelectedFlowers, isUpdatingFlowersRef]);
+  }, [
+    customFlowerCount,
+    size,
+    selectedFlowers,
+    totalFlowersCount,
+    setSelectedFlowers,
+    isUpdatingFlowersRef,
+  ]);
 
   return {
     qty,

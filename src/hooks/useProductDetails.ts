@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import { Product } from "@/src/@types/product/Product.type";
 import { PRODUCT_DATA } from "@/src/constants/productData";
-import { findProductInCart } from "@/src/lib/cartUtils";
+import { addProductToCart } from "@/src/lib/cartUtils";
 import { useNotification } from "@/src/providers/notification-provider";
 import { useDataLoading } from "./useDataLoading";
-import { useCartStore } from "@/src/stores/cartStore";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
+import { STORAGE_KEYS } from "@/src/constants";
+import { storage } from "@/src/lib/utils";
 
 interface ProductOptions {
   selectedSize: string;
@@ -23,11 +24,6 @@ export function useProductDetails(productId: string) {
   const [selectedImage, setSelectedImage] = useState(0);
   const { isLoading, withLoading } = useDataLoading();
   const { showNotification } = useNotification();
-
-  // استخدام hooks selectors من Zustand store
-  const addItem = useCartStore((state) => state.addItem);
-  const items = useCartStore((state) => state.items);
-  const setError = useCartStore((state) => state.setError);
 
   // Product options state
   const [options, setOptions] = useState<ProductOptions>({
@@ -71,7 +67,7 @@ export function useProductDetails(productId: string) {
 
           setProduct(product);
         } catch (error) {
-          // معالجة صامتة للأخطاء
+          console.error("Error fetching product:", error);
         }
       });
     }
@@ -101,7 +97,10 @@ export function useProductDetails(productId: string) {
 
     if (typeof window !== "undefined") {
       try {
-        const cartItem: CartItem = {
+        const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
+        const safeCart = Array.isArray(cart) ? cart : [];
+
+        const cartItem = {
           id: product.id,
           title: product.title,
           price: getTotalPrice(),
@@ -115,19 +114,16 @@ export function useProductDetails(productId: string) {
           total: getTotalPrice(),
         };
 
-        // التحقق من وجود المنتج لتحديد الرسالة
-        const existingIndex = findProductInCart(items, cartItem);
-        const isNew = existingIndex === -1;
+        const { cart: updatedCart, isNew } = addProductToCart(safeCart, cartItem);
 
-        // إضافة المنتج باستخدام store
-        addItem(cartItem);
+        storage.set(STORAGE_KEYS.CART, updatedCart);
+        window.dispatchEvent(new CustomEvent("cartUpdated"));
 
         const message = isNew ? "تم إضافة المنتج إلى السلة" : "تم زيادة كمية المنتج في السلة";
         showNotification(message, "success");
       } catch (error) {
-        // معالجة الخطأ بشكل صحيح بدلاً من حذف السلة كاملة
-        const errorMessage = error instanceof Error ? error.message : "حدث خطأ في إضافة المنتج للسلة";
-        setError(error instanceof Error ? error : new Error(errorMessage));
+        console.error("خطأ:", error);
+        storage.set(STORAGE_KEYS.CART, []);
         showNotification("حدث خطأ في إضافة المنتج للسلة", "error");
       }
     }

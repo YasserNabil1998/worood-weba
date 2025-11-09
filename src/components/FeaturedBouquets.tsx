@@ -9,9 +9,9 @@ import { defaultBouquets } from "../content/featured-bouquets";
 import { Heart, ArrowLeft } from "lucide-react";
 import { useNotification } from "../providers/notification-provider";
 import { useFavorites } from "../hooks/useFavorites";
-import { findProductInCart } from "../lib/cartUtils";
-import { useCartStore } from "../stores/cartStore";
-import { APP_CONFIG } from "../constants";
+import { addProductToCart } from "../lib/cartUtils";
+import { storage } from "../lib/utils";
+import { STORAGE_KEYS, APP_CONFIG } from "../constants";
 
 type FeaturedBouquetsProps = {
   bouquets?: BouquetItem[];
@@ -24,10 +24,6 @@ const FeaturedBouquets = ({
 }: FeaturedBouquetsProps) => {
   const { showNotification } = useNotification();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
-
-  // استخدام hooks selectors من Zustand store
-  const addItem = useCartStore((state) => state.addItem);
-  const items = useCartStore((state) => state.items);
 
   const toggleFavorite = useCallback(
     (e: React.MouseEvent, bouquet: BouquetItem) => {
@@ -54,6 +50,7 @@ const FeaturedBouquets = ({
           showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
         }
       } catch (error) {
+        console.error("خطأ في تبديل المفضلة:", error);
         showNotification("حدث خطأ في تحديث المفضلة", "error");
       }
     },
@@ -63,7 +60,9 @@ const FeaturedBouquets = ({
   const handleAddToCart = useCallback(
     (bouquet: BouquetItem) => {
       try {
-        const productToAdd: CartItem = {
+        const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
+
+        const productToAdd = {
           id: typeof bouquet.id === "number" ? bouquet.id : Number(bouquet.id),
           title: bouquet.title,
           price: bouquet.price,
@@ -75,20 +74,19 @@ const FeaturedBouquets = ({
           giftWrap: false,
         };
 
-        // التحقق من وجود المنتج لتحديد الرسالة
-        const existingIndex = findProductInCart(items, productToAdd);
-        const isNew = existingIndex === -1;
+        const { cart: updatedCart, isNew } = addProductToCart(cart, productToAdd);
 
-        // إضافة المنتج باستخدام store
-        addItem(productToAdd);
+        storage.set(STORAGE_KEYS.CART, updatedCart);
+        window.dispatchEvent(new CustomEvent("cartUpdated"));
 
         const message = isNew ? "تم إضافة المنتج إلى السلة ✓" : "تم زيادة كمية المنتج في السلة";
         showNotification(message, "success");
       } catch (error) {
+        console.error("خطأ في إضافة المنتج للسلة:", error);
         showNotification("حدث خطأ في إضافة المنتج للسلة", "error");
       }
     },
-    [items, addItem, showNotification]
+    [showNotification]
   );
 
   return (

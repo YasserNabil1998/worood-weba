@@ -20,6 +20,7 @@ export function useCustomBouquetFavorites() {
       const stored = storage.get<CustomBouquet[]>(STORAGE_KEYS.BOUQUET_FAVORITES, []);
       setCustomBouquets(stored);
     } catch (error) {
+      console.error("خطأ في تحميل التصاميم المخصصة:", error);
       setCustomBouquets([]);
     } finally {
       setLoading(false);
@@ -82,6 +83,7 @@ export function useCustomBouquetFavorites() {
         showNotification("تم إضافة الباقة إلى السلة!", "success");
         return true;
       } catch (error) {
+        console.error("خطأ في إضافة الباقة للسلة:", error);
         showNotification("حدث خطأ في إضافة الباقة إلى السلة", "error");
         return false;
       }
@@ -127,6 +129,7 @@ export function useCustomBouquetFavorites() {
         const encodedData = encodeURIComponent(JSON.stringify(editData));
         window.location.href = `${CART_ROUTES.CUSTOM}?design=${encodedData}&editFromFavorites=true&favoriteId=${bouquet.id}`;
       } catch (error) {
+        console.error("خطأ في تعديل الباقة:", error);
         showNotification("حدث خطأ في تعديل الباقة", "error");
       }
     },

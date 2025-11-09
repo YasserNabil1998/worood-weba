@@ -51,6 +51,7 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
         setIsSuccess(false);
       }, FORM_SUCCESS_TIMEOUT);
     } catch (error) {
+      console.error("Form submission error:", error);
       setIsError(true);
     }
   };

@@ -21,6 +21,9 @@ export const storage = {
 
       // التحقق من أن النوع يطابق القيمة الافتراضية
       if (Array.isArray(defaultValue) && !Array.isArray(parsed)) {
+        console.warn(
+          `Expected array for key "${key}", got ${typeof parsed}. Resetting to default.`
+        );
         localStorage.setItem(key, JSON.stringify(defaultValue));
         return defaultValue;
       }
@@ -32,6 +35,9 @@ export const storage = {
         !Array.isArray(defaultValue)
       ) {
         if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+          console.warn(
+            `Expected object for key "${key}", got ${Array.isArray(parsed) ? "array" : typeof parsed}. Resetting to default.`
+          );
           localStorage.setItem(key, JSON.stringify(defaultValue));
           return defaultValue;
         }
@@ -39,11 +45,12 @@ export const storage = {
 
       return parsed;
     } catch (error) {
+      console.warn(`Error reading localStorage key "${key}":`, error);
       // في حالة وجود خطأ في التحليل، نعيد تعيين القيمة الافتراضية
       try {
         localStorage.setItem(key, JSON.stringify(defaultValue));
       } catch (e) {
-        // معالجة صامتة للأخطاء - إرجاع القيمة الافتراضية
+        console.error(`Failed to reset localStorage key "${key}":`, e);
       }
       return defaultValue;
     }
@@ -58,7 +65,7 @@ export const storage = {
       localStorage.setItem(key, JSON.stringify(value));
       return true;
     } catch (error) {
-      // معالجة صامتة للأخطاء - إرجاع false
+      console.error(`Error writing to localStorage key "${key}":`, error);
       return false;
     }
   },
@@ -72,7 +79,7 @@ export const storage = {
       localStorage.removeItem(key);
       return true;
     } catch (error) {
-      // معالجة صامتة للأخطاء - إرجاع false
+      console.error(`Error removing localStorage key "${key}":`, error);
       return false;
     }
   },

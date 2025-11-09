@@ -4,7 +4,6 @@ import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS, NAVIGATION_DELAY } from "@/src/constants";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { generateProductKey } from "@/src/lib/cartUtils";
-import { useCartStore } from "@/src/stores/cartStore";
 import {
   buildCustomData,
   validateAndNormalizePrices,
@@ -155,7 +154,10 @@ function handleAddMode(
   };
 }
 
-function saveAndNavigate(): ReturnType<typeof setTimeout> {
+function saveAndNavigate(cart: CartItem[]): ReturnType<typeof setTimeout> {
+  storage.set(STORAGE_KEYS.CART, cart);
+  window.dispatchEvent(new Event("cartUpdated"));
+
   return setTimeout(() => {
     window.location.href = "/cart";
   }, NAVIGATION_DELAY.CART_REDIRECT);
@@ -164,10 +166,6 @@ function saveAndNavigate(): ReturnType<typeof setTimeout> {
 export function useCartOperations(props: UseCartOperationsProps) {
   const searchParams = useSearchParams();
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const addItem = useCartStore((state) => state.addItem);
-  const removeItem = useCartStore((state) => state.removeItem);
-  const updateItem = useCartStore((state) => state.updateItem);
 
   const dataSources = useMemo<BouquetDataSources>(
     () => ({
@@ -265,6 +263,7 @@ export function useCartOperations(props: UseCartOperationsProps) {
 
     try {
       const itemData = buildCartItem(inputData, dataSources);
+      // إنشاء كائن مؤقت يحتوي على id لاستخدامه في generateProductKey
       const tempItemForKey = { ...itemData, id: 0 };
       const itemWithKey: CartItem = {
         ...itemData,
@@ -272,39 +271,34 @@ export function useCartOperations(props: UseCartOperationsProps) {
         uniqueKey: generateProductKey(tempItemForKey),
       };
 
+      const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
+      const safeCart = Array.isArray(cart) ? cart : [];
+
       const editItemId = storage.get<string | null>(STORAGE_KEYS.EDIT_ITEM_ID, null);
       const isEditMode = searchParams.get("edit") === "true" && editItemId;
 
+      let updatedCart: CartItem[];
       let message: string;
 
-      if (isEditMode && editItemId) {
-        const itemIdToUpdate = typeof editItemId === "string" 
-          ? (isNaN(Number(editItemId)) ? editItemId : Number(editItemId))
-          : editItemId;
-        
-        updateItem(itemIdToUpdate, itemWithKey);
-        message = "تم تحديث الباقة بنجاح!";
+      if (isEditMode) {
+        const editResult = handleEditMode(safeCart, itemWithKey, editItemId);
+        updatedCart = editResult.cart;
+        message = editResult.message;
         storage.remove(STORAGE_KEYS.EDIT_ITEM_ID);
       } else {
-        addItem(itemWithKey);
-        message = "تمت إضافة الباقة إلى السلة بنجاح!";
+        const addResult = handleAddMode(safeCart, itemWithKey);
+        updatedCart = addResult.cart;
+        message = addResult.message;
       }
 
-      timeoutRef.current = saveAndNavigate();
+      timeoutRef.current = saveAndNavigate(updatedCart);
 
       props.showNotification(message);
       props.saveToHistory();
     } catch (error) {
-      const errorMessage = error instanceof Error 
-        ? error.message 
-        : "حدث خطأ أثناء إضافة الباقة إلى السلة";
-      props.showNotification(errorMessage);
+      console.error("Error adding to cart:", error);
+      props.showNotification("حدث خطأ أثناء إضافة الباقة إلى السلة");
       props.setIsAddingToCart(false);
-      
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
     }
   }, [
     props.isAddingToCart,
@@ -315,9 +309,6 @@ export function useCartOperations(props: UseCartOperationsProps) {
     inputData,
     dataSources,
     searchParams,
-    addItem,
-    removeItem,
-    updateItem,
   ]);
 
   useEffect(() => {
