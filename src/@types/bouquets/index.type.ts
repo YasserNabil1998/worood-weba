@@ -8,6 +8,7 @@ export interface BouquetItem {
   color?: string;
   occasion?: string;
   currency?: string;
+  category?: string;
 }
 
 // Keep the old interface for backward compatibility

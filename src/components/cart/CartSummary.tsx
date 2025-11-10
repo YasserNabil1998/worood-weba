@@ -27,10 +27,14 @@ export default function CartSummary({ totals, totalItems, selectedItems }: CartS
 
   return (
     <aside className="bg-white rounded-xl sm:rounded-2xl border border-gray-200 shadow-lg p-4 sm:p-6 h-fit lg:sticky lg:top-24">
-      <div className="bg-gradient-to-r from-[#5A5E4D] to-[#4A4E3D] rounded-lg sm:rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 -m-2">
+      <div className="mb-4 sm:mb-6">
         <h2
-          className="text-lg sm:text-xl font-bold text-white text-center"
-          style={{ fontFamily: "var(--font-almarai)" }}
+          className="text-lg sm:text-xl font-bold text-center border-2 rounded-lg sm:rounded-xl py-2 sm:py-3"
+          style={{
+            fontFamily: "var(--font-almarai)",
+            color: COLORS.PRIMARY,
+            borderColor: COLORS.PRIMARY,
+          }}
         >
           {CART_MESSAGES.ORDER_SUMMARY}
         </h2>

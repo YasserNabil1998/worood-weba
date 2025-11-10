@@ -36,7 +36,8 @@ export const COLORS = [
 ] as const;
 
 // Badge options for bouquets
-export const BADGES = ["الأكثر شهرة", "عرض خاص", "جديد"] as const;
+export const BEST_SELLER_BADGE = "الأكثر مبيعاً" as const;
+export const BADGES = [BEST_SELLER_BADGE, "الأكثر شهرة", "عرض خاص", "جديد"] as const;
 
 // Bouquet images (local assets)
 export const BOUQUET_IMAGES = [

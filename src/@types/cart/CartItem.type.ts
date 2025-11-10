@@ -76,6 +76,8 @@ export interface CartItem {
   size?: string;
   style?: string;
   color?: string;
+  colorValue?: string;
+  colorLabel?: string;
   total?: number;
   // معرف فريد للمنتج بناءً على خصائصه
   uniqueKey?: string;

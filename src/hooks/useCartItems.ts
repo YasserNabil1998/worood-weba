@@ -21,7 +21,7 @@ interface UseCartItemsReturn {
   error: Error | null;
   updateItemQuantity: (itemId: string | number, newQuantity: number) => void;
   removeItem: (itemId: string | number) => void;
-  editCustomItem: (item: CartItem) => void;
+  editItem: (item: CartItem) => void;
   refreshCart: () => void;
 }
 
@@ -105,21 +105,39 @@ export function useCartItems(): UseCartItemsReturn {
   );
 
   // تعديل باقة مخصصة
-  const editCustomItem = useCallback((item: CartItem) => {
+  const editItem = useCallback((item: CartItem) => {
     try {
-      if (!item.isCustom || !item.customData) {
-        throw new Error("Item is not a custom bouquet");
+      if (item.isCustom && item.customData) {
+        storage.set(STORAGE_KEYS.EDIT_ITEM_ID, item.id.toString());
+
+        const editData = createCustomBouquetEditData(item);
+        const encodedData = encodeURIComponent(JSON.stringify(editData));
+        window.location.href = `${CART_ROUTES.CUSTOM}?design=${encodedData}&edit=true`;
+        return;
       }
 
-      // حفظ معرف العنصر المراد تعديله
-      storage.set(STORAGE_KEYS.EDIT_ITEM_ID, item.id.toString());
+      const itemIdentifier = (item.uniqueKey || item.id)?.toString();
+      if (!itemIdentifier) {
+        throw new Error("Item identifier is missing");
+      }
 
-      // إنشاء البيانات للتعديل
-      const editData = createCustomBouquetEditData(item);
+      storage.set(STORAGE_KEYS.EDIT_ITEM_ID, itemIdentifier);
+      storage.set(STORAGE_KEYS.EDIT_ITEM_DATA, {
+        id: item.id,
+        uniqueKey: item.uniqueKey,
+        size: item.size,
+        color: item.color,
+        colorValue: item.colorValue,
+        colorHex: item.color,
+        colorLabel: item.colorLabel,
+        addCard: item.addCard ?? false,
+        cardMessage: item.cardMessage ?? "",
+        addChocolate: item.addChocolate ?? false,
+        giftWrap: item.giftWrap ?? false,
+        quantity: item.quantity ?? 1,
+      });
 
-      // الانتقال إلى صفحة التنسيق الخاص مع البيانات
-      const encodedData = encodeURIComponent(JSON.stringify(editData));
-      window.location.href = `${CART_ROUTES.CUSTOM}?design=${encodedData}&edit=true`;
+      window.location.href = `${CART_ROUTES.PRODUCT}/${item.id}?edit=true`;
     } catch (err) {
       setError(err instanceof Error ? err : new Error("Failed to edit item"));
       console.error("Error editing item:", err);
@@ -137,7 +155,7 @@ export function useCartItems(): UseCartItemsReturn {
     error,
     updateItemQuantity,
     removeItem,
-    editCustomItem,
+    editItem,
     refreshCart,
   };
 }

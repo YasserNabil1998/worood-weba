@@ -20,8 +20,7 @@ export default function CartPage() {
   const [expandedItems, setExpandedItems] = useState<Set<string | number>>(new Set());
 
   // استخدام الـ hooks المخصصة
-  const { items, isLoading, error, updateItemQuantity, removeItem, editCustomItem } =
-    useCartItems();
+  const { items, isLoading, error, updateItemQuantity, removeItem, editItem } = useCartItems();
 
   const {
     selectedItems,
@@ -79,10 +78,7 @@ export default function CartPage() {
   // عرض رسالة خطأ إذا حدث خطأ
   if (error) {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center"
-        dir="rtl"
-      >
+      <div className="min-h-screen flex items-center justify-center" dir="rtl">
         <div className="text-center bg-white rounded-2xl shadow-lg p-8 border border-red-200 max-w-md mx-4">
           <AlertTriangle className="w-12 h-12 mx-auto mb-4 text-red-600" />
           <h2 className="text-xl font-bold text-red-700 mb-2">حدث خطأ</h2>
@@ -204,7 +200,7 @@ export default function CartPage() {
                         onToggleExpand={toggleDetails}
                         onUpdateQuantity={updateItemQuantity}
                         onRemove={removeItem}
-                        onEdit={editCustomItem}
+                        onEdit={editItem}
                       />
                     );
                   })}

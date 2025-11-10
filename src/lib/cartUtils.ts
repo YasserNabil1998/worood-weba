@@ -20,6 +20,9 @@ export function generateProductKey(product: ProductInput): string {
   }
 
   // إنشاء كائن يحتوي على جميع الخصائص المهمة
+  const colorValue =
+    "colorValue" in product && product.colorValue ? product.colorValue : product.color || "default";
+
   const productProps = {
     id: product.id,
     size: product.size || "default",
@@ -28,7 +31,7 @@ export function generateProductKey(product: ProductInput): string {
     addChocolate: product.addChocolate || false,
     giftWrap: product.giftWrap || false,
     style: product.style || "default",
-    color: product.color || "default",
+    color: colorValue,
     // إضافة أي خصائص أخرى قد تكون مهمة
     customData: product.customData ? JSON.stringify(product.customData) : null,
   };

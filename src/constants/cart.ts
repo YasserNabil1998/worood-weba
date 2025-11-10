@@ -60,4 +60,6 @@ export const CART_ROUTES = {
   BOUQUETS: "/bouquets",
   CHECKOUT: "/checkout",
   CUSTOM: "/custom",
+  CART: "/cart",
+  PRODUCT: "/product",
 } as const;

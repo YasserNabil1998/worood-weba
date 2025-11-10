@@ -1,0 +1,75 @@
+[
+  {
+    "id": 1,
+    "title": "باقة النجاح",
+    "price": 400,
+    "image": "/images/bouquets/DIV-237.png",
+    "currency": "ر.س",
+    "badge": "الأكثر مبيعاً",
+    "category": "الأكثر مبيعاً"
+  },
+  {
+    "id": 2,
+    "title": "باقة السعادة",
+    "price": 320,
+    "image": "/images/bouquets/IMG-196.png",
+    "currency": "ر.س",
+    "badge": "الأكثر مبيعاً",
+    "category": "الأكثر مبيعاً"
+  },
+  {
+    "id": 3,
+    "title": "باقة الفرح",
+    "price": 280,
+    "image": "/images/bouquets/IMG-210.png",
+    "currency": "ر.س",
+    "badge": "الأكثر مبيعاً",
+    "category": "الأكثر مبيعاً"
+  },
+  {
+    "id": 4,
+    "title": "باقة اللمسة الذهبية",
+    "price": 450,
+    "image": "/images/bouquets/IMG-224.png",
+    "currency": "ر.س",
+    "badge": "الأكثر مبيعاً",
+    "category": "الأكثر مبيعاً"
+  },
+  {
+    "id": 5,
+    "title": "باقة الورد الأحمر الفاخرة",
+    "price": 550,
+    "image": "/images/Products/Products-1.jpg",
+    "currency": "ر.س",
+    "badge": "الأكثر مبيعاً",
+    "category": "الأكثر مبيعاً"
+  },
+  {
+    "id": 6,
+    "title": "مزهرية الكمال الوردي",
+    "price": 665,
+    "image": "/images/Products/Products-6.jpg",
+    "currency": "ر.س",
+    "badge": "الأكثر مبيعاً",
+    "category": "الأكثر مبيعاً"
+  },
+  {
+    "id": 7,
+    "title": "مزهرية الزهور المميزة",
+    "price": 720,
+    "image": "/images/Products/Products-2.jpg",
+    "currency": "ر.س",
+    "badge": "الأكثر مبيعاً",
+    "category": "الأكثر مبيعاً"
+  },
+  {
+    "id": 8,
+    "title": "فازة حوري الجمال الدافئ",
+    "price": 429,
+    "image": "/images/Products/Products-3.jpg",
+    "currency": "ر.س",
+    "badge": "الأكثر مبيعاً",
+    "category": "الأكثر مبيعاً"
+  }
+]
+

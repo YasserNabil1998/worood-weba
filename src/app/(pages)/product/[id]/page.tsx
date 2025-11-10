@@ -12,6 +12,7 @@ import {
   SizeSelector,
   ProductAddons,
   ProductActions,
+  ColorSelector,
 } from "@/src/components/product";
 import { useProductDetails } from "@/src/hooks/useProductDetails";
 import { PRODUCT_DATA } from "@/src/constants/productData";
@@ -30,6 +31,7 @@ export default function ProductDetailPage() {
     updateOption,
     getTotalPrice,
     handleAddToCart,
+    isEditMode,
   } = useProductDetails(id);
 
   // Generate structured data for SEO
@@ -135,6 +137,13 @@ export default function ProductDetailPage() {
                     currency={product.currency}
                   />
 
+                  {/* Color Selection */}
+                  <ColorSelector
+                    colors={PRODUCT_DATA.colors}
+                    selectedColor={options.color}
+                    onColorChange={(color) => updateOption("color", color)}
+                  />
+
                   {/* Addons */}
                   <ProductAddons
                     cardAddon={PRODUCT_DATA.addons.card}
@@ -158,6 +167,7 @@ export default function ProductDetailPage() {
                     currency={product.currency}
                     onQuantityChange={(quantity) => updateOption("quantity", quantity)}
                     onAddToCart={handleAddToCart}
+                    isEditMode={isEditMode}
                   />
                 </div>
               </div>
