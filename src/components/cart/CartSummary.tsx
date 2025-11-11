@@ -71,23 +71,38 @@ export default function CartSummary({ totals, totalItems, selectedItems }: CartS
               <span className="text-xs sm:text-sm font-medium text-gray-700">
                 {CART_MESSAGES.SUBTOTAL}
               </span>
-              <span className="font-bold text-sm sm:text-lg">
-                {subtotal.toFixed(2)} {APP_CONFIG.CURRENCY}
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">
+                  {subtotal.toFixed(2)}
+                </span>
+                <span className="text-sm sm:text-base text-[#5A5E4D]">
+                  {APP_CONFIG.CURRENCY}
+                </span>
+              </div>
             </div>
             <div className="flex justify-between items-center bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-2 sm:p-3">
               <span className="text-xs sm:text-sm font-medium text-gray-700">
                 {CART_MESSAGES.VAT} ({(APP_CONFIG.VAT_RATE * 100).toFixed(0)}%)
               </span>
-              <span className="font-bold text-sm sm:text-lg">
-                {vat.toFixed(2)} {APP_CONFIG.CURRENCY}
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">
+                  {vat.toFixed(2)}
+                </span>
+                <span className="text-sm sm:text-base text-[#5A5E4D]">
+                  {APP_CONFIG.CURRENCY}
+                </span>
+              </div>
             </div>
             <div className="flex justify-between items-center font-bold pt-2 sm:pt-3 text-base sm:text-lg border-t-2 border-[#5A5E4D] mt-2 sm:mt-4 bg-gradient-to-r from-[#5A5E4D]/5 to-[#4A4E3D]/5 rounded-lg sm:rounded-xl p-3 sm:p-4">
               <span className="text-gray-800">{CART_MESSAGES.TOTAL}</span>
-              <span className="text-xl sm:text-2xl bg-gradient-to-r from-[#5A5E4D] to-[#4A4E3D] bg-clip-text text-transparent">
-                {total.toFixed(2)} {APP_CONFIG.CURRENCY}
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">
+                  {total.toFixed(2)}
+                </span>
+                <span className="text-sm sm:text-base text-[#5A5E4D]">
+                  {APP_CONFIG.CURRENCY}
+                </span>
+              </div>
             </div>
           </div>
         )}

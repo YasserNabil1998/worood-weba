@@ -130,8 +130,19 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
         </div>
 
         <div className="mt-auto">
-          <div className="flex items-center justify-start mb-3">
-            <div className="font-bold text-lg text-[#5A5E4D]">{item.price} ر.س</div>
+          <div className="flex items-center justify-start gap-1.5 mb-3">
+            <span
+              className="text-xl sm:text-2xl font-bold text-[#5A5E4D]"
+              style={{ fontFamily: "var(--font-almarai)" }}
+            >
+              {item.price}
+            </span>
+            <span
+              className="text-sm sm:text-base text-[#5A5E4D]"
+              style={{ fontFamily: "var(--font-almarai)" }}
+            >
+              ر.س
+            </span>
           </div>
           <button
             onClick={(e) => {

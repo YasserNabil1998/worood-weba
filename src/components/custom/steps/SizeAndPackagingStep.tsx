@@ -211,7 +211,10 @@ export default function SizeAndPackagingStep({
                     className="w-12 h-12 object-cover rounded-md mx-auto mb-2"
                   />
                   <div className="text-xs font-medium text-gray-900">{styleOption.label}</div>
-                  <div className="text-xs text-gray-500">+{styleOption.price} ر.س</div>
+                  <div className="flex items-center justify-center gap-1">
+                    <span className="text-sm font-bold text-[#5A5E4D]">+{styleOption.price}</span>
+                    <span className="text-xs text-[#5A5E4D]">ر.س</span>
+                  </div>
                 </button>
               ))}
             </div>
@@ -237,7 +240,10 @@ export default function SizeAndPackagingStep({
                     className="w-12 h-12 object-cover rounded-md mx-auto mb-2"
                   />
                   <div className="text-xs font-medium text-gray-900">{vase.name}</div>
-                  <div className="text-xs text-gray-500">+{vase.price} ر.س</div>
+                  <div className="flex items-center justify-center gap-1">
+                    <span className="text-sm font-bold text-[#5A5E4D]">+{vase.price}</span>
+                    <span className="text-xs text-[#5A5E4D]">ر.س</span>
+                  </div>
                 </button>
               ))}
             </div>

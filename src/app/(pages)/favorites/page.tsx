@@ -173,14 +173,22 @@ export default function FavoritesPage() {
                             <Sparkles className="w-3.5 h-3.5 text-[#5A5E4D]" />
                             {bouquet.flowers.length} نوع من الزهور
                           </p>
-                          <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center justify-start gap-1.5 mb-4">
                             <span
-                              className="text-xl font-bold text-[#5A5E4D]"
+                              className="text-xl sm:text-2xl font-bold text-[#5A5E4D]"
                               style={{
                                 fontFamily: "var(--font-almarai)",
                               }}
                             >
-                              {bouquet.total} ر.س
+                              {bouquet.total}
+                            </span>
+                            <span
+                              className="text-sm sm:text-base text-[#5A5E4D]"
+                              style={{
+                                fontFamily: "var(--font-almarai)",
+                              }}
+                            >
+                              ر.س
                             </span>
                           </div>
                           <div className="flex flex-col gap-2">
@@ -316,14 +324,15 @@ export default function FavoritesPage() {
                     >
                       السعر الإجمالي
                     </p>
-                    <p
-                      className="text-3xl font-bold"
+                    <div
+                      className="flex items-center justify-center gap-2 text-3xl font-bold text-[#5A5E4D]"
                       style={{
                         fontFamily: "var(--font-almarai)",
                       }}
                     >
-                      {selectedBouquet.total} ر.س
-                    </p>
+                      <span>{selectedBouquet.total}</span>
+                      <span className="text-2xl">ر.س</span>
+                    </div>
                   </div>
 
                   {/* الزهور */}

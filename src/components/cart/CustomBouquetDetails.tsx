@@ -112,7 +112,10 @@ export default function CustomBouquetDetails({
                     <span className="bg-[#5A5E4D]/10 text-[#5A5E4D] px-2 py-1 rounded-full">
                       × {f.quantity}
                     </span>
-                    <span className="font-bold text-[#5A5E4D]">= {f.total} ريال</span>
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm font-bold text-[#5A5E4D]">= {f.total}</span>
+                      <span className="text-xs text-[#5A5E4D]">ر.س</span>
+                    </div>
                   </div>
                 </div>
               );
@@ -139,7 +142,9 @@ export default function CustomBouquetDetails({
           <div className="flex items-center gap-2 mb-2">
             <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-pink-600" fill="currentColor" />
             <span className="font-bold text-[#5A5E4D] text-xs sm:text-sm">
-              {CART_LABELS.GREETING_CARD} ({customData.cardPrice} ريال)
+              {CART_LABELS.GREETING_CARD} (
+              <span className="text-sm font-bold text-[#5A5E4D]">{customData.cardPrice}</span>
+              <span className="text-xs text-[#5A5E4D]"> ر.س</span>)
             </span>
           </div>
           <div className="bg-white rounded-lg p-2 sm:p-3 border border-pink-200">

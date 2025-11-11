@@ -46,7 +46,10 @@ export default function PriceBreakdown({
         {packagingType === "paper" && (
           <div className="flex items-center justify-between">
             <span className="text-gray-600">التغليف الورقي ({getStyleLabel(style)})</span>
-            <span className="font-semibold text-gray-800">{stylePrice.toFixed(0)} ر.س</span>
+            <div className="flex items-center gap-1">
+              <span className="text-sm font-bold text-[#5A5E4D]">{stylePrice.toFixed(0)}</span>
+              <span className="text-xs text-[#5A5E4D]">ر.س</span>
+            </div>
           </div>
         )}
         {packagingType === "vase" && selectedVase && (
@@ -54,19 +57,28 @@ export default function PriceBreakdown({
             <span className="text-gray-600">
               المزهرية ({vases.find((v) => v.id.toString() === selectedVase)?.name})
             </span>
-            <span className="font-semibold text-gray-800">{vasePrice.toFixed(0)} ر.س</span>
+            <div className="flex items-center gap-1">
+              <span className="text-sm font-bold text-[#5A5E4D]">{vasePrice.toFixed(0)}</span>
+              <span className="text-xs text-[#5A5E4D]">ر.س</span>
+            </div>
           </div>
         )}
         {flowersPrice > 0 && (
           <div className="flex items-center justify-between">
             <span className="text-gray-600">الزهور ({totalFlowersCount})</span>
-            <span className="font-semibold text-gray-800">{flowersPrice.toFixed(0)} ر.س</span>
+            <div className="flex items-center gap-1">
+              <span className="text-sm font-bold text-[#5A5E4D]">{flowersPrice.toFixed(0)}</span>
+              <span className="text-xs text-[#5A5E4D]">ر.س</span>
+            </div>
           </div>
         )}
         {includeCard && (
           <div className="flex items-center justify-between">
             <span className="text-gray-600">بطاقة تهنئة</span>
-            <span className="font-semibold text-gray-800">{cardPrice.toFixed(0)} ر.س</span>
+            <div className="flex items-center gap-1">
+              <span className="text-sm font-bold text-[#5A5E4D]">{cardPrice.toFixed(0)}</span>
+              <span className="text-xs text-[#5A5E4D]">ر.س</span>
+            </div>
           </div>
         )}
       </div>

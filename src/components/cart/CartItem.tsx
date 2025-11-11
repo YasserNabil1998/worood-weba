@@ -207,9 +207,14 @@ export default function CartItem({
                               <span className="text-xs font-semibold text-[#5A5E4D]">
                                 {CART_LABELS.GREETING_CARD}
                               </span>
-                              <span className="text-xs font-semibold text-gray-700">
-                                +{cardAddonPrice.toFixed(2)} {APP_CONFIG.CURRENCY}
-                              </span>
+                              <div className="flex items-center gap-1">
+                                <span className="text-sm font-bold text-[#5A5E4D]">
+                                  +{cardAddonPrice.toFixed(2)}
+                                </span>
+                                <span className="text-xs text-[#5A5E4D]">
+                                  {APP_CONFIG.CURRENCY}
+                                </span>
+                              </div>
                             </div>
                             <span className="text-xs text-gray-600">
                               {item.cardMessage && item.cardMessage.trim().length > 0
@@ -221,17 +226,27 @@ export default function CartItem({
                         {item.addChocolate && (
                           <div className="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-700">
                             <span>إضافة شوكولاتة</span>
-                            <span>
-                              +{chocolateAddonPrice.toFixed(2)} {APP_CONFIG.CURRENCY}
-                            </span>
+                            <div className="flex items-center gap-1">
+                              <span className="text-sm font-bold text-[#5A5E4D]">
+                                +{chocolateAddonPrice.toFixed(2)}
+                              </span>
+                              <span className="text-xs text-[#5A5E4D]">
+                                {APP_CONFIG.CURRENCY}
+                              </span>
+                            </div>
                           </div>
                         )}
                         {item.giftWrap && (
                           <div className="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-700">
                             <span>تغليف هدية</span>
-                            <span>
-                              +{giftWrapAddonPrice.toFixed(2)} {APP_CONFIG.CURRENCY}
-                            </span>
+                            <div className="flex items-center gap-1">
+                              <span className="text-sm font-bold text-[#5A5E4D]">
+                                +{giftWrapAddonPrice.toFixed(2)}
+                              </span>
+                              <span className="text-xs text-[#5A5E4D]">
+                                {APP_CONFIG.CURRENCY}
+                              </span>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -248,8 +263,13 @@ export default function CartItem({
               <div className="text-xs sm:text-sm font-medium text-gray-600">
                 {CART_LABELS.PRICE}
               </div>
-              <div className="font-bold text-lg sm:text-xl bg-linear-to-r from-[#5A5E4D] to-[#4A4E3D] bg-clip-text text-transparent">
-                {itemPrice.toFixed(2)} {APP_CONFIG.CURRENCY}
+              <div className="flex items-center gap-1.5">
+                <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">
+                  {itemPrice.toFixed(2)}
+                </span>
+                <span className="text-sm sm:text-base text-[#5A5E4D]">
+                  {APP_CONFIG.CURRENCY}
+                </span>
               </div>
             </div>
 
@@ -267,13 +287,18 @@ export default function CartItem({
             </div>
 
             {/* إجمالي السعر للكمية */}
-            <div className="flex justify_between items-center bg-linear-to-r from-[#5A5E4D]/5 to-[#4A4E3D]/5 rounded-lg sm:rounded-xl p-1.5 sm:p-3">
+            <div className="flex justify-between items-center bg-linear-to-r from-[#5A5E4D]/5 to-[#4A4E3D]/5 rounded-lg sm:rounded-xl p-1.5 sm:p-3">
               <span className="font-bold text-sm sm:text-base text-gray-800">
                 {CART_LABELS.TOTAL_PRICE}:
               </span>
-              <span className="font-bold text-lg sm:text-xl" style={{ color: COLORS.PRIMARY }}>
-                {itemTotal.toFixed(2)} {APP_CONFIG.CURRENCY}
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xl sm:text-2xl font-bold" style={{ color: COLORS.PRIMARY }}>
+                  {itemTotal.toFixed(2)}
+                </span>
+                <span className="text-sm sm:text-base text-[#5A5E4D]">
+                  {APP_CONFIG.CURRENCY}
+                </span>
+              </div>
             </div>
           </div>
         </div>

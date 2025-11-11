@@ -7,7 +7,7 @@
 export const APP_CONFIG = {
   NAME: "زهور الشمس",
   VAT_RATE: 0.15,
-  CURRENCY: "ريال",
+  CURRENCY: "ر.س",
   CARD_PRICE: 15,
   DEFAULT_LOCALE: "ar-SA",
 } as const;

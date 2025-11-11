@@ -88,8 +88,8 @@ export const storage = {
 /**
  * تنسيق السعر
  */
-export const formatPrice = (price: number, currency: string = "ريال"): string => {
-  return `${price.toFixed(2)} ${currency}`;
+export const formatPrice = (price: number, currency: string = "ر.س"): string => {
+  return `${price} ${currency}`;
 };
 
 /**

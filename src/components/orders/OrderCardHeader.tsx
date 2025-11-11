@@ -34,9 +34,14 @@ export default function OrderCardHeader({ order }: OrderCardHeaderProps) {
           >
             {order.status}
           </div>
-          <p className="text-gray-800 font-bold text-xl mt-2" style={almaraiFont}>
-            {order.totalAmount} ر.س
-          </p>
+          <div className="flex items-center justify-end gap-1.5 mt-2" style={almaraiFont}>
+            <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">
+              {order.totalAmount}
+            </span>
+            <span className="text-sm sm:text-base text-[#5A5E4D]">
+              ر.س
+            </span>
+          </div>
         </div>
       </div>
     </div>

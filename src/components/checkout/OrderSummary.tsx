@@ -35,9 +35,14 @@ export default function OrderSummary({
               className="py-3 flex items-center justify-between text-sm transition-colors hover:bg-gray-50/50 -mx-2 px-2 rounded"
             >
               <span className="text-gray-700 flex-1 text-right pr-2">{item.title}</span>
-              <span className="font-semibold text-gray-900 whitespace-nowrap">
-                {APP_CONFIG.CURRENCY} {itemPrice.toFixed(2)}
-              </span>
+              <div className="flex items-center gap-1 whitespace-nowrap">
+                <span className="text-base font-bold text-[#5A5E4D]">
+                  {itemPrice.toFixed(2)}
+                </span>
+                <span className="text-sm text-[#5A5E4D]">
+                  {APP_CONFIG.CURRENCY}
+                </span>
+              </div>
             </li>
           );
         })}
@@ -45,27 +50,42 @@ export default function OrderSummary({
 
       {/* تفاصيل السعر */}
       <div className="space-y-3 text-sm mb-6">
-        <div className="flex justify-between py-1">
+        <div className="flex justify-between items-center py-1">
           <span className="text-gray-600">الإجمالي الفرعي</span>
-          <span className="font-medium text-gray-900">
-            {APP_CONFIG.CURRENCY} {totals.subtotal.toFixed(2)}
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">
+              {totals.subtotal.toFixed(2)}
+            </span>
+            <span className="text-sm sm:text-base text-[#5A5E4D]">
+              {APP_CONFIG.CURRENCY}
+            </span>
+          </div>
         </div>
 
-        <div className="flex justify-between py-1">
+        <div className="flex justify-between items-center py-1">
           <span className="text-gray-600">
             ضريبة القيمة المضافة {(APP_CONFIG.VAT_RATE * 100).toFixed(0)}%
           </span>
-          <span className="font-medium text-gray-900">
-            {APP_CONFIG.CURRENCY} {totals.vat.toFixed(2)}
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">
+              {totals.vat.toFixed(2)}
+            </span>
+            <span className="text-sm sm:text-base text-[#5A5E4D]">
+              {APP_CONFIG.CURRENCY}
+            </span>
+          </div>
         </div>
 
-        <div className="flex justify-between font-bold border-t-2 border-gray-200 pt-4 mt-4">
+        <div className="flex justify-between items-center font-bold border-t-2 border-gray-200 pt-4 mt-4">
           <span className="text-gray-800">المجموع</span>
-          <span className="text-xl font-extrabold" style={{ color: COLORS.PRIMARY }}>
-            {APP_CONFIG.CURRENCY} {totals.grand.toFixed(2)}
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xl sm:text-2xl font-extrabold" style={{ color: COLORS.PRIMARY }}>
+              {totals.grand.toFixed(2)}
+            </span>
+            <span className="text-sm sm:text-base text-[#5A5E4D]">
+              {APP_CONFIG.CURRENCY}
+            </span>
+          </div>
         </div>
       </div>
 

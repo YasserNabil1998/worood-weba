@@ -50,11 +50,11 @@ export const BOUQUET_IMAGES = [
 // Price ranges for filtering
 export const PRICE_RANGES = [
   { key: "all", label: "جميع الأسعار", min: 0, max: Infinity },
-  { key: "0-100", label: "0 - 100 ريال", min: 0, max: 100 },
-  { key: "100-200", label: "100 - 200 ريال", min: 100, max: 200 },
-  { key: "200-300", label: "200 - 300 ريال", min: 200, max: 300 },
-  { key: "300-500", label: "300 - 500 ريال", min: 300, max: 500 },
-  { key: "500+", label: "500+ ريال", min: 500, max: Infinity },
+  { key: "0-100", label: "0 - 100 ر.س", min: 0, max: 100 },
+  { key: "100-200", label: "100 - 200 ر.س", min: 100, max: 200 },
+  { key: "200-300", label: "200 - 300 ر.س", min: 200, max: 300 },
+  { key: "300-500", label: "300 - 500 ر.س", min: 300, max: 500 },
+  { key: "500+", label: "500+ ر.س", min: 500, max: Infinity },
 ] as const;
 
 // Sort options
