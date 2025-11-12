@@ -6,6 +6,7 @@ import Providers from "../providers/providers";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import ErrorBoundary from "../components/common/ErrorBoundary";
+import SplashScreen from "../components/SplashScreen";
 import { generateOrganizationSchema, generateWebsiteSchema } from "../lib/structuredData";
 
 const geistSans = Geist({
@@ -54,6 +55,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased rtl`}
         suppressHydrationWarning
       >
+        <SplashScreen />
         <ErrorBoundary>
           <Providers>
             <Header />

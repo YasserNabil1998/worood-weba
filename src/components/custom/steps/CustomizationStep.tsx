@@ -101,7 +101,11 @@ export default function CustomizationStep({
             onChange={(e) => onIncludeCardChange(e.target.checked)}
             className="h-4 w-4 rounded border-gray-300 text-[#5A5E4D] focus:ring-[#5A5E4D]"
           />
-          <span>إضافة بطاقة تهنئة (+{config.cardPrice} ر.س)</span>
+          <span>
+            إضافة بطاقة تهنئة (+
+            <span className="font-bold text-[#5A5E4D]">{config.cardPrice}</span>
+            <span className="text-xs text-[#5A5E4D]"> ر.س</span>)
+          </span>
         </label>
 
         {includeCard && (

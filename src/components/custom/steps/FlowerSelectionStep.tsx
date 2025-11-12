@@ -84,7 +84,10 @@ export default function FlowerSelectionStep({
                   />
                 </div>
                 <div className="text-[11px] sm:text-[12px] font-semibold truncate">{f.name}</div>
-                <div className="text-[10px] sm:text-[11px] text-gray-500 mb-2">{f.price} ر.س</div>
+                <div className="flex items-center justify-center gap-1 mb-2">
+                  <span className="text-[11px] sm:text-[12px] font-bold text-[#5A5E4D]">{f.price}</span>
+                  <span className="text-[10px] text-[#5A5E4D]">ر.س</span>
+                </div>
                 {currentQty === 0 ? (
                   <button
                     onClick={() => onInc(f.id)}

@@ -77,14 +77,14 @@ export default function Sidebar({
     <aside
       className={`lg:col-span-1 transition-all duration-300 ${
         isFiltersOpen ? "block lg:block" : "hidden lg:block"
-      }`}
+      } lg:sticky lg:top-28 lg:self-start`}
     >
       <div
         className={`bg-white rounded-xl shadow p-4 transition-all duration-300 ${
           isFiltersOpen
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-2 lg:opacity-100 lg:translate-y-0"
-        }`}
+        } lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto`}
       >
         <div className="flex items-center justify-between mb-4">
           <h3

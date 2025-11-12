@@ -99,13 +99,7 @@ const Footer = () => {
 
         <div className="mt-4 pt-4 sm:pt-6 border-t border-white/10">
           <div className="text-center">
-            <p
-              className="text-gray-300 text-xs sm:text-sm"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
-              جميع الحقوق محفوظة زهور الشمس © 2025
-            </p>
-            <div className="mt-2 sm:mt-3 flex items-center justify-center gap-2 sm:gap-3 opacity-90">
+            <div className="flex items-center justify-center gap-2 sm:gap-3 opacity-90">
               <Image
                 src={ASSETS.payment.mada}
                 alt="Mada"
@@ -131,6 +125,12 @@ const Footer = () => {
                 loading="lazy"
               />
             </div>
+            <p
+              className="mt-3 text-gray-300 text-xs sm:text-sm"
+              style={{ fontFamily: "var(--font-almarai)" }}
+            >
+              جميع الحقوق محفوظة زهور الشمس © 2025
+            </p>
           </div>
         </div>
       </div>

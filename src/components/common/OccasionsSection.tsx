@@ -44,13 +44,13 @@ const OccasionsSection = ({
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
           <div className="text-right">
             <h2
-              className="text-[20px] sm:text-[22px] md:text-[24px] font-bold text-gray-800 mb-2 leading-[28px] sm:leading-[30px] md:leading-[32px] tracking-[0px]"
+              className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               {title}
             </h2>
             <p
-              className="text-[14px] sm:text-[15px] md:text-[16px] font-normal text-gray-600 leading-[20px] sm:leading-[22px] md:leading-[24px] tracking-[0px]"
+              className="text-base sm:text-lg md:text-xl font-normal text-gray-600"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               {description}

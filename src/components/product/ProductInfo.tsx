@@ -29,9 +29,9 @@ export default function ProductInfo({
         ))}
       </div>
 
-      <div className="flex items-baseline gap-2 mb-3">
-        <span className="text-2xl font-bold text-[#5A5E4D]">{price}</span>
-        <span className="text-base text-gray-600">{currency}</span>
+      <div className="flex items-center gap-1.5 mb-3">
+        <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">{price}</span>
+        <span className="text-sm sm:text-base text-[#5A5E4D]">ر.س</span>
       </div>
 
       <p className="text-sm text-gray-600 leading-relaxed">{description}</p>

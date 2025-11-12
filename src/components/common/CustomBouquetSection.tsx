@@ -46,14 +46,14 @@ const CustomBouquetSection = ({
             <div className="w-full pr-4 sm:pr-6 md:pr-10">
               <div className="ml-auto max-w-sm sm:max-w-md md:max-w-xl text-right">
                 <h2
-                  className="text-[24px] sm:text-[28px] md:text-[30px] font-bold text-white mb-3 sm:mb-4 leading-[30px] sm:leading-[34px] md:leading-[36px] tracking-[0px]"
+                  className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4"
                   style={{
                     fontFamily: "var(--font-almarai)",
                   }}
                 >
                   {title}
                 </h2>
-                <p className="text-white/90 text-[16px] sm:text-[17px] md:text-[18px] mb-4 sm:mb-6 leading-[24px] sm:leading-[26px] md:leading-[28px] tracking-[0px] font-normal">
+                <p className="text-white/90 text-base sm:text-lg md:text-xl mb-4 sm:mb-6 font-normal">
                   {description}
                 </p>
                 <Link

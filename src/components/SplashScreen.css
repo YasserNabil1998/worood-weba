@@ -1,0 +1,423 @@
+/* صفحة التحميل */
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(180deg, #f1f4e8 0%, #e6ead7 35%, #dce2cc 65%, #d3dac4 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+  overflow: hidden;
+}
+
+.splash-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* دوائر زخرفية خلفية */
+.decorative-circles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(90, 94, 77, 0.1);
+}
+
+.circle-1 {
+  width: 400px;
+  height: 400px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: circle-pulse 4s ease-in-out infinite;
+}
+
+.circle-2 {
+  width: 550px;
+  height: 550px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: circle-pulse 4s ease-in-out infinite 0.5s;
+}
+
+.circle-3 {
+  width: 700px;
+  height: 700px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: circle-pulse 4s ease-in-out infinite 1s;
+}
+
+@keyframes circle-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 0.2;
+  }
+}
+
+/* الورود الطافية */
+.floating-flowers {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.floating-flower {
+  position: absolute;
+  top: -50px;
+  animation: float-down linear infinite;
+}
+
+.flower-icon {
+  width: 30px;
+  height: 30px;
+  filter: drop-shadow(0 2px 4px rgba(90, 94, 77, 0.2));
+  animation: flower-rotate 3s ease-in-out infinite;
+}
+
+@keyframes float-down {
+  0% {
+    top: -50px;
+    opacity: 0;
+    transform: translateX(0) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: calc(100% + 50px);
+    opacity: 0;
+    transform: translateX(30px) rotate(180deg);
+  }
+}
+
+@keyframes flower-rotate {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+}
+
+/* حاوية الشعار المركزية */
+.logo-container-center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  animation: logo-appear 1.2s ease-out;
+  z-index: 10;
+}
+
+@keyframes logo-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* خلفية الشعار */
+.logo-background {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.logo-ring-elegant,
+.logo-ring-elegant-2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid rgba(90, 94, 77, 0.15);
+}
+
+.logo-ring-elegant {
+  animation: ring-elegant-rotate 8s linear infinite;
+  background: radial-gradient(
+    circle,
+    rgba(90, 94, 77, 0.05) 0%,
+    transparent 70%
+  );
+}
+
+.logo-ring-elegant-2 {
+  animation: ring-elegant-rotate-reverse 10s linear infinite;
+  transform: scale(0.85);
+  opacity: 0.6;
+}
+
+@keyframes ring-elegant-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ring-elegant-rotate-reverse {
+  from {
+    transform: scale(0.85) rotate(360deg);
+  }
+  to {
+    transform: scale(0.85) rotate(0deg);
+  }
+}
+
+/* الشعار الرئيسي */
+.logo-main {
+  position: relative;
+  animation: logo-float 3s ease-in-out infinite;
+}
+
+@keyframes logo-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.logo-image {
+  filter: drop-shadow(0 4px 12px rgba(90, 94, 77, 0.15));
+}
+
+/* نص الترحيب */
+.welcome-text {
+  font-size: 20px;
+  font-weight: 500;
+  color: #5a5e4d;
+  opacity: 0;
+  animation: text-fade-in 1s ease-out 0.5s forwards;
+  letter-spacing: 1px;
+}
+
+@keyframes text-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 0.8;
+    transform: translateY(0);
+  }
+}
+
+/* البتلات المتساقطة */
+.falling-petals {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.petal {
+  position: absolute;
+  top: -30px;
+  animation: petal-fall linear infinite;
+}
+
+.petal-svg {
+  width: 12px;
+  height: 18px;
+  filter: blur(0.5px);
+}
+
+@keyframes petal-fall {
+  0% {
+    top: -30px;
+    opacity: 0;
+    transform: translateX(0) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    top: 110%;
+    opacity: 0;
+    transform: translateX(50px) rotate(360deg);
+  }
+}
+
+/* شريط التحميل الأنيق */
+.elegant-loader {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+}
+
+.loader-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(90, 94, 77, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.loader-progress {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(90, 94, 77, 0.6),
+    rgba(122, 126, 109, 0.8),
+    rgba(90, 94, 77, 0.6)
+  );
+  border-radius: 10px;
+  animation: loader-slide 1.5s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(90, 94, 77, 0.3);
+}
+
+@keyframes loader-slide {
+  0% {
+    width: 0%;
+    margin-left: 0%;
+  }
+  50% {
+    width: 60%;
+    margin-left: 20%;
+  }
+  100% {
+    width: 0%;
+    margin-left: 100%;
+  }
+}
+
+/* استجابة للشاشات الصغيرة */
+@media (max-width: 768px) {
+  .circle-1 {
+    width: 300px;
+    height: 300px;
+  }
+
+  .circle-2 {
+    width: 420px;
+    height: 420px;
+  }
+
+  .circle-3 {
+    width: 540px;
+    height: 540px;
+  }
+
+  .logo-background {
+    width: 260px;
+    height: 260px;
+  }
+
+  .logo-image {
+    width: 220px !important;
+    height: auto !important;
+  }
+
+  .welcome-text {
+    font-size: 18px;
+  }
+
+  .flower-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .elegant-loader {
+    width: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .circle-1 {
+    width: 240px;
+    height: 240px;
+  }
+
+  .circle-2 {
+    width: 340px;
+    height: 340px;
+  }
+
+  .circle-3 {
+    width: 440px;
+    height: 440px;
+  }
+
+  .logo-background {
+    width: 220px;
+    height: 220px;
+  }
+
+  .logo-image {
+    width: 180px !important;
+    height: auto !important;
+  }
+
+  .welcome-text {
+    font-size: 16px;
+  }
+
+  .flower-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .elegant-loader {
+    width: 140px;
+    bottom: 12%;
+  }
+}
+
+/* تحسين الأداء */
+.splash-screen *,
+.splash-screen *::before,
+.splash-screen *::after {
+  will-change: auto;
+}

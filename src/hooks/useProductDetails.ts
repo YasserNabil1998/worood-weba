@@ -1,17 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Product } from "@/src/@types/product/Product.type";
 import { PRODUCT_DATA } from "@/src/constants/productData";
-import { addProductToCart } from "@/src/lib/cartUtils";
+import { addProductToCart, generateProductKey } from "@/src/lib/cartUtils";
 import { useNotification } from "@/src/providers/notification-provider";
 import { useDataLoading } from "./useDataLoading";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { STORAGE_KEYS } from "@/src/constants";
 import { storage } from "@/src/lib/utils";
+import { CART_ROUTES } from "@/src/constants/cart";
 
 interface ProductOptions {
   selectedSize: string;
+  color: string;
   addCard: boolean;
   cardMessage: string;
   addChocolate: boolean;
@@ -19,21 +22,42 @@ interface ProductOptions {
   quantity: number;
 }
 
+interface ReadyMadeEditData {
+  id: number;
+  uniqueKey?: string;
+  size?: string;
+  color?: string;
+  colorValue?: string;
+  colorHex?: string;
+  colorLabel?: string;
+  addCard?: boolean;
+  cardMessage?: string;
+  addChocolate?: boolean;
+  giftWrap?: boolean;
+  quantity?: number;
+}
+
 export function useProductDetails(productId: string) {
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const { isLoading, withLoading } = useDataLoading();
   const { showNotification } = useNotification();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   // Product options state
   const [options, setOptions] = useState<ProductOptions>({
     selectedSize: "medium",
+    color: PRODUCT_DATA.colors?.[0]?.value || "classic",
     addCard: false,
     cardMessage: "",
     addChocolate: false,
     giftWrap: false,
     quantity: 1,
   });
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingKey, setEditingKey] = useState<string | null>(null);
+  const editInitializedRef = useRef(false);
 
   // Fetch product data
   useEffect(() => {
@@ -77,6 +101,35 @@ export function useProductDetails(productId: string) {
     }
   }, [productId, withLoading]);
 
+  useEffect(() => {
+    if (!product) return;
+    if (editInitializedRef.current) return;
+    if (searchParams?.get("edit") !== "true") return;
+
+    const storedEditData = storage.get<ReadyMadeEditData | null>(STORAGE_KEYS.EDIT_ITEM_DATA, null);
+    const storedKey = storage.get<string | null>(STORAGE_KEYS.EDIT_ITEM_ID, null);
+
+    if (storedEditData && storedKey && Number(storedEditData.id) === Number(product.id)) {
+      setOptions({
+        selectedSize: storedEditData.size || "medium",
+        color:
+          storedEditData.colorValue ||
+          storedEditData.color ||
+          PRODUCT_DATA.colors?.[0]?.value ||
+          "classic",
+        addCard: storedEditData.addCard ?? false,
+        cardMessage: storedEditData.cardMessage || "",
+        addChocolate: storedEditData.addChocolate ?? false,
+        giftWrap: storedEditData.giftWrap ?? false,
+        quantity:
+          storedEditData.quantity && storedEditData.quantity > 0 ? storedEditData.quantity : 1,
+      });
+      setIsEditMode(true);
+      setEditingKey(storedKey);
+    }
+    editInitializedRef.current = true;
+  }, [product, searchParams]);
+
   // Calculate total price
   const getTotalPrice = () => {
     if (!product) return 0;
@@ -95,26 +148,119 @@ export function useProductDetails(productId: string) {
   const handleAddToCart = () => {
     if (!product) return;
 
+    if (options.quantity < 1) {
+      showNotification("الكمية يجب أن تكون 1 على الأقل", "error");
+      return;
+    }
+
     if (typeof window !== "undefined") {
       try {
         const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
         const safeCart = Array.isArray(cart) ? cart : [];
+        const lineTotal = getTotalPrice();
+        const selectedColorOption =
+          PRODUCT_DATA.colors.find((color) => color.value === options.color) ||
+          PRODUCT_DATA.colors[0];
+        const colorHex = selectedColorOption?.hex || "#E27281";
+        const colorLabel = selectedColorOption?.label || "";
+        const colorValue = selectedColorOption?.value || options.color;
 
-        const cartItem = {
+        const baseCartItem = {
           id: product.id,
           title: product.title,
-          price: getTotalPrice(),
+          price: lineTotal,
           quantity: options.quantity,
           image: product.image,
           size: options.selectedSize,
+          color: colorHex,
+          colorValue,
+          colorLabel,
           addCard: options.addCard,
           cardMessage: options.cardMessage,
           addChocolate: options.addChocolate,
           giftWrap: options.giftWrap,
-          total: getTotalPrice(),
+          total: lineTotal,
         };
 
-        const { cart: updatedCart, isNew } = addProductToCart(safeCart, cartItem);
+        if (isEditMode && editingKey) {
+          const targetIndex = safeCart.findIndex((item) => {
+            const key = (item.uniqueKey || item.id)?.toString();
+            return key === editingKey;
+          });
+
+          if (targetIndex !== -1) {
+            const originalItem = safeCart[targetIndex];
+            const updatedItem: CartItem = {
+              ...originalItem,
+              ...baseCartItem,
+              quantity: options.quantity,
+            };
+
+            const updatedKey = generateProductKey({
+              ...updatedItem,
+              id: updatedItem.id,
+            });
+
+            updatedItem.uniqueKey = updatedKey;
+
+            const duplicateIndex = safeCart.findIndex((item, index) => {
+              if (index === targetIndex) return false;
+              const comparisonKey =
+                item.uniqueKey ||
+                generateProductKey({
+                  ...item,
+                  id: item.id,
+                });
+              return comparisonKey === updatedKey;
+            });
+
+            let newCart: CartItem[];
+
+            if (duplicateIndex !== -1) {
+              const duplicateItem = safeCart[duplicateIndex];
+              const mergedQuantity = (duplicateItem.quantity || 1) + (updatedItem.quantity || 1);
+              const mergedTotal =
+                (duplicateItem.total || duplicateItem.price || 0) +
+                (updatedItem.total || updatedItem.price || 0);
+
+              newCart = safeCart
+                .map((item, index) => {
+                  if (index === duplicateIndex) {
+                    return {
+                      ...duplicateItem,
+                      ...updatedItem,
+                      quantity: mergedQuantity,
+                      price: mergedTotal,
+                      total: mergedTotal,
+                      uniqueKey: updatedKey,
+                    };
+                  }
+                  return item;
+                })
+                .filter((_, index) => index !== targetIndex);
+            } else {
+              newCart = [...safeCart];
+              newCart[targetIndex] = updatedItem;
+            }
+
+            storage.set(STORAGE_KEYS.CART, newCart);
+            storage.remove(STORAGE_KEYS.EDIT_ITEM_ID);
+            storage.remove(STORAGE_KEYS.EDIT_ITEM_DATA);
+            window.dispatchEvent(new CustomEvent("cartUpdated"));
+            showNotification("تم تحديث المنتج في السلة", "success");
+            setIsEditMode(false);
+            setEditingKey(null);
+            router.push(CART_ROUTES.CART);
+            return;
+          }
+
+          storage.remove(STORAGE_KEYS.EDIT_ITEM_ID);
+          storage.remove(STORAGE_KEYS.EDIT_ITEM_DATA);
+          setIsEditMode(false);
+          setEditingKey(null);
+        }
+
+        const { cart: updatedCart, isNew } = addProductToCart(safeCart, baseCartItem);
 
         storage.set(STORAGE_KEYS.CART, updatedCart);
         window.dispatchEvent(new CustomEvent("cartUpdated"));
@@ -123,7 +269,6 @@ export function useProductDetails(productId: string) {
         showNotification(message, "success");
       } catch (error) {
         console.error("خطأ:", error);
-        storage.set(STORAGE_KEYS.CART, []);
         showNotification("حدث خطأ في إضافة المنتج للسلة", "error");
       }
     }
@@ -143,5 +288,6 @@ export function useProductDetails(productId: string) {
     updateOption,
     getTotalPrice,
     handleAddToCart,
+    isEditMode,
   };
 }

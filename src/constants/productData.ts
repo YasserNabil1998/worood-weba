@@ -1,9 +1,10 @@
-import { Size } from "@/src/@types/product/Product.type";
+import type { Size, ColorOption } from "@/src/@types/product/Product.type";
 
 interface ProductDataType {
   bouquetImages: string[];
   productImages: string[];
   sizes: Size[];
+  colors: ColorOption[];
   addons: {
     card: { price: number; label: string };
     chocolate: { price: number; label: string };
@@ -44,6 +45,33 @@ export const PRODUCT_DATA: ProductDataType = {
       value: "large",
       label: "كبير",
       price: 100,
+    },
+  ],
+  colors: [
+    {
+      value: "classic",
+      label: "كما في الصورة",
+      hex: "#E27281",
+    },
+    {
+      value: "white",
+      label: "أبيض",
+      hex: "#F5F5F5",
+    },
+    {
+      value: "pink",
+      label: "وردي",
+      hex: "#F4A6C6",
+    },
+    {
+      value: "red",
+      label: "أحمر",
+      hex: "#D64550",
+    },
+    {
+      value: "purple",
+      label: "بنفسجي",
+      hex: "#9A7EDA",
     },
   ],
   addons: {

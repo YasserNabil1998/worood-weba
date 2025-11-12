@@ -103,7 +103,7 @@ const ProductsSlider = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
           <h2
-            className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800"
             style={{ fontFamily: "var(--font-almarai)" }}
           >
             سعادة في مزهرية
@@ -156,22 +156,22 @@ const ProductsSlider = () => {
                         />
                       </div>
                       <div className="p-3 sm:p-4 text-right">
-                        <div className="flex items-center justify-end gap-1 sm:gap-1.5 mb-2">
+                        <div className="flex items-center justify-start gap-1.5 mb-2">
                           <span
-                            className="text-xs text-gray-600"
-                            style={{
-                              fontFamily: "var(--font-almarai)",
-                            }}
-                          >
-                            {product.currency}
-                          </span>
-                          <span
-                            className="text-lg sm:text-xl font-bold text-gray-800"
+                            className="text-xl sm:text-2xl font-bold text-[#5A5E4D]"
                             style={{
                               fontFamily: "var(--font-almarai)",
                             }}
                           >
                             {product.price}
+                          </span>
+                          <span
+                            className="text-sm sm:text-base text-[#5A5E4D]"
+                            style={{
+                              fontFamily: "var(--font-almarai)",
+                            }}
+                          >
+                            ر.س
                           </span>
                         </div>
                         <h3
@@ -211,3 +211,4 @@ const ProductsSlider = () => {
 };
 
 export default ProductsSlider;
+

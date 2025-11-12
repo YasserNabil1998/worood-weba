@@ -32,9 +32,14 @@ export default function SelectedFlowersList({
               className="flex items-center justify-between text-[12px] bg-gray-50 px-3 py-2 rounded-md"
             >
               <span className="text-gray-700">{flower.name}</span>
-              <span className="text-gray-900 font-semibold">
-                {qty} × {flower.price} ريال
-              </span>
+              <div className="flex items-center gap-1">
+                <span className="text-sm font-bold text-[#5A5E4D]">
+                  {qty} × {flower.price}
+                </span>
+                <span className="text-xs text-[#5A5E4D]">
+                  ر.س
+                </span>
+              </div>
             </div>
           );
         })}

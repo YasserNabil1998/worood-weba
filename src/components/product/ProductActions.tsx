@@ -6,6 +6,7 @@ interface ProductActionsProps {
   currency: string;
   onQuantityChange: (quantity: number) => void;
   onAddToCart: () => void;
+  isEditMode?: boolean;
 }
 
 export default function ProductActions({
@@ -14,6 +15,7 @@ export default function ProductActions({
   currency,
   onQuantityChange,
   onAddToCart,
+  isEditMode = false,
 }: ProductActionsProps) {
   return (
     <div className="border-t border-gray-200 pt-4">
@@ -52,7 +54,7 @@ export default function ProductActions({
         className="w-full bg-[#5A5E4D] text-white py-2.5 px-4 rounded-lg font-semibold text-sm hover:bg-[#4A4E3D] transition-all flex items-center justify-center gap-2"
       >
         <ShoppingCart className="w-4 h-4" />
-        إضافة إلى السلة
+        {isEditMode ? "تحديث السلة" : "إضافة إلى السلة"}
       </button>
     </div>
   );

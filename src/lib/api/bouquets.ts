@@ -3,9 +3,11 @@ import {
   BOUQUET_CONSTANTS,
   OCCASIONS,
   BADGES,
+  BEST_SELLER_BADGE,
   BOUQUET_IMAGES,
   COLORS,
 } from "@/src/constants/bouquets";
+import { defaultBouquets } from "@/src/content/featured-bouquets";
 
 // External API response type
 interface ExternalProduct {
@@ -19,13 +21,21 @@ interface ExternalApiResponse {
 }
 
 // Fallback data in case API fails
+const OTHER_BADGES = BADGES.filter((badge) => badge !== BEST_SELLER_BADGE);
+
+const fallbackFeaturedBouquets: BouquetItem[] = defaultBouquets.map((bouquet, idx) => ({
+  ...bouquet,
+  id: typeof bouquet.id === "number" ? bouquet.id + 1000 + idx : Number(bouquet.id) + 1000 + idx,
+}));
+
 const FALLBACK_BOUQUETS: BouquetItem[] = [
   {
     id: 1,
     title: "باقة الورود الحمراء الكلاسيكية",
     image: BOUQUET_IMAGES[0],
     price: 150,
-    badge: BADGES[0],
+    badge: BEST_SELLER_BADGE,
+    category: BEST_SELLER_BADGE,
     isPopular: true,
     color: COLORS[1].key,
     occasion: OCCASIONS[1].key,
@@ -35,7 +45,8 @@ const FALLBACK_BOUQUETS: BouquetItem[] = [
     title: "باقة الورود البيضاء الأنيقة",
     image: BOUQUET_IMAGES[1],
     price: 200,
-    badge: BADGES[1],
+    badge: OTHER_BADGES[0],
+    category: undefined,
     isPopular: false,
     color: COLORS[0].key,
     occasion: OCCASIONS[2].key,
@@ -45,7 +56,8 @@ const FALLBACK_BOUQUETS: BouquetItem[] = [
     title: "باقة الورود المختلطة الملونة",
     image: BOUQUET_IMAGES[2],
     price: 180,
-    badge: BADGES[2],
+    badge: OTHER_BADGES[1],
+    category: undefined,
     isPopular: true,
     color: COLORS[3].key,
     occasion: OCCASIONS[3].key,
@@ -55,7 +67,8 @@ const FALLBACK_BOUQUETS: BouquetItem[] = [
     title: "باقة الورود الوردية الرومانسية",
     image: BOUQUET_IMAGES[3],
     price: 220,
-    badge: BADGES[0],
+    badge: OTHER_BADGES[2 % OTHER_BADGES.length],
+    category: undefined,
     isPopular: false,
     color: COLORS[2].key,
     occasion: OCCASIONS[4].key,
@@ -83,21 +96,29 @@ export async function fetchBouquets(): Promise<BouquetItem[]> {
     const products = data.products || [];
 
     // Transform external API data to our BouquetItem format
-    return products.map((product: ExternalProduct, index: number) => ({
-      id: product.id,
-      title: product.title,
-      image: BOUQUET_IMAGES[index % BOUQUET_IMAGES.length],
-      price: Math.round(product.price),
-      badge: BADGES[index % BADGES.length],
-      isPopular: index % 3 === 0, // Every third product is popular
-      color: COLORS[(index % (COLORS.length - 1)) + 1].key, // Skip "all" option
-      occasion: OCCASIONS[(index % (OCCASIONS.length - 1)) + 1].key, // Skip "all" option
-    }));
+    const bouquetsFromApi = products.map((product: ExternalProduct, index: number) => {
+      const isBestSeller = index % 4 === 0;
+      const badge = isBestSeller ? BEST_SELLER_BADGE : OTHER_BADGES[index % OTHER_BADGES.length];
+
+      return {
+        id: product.id,
+        title: product.title,
+        image: BOUQUET_IMAGES[index % BOUQUET_IMAGES.length],
+        price: Math.round(product.price),
+        badge,
+        category: isBestSeller ? BEST_SELLER_BADGE : undefined,
+        isPopular: isBestSeller || index % 3 === 0, // Best sellers are always popular
+        color: COLORS[(index % (COLORS.length - 1)) + 1].key, // Skip "all" option
+        occasion: OCCASIONS[(index % (OCCASIONS.length - 1)) + 1].key, // Skip "all" option
+      };
+    });
+
+    return [...bouquetsFromApi, ...fallbackFeaturedBouquets];
   } catch (error) {
     console.error("Failed to fetch bouquets from API:", error);
 
     // Return fallback data in case of API failure
-    return FALLBACK_BOUQUETS;
+    return [...FALLBACK_BOUQUETS, ...fallbackFeaturedBouquets];
   }
 }
 

@@ -7,7 +7,7 @@
 export const APP_CONFIG = {
   NAME: "زهور الشمس",
   VAT_RATE: 0.15,
-  CURRENCY: "ريال",
+  CURRENCY: "ر.س",
   CARD_PRICE: 15,
   DEFAULT_LOCALE: "ar-SA",
 } as const;
@@ -20,6 +20,7 @@ export const STORAGE_KEYS = {
   USER: "user",
   AUTH_TOKEN: "authToken",
   EDIT_ITEM_ID: "editItemId",
+  EDIT_ITEM_DATA: "editItemData",
   ORDERS: "orders",
   CHECKOUT_ITEMS: "checkoutItems",
 } as const;

@@ -14,10 +14,17 @@ export interface Size {
   price: number;
 }
 
+export interface ColorOption {
+  value: string;
+  label: string;
+  hex: string;
+}
+
 export interface ProductData {
   bouquetImages: string[];
   productImages: string[];
   sizes: Size[];
+  colors: ColorOption[];
   addons: {
     card: { price: number; label: string };
     chocolate: { price: number; label: string };

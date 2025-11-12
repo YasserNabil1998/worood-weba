@@ -11,18 +11,18 @@ import { fetchBouquets } from "@/src/lib/api/bouquets";
 export default async function Home() {
   // جلب الباقات وتصفيتها لإظهار الأكثر طلباً
   const allBouquets = await fetchBouquets();
-  const mostRequestedBouquets = allBouquets
-    .filter((bouquet) => bouquet.isPopular === true || bouquet.badge === "الأكثر شهرة")
-    .slice(0, 3); // أخذ أول 3 باقات فقط
+  const mostRequestedBouquets = allBouquets.filter(
+    (bouquet) => bouquet.category === "الأكثر مبيعاً" || bouquet.badge === "الأكثر مبيعاً"
+  );
 
   return (
     <div className="min-h-screen">
       <main>
         <HeroSection />
+        <FeaturedBouquets bouquets={mostRequestedBouquets} />
         <OccasionsSection />
         <CustomBouquetSection />
         <ProductsSlider />
-        <FeaturedBouquets bouquets={mostRequestedBouquets} />
         <CustomerReviewsSlider />
         <FeaturesSection />
         <NewsletterSection />

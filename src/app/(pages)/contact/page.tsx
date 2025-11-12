@@ -32,7 +32,7 @@ export default function ContactPage() {
         <ContactHero data={typedContactData.hero} />
 
         {/* Content Section */}
-        <section className="py-8">
+        <section className="py-8" id="contact-form-section">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Form */}
             <ContactForm data={typedContactData.form} onSubmit={handleFormSubmit} />

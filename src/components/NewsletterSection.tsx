@@ -59,13 +59,13 @@ const NewsletterSection = () => {
       <div className="max-w-5xl min-w-[80vw] mx-auto px-4 sm:px-6 lg:px-8 bg-[#EEF0EA] rounded-xl">
         <div className="relative overflow-hidden rounded-xl  py-6 px-4 sm:px-8 text-center">
           <h2
-            className="text-xl md:text-2xl font-extrabold text-gray-800 mb-2"
+            className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-800 mb-2"
             style={{ fontFamily: "var(--font-almarai)" }}
           >
             اشترك في نشرتنا البريدية
           </h2>
           <p
-            className="text-sm md:text-base text-gray-600 mb-5"
+            className="text-base sm:text-lg md:text-xl text-gray-600 mb-5"
             style={{ fontFamily: "var(--font-almarai)" }}
           >
             احصل على آخر العروض والتخفيضات مباشرة إلى بريدك الإلكتروني
