@@ -94,7 +94,9 @@ export default function OccasionsPage() {
                 <Link
                   key={c.key}
                   href={c.categoryLink}
+
                   className="group block rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.18)] transition-all.duration-300 bg-white cursor-pointer"
+
                 >
                   <div className="relative h-48 overflow-hidden">
                     <Image
@@ -131,8 +133,6 @@ export default function OccasionsPage() {
             </div>
           </div>
         </section>
-
-        {/* Custom Bouquet Section */}
         <CustomBouquetSection
           title="لم تجد المناسبة المناسبة؟"
           description="جي تستمد في تصميم باقة فريدة تناسب مناسبتك الخاصة بمناسباتك"
