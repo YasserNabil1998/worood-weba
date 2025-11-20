@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ROUTES } from "@/src/constants/routes";
-import { ChevronLeftIcon, ChevronRightIcon, ArrowLeft } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 interface Product {
   id: number;
@@ -18,14 +17,45 @@ const ProductsSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(1);
 
+  const products: Product[] = [
+    {
+      id: 1,
+      title: "مزهرية زهور فاخرة",
+      price: 350,
+      image: "/assets/home/happiness-in-vase/Luxury-flower-vase.png",
+      currency: "ر.س",
+    },
+    {
+      id: 2,
+      title: "مزهرية الورود الهادئة",
+      price: 350,
+      image: "/assets/home/happiness-in-vase/vase-of-beauty.png",
+      currency: "ر.س",
+    },
+    {
+      id: 3,
+      title: "مزهرية الجمال",
+      price: 350,
+      image: "/assets/home/happiness-in-vase/Vase-of-Life.png",
+      currency: "ر.س",
+    },
+    {
+      id: 4,
+      title: "مزهرية الحياة",
+      price: 350,
+      image: "/assets/home/happiness-in-vase/calm-floral-pattern.png",
+      currency: "ر.س",
+    },
+  ];
+
   // Get number of visible items based on screen size
-  const getVisibleCount = () => {
+  const getVisibleCount = useCallback(() => {
     if (typeof window === "undefined") return 1;
     const width = window.innerWidth;
     if (width < 640) return 1; // mobile
     if (width < 1024) return 2; // tablet
     return 4; // desktop
-  };
+  }, []);
 
   useEffect(() => {
     const updateVisibleCount = () => {
@@ -35,175 +65,189 @@ const ProductsSlider = () => {
     updateVisibleCount();
     window.addEventListener("resize", updateVisibleCount);
     return () => window.removeEventListener("resize", updateVisibleCount);
+  }, [getVisibleCount]);
+
+  const totalItems = products.length;
+  const shouldShowControls = totalItems > visibleCount;
+
+  const getGridColumnsClass = useCallback((count: number) => {
+    if (count === 1) return "grid-cols-1";
+    if (count === 2) return "grid-cols-1 sm:grid-cols-2";
+    return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
   }, []);
 
-  const products: Product[] = [
-    {
-      id: 1,
-      title: "مزهرية زهور حمراء أنيقة",
-      price: 490,
-      image: "/images/Products/Products-5.jpg",
-      currency: "ر.س",
-    },
-    {
-      id: 2,
-      title: "مزهرية الكمال الوردي",
-      price: 665,
-      image: "/images/Products/Products-6.jpg",
-      currency: "ر.س",
-    },
-    {
-      id: 3,
-      title: "مزهرية زهور فاخرة",
-      price: 585,
-      image: "/images/Products/Products-4.jpg",
-      currency: "ر.س",
-    },
-    {
-      id: 4,
-      title: "فازة حوري الجمال الدافئ | 30 زهرة",
-      price: 429,
-      image: "/images/Products/Products-3.jpg",
-      currency: "ر.س",
-    },
-    {
-      id: 5,
-      title: "باقة الورد الأحمر الفاخرة",
-      price: 550,
-      image: "/images/Products/Products-1.jpg",
-      currency: "ر.س",
-    },
-    {
-      id: 6,
-      title: "مزهرية الزهور المميزة",
-      price: 720,
-      image: "/images/Products/Products-2.jpg",
-      currency: "ر.س",
-    },
-  ];
+  const gridColumnsClass = useMemo(() => getGridColumnsClass(visibleCount), [visibleCount, getGridColumnsClass]);
 
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev >= products.length - visibleCount ? 0 : prev + 1));
-  };
+  const nextSlide = useCallback(() => {
+    if (!shouldShowControls) return;
+    setCurrentIndex((prev) => (prev + 1) % totalItems);
+  }, [shouldShowControls, totalItems]);
 
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev === 0 ? products.length - visibleCount : prev - 1));
-  };
+  const prevSlide = useCallback(() => {
+    if (!shouldShowControls) return;
+    setCurrentIndex((prev) => (prev - 1 + totalItems) % totalItems);
+  }, [shouldShowControls, totalItems]);
+
+  // Reset index when visible count changes
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [visibleCount]);
 
   // Auto slide every 5 seconds
   useEffect(() => {
+    if (!shouldShowControls) return;
     const timer = setInterval(() => {
       nextSlide();
     }, 5000);
     return () => clearInterval(timer);
-  }, [currentIndex]);
+  }, [nextSlide, shouldShowControls]);
+
+  // Calculate displayed products with circular logic
+  const displayedProducts = useMemo(() => {
+    if (totalItems === 0) return [];
+
+    const count = Math.min(visibleCount, totalItems);
+    return Array.from({ length: count }, (_, idx) => {
+      const current = (currentIndex + idx) % totalItems;
+      return products[current];
+    });
+  }, [currentIndex, products, totalItems, visibleCount]);
 
   return (
     <section className="py-6 sm:py-8 md:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
-          <h2
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
-            سعادة في مزهرية
-          </h2>
-          <Link
-            href={ROUTES.BOUQUETS}
-            className="text-sm text-[#5A5E4D] hover:text-[#4A4E3D] font-medium flex items-center gap-2"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
-            <span>اكتشف تشكيلتنا</span>
-            <ArrowLeft className="w-4 h-4" />
-          </Link>
+          <div className="text-right">
+            {/* Title - matching Figma: 30px, Almarai Bold */}
+            <h2
+              className="text-[28px] sm:text-[30px] font-bold text-black mb-2"
+              style={{ fontFamily: "var(--font-almarai)" }}
+            >
+              سعادة في مزهرية
+            </h2>
+            {/* Description - matching Figma: 25px, Almarai Regular, black */}
+            <p
+              className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
+              style={{ fontFamily: "var(--font-almarai)" }}
+            >
+              اختر باقتك المفضلة لتضفي لمسة جمال على يومك
+            </p>
+          </div>
         </div>
 
         <div className="relative">
           {/* Products Container */}
-          <div className="overflow-hidden">
-            <div
-              className={`grid gap-4 sm:gap-6 ${
-                visibleCount === 1
-                  ? "grid-cols-1"
-                  : visibleCount === 2
-                    ? "grid-cols-1 sm:grid-cols-2"
-                    : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-              }`}
-            >
-              {products
-                .slice(currentIndex, currentIndex + visibleCount)
-                .concat(
-                  currentIndex + visibleCount > products.length
-                    ? products.slice(0, currentIndex + visibleCount - products.length)
-                    : []
-                )
-                .slice(0, visibleCount)
-                .map((product, idx) => (
-                  <Link
-                    key={`${product.id}-${idx}`}
-                    href={`/product/${product.id}`}
-                    className="w-full block group cursor-pointer"
-                  >
-                    <div className="bg-[#F5F3ED] rounded-2xl sm:rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                      <div className="relative aspect-square overflow-hidden">
+          {totalItems > 0 ? (
+            <>
+              <div className="overflow-hidden">
+                <div
+                  className={`grid ${gridColumnsClass} gap-3 sm:gap-4 lg:gap-6 justify-items-center`}
+                >
+                  {displayedProducts.map((product, idx) => (
+                    <div
+                      key={`${product.id}-${currentIndex}-${idx}`}
+                      className="group border border-[#a1a1a1] border-solid rounded-[20px] overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col cursor-pointer max-w-[294px] w-full bg-white"
+                    >
+                      {/* Image Section - matching Figma: 222px height */}
+                      <Link
+                        href={`/product/${product.id}`}
+                        className="relative aspect-[294/222] overflow-hidden"
+                      >
                         <Image
                           src={product.image}
                           alt={product.title}
                           fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          className="object-cover group-hover:scale-110 transition-transform duration-500 rounded-tl-[20px] rounded-tr-[20px]"
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                           loading="lazy"
                         />
-                      </div>
-                      <div className="p-3 sm:p-4 text-right">
-                        <div className="flex items-center justify-start gap-1.5 mb-2">
-                          <span
-                            className="text-xl sm:text-2xl font-bold text-[#5A5E4D]"
-                            style={{
-                              fontFamily: "var(--font-almarai)",
-                            }}
-                          >
-                            {product.price}
-                          </span>
-                          <span
-                            className="text-sm sm:text-base text-[#5A5E4D]"
-                            style={{
-                              fontFamily: "var(--font-almarai)",
-                            }}
-                          >
-                            ر.س
-                          </span>
-                        </div>
-                        <h3
-                          className="text-xs sm:text-sm font-medium text-gray-700 text-right line-clamp-2"
-                          style={{
-                            fontFamily: "var(--font-almarai)",
-                          }}
+                      </Link>
+                      
+                      {/* Content Section - matching Figma: white bg, border, rounded bottom */}
+                      <div className="bg-white border-t border-[#e0dede] border-solid flex flex-col flex-1 rounded-bl-[20px] rounded-br-[20px] p-4 min-h-[147px]">
+                        {/* Title - matching Figma: 18px, Almarai Bold, gray-800 */}
+                        <Link
+                          href={`/product/${product.id}`}
+                          className="mb-3"
                         >
-                          {product.title}
-                        </h3>
+                          <h3
+                            className="font-bold text-[18px] text-gray-800 text-right line-clamp-1 leading-[28px]"
+                            style={{
+                              fontFamily: "var(--font-almarai)",
+                            }}
+                            title={product.title}
+                          >
+                            {product.title}
+                          </h3>
+                        </Link>
+                        
+                        {/* Price and Add to Cart Button */}
+                        <div className="flex items-center justify-between mt-auto">
+                          {/* Price - matching Figma: 16px, Almarai Bold, #5a5e4d */}
+                          <div className="flex items-center gap-1">
+                            <span
+                              className="text-[16px] font-bold text-[#5a5e4d] leading-[24px]"
+                              style={{
+                                fontFamily: "var(--font-almarai)",
+                              }}
+                            >
+                              {product.price} ر.س
+                            </span>
+                          </div>
+                          
+                          {/* Add to Cart Button - matching Figma: #5f664f bg, rounded-[4px], icon centered */}
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              // يمكن إضافة وظيفة إضافة للسلة هنا
+                            }}
+                            className="bg-[#5f664f] rounded-[4px] w-[44px] h-[37px] flex items-center justify-center hover:bg-[#4a4e3d] transition-all duration-300 cursor-pointer shrink-0"
+                            aria-label="أضف إلى السلة"
+                          >
+                            <Image
+                              src="/assets/add-to-cart-icon.svg"
+                              alt="أضف إلى السلة"
+                              width={27}
+                              height={27}
+                              className="object-contain"
+                            />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </Link>
-                ))}
-            </div>
-          </div>
+                  ))}
+                </div>
+              </div>
 
-          {/* Navigation Arrows - Inside the container */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
-            aria-label="Previous"
-          >
-            <ChevronLeftIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
-            aria-label="Next"
-          >
-            <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-          </button>
+              {/* Navigation Arrows - Responsive positioning */}
+              {shouldShowControls && (
+                <>
+                  <button
+                    onClick={prevSlide}
+                    className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+                    aria-label="Previous product"
+                  >
+                    <ChevronLeftIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </button>
+                  <button
+                    onClick={nextSlide}
+                    className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+                    aria-label="Next product"
+                  >
+                    <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </button>
+                </>
+              )}
+            </>
+          ) : (
+            <div
+              className="text-center text-gray-600 py-8"
+              style={{ fontFamily: "var(--font-almarai)" }}
+            >
+              لا توجد منتجات متاحة حالياً
+            </div>
+          )}
         </div>
       </div>
     </section>

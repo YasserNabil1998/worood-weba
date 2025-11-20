@@ -1,6 +1,5 @@
 "use client";
 
-import { Gift, Heart, Truck } from "lucide-react";
 import type { FeatureItem } from "@/types";
 import { localFeatures } from "@/src/content/features";
 import { useEffect, useRef, useState } from "react";
@@ -39,20 +38,31 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
     return () => observer.disconnect();
   }, []);
 
-  const getIconBackground = (id: number | string) => {
-    // Use the same color as the subscription button (#5A5E4D)
-    return "bg-[#5A5E4D]";
-  };
-
-  const getCardGradient = (id: number | string) => {
-    // Use consistent shadow matching the subscription button color
-    return "hover:shadow-[#5A5E4D]/20";
-  };
-
   return (
-    <section className="py-1 md:py-2" ref={sectionRef}>
+    <section className="py-6 sm:py-8 md:py-10" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Title and Description - refined and softer */}
+        <div className="text-right mb-8 sm:mb-10">
+          <h2
+            className="text-[26px] sm:text-[28px] md:text-[30px] font-bold text-black mb-3 leading-[36px]"
+            style={{
+              fontFamily: "var(--font-almarai)",
+            }}
+          >
+            لماذا تختارنا ؟
+          </h2>
+          <p
+            className="text-[20px] sm:text-[22px] md:text-[25px] text-[#727272] font-normal leading-[28px]"
+            style={{
+              fontFamily: "var(--font-almarai)",
+            }}
+          >
+            لأننا نهتم بكل تفصيلة بتجربتك مع الورد
+          </p>
+        </div>
+
+        {/* Cards Grid - matching Figma: 3 cards in a row on desktop */}
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">
           {featuresToShow.map((feature: FeatureItem, index: number) => {
             const isVisible = mounted || visibleCards.has(String(feature.id));
             return (
@@ -60,57 +70,43 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
                 key={feature.id}
                 data-card-id={String(feature.id)}
                 className={`
-                                    feature-card
-                                    text-right 
-                                    bg-gradient-to-br from-white to-gray-50/50
-                                    rounded-2xl 
-                                    p-4 sm:p-6
-                                    shadow-lg shadow-gray-200/60
-                                    hover:shadow-2xl ${getCardGradient(feature.id)}
-                                    border border-gray-100/50
-                                    backdrop-blur-sm
-                                    relative
-                                    overflow-hidden
-                                    group
-                                    h-56 sm:h-64
-                                    flex flex-col
-                                    ${isVisible ? "animate-fadeInUp" : "opacity-0"}
-                                `}
+                  feature-card
+                  bg-white
+                  border border-[#d2cccc] border-solid
+                  rounded-[20px] 
+                  p-5 sm:p-6
+                  shadow-[0px_2px_8px_0px_rgba(0,0,0,0.1)]
+                  hover:shadow-[0px_4px_12px_0px_rgba(0,0,0,0.15)]
+                  relative
+                  overflow-hidden
+                  group
+                  transition-all duration-300
+                  h-[300px]
+                  w-full
+                  max-w-[407px]
+                  flex flex-col items-center justify-center
+                  ${isVisible ? "animate-fadeInUp" : "opacity-0"}
+                `}
                 style={{
                   animationDelay: `${index * 150}ms`,
                 }}
               >
-                {/* Decorative gradient overlay */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gray-200 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                {/* Icon Container */}
-                <div className="mb-4 md:mb-5">
-                  <div className="w-full flex justify-start">
-                    <div
-                      className={`
-                                                feature-icon-wrapper
-                                                ${getIconBackground(feature.id)}
-                                                p-4 md:p-5
-                                                rounded-2xl
-                                                shadow-lg
-                                                flex items-center justify-center
-                                                relative
-                                                overflow-hidden
-                                            `}
-                    >
-                      {/* Icon glow effect */}
-                      <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-
-                      <div className="text-white relative z-10">{feature.icon}</div>
+                {/* Icon Container - with beautiful effects */}
+                <div className="mb-4 flex justify-center items-center relative">
+                  <div className="feature-icon-wrapper relative z-10">
+                    <div className="feature-icon-bg absolute inset-0 rounded-full bg-gradient-to-br from-[#f5f3e8] via-[#f0ede0] to-[#ebe8d8] opacity-0 group-hover:opacity-100 blur-xl scale-150 transition-all duration-500"></div>
+                    <div className="feature-icon-inner relative bg-gradient-to-br from-[#faf9f5] to-[#f5f3e8] rounded-full p-4 sm:p-5 shadow-[0px_4px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[0px_8px_24px_rgba(90,94,77,0.15)] transition-all duration-300 group-hover:scale-110">
+                      <div className="flex items-center justify-center opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                        {feature.icon}
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="space-y-3 flex-1 flex flex-col justify-center">
+                {/* Content - refined and softer */}
+                <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2">
                   <h3
-                    dir="rtl"
-                    className="text-lg md:text-xl font-bold text-gray-800 text-right group-hover:text-gray-900 transition-colors duration-300"
+                    className="text-[22px] sm:text-[24px] md:text-[26px] font-bold text-black leading-[28px]"
                     style={{
                       fontFamily: "var(--font-almarai)",
                     }}
@@ -118,16 +114,12 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
                     {feature.title}
                   </h3>
                   <p
-                    dir="rtl"
-                    className="text-sm md:text-base text-gray-600 leading-relaxed text-right group-hover:text-gray-700 transition-colors duration-300"
+                    className="text-[16px] sm:text-[17px] md:text-[18px] text-[#727272] font-normal leading-[26px] max-w-[319px]"
                     style={{ fontFamily: "var(--font-almarai)" }}
                   >
                     {feature.description}
                   </p>
                 </div>
-
-                {/* Bottom decorative line */}
-                <div className="absolute bottom-0 right-0 w-0 group-hover:w-full h-1 bg-gradient-to-l from-transparent via-gray-300 to-transparent transition-all duration-700" />
               </div>
             );
           })}

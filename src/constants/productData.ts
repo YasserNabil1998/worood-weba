@@ -17,18 +17,18 @@ interface ProductDataType {
 
 export const PRODUCT_DATA: ProductDataType = {
   bouquetImages: [
-    "/images/bouquets/DIV-237.png",
-    "/images/bouquets/IMG-196.png",
-    "/images/bouquets/IMG-210.png",
-    "/images/bouquets/IMG-224.png",
+    "/assets/home/most-requested-packages/Luxury-yellow-rose-bouquet.png",
+    "/assets/home/most-requested-packages/Elegant-Violet-Bouquet.png",
+    "/assets/home/most-requested-packages/Pink-Peach-Bouquet.png",
+    "/assets/home/most-requested-packages/Orange-Tulip-Bouquet.png",
   ],
   productImages: [
-    "/images/Products/Products-1.jpg",
-    "/images/Products/Products-2.jpg",
-    "/images/Products/Products-3.jpg",
-    "/images/Products/Products-4.jpg",
-    "/images/Products/Products-5.jpg",
-    "/images/Products/Products-6.jpg",
+    "/assets/product-images/main.png",
+    "/assets/product-images/thumb-1.png",
+    "/assets/product-images/thumb-2.png",
+    "/assets/product-images/thumb-3.png",
+    "/assets/home/most-requested-packages/Luxury-yellow-rose-bouquet.png",
+    "/assets/home/most-requested-packages/Elegant-Violet-Bouquet.png",
   ],
   sizes: [
     {

@@ -20,7 +20,7 @@ const OccasionsSection = ({
   occasions = defaultOccasions,
   isLoading = false,
   title = "المناسبات",
-  description = "اختر من تشكيلتنا المميزة حسب المناسبة",
+  description = "كل لحظة تستحق باقة مميزة",
 }: OccasionsSectionProps) => {
   // Memoize occasions to prevent unnecessary re-renders
   const memoizedOccasions = useMemo(() => occasions, [occasions]);
@@ -38,220 +38,119 @@ const OccasionsSection = ({
     return iconMap[iconName] || Heart; // Default to Heart if not found
   };
 
+  // Occasion data matching Figma design
+  const occasionsData = [
+    {
+      title: "خطوبة",
+      description: "باقتك المميزة بداية تعبر عن فرحتك",
+      image: "/assets/home/occasions-img/Engagement.png",
+    },
+    {
+      title: "زواج",
+      description: "ورود بألوان فخمة ولمسات ناعمة",
+      image: "/assets/home/occasions-img/Wedding.png",
+    },
+    {
+      title: "نجاح",
+      description: "احتفل بإنجازك بأجمل الورود",
+      image: "/assets/home/occasions-img/Success.png",
+    },
+    {
+      title: "مولود جديد",
+      description: "باقات ناعمة ترحب بالحياة الجديدة",
+      image: "/assets/home/occasions-img/newborn.png",
+    },
+  ];
+
   return (
     <section className="py-6 sm:py-8 md:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
           <div className="text-right">
+            {/* Title - matching Figma: 30px, Almarai Bold */}
             <h2
-              className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2"
+              className="text-[24px] sm:text-[28px] md:text-[30px] font-bold text-black mb-2"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               {title}
             </h2>
+            {/* Description - matching Figma: 25px, Almarai Regular */}
             <p
-              className="text-base sm:text-lg md:text-xl font-normal text-gray-600"
+              className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
-              {description}
+              {description || "كل لحظة تستحق باقة مميزة"}
             </p>
           </div>
           <Link
             href={ROUTES.OCCASIONS}
-            className="text-[#5A5E4D] hover:underline text-sm font-semibold cursor-pointer flex items-center gap-2"
+            className="text-[#5a5e4d] hover:underline text-[16px] font-normal cursor-pointer flex items-center gap-2"
             style={{ fontFamily: "var(--font-almarai)" }}
           >
-            <span>اكتشف أكثر</span>
+            <span>عرض الكل</span>
             <ArrowLeft className="w-4 h-4" />
           </Link>
         </div>
 
-        {/* تصميم Grid متداخل مثل الصورة - ترتيب Bento Box */}
-        <div className="grid grid-cols-4 grid-rows-2 gap-3 sm:gap-4 md:gap-6 h-[350px] sm:h-[400px] md:h-[450px] lg:h-[500px]">
+        {/* 4 horizontal cards - matching Figma design */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {isLoading && (
             <div
-              className="col-span-full row-span-full text-center text-gray-600 flex items-center justify-center h-full"
+              className="col-span-full text-center text-gray-600 flex items-center justify-center h-[283px]"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               جاري التحميل...
             </div>
           )}
 
-          {/* العنصر الأول - مربع صغير في الأعلى اليسار */}
-          <Link
-            href={
-              memoizedOccasions[0]?.href ||
-              ROUTES.OCCASIONS +
-                `/${memoizedOccasions[0]?.title?.toLowerCase().replace(/\s+/g, "-")}`
-            }
-            className="group cursor-pointer col-span-1 row-span-1"
-          >
-            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 h-full">
-              <div className="relative w-full h-full">
-                <Image
-                  src={memoizedOccasions[0]?.image || ""}
-                  alt={memoizedOccasions[0]?.title || ""}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  sizes="(max-width: 640px) 25vw, (max-width: 768px) 25vw, 12.5vw"
-                  loading="lazy"
-                />
-              </div>
-              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 text-center">
-                {memoizedOccasions[0]?.icon && (
-                  <div className="flex justify-center mb-1">
-                    {(() => {
-                      const IconComponent = getIconComponent(memoizedOccasions[0]?.icon || "");
-                      return (
-                        <IconComponent className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white opacity-90" />
-                      );
-                    })()}
+          {/* 4 occasion cards - matching Figma design */}
+          {occasionsData.map((occasion, index) => {
+            const occasionItem = memoizedOccasions[index];
+            const href = occasionItem?.href || ROUTES.OCCASIONS + `/${occasion.title.toLowerCase().replace(/\s+/g, "-")}`;
+            
+            return (
+              <Link
+                key={index}
+                href={href}
+                className="group cursor-pointer"
+              >
+                {/* Card - matching Figma: bg-neutral-100, border #e0dede, rounded-[20px], 260px width, 283px height */}
+                <div className="bg-neutral-100 border border-[#e0dede] rounded-[20px] h-[281px] sm:h-[283px] p-6 flex flex-col items-center text-center hover:shadow-lg transition-all duration-300">
+                  {/* Image - matching Figma: 120px circle, border #9d9d9d */}
+                  <div className="w-[120px] h-[120px] rounded-[60px] border border-[#9d9d9d] overflow-hidden mb-4">
+                    <Image
+                      src={occasion.image}
+                      alt={occasion.title}
+                      width={120}
+                      height={120}
+                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
                   </div>
-                )}
-                <h3
-                  className="text-xs sm:text-sm font-semibold text-white"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
-                  {memoizedOccasions[0]?.title}
-                </h3>
-              </div>
-            </div>
-          </Link>
 
-          {/* العنصر الثاني - مستطيل عريض في الأعلى اليمين */}
-          <Link
-            href={
-              memoizedOccasions[1]?.href ||
-              ROUTES.OCCASIONS +
-                `/${memoizedOccasions[1]?.title?.toLowerCase().replace(/\s+/g, "-")}`
-            }
-            className="group cursor-pointer col-span-3 row-span-1"
-          >
-            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 h-full">
-              <div className="relative w-full h-full">
-                <Image
-                  src={memoizedOccasions[1]?.image || ""}
-                  alt={memoizedOccasions[1]?.title || ""}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  sizes="(max-width: 640px) 75vw, (max-width: 768px) 75vw, 37.5vw"
-                  loading="lazy"
-                />
-              </div>
-              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-center">
-                {memoizedOccasions[1]?.icon && (
-                  <div className="flex justify-center mb-1 sm:mb-2">
-                    {(() => {
-                      const IconComponent = getIconComponent(memoizedOccasions[1]?.icon || "");
-                      return (
-                        <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white opacity-90" />
-                      );
-                    })()}
-                  </div>
-                )}
-                <h3
-                  className="text-sm sm:text-base md:text-lg font-semibold text-white"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
-                  {memoizedOccasions[1]?.title}
-                </h3>
-              </div>
-            </div>
-          </Link>
+                  {/* Title - matching Figma: 20px, Almarai Bold, black */}
+                  <h3
+                    className="text-[18px] sm:text-[20px] font-bold text-black mb-2"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                  >
+                    {occasion.title}
+                  </h3>
 
-          {/* العنصر الثالث - مستطيل عريض في الأسفل اليسار */}
-          <Link
-            href={
-              memoizedOccasions[2]?.href ||
-              ROUTES.OCCASIONS +
-                `/${memoizedOccasions[2]?.title?.toLowerCase().replace(/\s+/g, "-")}`
-            }
-            className="group cursor-pointer col-span-3 row-span-1"
-          >
-            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 h-full">
-              <div className="relative w-full h-full">
-                <Image
-                  src={memoizedOccasions[2]?.image || ""}
-                  alt={memoizedOccasions[2]?.title || ""}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  sizes="(max-width: 640px) 75vw, (max-width: 768px) 75vw, 37.5vw"
-                  loading="lazy"
-                />
-              </div>
-              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-center">
-                {memoizedOccasions[2]?.icon && (
-                  <div className="flex justify-center mb-1 sm:mb-2">
-                    {(() => {
-                      const IconComponent = getIconComponent(memoizedOccasions[2]?.icon || "");
-                      return (
-                        <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white opacity-90" />
-                      );
-                    })()}
-                  </div>
-                )}
-                <h3
-                  className="text-sm sm:text-base md:text-lg font-semibold text-white"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
-                  {memoizedOccasions[2]?.title}
-                </h3>
-              </div>
-            </div>
-          </Link>
-
-          {/* العنصر الرابع - مربع صغير في الأسفل اليمين */}
-          <Link
-            href={
-              memoizedOccasions[3]?.href ||
-              ROUTES.OCCASIONS +
-                `/${memoizedOccasions[3]?.title?.toLowerCase().replace(/\s+/g, "-")}`
-            }
-            className="group cursor-pointer col-span-1 row-span-1"
-          >
-            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 h-full">
-              <div className="relative w-full h-full">
-                <Image
-                  src={memoizedOccasions[3]?.image || ""}
-                  alt={memoizedOccasions[3]?.title || ""}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  sizes="(max-width: 640px) 25vw, (max-width: 768px) 25vw, 12.5vw"
-                  loading="lazy"
-                />
-              </div>
-              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 text-center">
-                {memoizedOccasions[3]?.icon && (
-                  <div className="flex justify-center mb-1">
-                    {(() => {
-                      const IconComponent = getIconComponent(memoizedOccasions[3]?.icon || "");
-                      return (
-                        <IconComponent className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white opacity-90" />
-                      );
-                    })()}
-                  </div>
-                )}
-                <h3
-                  className="text-xs sm:text-sm font-semibold text-white"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
-                  {memoizedOccasions[3]?.title}
-                </h3>
-              </div>
-            </div>
-          </Link>
+                  {/* Description - matching Figma: 16px, Almarai Bold, #5c5a57 */}
+                  <p
+                    className="text-[14px] sm:text-[16px] font-bold text-[#5c5a57] text-center leading-relaxed"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                  >
+                    {occasion.description}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -11,13 +11,13 @@
 }
 
 :root {
-  --background: linear-gradient(180deg, #f1f4e8 0%, #e6ead7 35%, #dce2cc 65%, #d3dac4 100%);
+  --background: #fbfaf2;
   --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: linear-gradient(180deg, #f1f4e8 0%, #e6ead7 35%, #dce2cc 65%, #d3dac4 100%);
+    --background: #fbfaf2;
     --foreground: #171717;
   }
 }
@@ -167,12 +167,64 @@ html {
   transform: translateY(-8px);
 }
 
+/* Feature Icon Animations */
 .feature-icon-wrapper {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: iconFloat 3s ease-in-out infinite;
 }
 
 .feature-card:hover .feature-icon-wrapper {
-  transform: scale(1.1) rotate(5deg);
+  transform: scale(1.05) rotate(5deg);
+  animation: iconPulse 1.5s ease-in-out infinite;
+}
+
+.feature-icon-inner {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: visible;
+}
+
+.feature-card:hover .feature-icon-inner::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(90, 94, 77, 0.1), rgba(90, 94, 77, 0.05));
+  opacity: 1;
+  animation: iconGlow 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes iconFloat {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes iconPulse {
+  0%,
+  100% {
+    transform: scale(1.05) rotate(5deg);
+  }
+  50% {
+    transform: scale(1.08) rotate(3deg);
+  }
+}
+
+@keyframes iconGlow {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
 }
 
 /* Hide scrollbar but keep functionality */

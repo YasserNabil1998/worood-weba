@@ -174,19 +174,30 @@ const FeaturedBouquets = ({
       <section className="py-8 sm:py-10 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
-            <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#2D3319] mb-2">
-                الباقات الأكثر طلباً
-              </h2>
-              <p className="text-base sm:text-lg md:text-xl font-normal text-[#5A5E4D]">
-                الباقات الأكثر طلباً من عملائنا الكرام
-              </p>
+            <div className="text-right">
+              {/* Title - matching Figma: 30px, Almarai Bold */}
+              <div className="text-right">
+                <h2 
+                  className="text-[28px] sm:text-[30px] font-bold text-black mb-2"
+                  style={{ fontFamily: "var(--font-almarai)" }}
+                >
+                  الباقات الأكثر طلباً
+                </h2>
+                <p
+                  className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
+                  style={{ fontFamily: "var(--font-almarai)" }}
+                >
+                  الباقات الأكثر طلباً من عملائنا الكرام
+                </p>
+              </div>
             </div>
             <Link
               href="/bouquets"
-              className="text-[#5A5E4D] hover:underline text-sm font-semibold cursor-pointer"
+              className="text-[#5a5e4d] hover:underline text-[16px] font-normal cursor-pointer flex items-center gap-2"
+              style={{ fontFamily: "var(--font-almarai)" }}
             >
-              عرض الكل <ArrowLeft className="w-4 h-4 inline mr-1" />
+              <span>عرض الكل</span>
+              <ArrowLeft className="w-4 h-4" />
             </Link>
           </div>
 
@@ -209,69 +220,34 @@ const FeaturedBouquets = ({
                       const isBouquetFavorite = isFavorite(bouquetId);
 
                       return (
-                        <Link
+                        <div
                           key={getBouquetKey(bouquet)}
-                          href={`/product/${getBouquetId(bouquet)}`}
-                          className="group bg-[#F5F3ED] rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col cursor-pointer max-w-[260px] sm:max-w-[270px] md:max-w-[280px] w-full"
+                          className="group border border-[#a1a1a1] rounded-[20px] overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col cursor-pointer max-w-[294px] w-full bg-white"
                         >
-                          <div className="relative aspect-square overflow-hidden">
+                          {/* Image Section - matching Figma: 294x222 */}
+                          <Link
+                            href={`/product/${getBouquetId(bouquet)}`}
+                            className="relative aspect-[294/222] overflow-hidden"
+                          >
                             <Image
                               src={bouquet.image}
                               alt={bouquet.title}
                               fill
-                              className="object-cover group-hover:scale-110 transition-transform duration-500"
+                              className="object-cover group-hover:scale-110 transition-transform duration-500 rounded-tl-[20px] rounded-tr-[20px]"
                               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                               loading="lazy"
                             />
-                            {/* زر المفضلة */}
-                            <div className="absolute top-3 left-3 z-10">
-                              <button
-                                onClick={(e) => toggleFavorite(e, bouquet)}
-                                className={`h-8 w-8 sm:h-9 sm:w-9 rounded-full backdrop-blur flex items-center justify-center shadow transition-all duration-300 hover:scale-110 cursor-pointer ${
-                                  isBouquetFavorite
-                                    ? "bg-[#5A5E4D] text-white"
-                                    : "bg-white/90 text-gray-700 hover:bg-[#5A5E4D] hover:text-white"
-                                }`}
-                              >
-                                <Heart
-                                  className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                                    isBouquetFavorite ? "text-white" : "text-gray-700"
-                                  }`}
-                                />
-                              </button>
-                            </div>
-
-                            {bouquet.badge && (
-                              <span
-                                className="absolute top-3 right-3 bg-white/90 text-[#2D3319] text-[11px] sm:text-xs font-semibold px-2 py-1 rounded-full shadow"
-                                style={{ fontFamily: "var(--font-almarai)" }}
-                              >
-                                {bouquet.badge}
-                              </span>
-                            )}
-                          </div>
-                          <div className="p-3 sm:p-4 flex flex-col flex-1">
-                            <div className="flex items-center justify-start gap-1.5 mb-2">
-                              <span
-                                className="text-xl sm:text-2xl font-bold text-[#5A5E4D]"
-                                style={{
-                                  fontFamily: "var(--font-almarai)",
-                                }}
-                              >
-                                {bouquet.price}
-                              </span>
-                              <span
-                                className="text-sm sm:text-base text-[#5A5E4D]"
-                                style={{
-                                  fontFamily: "var(--font-almarai)",
-                                }}
-                              >
-                                ر.س
-                              </span>
-                            </div>
-                            <div className="flex-1 mb-3 sm:mb-4">
+                          </Link>
+                          
+                          {/* Content Section - matching Figma: white bg, border, rounded bottom */}
+                          <div className="bg-white border-t border-[#e0dede] p-4 flex flex-col flex-1 rounded-bl-[20px] rounded-br-[20px]">
+                            {/* Title - matching Figma: 18px, Almarai Bold, gray-800 */}
+                            <Link
+                              href={`/product/${getBouquetId(bouquet)}`}
+                              className="mb-3"
+                            >
                               <h3
-                                className="font-bold text-[#2D3319] mb-2 line-clamp-1 text-sm sm:text-base text-right"
+                                className="font-bold text-[18px] text-gray-800 text-right line-clamp-1 mb-3"
                                 style={{
                                   fontFamily: "var(--font-almarai)",
                                 }}
@@ -279,27 +255,43 @@ const FeaturedBouquets = ({
                               >
                                 {bouquet.title}
                               </h3>
-                              <p className="text-[11px] sm:text-xs text-gray-600 line-clamp-2 text-right">
-                                وصف مختصر للباقة يوضح نوع الورود والألوان المناسبة.
-                              </p>
-                            </div>
-                            <div className="mt-auto">
+                            </Link>
+                            
+                            {/* Price and Add to Cart Button */}
+                            <div className="flex items-center justify-between mt-auto">
+                              {/* Price - matching Figma: 16px, Almarai Bold, #5a5e4d */}
+                              <div className="flex items-center gap-1">
+                                <span
+                                  className="text-[16px] font-bold text-[#5a5e4d]"
+                                  style={{
+                                    fontFamily: "var(--font-almarai)",
+                                  }}
+                                >
+                                  {bouquet.price} ر.س
+                                </span>
+                              </div>
+                              
+                              {/* Add to Cart Button - matching Figma: #5f664f bg, rounded-[4px], icon centered */}
                               <button
                                 onClick={(e) => {
                                   e.preventDefault();
                                   e.stopPropagation();
                                   openQuickAdd(bouquet);
                                 }}
-                                className="w-full py-2 sm:py-2.5 rounded-xl text-white font-semibold bg-[#5A5E4D] hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-lg active:scale-95 cursor-pointer relative z-10 text-xs sm:text-sm"
-                                style={{
-                                  fontFamily: "var(--font-almarai)",
-                                }}
+                                className="bg-[#5f664f] rounded-[4px] w-[44px] h-[37px] flex items-center justify-center hover:bg-[#4a4e3d] transition-all duration-300 cursor-pointer shrink-0"
+                                aria-label="أضف إلى السلة"
                               >
-                                أضف إلى السلة
+                                <Image
+                                  src="/assets/add-to-cart-icon.svg"
+                                  alt="أضف إلى السلة"
+                                  width={27}
+                                  height={27}
+                                  className="object-contain"
+                                />
                               </button>
                             </div>
                           </div>
-                        </Link>
+                        </div>
                       );
                     })}
                   </div>

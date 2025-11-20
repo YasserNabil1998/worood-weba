@@ -10,67 +10,82 @@ type CustomBouquetSectionProps = {
 };
 
 const CustomBouquetSection = ({
-  title = "نسقها بنفسك",
-  description = "نساعدك في تصميم باقة فريدة تناسب ذوقك ومناسبتك الخاصة.",
+  title = "صمم باقتك الخاصة",
+  description = "نساعدك في تصميم باقة فريدة تناسب ذوقك ومناسبتك الخاصة",
   buttonText = "ابدأ التصميم الآن",
   buttonHref = ROUTES.CUSTOM,
 }: CustomBouquetSectionProps) => {
   return (
-    <section className="py-6 sm:py-8 pb-8 sm:pb-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative h-56 sm:h-64 md:h-72 rounded-xl sm:rounded-2xl overflow-hidden">
-          <Image
-            src="/images/hero/DIV-133.png"
-            alt="متجر زهور"
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-            loading="lazy"
-          />
-          {/* Blur تدريجي من اليمين */}
+    <section
+      className="py-6 sm:py-8 md:py-10 relative overflow-visible"
+      style={{ backgroundColor: "#fbfaf2" }}
+    >
+      <div className="w-full flex justify-center px-4 sm:px-6">
+        {/* Container - 95% width, max-w-[1440px] - matching Figma design exactly */}
+        <div className="w-[95%] max-w-[1440px] relative">
+          {/* Main card - matching Figma: border-[#e0dede], rounded-[20px], h-[403px] */}
           <div
-            className="absolute inset-0 backdrop-blur-sm"
-            style={{
-              maskImage:
-                "linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0) 60%)",
-              WebkitMaskImage:
-                "linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0) 60%)",
-            }}
-          ></div>
-          <div
-            className="absolute inset-0"
-            style={{ backgroundColor: "#5A5E4D", opacity: 0.08 }}
-          ></div>
-          <div className="absolute inset-0 bg-gradient-to-l from-black/35 via-black/15 to-transparent"></div>
-          <div className="relative z-10 h-full flex items-center">
-            <div className="w-full pr-4 sm:pr-6 md:pr-10">
-              <div className="ml-auto max-w-sm sm:max-w-md md:max-w-xl text-right">
-                <h2
-                  className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
-                  {title}
-                </h2>
-                <p className="text-white/90 text-base sm:text-lg md:text-xl mb-4 sm:mb-6 font-normal">
-                  {description}
-                </p>
-                <Link
-                  href={buttonHref}
-                  className="inline-block bg-white hover:bg-[#5A5E4D] text-[#5A5E4D] hover:text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 text-sm sm:text-base"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
-                  {buttonText}
-                </Link>
+            className="relative border border-[#e0dede] border-solid rounded-[20px] h-[403px] bg-[#E0DEDE] w-full"
+            style={{ overflow: "visible" }}
+          >
+            {/* Image on the left - matching Figma: 500px × 445px, positioned to overflow upward from container */}
+            <div className="absolute left-[3px] top-[-42px] w-[500px] h-[445px] hidden lg:block z-20">
+              <Image
+                src="/assets/home/design-your-own-package-section.png"
+                alt="تصميم باقة خاصة"
+                width={500}
+                height={445}
+                className="object-cover w-full h-full"
+                loading="lazy"
+              />
+            </div>
+
+            {/* Content on the right - matching Figma: positioned from right, centered vertically */}
+            <div className="absolute right-0 top-0 bottom-0 flex items-center justify-end w-full lg:w-auto z-10">
+              <div className="max-w-[672px] w-full px-8 lg:px-16 xl:pr-24">
+                <div className="text-right flex flex-col items-start justify-end h-full">
+                  {/* Title - matching Figma: 35px Bold, black, leading-[36px], pb-[16px] */}
+                  <div style={{ paddingBottom: "16px", width: "100%", maxWidth: "672px" }}>
+                    <h2
+                      className="text-[28px] sm:text-[32px] md:text-[35px] font-bold text-black leading-[36px] text-right"
+                      style={{
+                        fontFamily: "var(--font-almarai)",
+                      }}
+                      dir="auto"
+                    >
+                      {title}
+                    </h2>
+                  </div>
+
+                  {/* Description - matching Figma: 25px Regular, #606060, leading-[28px], pb-[32px], max-w-[587px] */}
+                  <div style={{ paddingBottom: "32px", maxWidth: "587px", width: "100%" }}>
+                    <p
+                      className="text-[20px] sm:text-[23px] md:text-[25px] text-[#606060] leading-[28px] text-right"
+                      style={{
+                        fontFamily: "var(--font-almarai)",
+                      }}
+                      dir="auto"
+                    >
+                      {description}
+                    </p>
+                  </div>
+
+                  {/* Button - matching Figma: #5a5e4d bg, 223px × 65px, 25px Bold, #fcfcfe text, px-[32px] py-[12px] */}
+                  <Link
+                    href={buttonHref}
+                    className="bg-[#5a5e4d] hover:bg-[#4b5244] h-[65px] w-[223px] px-[32px] py-[12px] rounded-[4px] font-bold text-[20px] sm:text-[23px] md:text-[25px] leading-[24px] transition-all duration-300 flex items-center justify-center text-center whitespace-pre"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                      color: "#fcfcfe",
+                    }}
+                  >
+                    {buttonText}
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-          {/* Close hero wrapper */}
         </div>
-        {/* Close container */}
       </div>
     </section>
   );

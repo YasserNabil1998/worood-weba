@@ -1,10 +1,10 @@
 import HeroSection from "@/src/components/home/HeroSection";
 import OccasionsSection from "@/src/components/common/OccasionsSection";
-import ProductsSlider from "@/src/components/home/ProductsSlider";
 import FeaturedBouquets from "@/src/components/FeaturedBouquets";
+import ProductsSlider from "@/src/components/home/ProductsSlider";
 import CustomBouquetSection from "@/src/components/common/CustomBouquetSection";
-import CustomerReviewsSlider from "@/src/components/home/CustomerReviewsSlider";
 import FeaturesSection from "@/src/components/FeaturesSection";
+import CustomerReviewsSlider from "@/src/components/home/CustomerReviewsSlider";
 import NewsletterSection from "@/src/components/NewsletterSection";
 import { fetchBouquets } from "@/src/lib/api/bouquets";
 
@@ -16,15 +16,30 @@ export default async function Home() {
   );
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#fbfaf2]">
       <main>
+        {/* 1. Hero Section - قسم البطل */}
         <HeroSection />
-        <FeaturedBouquets bouquets={mostRequestedBouquets} />
+
+        {/* 2. Occasions Section - قسم المناسبات */}
         <OccasionsSection />
-        <CustomBouquetSection />
+
+        {/* 3. Most Popular Bouquets - الباقات الأكثر طلباً */}
+        <FeaturedBouquets bouquets={mostRequestedBouquets} />
+
+        {/* 4. Vase Happiness Section - سعادة في مزهرية */}
         <ProductsSlider />
-        <CustomerReviewsSlider />
+
+        {/* 5. Design Your Own Bouquet - صمم باقتك الخاصة */}
+        <CustomBouquetSection />
+
+        {/* 6. Why Choose Us Section - لماذا تختارنا ؟ */}
         <FeaturesSection />
+
+        {/* 7. Customer Reviews Section - آراء عملائنا */}
+        <CustomerReviewsSlider />
+
+        {/* 8. Newsletter Section - قسم النشرة البريدية */}
         <NewsletterSection />
       </main>
     </div>

@@ -1,36 +1,36 @@
 [
   {
     "id": 1,
-    "title": "باقة النجاح",
-    "price": 400,
-    "image": "/images/bouquets/DIV-237.png",
+    "title": "باقة الورد الأصفر الفاخر",
+    "price": 350,
+    "image": "/assets/home/most-requested-packages/Luxury-yellow-rose-bouquet.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 2,
-    "title": "باقة السعادة",
-    "price": 320,
-    "image": "/images/bouquets/IMG-196.png",
+    "title": "باقة البنفسج الراقية",
+    "price": 350,
+    "image": "/assets/home/most-requested-packages/Elegant-Violet-Bouquet.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 3,
-    "title": "باقة الفرح",
-    "price": 280,
-    "image": "/images/bouquets/IMG-210.png",
+    "title": "باقة الخوخ الزهري",
+    "price": 350,
+    "image": "/assets/home/most-requested-packages/Pink-Peach-Bouquet.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 4,
-    "title": "باقة اللمسة الذهبية",
-    "price": 450,
-    "image": "/images/bouquets/IMG-224.png",
+    "title": "باقة التوليب البرتقالي",
+    "price": 350,
+    "image": "/assets/home/most-requested-packages/Orange-Tulip-Bouquet.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"

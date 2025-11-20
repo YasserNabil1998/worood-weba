@@ -137,13 +137,13 @@ const CustomerReviewsSlider = ({
   return (
     <section className="py-12 sm:py-14 md:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+        {/* Header - matching Figma: 30px, Almarai Bold */}
         <div className="text-right mb-8 sm:mb-10 md:mb-12">
           <h2
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4"
+            className="text-[28px] sm:text-[30px] font-bold text-black"
             style={{ fontFamily: "var(--font-almarai)" }}
           >
-            آراء عملائنا
+            أراء عملائنا
           </h2>
         </div>
 
@@ -180,45 +180,30 @@ const CustomerReviewsSlider = ({
               return (
                 <div
                   key={review.id}
-                  className={`bg-white rounded-xl p-4 sm:p-6 h-56 sm:h-64 flex flex-col transition-all duration-300 ease-out hover:-translate-y-1 ${
+                  className={`bg-white rounded-[12px] p-6 h-[160px] flex flex-col transition-all duration-300 ease-out shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1),0px_4px_6px_-1px_rgba(0,0,0,0.1)] ${
                     isCenter
                       ? "scale-105 md:scale-110 z-10 shadow-xl translate-y-0"
                       : "scale-95 opacity-90 shadow-lg translate-y-1 sm:translate-y-2"
                   }`}
                 >
                   <div className="flex items-start justify-between mb-4 flex-shrink-0">
-                    <div className="flex-1">
+                    <div className="flex-1 text-right">
+                      {/* Name - matching Figma: 16px, Almarai Bold, gray-800 */}
                       <h3
-                        className="text-lg font-bold text-gray-800 mb-2"
+                        className="text-[16px] font-bold text-gray-800 mb-2"
                         style={{
                           fontFamily: "var(--font-almarai)",
                         }}
                       >
                         {review.customerName}
                       </h3>
-                      {review.productName && (
-                        <p
-                          className="text-sm text-gray-600 mb-2"
-                          style={{
-                            fontFamily: "var(--font-almarai)",
-                          }}
-                        >
-                          طلب: {review.productName}
-                        </p>
-                      )}
-                      <div className="flex items-center mb-3">{renderStars(review.rating)}</div>
-                      {review.date && (
-                        <p
-                          className="text-xs text-gray-500"
-                          style={{
-                            fontFamily: "var(--font-almarai)",
-                          }}
-                        >
-                          {review.date}
-                        </p>
-                      )}
+                      {/* Stars - matching Figma */}
+                      <div className="flex items-center justify-end mb-3 gap-1">
+                        {renderStars(review.rating)}
+                      </div>
                     </div>
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                    {/* Avatar - matching Figma: 48px circle, bg-[rgba(227,230,216,0.9)] */}
+                    <div className="w-12 h-12 bg-[rgba(227,230,216,0.9)] rounded-full flex items-center justify-center ml-4 flex-shrink-0">
                       {review.customerImage ? (
                         <Image
                           src={review.customerImage}
@@ -230,7 +215,7 @@ const CustomerReviewsSlider = ({
                         />
                       ) : (
                         <span
-                          className="text-green-600 font-bold text-lg"
+                          className="text-gray-600 font-bold text-lg"
                           style={{
                             fontFamily: "var(--font-almarai)",
                           }}
@@ -240,17 +225,18 @@ const CustomerReviewsSlider = ({
                       )}
                     </div>
                   </div>
+                  {/* Comment - matching Figma: 16px, Almarai Regular, gray-600 */}
                   <div className="flex-1 flex flex-col justify-center">
                     <p
-                      className="text-gray-700 leading-relaxed text-sm overflow-hidden"
+                      className="text-gray-600 leading-[24px] text-[16px] overflow-hidden text-right"
                       style={{
                         fontFamily: "var(--font-almarai)",
                         display: "-webkit-box",
-                        WebkitLineClamp: 4,
+                        WebkitLineClamp: 2,
                         WebkitBoxOrient: "vertical",
                       }}
                     >
-                      "{review.comment}"
+                      {review.comment}
                     </p>
                   </div>
                 </div>

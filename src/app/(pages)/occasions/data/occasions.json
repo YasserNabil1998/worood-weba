@@ -3,7 +3,7 @@
     "title": "المناسبات",
     "subtitle": "تشكيلة واسعة من الباقات المميزة لجميع المناسبات الخاصة",
     "hero": {
-      "image": "/images/hero/IMG-53.png",
+      "image": "/assets/home/hero-home/hero-home.png",
       "title": "باقات مميزة لكل مناسبة",
       "description": "اختر من تشكيلتنا الواسعة من الباقات المصممة بعناية لتناسب جميع المناسبات الخاصة في حياتك",
       "buttonText": "تصفح المناسبات",
@@ -14,7 +14,7 @@
       "subtitle": "باقات مصممة خصيصًا لكل مناسبة"
     },
     "cta": {
-      "image": "/images/hero/DIV-133.png",
+      "image": "/assets/home/design-your-own-package-section.png",
       "title": "لم تجد المناسبة المناسبة؟",
       "buttonText": "صمم باقتك الخاصة",
       "buttonLink": "/custom"
@@ -24,7 +24,7 @@
     {
       "key": "wedding",
       "title": "زواج",
-      "image": "/images/occasions/IMG-78.png",
+      "image": "/assets/home/occasions-img/Wedding.png",
       "icon": "Heart",
       "description": "باقات رومانسية من الورود والزهور المميزة لحفلات الزفاف",
       "sectionId": "wedding-section",
@@ -34,7 +34,7 @@
     {
       "key": "engagement",
       "title": "خطوبة",
-      "image": "/images/occasions/IMG-94.png",
+      "image": "/assets/home/occasions-img/Engagement.png",
       "icon": "Heart",
       "description": "باقات رومانسية مميزة لمناسبات الخطوبة والحب",
       "sectionId": "engagement-section",
@@ -44,7 +44,7 @@
     {
       "key": "graduation",
       "title": "نجاح",
-      "image": "/images/occasions/IMG-110.png",
+      "image": "/assets/home/occasions-img/Success.png",
       "icon": "GraduationCap",
       "description": "باقات مبهجة بالألوان الزاهية للنجاح والتخرج",
       "sectionId": "graduation-section",
@@ -54,7 +54,7 @@
     {
       "key": "newborn",
       "title": "مولود جديد",
-      "image": "/images/occasions/IMG-126.png",
+      "image": "/assets/home/occasions-img/newborn.png",
       "icon": "Baby",
       "description": "باقات ناعمة وجميلة للاحتفال بقدوم مولود جديد",
       "sectionId": "newborn-section",

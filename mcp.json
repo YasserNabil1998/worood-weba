@@ -1,0 +1,20 @@
+{
+  "inputs": [],
+  "servers": {
+    "figma": {
+      "url": "http://127.0.0.1:3845/mcp",
+      "type": "http"
+    },
+    "myLocalMCP": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-figma"
+      ],
+      "env": {
+        "FIGMA_ACCESS_TOKEN": ""
+      }
+    }
+  }
+}
+
