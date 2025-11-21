@@ -76,78 +76,88 @@ export default function SizeAndPackagingStep({
       {/* Bouquet size */}
       <div>
         <div
-          className="mb-3 text-sm font-semibold text-gray-800"
+          className="mb-4 text-[28px] font-normal text-black text-right"
           style={{ fontFamily: "var(--font-almarai)" }}
         >
-          حجم الباقة
+          اختر الحجم والتغليف
         </div>
         {totalFlowersCount > 0 && (
           <div className="mb-3 bg-[#5A5E4D]/10 border border-[#d0d2c7]/30 rounded-md p-2 text-xs text-[#5A5E4D] flex items-center gap-2">
-            <Lightbulb className="w-4 h-4 flex-shrink-0" />
+            <Lightbulb className="w-4 h-4 shrink-0" />
             <span>تم اختيار الحجم تلقائياً. يمكنك تغييره وسيتم تعديل عدد الزهور بنفس النسبة</span>
           </div>
         )}
-        <div className="flex gap-2 pb-2">
-          {bouquetSizes.map((opt) => {
-            return (
-              <button
-                key={opt.key}
-                onClick={() => onSizeChange(opt.key as "small" | "medium" | "large" | "custom")}
-                disabled={totalFlowersCount === 0}
-                className={`text-center rounded-lg border px-3 py-2 transition-all flex-1 ${
-                  size === opt.key
-                    ? "border-[#d0d2c7] bg-[#5A5E4D]/5"
-                    : totalFlowersCount === 0
-                      ? "border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed"
-                      : "border-gray-200 bg-white hover:border-[#b5bf95]/30 hover:bg-gray-50 cursor-pointer"
-                }`}
-              >
-                <div className="mx-auto mb-1 h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-                  {opt.icon ? (
-                    opt.icon.startsWith("/") || opt.icon.startsWith("http") ? (
-                      <img
-                        src={opt.icon}
-                        alt={opt.label}
-                        className="w-full h-full object-cover rounded-full"
-                      />
-                    ) : (
-                      <span className="text-lg">{opt.icon}</span>
-                    )
-                  ) : (
-                    <span className="text-lg">🌺</span>
-                  )}
-                </div>
-                <div className="font-semibold text-gray-800 text-xs mb-1">{opt.label}</div>
-                <div className="text-[10px] text-gray-500">{opt.stems}</div>
-                {size === opt.key &&
-                  (opt.key === "custom" ? customFlowerCount > 0 : totalFlowersCount > 0) && (
-                    <div className="mt-2 text-xs text-[#5A5E4D] font-semibold bg-[#5A5E4D]/10 rounded px-2 py-1">
-                      ✓ {opt.key === "custom" ? customFlowerCount : totalFlowersCount} زهرة
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
+          {[...bouquetSizes]
+            .sort((a, b) => {
+              const order = { small: 1, medium: 2, large: 3, custom: 4 };
+              return (
+                (order[a.key as keyof typeof order] || 99) -
+                (order[b.key as keyof typeof order] || 99)
+              );
+            })
+            .map((opt) => {
+              const isSelected = size === opt.key;
+              const sizeLabels: Record<string, string> = {
+                small: "7 - 10 زهرة",
+                medium: "12 - 15 زهرة",
+                large: "18 - 25 زهرة",
+                custom: "",
+              };
+
+              return (
+                <button
+                  key={opt.key}
+                  onClick={() => onSizeChange(opt.key as "small" | "medium" | "large" | "custom")}
+                  disabled={totalFlowersCount === 0 && opt.key !== "custom"}
+                  className={`text-center rounded-[20px] border transition-all h-[100px] sm:h-[123px] ${
+                    isSelected
+                      ? opt.key === "large"
+                        ? "border-[#49393d] bg-purple-50"
+                        : "border-[#6d6d6d] bg-white"
+                      : totalFlowersCount === 0 && opt.key !== "custom"
+                        ? "border-[#d7d6d6] bg-white opacity-50 cursor-not-allowed"
+                        : "border-[#d7d6d6] bg-white hover:border-[#b5bf95]/30 hover:bg-gray-50 cursor-pointer"
+                  }`}
+                >
+                  <div
+                    className="font-normal text-[18px] sm:text-[20px] lg:text-[24px] text-black mb-1 sm:mb-2 mt-2 sm:mt-4"
+                    style={{ fontFamily: "var(--font-almarai)" }}
+                  >
+                    {opt.label}
+                  </div>
+                  {opt.key !== "custom" && (
+                    <div
+                      className="text-[14px] sm:text-[16px] lg:text-[18px] text-gray-600"
+                      style={{ fontFamily: "var(--font-almarai)" }}
+                    >
+                      {sizeLabels[opt.key]}
                     </div>
                   )}
-              </button>
-            );
-          })}
+                  {opt.key === "custom" && (
+                    <div className="mt-1 sm:mt-2">
+                      <input
+                        type="number"
+                        min="5"
+                        max="1000"
+                        value={customFlowerCount}
+                        onChange={(e) => onCustomFlowerCountChange(Number(e.target.value))}
+                        onClick={(e) => e.stopPropagation()}
+                        className="w-[90px] sm:w-[113px] h-[24px] sm:h-[26px] px-2 text-[14px] sm:text-[16px] text-center border-[0.5px] border-[#b7b7b7] rounded-[5px] bg-white text-[#b9b6b6] focus:outline-none focus:ring-1 focus:ring-[#5A5E4D]/30"
+                        style={{ fontFamily: "var(--font-almarai)" }}
+                      />
+                      <div
+                        className="text-[12px] sm:text-[14px] text-[#adadad] mt-1"
+                        style={{ fontFamily: "var(--font-almarai)" }}
+                      >
+                        زهرة
+                      </div>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
         </div>
-
-        {/* Custom flower count input */}
-        {size === "custom" && (
-          <div className="mt-4">
-            <div className="mb-2 text-xs font-medium text-gray-700">عدد الزهور المطلوب</div>
-            <div className="flex items-center gap-3">
-              <input
-                type="number"
-                min="5"
-                max="1000"
-                value={customFlowerCount}
-                onChange={(e) => onCustomFlowerCountChange(Number(e.target.value))}
-                className="w-32 px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
-              />
-              <span className="text-sm text-gray-600">زهرة</span>
-            </div>
-            <p className="mt-1 text-xs text-gray-500">يمكنك اختيار من 5 إلى 1000 زهرة</p>
-          </div>
-        )}
 
         {totalFlowersCount === 0 && (
           <p className="mt-3 text-xs text-gray-500 text-center bg-gray-50 rounded-md p-2">
@@ -159,112 +169,208 @@ export default function SizeAndPackagingStep({
       {/* Packaging type */}
       <div>
         <div
-          className="mb-3 text-sm font-semibold text-gray-800"
+          className="mb-2 text-[23px] font-normal text-black text-right"
           style={{ fontFamily: "var(--font-almarai)" }}
         >
-          نوع التغليف
+          أنواع التغليف
         </div>
 
         {/* Packaging type options */}
-        <div className="flex gap-3 mb-4">
+        <div className="flex items-start justify-start gap-3 sm:gap-4 mb-6 flex-wrap">
           <button
             onClick={() => onPackagingTypeChange("paper")}
-            className={`px-4 py-2 rounded-lg border transition-all ${
+            className={`h-[45px] sm:h-[55px] w-full sm:w-[160px] rounded-[10px] border border-[#d7d6d6] transition-all ${
               packagingType === "paper"
-                ? "border-[#5A5E4D] bg-[#5A5E4D] text-white"
-                : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                ? "bg-[#5a5e4d] text-white"
+                : "bg-[#fcfcfc] text-black hover:bg-gray-50"
             }`}
+            style={{ fontFamily: "var(--font-almarai)" }}
           >
-            تغليف ورقي
+            <span className="text-[16px] sm:text-[18px] lg:text-[20px]">تغليف ورقي</span>
           </button>
           <button
             onClick={() => onPackagingTypeChange("vase")}
-            className={`px-4 py-2 rounded-lg border transition-all ${
+            className={`h-[45px] sm:h-[55px] w-full sm:w-[160px] rounded-[10px] border border-[#d7d6d6] transition-all ${
               packagingType === "vase"
-                ? "border-[#5A5E4D] bg-[#5A5E4D] text-white"
-                : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                ? "bg-[#5a5e4d] text-white"
+                : "bg-[#fcfcfc] text-black hover:bg-gray-50"
             }`}
+            style={{ fontFamily: "var(--font-almarai)" }}
           >
-            مزهرية
+            <span className="text-[16px] sm:text-[18px] lg:text-[20px]">مزهرية</span>
           </button>
         </div>
 
         {/* Show options based on type */}
         {packagingType === "paper" && (
           <div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {bouquetStyles.map((styleOption) => (
-                <button
-                  key={styleOption.key}
-                  onClick={() =>
-                    onStyleChange(styleOption.key as "classic" | "premium" | "gift" | "eco")
-                  }
-                  className={`text-center rounded-lg border p-3 transition-all ${
-                    style === styleOption.key
-                      ? "border-[#5A5E4D] bg-[#5A5E4D]/10"
-                      : "border-gray-300 hover:border-gray-400"
-                  }`}
-                >
-                  <img
-                    src={styleOption.image}
-                    alt={styleOption.label}
-                    className="w-12 h-12 object-cover rounded-md mx-auto mb-2"
-                  />
-                  <div className="text-xs font-medium text-gray-900">{styleOption.label}</div>
-                  <div className="flex items-center justify-center gap-1">
-                    <span className="text-sm font-bold text-[#5A5E4D]">+{styleOption.price}</span>
-                    <span className="text-xs text-[#5A5E4D]">ر.س</span>
-                  </div>
-                </button>
-              ))}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 justify-center">
+              {bouquetStyles.map((styleOption) => {
+                // Map style keys to match design labels
+                const styleLabelMap: Record<string, string> = {
+                  classic: "كلاسيكي",
+                  premium: "فاخر",
+                  gift: "هدية بسيط",
+                  eco: "بوكيه نايلون",
+                };
+
+                // Descriptions based on style
+                const descriptionMap: Record<
+                  string,
+                  { text: string; color: string; align: string }
+                > = {
+                  eco: { text: "تنسيق لطيف", color: "text-[#5a5e4d]", align: "text-center" },
+                  gift: { text: "اختيار لطيف", color: "text-[#5a5e4d]", align: "text-center" },
+                  premium: { text: "تصميم راق", color: "text-[#5a5e4d]", align: "text-center" },
+                  classic: { text: "تنسيق تقليدي", color: "text-[#5c5a57]", align: "text-right" },
+                };
+
+                const description = descriptionMap[styleOption.key] || {
+                  text: "",
+                  color: "",
+                  align: "",
+                };
+
+                return (
+                  <button
+                    key={styleOption.key}
+                    onClick={() =>
+                      onStyleChange(styleOption.key as "classic" | "premium" | "gift" | "eco")
+                    }
+                    className={`text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[160px] sm:h-[186px] w-full sm:w-[160px] overflow-hidden mx-auto flex flex-col ${
+                      style === styleOption.key ? "border-[#6d6d6d]" : "hover:border-gray-400"
+                    }`}
+                  >
+                    <div className="h-[100px] sm:h-[120px] w-full overflow-hidden">
+                      <img
+                        src={styleOption.image}
+                        alt={styleOption.label}
+                        className="w-full h-full object-cover rounded-tl-[20px] rounded-tr-[20px]"
+                      />
+                    </div>
+                    <div className="h-[60px] sm:h-[66px] p-2 flex flex-col justify-center">
+                      {/* Name and Price on same line - fixed height */}
+                      <div className="flex items-center justify-between mb-1 h-[18px] sm:h-[20px]">
+                        <div
+                          className="text-[12px] sm:text-[14px] font-bold text-gray-800 min-h-[18px] sm:min-h-[20px]"
+                          style={{ fontFamily: "var(--font-almarai)" }}
+                        >
+                          {styleLabelMap[styleOption.key] || styleOption.label}
+                        </div>
+                        <div
+                          className="text-[#555555] text-[12px] sm:text-[14px] min-h-[18px] sm:min-h-[20px]"
+                          style={{ fontFamily: "var(--font-almarai)" }}
+                        >
+                          {styleOption.price} ر.س
+                        </div>
+                      </div>
+                      {/* Description below - fixed height */}
+                      <div className="h-[18px] sm:h-[20px]">
+                        {description.text ? (
+                          <div
+                            className={`${description.color} text-right text-[13px] sm:text-[15px]`}
+                            style={{ fontFamily: "var(--font-almarai)" }}
+                          >
+                            {description.text}
+                          </div>
+                        ) : (
+                          <div className="h-full"></div>
+                        )}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
 
         {packagingType === "vase" && (
           <div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {vases.map((vase) => (
-                <button
-                  key={vase.id}
-                  onClick={() => onVaseChange(vase.id.toString())}
-                  className={`text-center rounded-lg border p-3 transition-all ${
-                    selectedVase === vase.id.toString()
-                      ? "border-[#5A5E4D] bg-[#5A5E4D]/10"
-                      : "border-gray-300 hover:border-gray-400"
-                  }`}
-                >
-                  <img
-                    src={vase.image}
-                    alt={vase.name}
-                    className="w-12 h-12 object-cover rounded-md mx-auto mb-2"
-                  />
-                  <div className="text-xs font-medium text-gray-900">{vase.name}</div>
-                  <div className="flex items-center justify-center gap-1">
-                    <span className="text-sm font-bold text-[#5A5E4D]">+{vase.price}</span>
-                    <span className="text-xs text-[#5A5E4D]">ر.س</span>
-                  </div>
-                </button>
-              ))}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 justify-center">
+              {vases.map((vase) => {
+                // Descriptions based on vase
+                const vaseDescriptionMap: Record<number, { text: string; color: string }> = {
+                  1: { text: "تصميم كلاسيكي", color: "text-[#5c5a57]" },
+                  2: { text: "أناقة راقية", color: "text-[#5a5e4d]" },
+                  3: { text: "فخامة مميزة", color: "text-[#5a5e4d]" },
+                  4: { text: "عصرية وجذابة", color: "text-[#5a5e4d]" },
+                };
+
+                const description = vaseDescriptionMap[vase.id] || {
+                  text: "اختيار مميز",
+                  color: "text-[#5a5e4d]",
+                };
+
+                return (
+                  <button
+                    key={vase.id}
+                    onClick={() => onVaseChange(vase.id.toString())}
+                    className={`text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[160px] sm:h-[186px] w-full sm:w-[160px] overflow-hidden mx-auto flex flex-col ${
+                      selectedVase === vase.id.toString()
+                        ? "border-[#6d6d6d]"
+                        : "hover:border-gray-400"
+                    }`}
+                  >
+                    <div className="h-[100px] sm:h-[120px] w-full overflow-hidden">
+                      <img
+                        src={vase.image}
+                        alt={vase.name}
+                        className="w-full h-full object-cover rounded-tl-[20px] rounded-tr-[20px]"
+                      />
+                    </div>
+                    <div className="h-[60px] sm:h-[66px] p-2 flex flex-col justify-center">
+                      {/* Name and Price on same line - fixed height */}
+                      <div className="flex items-center justify-between mb-1 h-[18px] sm:h-[20px]">
+                        <div
+                          className="text-[12px] sm:text-[14px] font-bold text-gray-800 min-h-[18px] sm:min-h-[20px]"
+                          style={{ fontFamily: "var(--font-almarai)" }}
+                        >
+                          {vase.name}
+                        </div>
+                        <div
+                          className="text-[#555555] text-[12px] sm:text-[14px] min-h-[18px] sm:min-h-[20px]"
+                          style={{ fontFamily: "var(--font-almarai)" }}
+                        >
+                          {vase.price} ر.س
+                        </div>
+                      </div>
+                      {/* Description below - fixed height */}
+                      <div className="h-[18px] sm:h-[20px]">
+                        {description.text ? (
+                          <div
+                            className={`${description.color} text-right text-[13px] sm:text-[15px]`}
+                            style={{ fontFamily: "var(--font-almarai)" }}
+                          >
+                            {description.text}
+                          </div>
+                        ) : (
+                          <div className="h-full"></div>
+                        )}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
       </div>
 
-      <div className="mt-6 flex items-center justify-between gap-2">
+      <div className="mt-6 flex items-center justify-between gap-2 flex-col sm:flex-row">
         <button
           onClick={onPrevStep}
-          className="px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors flex items-center gap-1 sm:gap-2 cursor-pointer"
+          className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
         >
-          <ChevronRight className="w-5 h-5 flex-shrink-0" />
+          <ChevronRight className="w-5 h-5 shrink-0" />
           <span>السابق</span>
         </button>
         <button
           onClick={onNextStep}
-          className="px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm bg-[#5A5E4D] text-white hover:bg-[#4b5244] transition-colors flex items-center gap-1 sm:gap-2 cursor-pointer"
+          className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base bg-[#5A5E4D] text-white hover:bg-[#4b5244] transition-colors flex items-center justify-center gap-2 cursor-pointer"
         >
           <span>التالي</span>
-          <ChevronLeft className="w-5 h-5 flex-shrink-0" />
+          <ChevronLeft className="w-5 h-5 shrink-0" />
         </button>
       </div>
     </div>

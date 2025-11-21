@@ -1,11 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
-import { ASSETS } from "@/src/assets";
 import { Instagram, Twitter, Facebook, MessageCircle } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="text-white" style={{ backgroundColor: "#0F2433" }}>
+    <footer className="text-white" style={{ backgroundColor: "#58614c" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-6">
           {/* About Us */}
@@ -99,42 +97,8 @@ const Footer = () => {
 
         <div className="mt-4 pt-4 sm:pt-6 border-t border-white/10">
           <div className="text-center">
-            <div className="flex items-center justify-center gap-2 sm:gap-3 opacity-90">
-              <Image
-                src={ASSETS.payment.mada}
-                alt="Mada"
-                width={60}
-                height={40}
-                className="h-8 sm:h-10 w-auto object-contain"
-                loading="lazy"
-              />
-              <Image
-                src={ASSETS.payment.visa}
-                alt="Visa"
-                width={60}
-                height={40}
-                className="h-8 sm:h-10 w-auto object-contain"
-                loading="lazy"
-              />
-              <Image
-                src={ASSETS.payment.applePay}
-                alt="Apple Pay"
-                width={60}
-                height={40}
-                className="h-8 sm:h-10 w-auto object-contain"
-                loading="lazy"
-              />
-              <Image
-                src="/assets/cash-on-delivery.svg"
-                alt="الدفع عند الاستلام"
-                width={60}
-                height={40}
-                className="h-8 sm:h-10 w-auto object-contain"
-                loading="lazy"
-              />
-            </div>
             <p
-              className="mt-3 text-gray-300 text-xs sm:text-sm"
+              className="text-gray-300 text-xs sm:text-sm"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               جميع الحقوق محفوظة زهور الشمس © 2025
