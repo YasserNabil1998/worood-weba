@@ -124,6 +124,14 @@ const Footer = () => {
                 className="h-8 sm:h-10 w-auto object-contain"
                 loading="lazy"
               />
+              <Image
+                src="/assets/cash-on-delivery.svg"
+                alt="الدفع عند الاستلام"
+                width={60}
+                height={40}
+                className="h-8 sm:h-10 w-auto object-contain"
+                loading="lazy"
+              />
             </div>
             <p
               className="mt-3 text-gray-300 text-xs sm:text-sm"

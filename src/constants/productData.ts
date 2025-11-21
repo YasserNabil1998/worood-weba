@@ -21,6 +21,10 @@ export const PRODUCT_DATA: ProductDataType = {
     "/assets/home/most-requested-packages/Elegant-Violet-Bouquet.png",
     "/assets/home/most-requested-packages/Pink-Peach-Bouquet.png",
     "/assets/home/most-requested-packages/Orange-Tulip-Bouquet.png",
+    "/assets/ready-packages-page1/باقة الورد الأبيض.png",
+    "/assets/ready-packages-page1/باقة الورد الزهري.png",
+    "/assets/ready-packages-page1/باقة الحب الأبدي.png",
+    "/assets/ready-packages-page1/باقة الود الأبدي.png",
   ],
   productImages: [
     "/assets/product-images/main.png",
@@ -29,6 +33,8 @@ export const PRODUCT_DATA: ProductDataType = {
     "/assets/product-images/thumb-3.png",
     "/assets/home/most-requested-packages/Luxury-yellow-rose-bouquet.png",
     "/assets/home/most-requested-packages/Elegant-Violet-Bouquet.png",
+    "/assets/ready-packages-page1/باقة الورد الأصفر الفاخر.png",
+    "/assets/ready-packages-page1/باقة البنفسج الراقية.png",
   ],
   sizes: [
     {

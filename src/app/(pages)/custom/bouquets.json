@@ -4,56 +4,56 @@
       "id": 1,
       "name": "ورد جوري",
       "price": 25,
-      "image": "/images/bouquets/IMG-196.png",
+      "image": "/assets/custom-bouquet/زهرة القرنفل.png",
       "availableColors": [1, 7, 8]
     },
     {
       "id": 2,
       "name": "توليب",
       "price": 30,
-      "image": "/images/bouquets/DIV-237.png",
+      "image": "/assets/custom-bouquet/زهرة التوليب.png",
       "availableColors": [1, 2, 3, 7, 8]
     },
     {
       "id": 3,
       "name": "زنبق",
       "price": 35,
-      "image": "/images/bouquets/IMG-210.png",
+      "image": "/assets/custom-bouquet/زهرة الأقحوان.png",
       "availableColors": [3, 7, 8]
     },
     {
       "id": 4,
       "name": "أوركيد",
       "price": 45,
-      "image": "/images/bouquets/IMG-224.png",
+      "image": "/assets/custom-bouquet/زهرة الأقحوان-2.png",
       "availableColors": [6, 7, 8]
     },
     {
       "id": 5,
       "name": "جربيرا",
       "price": 20,
-      "image": "/images/bouquets/IMG-210.png",
+      "image": "/assets/custom-bouquet/زهرة الجربيرا.png",
       "availableColors": [1, 2, 3, 7, 8]
     },
     {
       "id": 6,
       "name": "فرازيا",
       "price": 25,
-      "image": "/images/bouquets/IMG-224.png",
+      "image": "/assets/custom-bouquet/زهرة التوليب-2.png",
       "availableColors": [7, 8]
     },
     {
       "id": 7,
       "name": "إسبيريشن",
       "price": 30,
-      "image": "/images/bouquets/IMG-196.png",
+      "image": "/assets/custom-bouquet/زهرة القرنفل.png",
       "availableColors": [1, 7, 8]
     },
     {
       "id": 8,
       "name": "الهيدرانجيا",
       "price": 40,
-      "image": "/images/bouquets/DIV-237.png",
+      "image": "/assets/custom-bouquet/زهرة الأقحوان.png",
       "availableColors": [4, 5, 6, 7, 8]
     }
   ],
@@ -93,25 +93,25 @@
       "key": "classic",
       "label": "كلاسيك",
       "price": 20,
-      "image": "/images/bouquets/IMG-196.png"
+      "image": "/assets/custom-bouquet/كلاسيكي.png"
     },
     {
       "key": "premium",
       "label": "فاخر",
       "price": 50,
-      "image": "/images/bouquets/IMG-210.png"
+      "image": "/assets/custom-bouquet/فاخر.png"
     },
     {
       "key": "gift",
       "label": "هدية",
       "price": 35,
-      "image": "/images/bouquets/DIV-237.png"
+      "image": "/assets/custom-bouquet/هدية بسيط.png"
     },
     {
       "key": "eco",
       "label": "صديق للبيئة",
       "price": 25,
-      "image": "/images/bouquets/IMG-224.png"
+      "image": "/assets/custom-bouquet/بوكيه نايلون.png"
     }
   ],
   "colors": [

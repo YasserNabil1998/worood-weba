@@ -68,11 +68,11 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
   return (
     <Link
       href={`/product/${item.id}`}
-      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group flex flex-col h-full cursor-pointer"
+      className="bg-white border border-[#a1a1a1] rounded-[20px] overflow-hidden hover:shadow-lg transition-all duration-300 group flex flex-col h-full cursor-pointer"
       dir="rtl"
       data-product-card
     >
-      <div className="relative h-80 overflow-hidden bg-gray-100">
+      <div className="relative h-[222px] overflow-hidden bg-gray-100 rounded-tl-[20px] rounded-tr-[20px]">
         <Image
           src={item.image}
           alt={item.title}
@@ -103,45 +103,26 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
             />
           </button>
         </div>
-        {item.badge && (
-          <span className="absolute top-2 right-2 rounded-full bg-white/90 backdrop-blur text-[11px] px-2 py-1 shadow text-gray-700">
-            {item.badge}
-          </span>
-        )}
-        {item.isPopular && (
-          <span className="absolute top-2 right-2 rounded-full bg-white/90 backdrop-blur text-[11px] px-2 py-1 shadow text-gray-700">
-            الأكثر شهرة
-          </span>
-        )}
       </div>
-      <div className="p-4 flex flex-col flex-1">
-        <div className="flex-1 mb-4">
+      <div className="bg-white border-t border-[#e0dede] rounded-bl-[20px] rounded-br-[20px] p-4 flex flex-col flex-1 h-[134px]">
+        <div className="flex-1 mb-3">
           <h3
-            className="font-bold text-gray-800 mb-2 line-clamp-1"
+            className="font-bold text-[18px] text-gray-800 mb-2 line-clamp-1 text-right"
             style={{ fontFamily: "var(--font-almarai)" }}
             title={item.title}
             data-product-title
           >
             {item.title}
           </h3>
-          <p className="text-[12px] text-gray-600 line-clamp-2">
-            وصف مختصر للباقة يوضح نوع الورود والألوان المناسبة.
-          </p>
         </div>
 
-        <div className="mt-auto">
-          <div className="flex items-center justify-start gap-1.5 mb-3">
+        <div className="mt-auto flex items-center justify-between">
+          <div className="flex items-center justify-end gap-1.5">
             <span
-              className="text-xl sm:text-2xl font-bold text-[#5A5E4D]"
+              className="text-[16px] font-bold text-[#5a5e4d]"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
-              {item.price}
-            </span>
-            <span
-              className="text-sm sm:text-base text-[#5A5E4D]"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
-              ر.س
+              {item.price} ر.س
             </span>
           </div>
           <button
@@ -149,9 +130,16 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
               e.preventDefault();
               handleAddToCart();
             }}
-            className="w-full py-2 rounded-md text-white font-semibold bg-[#5A5E4D] hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-lg active:scale-95 cursor-pointer relative z-10"
+            className="w-[60px] h-[60px] rounded-[4px] bg-[#5f664f] hover:bg-[#4a4e3d] transition-all duration-300 flex items-center justify-center cursor-pointer relative z-10"
+            aria-label="أضف إلى السلة"
           >
-            أضف إلى السلة
+            <Image
+              src="/assets/add-to-cart-icon.svg"
+              alt="أضف إلى السلة"
+              width={27}
+              height={27}
+              className="object-contain"
+            />
           </button>
         </div>
       </div>

@@ -103,7 +103,7 @@ export default function BouquetsListingClient({
   };
 
   return (
-    <div className="space-y-4" dir="rtl">
+    <div className="space-y-6" dir="rtl">
       <ToggleButton isFiltersOpen={isFiltersOpen} setIsFiltersOpen={setIsFiltersOpen} />
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <Sidebar
@@ -118,30 +118,31 @@ export default function BouquetsListingClient({
           setPage={setPage}
           reset={reset}
         />
-        <div className="lg:col-span-3 space-y-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-sm">
-            <div className="text-gray-600">
-              {sorted.length === 0
-                ? "لم نجد نتائج تطابق البحث"
-                : `عرض ${current.length} من أصل ${sorted.length} باقة`}
-            </div>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
-              <span className="text-gray-600 whitespace-nowrap">ترتيب حسب</span>
-              <div className="relative w-full sm:w-auto">
+        <div className="lg:col-span-3 space-y-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end gap-4">
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <span
+                className="text-[18px] font-medium text-[#4d4d4d] whitespace-nowrap"
+                style={{ fontFamily: "var(--font-almarai)" }}
+              >
+                الترتيب حسب
+              </span>
+              <div className="relative w-full sm:w-[195px]">
                 <select
                   value={sort}
                   onChange={(e) => {
                     setSort(e.target.value);
                     setPage(1);
                   }}
-                  className="appearance-none pr-8 pl-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 w-full sm:w-auto"
+                  className="appearance-none pr-4 pl-10 py-2.5 h-[45px] rounded-[10px] border border-[#c6c5c5] bg-white text-[18px] text-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 w-full"
+                  style={{ fontFamily: "var(--font-almarai)" }}
                 >
-                  <option value="popular">الأكثر شهرة</option>
+                  <option value="popular">الأكثر طلبا</option>
                   <option value="price-asc">السعر: من الأقل للأعلى</option>
                   <option value="price-desc">السعر: من الأعلى للأقل</option>
                   <option value="newest">الأحدث</option>
                 </select>
-                <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-gray-500">
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
                   ▾
                 </span>
               </div>
@@ -211,6 +212,11 @@ export default function BouquetsListingClient({
             </div>
           )}
           {sorted.length > 0 && (
+            <div className="text-sm text-gray-600 mt-4" style={{ fontFamily: "var(--font-almarai)" }}>
+              {`عرض ${current.length} من أصل ${sorted.length} باقة`}
+            </div>
+          )}
+          {sorted.length > 0 && (
             <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
           )}
         </div>
@@ -233,7 +239,7 @@ function Pagination({
       <button
         onClick={() => onPageChange(Math.max(1, page - 1))}
         disabled={page === 1}
-        className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+        className="w-[35px] h-[33px] flex items-center justify-center rounded-[2px] border border-[#dedcdc] bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
         aria-label="Previous"
       >
         <ChevronRight className="w-5 h-5 text-gray-600" />
@@ -244,11 +250,12 @@ function Pagination({
             <button
               key={n}
               onClick={() => onPageChange(n)}
-              className={`w-10 h-10 flex items-center justify-center rounded-lg border transition-all ${
+              className={`w-[35px] h-[33px] flex items-center justify-center rounded-[2px] border transition-all text-[18px] ${
                 page === n
-                  ? "bg-[#5A5E4D] text-white border-[#5A5E4D] font-semibold"
-                  : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
+                  ? "bg-[#5A5E4D] text-white border-[#5A5E4D] font-normal"
+                  : "bg-white border-[#dedcdc] text-black hover:bg-gray-50"
               }`}
+              style={{ fontFamily: "var(--font-almarai)" }}
             >
               {n}
             </button>
@@ -259,12 +266,13 @@ function Pagination({
               <>
                 <button
                   onClick={() => onPageChange(1)}
-                  className="w-10 h-10 flex items-center justify-center rounded-lg border bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
+                  className="w-[35px] h-[33px] flex items-center justify-center rounded-[2px] border bg-white border-[#dedcdc] text-black hover:bg-gray-50 text-[18px]"
+                  style={{ fontFamily: "var(--font-almarai)" }}
                 >
                   1
                 </button>
                 {page > 3 && (
-                  <span className="w-10 h-10 flex items-center justify-center text-gray-500">
+                  <span className="w-[35px] h-[33px] flex items-center justify-center text-gray-500">
                     ...
                   </span>
                 )}
@@ -277,11 +285,12 @@ function Pagination({
                 <button
                   key={n}
                   onClick={() => onPageChange(n)}
-                  className={`w-10 h-10 flex items-center justify-center rounded-lg border transition-all ${
+                  className={`w-[35px] h-[33px] flex items-center justify-center rounded-[2px] border transition-all text-[18px] ${
                     page === n
-                      ? "bg-[#5A5E4D] text-white border-[#5A5E4D] font-semibold"
-                      : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
+                      ? "bg-[#5A5E4D] text-white border-[#5A5E4D] font-normal"
+                      : "bg-white border-[#dedcdc] text-black hover:bg-gray-50"
                   }`}
+                  style={{ fontFamily: "var(--font-almarai)" }}
                 >
                   {n}
                 </button>
@@ -290,13 +299,14 @@ function Pagination({
             {page < totalPages - 1 && (
               <>
                 {page < totalPages - 2 && (
-                  <span className="w-10 h-10 flex items-center justify-center text-gray-500">
+                  <span className="w-[35px] h-[33px] flex items-center justify-center text-gray-500">
                     ...
                   </span>
                 )}
                 <button
                   onClick={() => onPageChange(totalPages)}
-                  className="w-10 h-10 flex items-center justify-center rounded-lg border bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
+                  className="w-[35px] h-[33px] flex items-center justify-center rounded-[2px] border bg-white border-[#dedcdc] text-black hover:bg-gray-50 text-[18px]"
+                  style={{ fontFamily: "var(--font-almarai)" }}
                 >
                   {totalPages}
                 </button>
@@ -308,7 +318,7 @@ function Pagination({
       <button
         onClick={() => onPageChange(Math.min(totalPages, page + 1))}
         disabled={page === totalPages}
-        className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+        className="w-[35px] h-[33px] flex items-center justify-center rounded-[2px] border border-[#dedcdc] bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
         aria-label="Next"
       >
         <ChevronLeft className="w-5 h-5 text-gray-600" />

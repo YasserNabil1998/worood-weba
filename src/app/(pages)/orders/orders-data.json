@@ -11,7 +11,7 @@
         {
           "id": "item-1",
           "name": "باقة الورود الحمراء الكلاسيكية",
-          "image": "/images/bouquets/IMG-196.png",
+          "image": "/assets/ready-packages-page1/باقة الورد الأصفر الفاخر.png",
           "price": 250,
           "quantity": 1,
           "bouquetType": "باقة كلاسيكية"
@@ -19,7 +19,7 @@
         {
           "id": "item-2",
           "name": "ورود إضافية",
-          "image": "/images/bouquets/IMG-210.png",
+          "image": "/assets/ready-packages-page1/باقة الخوخ الزهري.png",
           "price": 100,
           "quantity": 1
         }
@@ -40,7 +40,7 @@
         {
           "id": "item-3",
           "name": "باقة الورود البيضاء الأنيقة",
-          "image": "/images/bouquets/IMG-224.png",
+          "image": "/assets/ready-packages-page1/باقة الورد الأبيض.png",
           "price": 480,
           "quantity": 1,
           "bouquetType": "باقة أنيقة"
@@ -61,7 +61,7 @@
         {
           "id": "item-4",
           "name": "باقة الورود المختلطة",
-          "image": "/images/bouquets/DIV-237.png",
+          "image": "/assets/ready-packages-page1/باقة البنفسج الراقية.png",
           "price": 220,
           "quantity": 1,
           "bouquetType": "باقة مختلطة"
@@ -81,7 +81,7 @@
         {
           "id": "item-5",
           "name": "باقة الورود الصفراء المشرقة",
-          "image": "/images/bouquets/IMG-196.png",
+          "image": "/assets/ready-packages-page1/باقة الورد الأصفر الفاخر.png",
           "price": 180,
           "quantity": 1,
           "bouquetType": "باقة صغيرة"
@@ -102,7 +102,7 @@
         {
           "id": "item-6",
           "name": "باقة الورود الفاخرة",
-          "image": "/images/bouquets/IMG-224.png",
+          "image": "/assets/ready-packages-page1/باقة الورد الأبيض.png",
           "price": 450,
           "quantity": 1,
           "bouquetType": "باقة فاخرة"
@@ -110,7 +110,7 @@
         {
           "id": "item-7",
           "name": "صندوق هدايا",
-          "image": "/images/bouquets/IMG-210.png",
+          "image": "/assets/ready-packages-page1/باقة الخوخ الزهري.png",
           "price": 200,
           "quantity": 1
         }
@@ -131,7 +131,7 @@
         {
           "id": "item-8",
           "name": "باقة الورود الوردية",
-          "image": "/images/bouquets/DIV-237.png",
+          "image": "/assets/ready-packages-page1/باقة البنفسج الراقية.png",
           "price": 300,
           "quantity": 1,
           "bouquetType": "باقة وردية"

@@ -37,36 +37,36 @@
   },
   {
     "id": 5,
-    "title": "باقة الورد الأحمر الفاخرة",
+    "title": "باقة الورد الأبيض",
     "price": 550,
-    "image": "/images/Products/Products-1.jpg",
+    "image": "/assets/ready-packages-page1/باقة الورد الأبيض.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 6,
-    "title": "مزهرية الكمال الوردي",
+    "title": "باقة الورد الزهري",
     "price": 665,
-    "image": "/images/Products/Products-6.jpg",
+    "image": "/assets/ready-packages-page1/باقة الورد الزهري.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 7,
-    "title": "مزهرية الزهور المميزة",
+    "title": "باقة الحب الأبدي",
     "price": 720,
-    "image": "/images/Products/Products-2.jpg",
+    "image": "/assets/ready-packages-page1/باقة الحب الأبدي.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 8,
-    "title": "فازة حوري الجمال الدافئ",
+    "title": "باقة الود الأبدي",
     "price": 429,
-    "image": "/images/Products/Products-3.jpg",
+    "image": "/assets/ready-packages-page1/باقة الود الأبدي.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"

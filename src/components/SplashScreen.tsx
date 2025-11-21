@@ -99,7 +99,7 @@ export default function SplashScreen() {
 
           <div className="logo-main">
             <Image
-              src="/Logo-shams.svg"
+              src="/assets/Logo.svg"
               alt="شعار ورود الشمس"
               width={260}
               height={95}

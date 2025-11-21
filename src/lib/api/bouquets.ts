@@ -31,9 +31,9 @@ const fallbackFeaturedBouquets: BouquetItem[] = defaultBouquets.map((bouquet, id
 const FALLBACK_BOUQUETS: BouquetItem[] = [
   {
     id: 1,
-    title: "باقة الورود الحمراء الكلاسيكية",
+    title: "باقة الورد الأصفر الفاخر",
     image: BOUQUET_IMAGES[0],
-    price: 150,
+    price: 350,
     badge: BEST_SELLER_BADGE,
     category: BEST_SELLER_BADGE,
     isPopular: true,
@@ -42,9 +42,9 @@ const FALLBACK_BOUQUETS: BouquetItem[] = [
   },
   {
     id: 2,
-    title: "باقة الورود البيضاء الأنيقة",
+    title: "باقة البنفسج الراقية",
     image: BOUQUET_IMAGES[1],
-    price: 200,
+    price: 350,
     badge: OTHER_BADGES[0],
     category: undefined,
     isPopular: false,
@@ -53,9 +53,9 @@ const FALLBACK_BOUQUETS: BouquetItem[] = [
   },
   {
     id: 3,
-    title: "باقة الورود المختلطة الملونة",
+    title: "باقة التوليب البرتقالي",
     image: BOUQUET_IMAGES[2],
-    price: 180,
+    price: 350,
     badge: OTHER_BADGES[1],
     category: undefined,
     isPopular: true,
@@ -64,9 +64,9 @@ const FALLBACK_BOUQUETS: BouquetItem[] = [
   },
   {
     id: 4,
-    title: "باقة الورود الوردية الرومانسية",
+    title: "باقة الخوخ الزهري",
     image: BOUQUET_IMAGES[3],
-    price: 220,
+    price: 350,
     badge: OTHER_BADGES[2 % OTHER_BADGES.length],
     category: undefined,
     isPopular: false,

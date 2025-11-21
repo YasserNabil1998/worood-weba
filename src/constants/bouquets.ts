@@ -41,10 +41,15 @@ export const BADGES = [BEST_SELLER_BADGE, "الأكثر شهرة", "عرض خا�
 
 // Bouquet images (local assets)
 export const BOUQUET_IMAGES = [
-  "/images/bouquets/DIV-237.png",
-  "/images/bouquets/IMG-196.png",
-  "/images/bouquets/IMG-210.png",
-  "/images/bouquets/IMG-224.png",
+  "/assets/ready-packages-page1/باقة الورد الأصفر الفاخر.png",
+  "/assets/ready-packages-page1/باقة البنفسج الراقية.png",
+  "/assets/ready-packages-page1/باقة التوليب البرتقالي.png",
+  "/assets/ready-packages-page1/باقة الخوخ الزهري.png",
+  "/assets/ready-packages-page1/باقة الورد الأبيض.png",
+  "/assets/ready-packages-page1/باقة الورد الزهري.png",
+  "/assets/ready-packages-page1/باقة الحب الأبدي.png",
+  "/assets/ready-packages-page1/باقة الود الأبدي.png",
+  "/assets/ready-packages-page1/باقة الأصيل.png",
 ] as const;
 
 // Price ranges for filtering
