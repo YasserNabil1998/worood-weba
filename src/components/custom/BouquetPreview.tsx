@@ -62,10 +62,10 @@ export default function BouquetPreview({
   return (
     <div className="order-1 lg:order-1 w-full lg:max-w-[445px] lg:justify-self-start">
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-        {/* Title */}
-        <div className="px-3 sm:px-4 pt-3 sm:pt-4">
+        {/* Title - في بداية السيكشن */}
+        <div className="px-3 sm:px-4 pt-3 sm:pt-4 pb-2">
           <div
-            className="text-[20px] sm:text-[22px] lg:text-[25px] font-normal text-black text-center mb-3 sm:mb-4"
+            className="text-[18px] font-bold leading-[20px] text-black text-right mb-4"
             style={{ fontFamily: "var(--font-almarai)" }}
           >
             معاينة الباقة
@@ -95,20 +95,20 @@ export default function BouquetPreview({
           <div className="text-center mb-2">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 mb-1">
               <span
-                className="text-[16px] sm:text-[18px] lg:text-[20px] font-bold text-black"
+                className="text-[16px] font-bold text-black"
                 style={{ fontFamily: "var(--font-almarai)" }}
               >
                 الإجمالي
               </span>
               <span
-                className="text-[16px] sm:text-[18px] lg:text-[20px] font-normal text-black"
+                className="text-[16px] font-normal text-black"
                 style={{ fontFamily: "var(--font-almarai)" }}
               >
                 {total.toFixed(0)} ريال
               </span>
             </div>
             <div
-              className="text-[14px] sm:text-[16px] lg:text-[18px] font-normal text-black"
+              className="text-[14px] font-normal text-black"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               غير شامل الضريبة
@@ -121,13 +121,13 @@ export default function BouquetPreview({
           {/* Flower Type */}
           <div className="bg-[#f9f9f9] h-[70px] sm:h-[86px] rounded-[10px] px-3 sm:px-4 flex items-center justify-between mb-3 sm:mb-4">
             <span
-              className="text-[16px] sm:text-[18px] lg:text-[20px] font-normal text-black"
+              className="text-[16px] font-normal text-black"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               نوع الزهور
             </span>
             <span
-              className="text-[16px] sm:text-[18px] lg:text-[20px] font-normal text-[#727272]"
+              className="text-[16px] font-normal text-[#727272]"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               {firstSelectedFlower?.name || "غير محدد"}

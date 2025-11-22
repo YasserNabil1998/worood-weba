@@ -150,6 +150,36 @@ export const getArabicDate = (): string => {
 };
 
 /**
+ * تحويل التاريخ من صيغة ISO (YYYY-MM-DD) إلى صيغة عربية
+ */
+export const formatDateToArabic = (isoDate: string): string => {
+  if (!isoDate) return "";
+  const date = new Date(isoDate + "T00:00:00");
+  if (isNaN(date.getTime())) return "";
+  
+  const ARABIC_MONTHS = [
+    "يناير",
+    "فبراير",
+    "مارس",
+    "أبريل",
+    "مايو",
+    "يونيو",
+    "يوليو",
+    "أغسطس",
+    "سبتمبر",
+    "أكتوبر",
+    "نوفمبر",
+    "ديسمبر",
+  ];
+  
+  const day = date.getDate();
+  const month = ARABIC_MONTHS[date.getMonth()];
+  const year = date.getFullYear();
+  
+  return `${day} ${month} ${year}`;
+};
+
+/**
  * توليد معرف فريد
  */
 export const generateId = (): string => {

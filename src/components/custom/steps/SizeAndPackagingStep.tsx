@@ -76,13 +76,16 @@ export default function SizeAndPackagingStep({
       {/* Bouquet size */}
       <div>
         <div
-          className="mb-4 text-[28px] font-normal text-black text-right"
+          className="mb-4 text-[18px] font-normal leading-[20px] text-black text-right"
           style={{ fontFamily: "var(--font-almarai)" }}
         >
           اختر الحجم والتغليف
         </div>
         {totalFlowersCount > 0 && (
-          <div className="mb-3 bg-[#5A5E4D]/10 border border-[#d0d2c7]/30 rounded-md p-2 text-xs text-[#5A5E4D] flex items-center gap-2">
+          <div
+            className="mb-3 bg-[#5A5E4D]/10 border border-[#d0d2c7]/30 rounded-md p-2 text-[13px] leading-[18px] text-[#5A5E4D] flex items-center gap-2"
+            style={{ fontFamily: "var(--font-almarai)" }}
+          >
             <Lightbulb className="w-4 h-4 shrink-0" />
             <span>تم اختيار الحجم تلقائياً. يمكنك تغييره وسيتم تعديل عدد الزهور بنفس النسبة</span>
           </div>
@@ -98,69 +101,70 @@ export default function SizeAndPackagingStep({
             })
             .map((opt) => {
               const isSelected = size === opt.key;
-              const sizeLabels: Record<string, string> = {
-                small: "7 - 10 زهرة",
-                medium: "12 - 15 زهرة",
-                large: "18 - 25 زهرة",
-                custom: "",
-              };
 
               return (
                 <button
                   key={opt.key}
                   onClick={() => onSizeChange(opt.key as "small" | "medium" | "large" | "custom")}
                   disabled={totalFlowersCount === 0 && opt.key !== "custom"}
-                  className={`text-center rounded-[20px] border transition-all h-[100px] sm:h-[123px] ${
+                  className={`flex flex-col rounded-[20px] border transition-all h-[110px] px-4 py-4 ${
                     isSelected
-                      ? opt.key === "large"
-                        ? "border-[#49393d] bg-purple-50"
-                        : "border-[#6d6d6d] bg-white"
+                      ? "border-[#6d6d6d] bg-white"
                       : totalFlowersCount === 0 && opt.key !== "custom"
                         ? "border-[#d7d6d6] bg-white opacity-50 cursor-not-allowed"
-                        : "border-[#d7d6d6] bg-white hover:border-[#b5bf95]/30 hover:bg-gray-50 cursor-pointer"
+                        : "border-[#d7d6d6] bg-white hover:border-[#6d6d6d] hover:bg-gray-50 cursor-pointer"
                   }`}
                 >
+                  {/* العنوان في الأعلى - موضع ثابت */}
                   <div
-                    className="font-normal text-[18px] sm:text-[20px] lg:text-[24px] text-black mb-1 sm:mb-2 mt-2 sm:mt-4"
+                    className="font-normal text-[16px] leading-[20px] text-black text-center"
                     style={{ fontFamily: "var(--font-almarai)" }}
                   >
                     {opt.label}
                   </div>
-                  {opt.key !== "custom" && (
-                    <div
-                      className="text-[14px] sm:text-[16px] lg:text-[18px] text-gray-600"
-                      style={{ fontFamily: "var(--font-almarai)" }}
-                    >
-                      {sizeLabels[opt.key]}
-                    </div>
-                  )}
-                  {opt.key === "custom" && (
-                    <div className="mt-1 sm:mt-2">
-                      <input
-                        type="number"
-                        min="5"
-                        max="1000"
-                        value={customFlowerCount}
-                        onChange={(e) => onCustomFlowerCountChange(Number(e.target.value))}
-                        onClick={(e) => e.stopPropagation()}
-                        className="w-[90px] sm:w-[113px] h-[24px] sm:h-[26px] px-2 text-[14px] sm:text-[16px] text-center border-[0.5px] border-[#b7b7b7] rounded-[5px] bg-white text-[#b9b6b6] focus:outline-none focus:ring-1 focus:ring-[#5A5E4D]/30"
-                        style={{ fontFamily: "var(--font-almarai)" }}
-                      />
+
+                  {/* الوصف في المنتصف - موضع ثابت */}
+                  <div className="flex-1 flex items-center justify-center">
+                    {opt.key !== "custom" && opt.stems && (
                       <div
-                        className="text-[12px] sm:text-[14px] text-[#adadad] mt-1"
+                        className="text-[16px] leading-[20px] text-gray-600 text-center"
                         style={{ fontFamily: "var(--font-almarai)" }}
                       >
-                        زهرة
+                        {opt.stems}
                       </div>
-                    </div>
-                  )}
+                    )}
+                    {opt.key === "custom" && (
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="number"
+                          min="5"
+                          max="1000"
+                          value={customFlowerCount}
+                          onChange={(e) => onCustomFlowerCountChange(Number(e.target.value))}
+                          onClick={(e) => e.stopPropagation()}
+                          placeholder="50"
+                          className="w-[100px] h-[26px] px-2 text-[16px] leading-[20px] text-center border-[0.5px] border-[#b7b7b7] rounded-[5px] bg-white text-gray-800 placeholder:text-[#b9b6b6] focus:outline-none focus:ring-1 focus:ring-[#5A5E4D]/30"
+                          style={{ fontFamily: "var(--font-almarai)" }}
+                        />
+                        <div
+                          className="text-[16px] leading-[20px] text-gray-600"
+                          style={{ fontFamily: "var(--font-almarai)" }}
+                        >
+                          زهرة
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </button>
               );
             })}
         </div>
 
         {totalFlowersCount === 0 && (
-          <p className="mt-3 text-xs text-gray-500 text-center bg-gray-50 rounded-md p-2">
+          <p
+            className="mt-3 text-[13px] leading-[18px] text-gray-500 text-center bg-gray-50 rounded-md p-2"
+            style={{ fontFamily: "var(--font-almarai)" }}
+          >
             ⚠️ يرجى اختيار الزهور أولاً من الخطوة السابقة
           </p>
         )}
@@ -169,7 +173,7 @@ export default function SizeAndPackagingStep({
       {/* Packaging type */}
       <div>
         <div
-          className="mb-2 text-[23px] font-normal text-black text-right"
+          className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right"
           style={{ fontFamily: "var(--font-almarai)" }}
         >
           أنواع التغليف
@@ -179,25 +183,25 @@ export default function SizeAndPackagingStep({
         <div className="flex items-start justify-start gap-3 sm:gap-4 mb-6 flex-wrap">
           <button
             onClick={() => onPackagingTypeChange("paper")}
-            className={`h-[45px] sm:h-[55px] w-full sm:w-[160px] rounded-[10px] border border-[#d7d6d6] transition-all ${
+            className={`h-[45px] w-[160px] rounded-[10px] border border-[#d7d6d6] transition-all ${
               packagingType === "paper"
                 ? "bg-[#5a5e4d] text-white"
                 : "bg-[#fcfcfc] text-black hover:bg-gray-50"
             }`}
             style={{ fontFamily: "var(--font-almarai)" }}
           >
-            <span className="text-[16px] sm:text-[18px] lg:text-[20px]">تغليف ورقي</span>
+            <span className="text-[16px] leading-[20px]">تغليف ورقي</span>
           </button>
           <button
             onClick={() => onPackagingTypeChange("vase")}
-            className={`h-[45px] sm:h-[55px] w-full sm:w-[160px] rounded-[10px] border border-[#d7d6d6] transition-all ${
+            className={`h-[45px] w-[160px] rounded-[10px] border border-[#d7d6d6] transition-all ${
               packagingType === "vase"
                 ? "bg-[#5a5e4d] text-white"
                 : "bg-[#fcfcfc] text-black hover:bg-gray-50"
             }`}
             style={{ fontFamily: "var(--font-almarai)" }}
           >
-            <span className="text-[16px] sm:text-[18px] lg:text-[20px]">مزهرية</span>
+            <span className="text-[16px] leading-[20px]">مزهرية</span>
           </button>
         </div>
 
@@ -237,38 +241,38 @@ export default function SizeAndPackagingStep({
                     onClick={() =>
                       onStyleChange(styleOption.key as "classic" | "premium" | "gift" | "eco")
                     }
-                    className={`text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[160px] sm:h-[186px] w-full sm:w-[160px] overflow-hidden mx-auto flex flex-col ${
+                    className={`text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[155px] w-full sm:w-[160px] overflow-hidden mx-auto flex flex-col ${
                       style === styleOption.key ? "border-[#6d6d6d]" : "hover:border-gray-400"
                     }`}
                   >
-                    <div className="h-[100px] sm:h-[120px] w-full overflow-hidden">
+                    <div className="h-[100px] w-full overflow-hidden">
                       <img
                         src={styleOption.image}
                         alt={styleOption.label}
                         className="w-full h-full object-cover rounded-tl-[20px] rounded-tr-[20px]"
                       />
                     </div>
-                    <div className="h-[60px] sm:h-[66px] p-2 flex flex-col justify-center">
+                    <div className="h-[50px] p-2 flex flex-col justify-center">
                       {/* Name and Price on same line - fixed height */}
-                      <div className="flex items-center justify-between mb-1 h-[18px] sm:h-[20px]">
+                      <div className="flex items-center justify-between h-[20px]">
                         <div
-                          className="text-[12px] sm:text-[14px] font-bold text-gray-800 min-h-[18px] sm:min-h-[20px]"
+                          className="text-[13px] font-bold leading-[18px] text-gray-800 text-right"
                           style={{ fontFamily: "var(--font-almarai)" }}
                         >
                           {styleLabelMap[styleOption.key] || styleOption.label}
                         </div>
                         <div
-                          className="text-[#555555] text-[12px] sm:text-[14px] min-h-[18px] sm:min-h-[20px]"
+                          className="text-[13px] font-bold leading-[18px] text-[#5a5e4d] text-right"
                           style={{ fontFamily: "var(--font-almarai)" }}
                         >
                           {styleOption.price} ر.س
                         </div>
                       </div>
                       {/* Description below - fixed height */}
-                      <div className="h-[18px] sm:h-[20px]">
+                      <div className="h-[20px] mb-1">
                         {description.text ? (
                           <div
-                            className={`${description.color} text-right text-[13px] sm:text-[15px]`}
+                            className={`${description.color} text-right text-[13px]`}
                             style={{ fontFamily: "var(--font-almarai)" }}
                           >
                             {description.text}
@@ -306,40 +310,40 @@ export default function SizeAndPackagingStep({
                   <button
                     key={vase.id}
                     onClick={() => onVaseChange(vase.id.toString())}
-                    className={`text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[160px] sm:h-[186px] w-full sm:w-[160px] overflow-hidden mx-auto flex flex-col ${
+                    className={`text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[155px] w-full sm:w-[160px] overflow-hidden mx-auto flex flex-col ${
                       selectedVase === vase.id.toString()
                         ? "border-[#6d6d6d]"
                         : "hover:border-gray-400"
                     }`}
                   >
-                    <div className="h-[100px] sm:h-[120px] w-full overflow-hidden">
+                    <div className="h-[100px] w-full overflow-hidden">
                       <img
                         src={vase.image}
                         alt={vase.name}
                         className="w-full h-full object-cover rounded-tl-[20px] rounded-tr-[20px]"
                       />
                     </div>
-                    <div className="h-[60px] sm:h-[66px] p-2 flex flex-col justify-center">
+                    <div className="h-[50px] p-2 flex flex-col justify-center">
                       {/* Name and Price on same line - fixed height */}
-                      <div className="flex items-center justify-between mb-1 h-[18px] sm:h-[20px]">
+                      <div className="flex items-center justify-between mb-0.5 h-[20px]">
                         <div
-                          className="text-[12px] sm:text-[14px] font-bold text-gray-800 min-h-[18px] sm:min-h-[20px]"
+                          className="text-[13px] font-bold leading-[18px] text-gray-800 text-right"
                           style={{ fontFamily: "var(--font-almarai)" }}
                         >
                           {vase.name}
                         </div>
                         <div
-                          className="text-[#555555] text-[12px] sm:text-[14px] min-h-[18px] sm:min-h-[20px]"
+                          className="text-[13px] font-bold leading-[18px] text-[#5a5e4d] text-right"
                           style={{ fontFamily: "var(--font-almarai)" }}
                         >
                           {vase.price} ر.س
                         </div>
                       </div>
                       {/* Description below - fixed height */}
-                      <div className="h-[18px] sm:h-[20px]">
+                      <div className="h-[20px] mb-1">
                         {description.text ? (
                           <div
-                            className={`${description.color} text-right text-[13px] sm:text-[15px]`}
+                            className={`${description.color} text-right text-[13px]`}
                             style={{ fontFamily: "var(--font-almarai)" }}
                           >
                             {description.text}
@@ -357,19 +361,21 @@ export default function SizeAndPackagingStep({
         )}
       </div>
 
-      <div className="mt-6 flex items-center justify-between gap-2 flex-col sm:flex-row">
+      <div className="mt-6 flex flex-row items-center justify-between gap-2">
         <button
           onClick={onPrevStep}
-          className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#dadada] text-[#434445] hover:bg-gray-300 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+          style={{ fontFamily: "var(--font-almarai)" }}
         >
           <ChevronRight className="w-5 h-5 shrink-0" />
-          <span>السابق</span>
+          <span className="text-[18px] font-bold flex-1 text-center">السابق</span>
         </button>
         <button
           onClick={onNextStep}
-          className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base bg-[#5A5E4D] text-white hover:bg-[#4b5244] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#5f664f] text-white hover:bg-[#4b5244] transition-colors flex items-center justify-center gap-1 cursor-pointer"
+          style={{ fontFamily: "var(--font-almarai)" }}
         >
-          <span>التالي</span>
+          <span className="text-[18px] font-bold flex-1 text-center">التالي</span>
           <ChevronLeft className="w-5 h-5 shrink-0" />
         </button>
       </div>

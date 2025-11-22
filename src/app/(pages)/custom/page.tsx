@@ -274,10 +274,10 @@ function CustomBuilderContent() {
           {/* Page Title Section */}
           <section className="pt-8 pb-4">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-right">
-              <h1 className="text-[36px] font-bold leading-[40px] text-[#2D3319] mb-2 tracking-[0px]">
+              <h1 className="text-[20px] font-bold leading-[24px] text-[#2D3319] mb-2 tracking-[0px]">
                 تنسيق باقة خاص
               </h1>
-              <p className="text-[16px] font-normal leading-[24px] text-[#5A5E4D] tracking-[0px]">
+              <p className="text-[16px] font-normal leading-[20px] text-[#5A5E4D] tracking-[0px]">
                 صمّم باقتك الخاصة بالزهور التي تفضّلها
               </p>
             </div>
@@ -291,21 +291,6 @@ function CustomBuilderContent() {
                 <div className="order-2 lg:order-2 lg:col-span-2">
                   <div className="bg-white rounded-lg border border-gray-200 p-3 sm:p-5 mb-4">
                     <StepIndicator currentStep={state.step} onStepChange={state.setStep} />
-
-                    {/* Section title */}
-                    <div className="flex items-center justify-between mb-2">
-                      <h3
-                        className="text-sm font-semibold text-gray-800"
-                        style={{
-                          fontFamily: "var(--font-almarai)",
-                        }}
-                      >
-                        {state.step === 1 && "اختر الزهور"}
-                        {state.step === 2 && "اختيار الحجم والتغليف"}
-                        {state.step === 3 && "التخصيص"}
-                        {state.step === 4 && "التوصيل"}
-                      </h3>
-                    </div>
 
                     {/* Step content */}
                     {state.step === 1 && (

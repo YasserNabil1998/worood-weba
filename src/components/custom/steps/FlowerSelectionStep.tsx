@@ -69,16 +69,16 @@ export default function FlowerSelectionStep({
   return (
     <>
       {/* Flowers grid - matching Figma design */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 justify-items-center sm:justify-items-stretch">
         {currentPageFlowers.map((f) => {
           const currentQty = qty(f.id);
           return (
             <div
               key={f.id}
-              className="relative h-[300px] sm:h-[340px] rounded-[20px] border border-[#eae9e9] overflow-hidden shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="relative h-[360px] sm:h-[280px] w-full max-w-[320px] sm:max-w-none rounded-[20px] border border-[#eae9e9] overflow-hidden shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
             >
               {/* Image */}
-              <div className="h-[180px] sm:h-[222px] w-full rounded-t-[20px] overflow-hidden">
+              <div className="h-[260px] sm:h-[200px] w-full rounded-t-[20px] overflow-hidden">
                 <img
                   src={f.image}
                   alt={f.name}
@@ -86,23 +86,23 @@ export default function FlowerSelectionStep({
                 />
               </div>
               {/* Content */}
-              <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-[#e0dede] rounded-b-[20px] h-[120px] sm:h-[131px] px-3 sm:px-4 py-2 sm:py-3 flex flex-col justify-between">
-                <div>
-                  <div className="text-[16px] sm:text-[18px] font-bold text-gray-800 mb-1 text-right" style={{ fontFamily: "var(--font-almarai)" }}>
+              <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-[#e0dede] rounded-b-[20px] h-[100px] sm:h-[100px] px-4 py-3 flex flex-col justify-between">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-[16px] font-bold leading-[24px] text-gray-800 text-right" style={{ fontFamily: "var(--font-almarai)" }}>
                     {f.name}
                   </div>
-                  <div className="text-[14px] sm:text-[16px] font-bold text-[#5a5e4d] text-right" style={{ fontFamily: "var(--font-almarai)" }}>
+                  <div className="text-[14px] font-bold leading-[20px] text-[#5a5e4d] text-right" style={{ fontFamily: "var(--font-almarai)" }}>
                     {f.price} ر.س
                   </div>
                 </div>
                 {currentQty === 0 ? (
                   <button
                     onClick={() => onInc(f.id)}
-                    className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] rounded-[4px] bg-[#5f664f] flex items-center justify-center cursor-pointer hover:bg-[#4b5244] transition-colors self-end"
+                    className="w-[45px] h-[40px] rounded-[4px] bg-[#5f664f] flex items-center justify-center cursor-pointer hover:bg-[#4b5244] transition-colors self-end"
                   >
                     <svg
-                      width="24"
-                      height="24"
+                      width="18"
+                      height="18"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -199,14 +199,14 @@ export default function FlowerSelectionStep({
       )}
 
       {/* Next button */}
-      <div className="mt-6 flex">
+      <div className="mt-6 flex flex-row items-center justify-end">
         <button
           onClick={onNextStep}
-          className="ml-auto w-full sm:w-auto h-[50px] sm:h-[64px] px-4 sm:px-6 rounded-[5px] bg-[#5f664f] text-white text-[18px] sm:text-[25px] font-bold hover:bg-[#4b5244] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#5f664f] text-white text-[18px] font-bold hover:bg-[#4b5244] transition-colors flex items-center justify-center gap-1 cursor-pointer relative"
           style={{ fontFamily: "var(--font-almarai)" }}
         >
-          <span>التالي</span>
-          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
+          <span className="flex-1 text-center">التالي</span>
+          <ChevronLeft className="w-5 h-5 flex-shrink-0" />
         </button>
       </div>
     </>
