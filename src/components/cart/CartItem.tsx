@@ -58,8 +58,8 @@ export default function CartItem({
 
   return (
     <div
-      className={`bg-white rounded-xl sm:rounded-2xl shadow-sm p-3 sm:p-6 transition-all duration-300 hover:shadow-lg hover:scale-[1.01] sm:hover:scale-[1.02] ${
-        isSelected ? "shadow-lg ring-2 ring-[#5A5E4D]/20" : ""
+      className={`bg-white rounded-[25px] p-4 sm:p-6 transition-all duration-300 shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:scale-[1.01] max-w-3xl ${
+        isSelected ? "" : ""
       }`}
     >
       <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-4">
@@ -79,19 +79,13 @@ export default function CartItem({
           </div>
 
           {/* الصورة */}
-          <div
-            className={`${
-              isCustom ? "w-19 h-19 sm:w-28 sm:h-28" : "w-18 h-18 sm:w-24 sm:h-24"
-            } shrink-0`}
-          >
+          <div className="w-[142px] h-[155px] shrink-0">
             <Image
               src={item.image}
               alt={item.title}
-              width={112}
-              height={112}
-              className={`rounded-xl sm:rounded-2xl object-cover shadow-md transition-all duration-300 hover:shadow-lg ${
-                isCustom ? "h-19 sm:h-28" : "h-18 sm:h-24"
-              }`}
+              width={142}
+              height={155}
+              className="w-[142px] h-[155px] rounded-[15px] object-cover transition-all duration-300"
               loading="lazy"
             />
           </div>
@@ -99,55 +93,60 @@ export default function CartItem({
 
         {/* التفاصيل */}
         <div className="flex-1 min-w-0">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0 mb-2">
-            <div className="flex-1 min-w-0">
-              <h3 className="font-bold text-gray-800 text-base sm:text-lg md:text-xl mb-2 line-clamp-2">
-                {item.title}
-              </h3>
-              <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                {isCustom && (
-                  <span className="inline-block text-xs bg-linear-to-r from-[#5A5E4D]/10 to-[#4A4E3D]/10 text-[#5A5E4D] px-2 sm:px-3 py-1 sm:py-1.5 rounded-full font-medium border border-[#5A5E4D]/20">
-                    {CART_LABELS.CUSTOM_BOUQUET}
-                  </span>
-                )}
-                {hasDetails && (
-                  <button
-                    onClick={() => onToggleExpand(itemId)}
-                    className="text-xs text-[#5A5E4D] hover:bg-[#5A5E4D]/10 hover:text-[#4b5244] flex items-center gap-1 cursor-pointer px-2 py-1 rounded-lg transition-all duration-200"
-                  >
-                    {isExpanded ? (
-                      <>
-                        <span className="font-medium">{CART_LABELS.HIDE_DETAILS}</span>
-                        <ChevronUp size={14} />
-                      </>
-                    ) : (
-                      <>
-                        <span className="font-medium">{CART_LABELS.SHOW_DETAILS}</span>
-                        <ChevronDown size={14} />
-                      </>
-                    )}
-                  </button>
-                )}
-              </div>
-            </div>
-            <div className="flex gap-2 sm:gap-3 shrink-0">
+          {/* العنوان والأزرار في نفس السطر */}
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <h3
+              className="font-bold text-gray-800 text-[23px] line-clamp-2 flex-1 min-w-0"
+              style={{ fontFamily: "var(--font-almarai)" }}
+            >
+              {item.title}
+            </h3>
+            <div className="flex gap-2 shrink-0">
               {canEdit && (
                 <button
                   onClick={handleEdit}
-                  className="text-[#5A5E4D] text-xs sm:text-sm hover:bg-[#5A5E4D]/10 hover:text-[#4b5244] cursor-pointer px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all duration-200 font-medium flex items-center gap-1"
+                  className="bg-[#6e7b5a] text-white cursor-pointer px-3 py-2 h-[41px] rounded-[5px] transition-all duration-200 hover:bg-[#5a6550] hover:scale-105 flex items-center justify-center"
+                  style={{ fontFamily: "var(--font-almarai)" }}
                 >
-                  <Pencil className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  {CART_LABELS.EDIT}
+                  <Pencil className="w-5 h-5" />
                 </button>
               )}
               <button
                 onClick={handleRemove}
-                className="text-red-600 text-xs sm:text-sm hover:bg-red-50 hover:text-red-700 cursor-pointer px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all duration-200 font-medium flex items-center gap-1"
+                className="bg-[#e57373] text-white cursor-pointer px-3 py-2 h-[41px] rounded-[5px] transition-all duration-200 hover:bg-[#ef5350] hover:scale-105 flex items-center justify-center"
+                style={{ fontFamily: "var(--font-almarai)" }}
               >
-                <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                {CART_LABELS.DELETE}
+                <Trash2 className="w-5 h-5" />
               </button>
             </div>
+          </div>
+
+          {/* عرض التفاصيل */}
+          <div className="flex items-center gap-2 flex-wrap mb-2">
+            {isCustom && (
+              <span className="inline-block text-xs bg-linear-to-r from-[#5A5E4D]/10 to-[#4A4E3D]/10 text-[#5A5E4D] px-2 sm:px-3 py-1 sm:py-1.5 rounded-full font-medium border border-[#5A5E4D]/20">
+                {CART_LABELS.CUSTOM_BOUQUET}
+              </span>
+            )}
+            {hasDetails && (
+              <button
+                onClick={() => onToggleExpand(itemId)}
+                className="text-[18px] text-[#727272] hover:bg-[#5A5E4D]/10 hover:text-[#4b5244] flex items-center gap-1 cursor-pointer px-2 py-1 rounded-lg transition-all duration-200 text-center"
+                style={{ fontFamily: "var(--font-almarai)" }}
+              >
+                {isExpanded ? (
+                  <>
+                    <span className="font-medium">{CART_LABELS.HIDE_DETAILS}</span>
+                    <ChevronUp size={14} />
+                  </>
+                ) : (
+                  <>
+                    <span className="font-medium">{CART_LABELS.SHOW_DETAILS}</span>
+                    <ChevronDown size={14} />
+                  </>
+                )}
+              </button>
+            )}
           </div>
 
           {/* التفاصيل - باقة مخصصة أو عادية */}
@@ -230,9 +229,7 @@ export default function CartItem({
                               <span className="text-sm font-bold text-[#5A5E4D]">
                                 +{chocolateAddonPrice.toFixed(2)}
                               </span>
-                              <span className="text-xs text-[#5A5E4D]">
-                                {APP_CONFIG.CURRENCY}
-                              </span>
+                              <span className="text-xs text-[#5A5E4D]">{APP_CONFIG.CURRENCY}</span>
                             </div>
                           </div>
                         )}
@@ -243,9 +240,7 @@ export default function CartItem({
                               <span className="text-sm font-bold text-[#5A5E4D]">
                                 +{giftWrapAddonPrice.toFixed(2)}
                               </span>
-                              <span className="text-xs text-[#5A5E4D]">
-                                {APP_CONFIG.CURRENCY}
-                              </span>
+                              <span className="text-xs text-[#5A5E4D]">{APP_CONFIG.CURRENCY}</span>
                             </div>
                           </div>
                         )}
@@ -258,45 +253,58 @@ export default function CartItem({
           )}
 
           {/* السعر وعداد الكمية */}
-          <div className="mt-3 border-t pt-3 border-gray-200">
-            <div className="flex justify-between items-center mb-2">
-              <div className="text-xs sm:text-sm font-medium text-gray-600">
+          <div className="mt-3 pt-3">
+            <div className="flex justify-between items-baseline mb-2">
+              <div
+                className="text-[18px] font-normal text-black text-right flex-1 leading-normal"
+                style={{ fontFamily: "var(--font-almarai)" }}
+              >
                 {CART_LABELS.PRICE}
               </div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">
-                  {itemPrice.toFixed(2)}
-                </span>
-                <span className="text-sm sm:text-base text-[#5A5E4D]">
-                  {APP_CONFIG.CURRENCY}
+              <div className="flex items-baseline justify-end gap-1.5 flex-1">
+                <span
+                  className="text-[18px] font-normal text-black text-right leading-normal"
+                  style={{ fontFamily: "var(--font-almarai)" }}
+                >
+                  {itemPrice.toFixed(2)} {APP_CONFIG.CURRENCY}
                 </span>
               </div>
             </div>
+            <div className="h-px bg-gray-300 my-2"></div>
 
             {/* عداد الكمية */}
-            <div className="flex justify-between items-center bg-linear-to-r from-gray-50 to-gray-100 rounded-lg sm:rounded-xl p-1.5 sm:p-3 mb-2.5">
-              <span className="text-xs sm:text-sm font-semibold text-gray-700">
+            <div className="flex justify-between items-center mb-2.5">
+              <span
+                className="text-[18px] font-normal text-black text-right flex-1 leading-normal"
+                style={{ fontFamily: "var(--font-almarai)" }}
+              >
                 {CART_LABELS.QUANTITY}
               </span>
-              <QuantitySelector
-                itemId={itemId}
-                initialQuantity={item.quantity || 1}
-                productData={item}
-                onQuantityChange={onUpdateQuantity}
-              />
+              <div className="flex-1 flex justify-end items-center">
+                <QuantitySelector
+                  itemId={itemId}
+                  initialQuantity={item.quantity || 1}
+                  productData={item}
+                  onQuantityChange={onUpdateQuantity}
+                />
+              </div>
             </div>
+            <div className="h-px bg-gray-300 my-2"></div>
 
             {/* إجمالي السعر للكمية */}
-            <div className="flex justify-between items-center bg-linear-to-r from-[#5A5E4D]/5 to-[#4A4E3D]/5 rounded-lg sm:rounded-xl p-1.5 sm:p-3">
-              <span className="font-bold text-sm sm:text-base text-gray-800">
-                {CART_LABELS.TOTAL_PRICE}:
+            <div className="flex justify-between items-baseline">
+              <span
+                className="font-bold text-[20px] text-black text-right flex-1 leading-normal"
+                style={{ fontFamily: "var(--font-almarai)" }}
+              >
+                {CART_LABELS.TOTAL_PRICE}
               </span>
-              <div className="flex items-center gap-1.5">
-                <span className="text-xl sm:text-2xl font-bold" style={{ color: COLORS.PRIMARY }}>
-                  {itemTotal.toFixed(2)}
-                </span>
-                <span className="text-sm sm:text-base text-[#5A5E4D]">
-                  {APP_CONFIG.CURRENCY}
+              <div className="flex items-baseline justify-end gap-1.5 flex-1">
+                <span
+                  className="text-[20px] font-bold text-black text-right leading-normal"
+                  style={{ fontFamily: "var(--font-almarai)" }}
+                >
+                  {itemTotal.toFixed(2)} {APP_CONFIG.CURRENCY}
                 </span>
               </div>
             </div>

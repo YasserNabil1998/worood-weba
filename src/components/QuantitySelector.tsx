@@ -114,28 +114,25 @@ export default function QuantitySelector({
       <button
         onClick={handleDecrease}
         disabled={quantity <= 1}
-        className="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 text-gray-600 rounded-lg border border-gray-200 transition-colors"
+        className="w-[23px] h-[23px] flex items-center justify-center bg-white border border-[gainsboro] rounded-[5px] disabled:opacity-50 transition-opacity"
         aria-label="تقليل الكمية"
       >
-        <Minus className="w-4 h-4" />
+        <div className="w-[14px] h-[2px] bg-[#5a5e4d]"></div>
       </button>
-      <input
-        type="number"
-        value={inputValue}
-        onChange={handleInputChange}
-        onBlur={handleInputBlur}
-        min="1"
-        max={maxQuantity}
-        className="w-16 text-center bg-white border border-gray-200 rounded-lg px-2 py-1 text-sm font-medium text-[#5A5E4D] focus:outline-none focus:border-[#5A5E4D] focus:ring-1 focus:ring-[#5A5E4D]/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-        aria-label="كمية المنتج"
-      />
+      <span 
+        className="text-[20px] font-bold text-black mx-2 min-w-[20px] text-center"
+        style={{ fontFamily: "var(--font-almarai)" }}
+      >
+        {quantity}
+      </span>
       <button
         onClick={handleIncrease}
         disabled={isMaxReached}
-        className="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 text-gray-600 rounded-lg border border-gray-200 transition-colors"
+        className="w-[23px] h-[23px] flex items-center justify-center bg-white border border-[gainsboro] rounded-[5px] disabled:opacity-50 transition-opacity relative"
         aria-label="زيادة الكمية"
       >
-        <Plus className="w-4 h-4" />
+        <div className="w-[14px] h-[2px] bg-[#5a5e4d]"></div>
+        <div className="absolute w-[2px] h-[13px] bg-[#5a5e4d]"></div>
       </button>
     </div>
   );
