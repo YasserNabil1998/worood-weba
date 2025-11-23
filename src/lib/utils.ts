@@ -180,6 +180,77 @@ export const formatDateToArabic = (isoDate: string): string => {
 };
 
 /**
+ * تحويل الوقت من صيغة HTML (HH:MM) إلى صيغة عربية (مثل: 08:30 ص أو 02:30 م)
+ */
+export const formatTimeToArabic = (time: string): string => {
+  if (!time) return "";
+  
+  // التحقق من أن الوقت بصيغة HH:MM
+  const timeRegex = /^(\d{1,2}):(\d{2})$/;
+  const match = time.match(timeRegex);
+  
+  if (!match) {
+    // إذا كان الوقت بالفعل بتنسيق عربي، إرجاعه كما هو
+    if (time.includes("ص") || time.includes("م")) {
+      return time;
+    }
+    return "";
+  }
+  
+  const hour = parseInt(match[1], 10);
+  const minute = parseInt(match[2], 10);
+  
+  // تحديد الفترة (ص/م)
+  const period = hour < 12 ? "ص" : "م";
+  
+  // تحويل الساعة إلى تنسيق 12 ساعة
+  let displayHour = hour;
+  if (hour === 0) {
+    displayHour = 12; // منتصف الليل
+  } else if (hour > 12) {
+    displayHour = hour - 12;
+  }
+  
+  return `${displayHour.toString().padStart(2, "0")} : ${minute.toString().padStart(2, "0")} ${period}`;
+};
+
+/**
+ * تحويل الوقت من صيغة عربية (مثل: 08:30 ص أو 02:30 م) إلى صيغة HTML (HH:MM)
+ */
+export const formatTimeToHTML = (arabicTime: string): string => {
+  if (!arabicTime) return "";
+  
+  // إذا كان الوقت بالفعل بصيغة HH:MM، إرجاعه كما هو
+  const timeRegex = /^(\d{1,2}):(\d{2})$/;
+  if (timeRegex.test(arabicTime)) {
+    return arabicTime;
+  }
+  
+  // استخراج الوقت من التنسيق العربي
+  const match = arabicTime.match(/(\d{1,2})\s*:\s*(\d{2})\s*(ص|م)/);
+  
+  if (!match) return "";
+  
+  let hour = parseInt(match[1], 10);
+  const minute = parseInt(match[2], 10);
+  const period = match[3];
+  
+  // تحويل إلى تنسيق 24 ساعة
+  if (period === "ص") {
+    if (hour === 12) {
+      hour = 0; // 12 ص = 00:00
+    }
+  } else if (period === "م") {
+    if (hour !== 12) {
+      hour += 12;
+    }
+    // 12 م = 12:00 (لا تغيير)
+  }
+  
+  return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+};
+
+/**
  * توليد معرف فريد
  */
 export const generateId = (): string => {

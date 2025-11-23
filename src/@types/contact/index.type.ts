@@ -116,6 +116,7 @@ export interface FAQItem {
 // الأسئلة الشائعة
 export interface FAQ {
   title: string;
+  subtitle?: string;
   items: FAQItem[];
 }
 

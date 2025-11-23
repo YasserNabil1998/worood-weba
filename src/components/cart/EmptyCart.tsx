@@ -15,7 +15,7 @@ export default function EmptyCart() {
   };
 
   return (
-    <div className="bg-white rounded-[25px] p-12 text-center min-h-[794px] flex flex-col items-center justify-center">
+    <div className="bg-white rounded-[25px] p-12 text-center min-h-[500px] flex flex-col items-center justify-center">
       <div className="w-[124px] h-[124px] rounded-full bg-gray-100 flex items-center justify-center mb-8">
         <div className="w-[63px] h-[63px] opacity-80">
           <ShoppingCart className="w-full h-full text-[#5A5E4D]" />
@@ -27,7 +27,7 @@ export default function EmptyCart() {
       >
         {CART_MESSAGES.EMPTY_CART}
       </h2>
-      <p 
+      <p
         className="text-[17px] font-normal text-[#858585] mb-8"
         style={{ fontFamily: "var(--font-almarai)" }}
       >

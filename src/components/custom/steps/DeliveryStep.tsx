@@ -1,7 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import { DeliveryTime } from "@/src/@types/custom/index.type";
-import { Loader2, ChevronRight, ChevronLeft, Calendar, ChevronDown } from "lucide-react";
-import { formatDateToArabic } from "@/src/lib/utils";
+import { Loader2, ChevronRight, ChevronLeft, Calendar, Clock } from "lucide-react";
+import { formatDateToArabic, formatTimeToArabic, formatTimeToHTML } from "@/src/lib/utils";
 import { ARABIC_MONTHS } from "@/src/constants";
 import { useRef, useState, useEffect } from "react";
 
@@ -36,26 +36,124 @@ export default function DeliveryStep({
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
   const timePickerRef = useRef<HTMLDivElement>(null);
+  const hoursRef = useRef<HTMLDivElement>(null);
+  const minutesRef = useRef<HTMLDivElement>(null);
+  const periodRef = useRef<HTMLDivElement>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
-  // إنشاء قائمة الأوقات المتاحة (كل 30 دقيقة من 8 صباحاً إلى 10 مساءً)
-  const generateTimeOptions = () => {
-    const times: string[] = [];
-    for (let hour = 8; hour <= 22; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
-        const period = hour < 12 ? "ص" : "م";
-        const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
-        const timeString = `${displayHour.toString().padStart(2, "0")} : ${minute.toString().padStart(2, "0")} ${period}`;
-        times.push(timeString);
+  // تحليل الوقت الحالي
+  const parseCurrentTime = () => {
+    if (!deliveryTime) return { hour: 8, minute: 0, period: "ص" };
+
+    let hour = 8;
+    let minute = 0;
+    let period = "ص";
+
+    if (deliveryTime.includes("ص") || deliveryTime.includes("م")) {
+      const match = deliveryTime.match(/(\d{1,2})\s*:\s*(\d{2})\s*(ص|م)/);
+      if (match) {
+        hour = parseInt(match[1], 10);
+        minute = parseInt(match[2], 10);
+        period = match[3];
+      }
+    } else {
+      const htmlTime = formatTimeToHTML(deliveryTime);
+      if (htmlTime) {
+        const [h, m] = htmlTime.split(":");
+        const hNum = parseInt(h, 10);
+        hour = hNum > 12 ? hNum - 12 : hNum === 0 ? 12 : hNum;
+        minute = parseInt(m, 10);
+        period = hNum < 12 ? "ص" : "م";
       }
     }
-    return times;
+
+    return { hour, minute, period };
   };
 
-  const timeOptions = generateTimeOptions();
+  const currentTime = parseCurrentTime();
+  const [selectedHour, setSelectedHour] = useState(currentTime.hour);
+  const [selectedMinute, setSelectedMinute] = useState(currentTime.minute);
+  const [selectedPeriod, setSelectedPeriod] = useState<"ص" | "م">(currentTime.period as "ص" | "م");
 
-  // إغلاق التقويم عند النقر خارجه
+  // تحديث الوقت عند تغيير deliveryTime
+  useEffect(() => {
+    const time = parseCurrentTime();
+    setSelectedHour(time.hour);
+    setSelectedMinute(time.minute);
+    setSelectedPeriod(time.period as "ص" | "م");
+  }, [deliveryTime]);
+
+  // توليد قوائم الساعات والدقائق
+  const hours = Array.from({ length: 12 }, (_, i) => i + 1);
+  const minutes = Array.from({ length: 60 }, (_, i) => i);
+  const periods: ("ص" | "م")[] = ["ص", "م"];
+
+  // تنسيق الوقت للعرض مع عكس ترتيب الساعات والدقائق
+  const getDisplayTime = (): string => {
+    if (!deliveryTime) return "";
+
+    let timeStr = deliveryTime;
+
+    // إذا كان الوقت بتنسيق HTML، نحوله أولاً إلى عربي
+    if (!timeStr.includes("ص") && !timeStr.includes("م")) {
+      timeStr = formatTimeToArabic(timeStr);
+    }
+
+    // إذا كان الوقت بتنسيق عربي، نعكس ترتيب الساعات والدقائق
+    if (timeStr.includes("ص") || timeStr.includes("م")) {
+      const match = timeStr.match(/(\d{1,2})\s*:\s*(\d{2})\s*(ص|م)/);
+      if (match) {
+        const hour = match[1];
+        const minute = match[2];
+        const period = match[3];
+        // عكس الترتيب: دقائق:ساعات
+        return `${minute} : ${hour} ${period}`;
+      }
+    }
+
+    return timeStr;
+  };
+
+  const displayTime = getDisplayTime();
+
+  // تحديث الوقت عند تغيير الاختيار
+  useEffect(() => {
+    if (isTimePickerOpen) {
+      const hour24 =
+        selectedPeriod === "م"
+          ? selectedHour === 12
+            ? 12
+            : selectedHour + 12
+          : selectedHour === 12
+            ? 0
+            : selectedHour;
+      const timeString = `${hour24.toString().padStart(2, "0")}:${selectedMinute.toString().padStart(2, "0")}`;
+      const arabicTime = formatTimeToArabic(timeString);
+      onDeliveryTimeChange(arabicTime);
+    }
+  }, [selectedHour, selectedMinute, selectedPeriod, isTimePickerOpen, onDeliveryTimeChange]);
+
+  // التمرير إلى العنصر المحدد عند فتح المنتقي
+  useEffect(() => {
+    if (isTimePickerOpen) {
+      setTimeout(() => {
+        const scrollToSelected = (ref: React.RefObject<HTMLDivElement | null>, index: number) => {
+          if (ref.current) {
+            const item = ref.current.children[index] as HTMLElement;
+            if (item) {
+              item.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          }
+        };
+        scrollToSelected(hoursRef, selectedHour - 1);
+        scrollToSelected(minutesRef, selectedMinute);
+        scrollToSelected(periodRef, selectedPeriod === "ص" ? 0 : 1);
+      }, 100);
+    }
+  }, [isTimePickerOpen, selectedHour, selectedMinute, selectedPeriod]);
+
+  // إغلاق التقويم ومنتقي الوقت عند النقر خارجه
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
@@ -81,11 +179,6 @@ export default function DeliveryStep({
 
   const toggleTimePicker = () => {
     setIsTimePickerOpen(!isTimePickerOpen);
-  };
-
-  const handleTimeSelect = (time: string) => {
-    onDeliveryTimeChange(time);
-    setIsTimePickerOpen(false);
   };
 
   // الحصول على أيام الشهر
@@ -211,38 +304,116 @@ export default function DeliveryStep({
                 وقت التوصيل
               </div>
               <div className="relative">
+                {/* واجهة العرض */}
                 <div
                   onClick={toggleTimePicker}
                   className="w-full h-[50px] sm:h-[59px] rounded-[10px] border border-[#e1dada] bg-white px-3 sm:px-4 py-2 pr-10 text-right text-[16px] sm:text-[18px] lg:text-[20px] cursor-pointer flex items-center hover:border-[#5A5E4D]/50 transition-colors"
                   style={{ fontFamily: "var(--font-almarai)" }}
                 >
-                  <span className={deliveryTime ? "text-black" : "text-gray-400"}>
-                    {deliveryTime || "اختر الوقت"}
+                  <span className={displayTime ? "text-black" : "text-gray-400"}>
+                    {displayTime || "اختر الوقت"}
                   </span>
                 </div>
-                <ChevronDown
-                  className={`absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#605f5f] pointer-events-none transition-transform ${isTimePickerOpen ? "rotate-180" : ""}`}
-                />
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleTimePicker();
+                  }}
+                  className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#605f5f] hover:text-[#5A5E4D] cursor-pointer flex items-center justify-center transition-colors z-10"
+                  aria-label="فتح منتقي الوقت"
+                >
+                  <Clock
+                    className={`w-5 h-5 transition-transform ${isTimePickerOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
 
-                {/* قائمة الأوقات */}
+                {/* منتقي الوقت المخصص بتصميم ثلاثة أعمدة */}
                 {isTimePickerOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#e1dada] rounded-[10px] shadow-lg z-50 max-h-[300px] overflow-y-auto">
-                    <div className="p-2">
-                      {timeOptions.map((time, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => handleTimeSelect(time)}
-                          className={`w-full text-right px-4 py-2 rounded-[8px] transition-colors ${
-                            deliveryTime === time
-                              ? "bg-[#5A5E4D] text-white"
-                              : "text-black hover:bg-gray-100"
-                          }`}
-                          style={{ fontFamily: "var(--font-almarai)" }}
-                        >
-                          {time}
-                        </button>
-                      ))}
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#e1dada] rounded-[10px] shadow-lg z-50 overflow-hidden">
+                    {/* رأس المنتقي */}
+                    <div className="p-4 border-b border-gray-200">
+                      <div
+                        className="text-[16px] font-semibold text-black text-center"
+                        style={{ fontFamily: "var(--font-almarai)" }}
+                      >
+                        اختر الوقت
+                      </div>
+                    </div>
+
+                    {/* الأعمدة الثلاثة */}
+                    <div className="flex h-[280px]">
+                      {/* عمود الدقائق */}
+                      <div
+                        className="flex-1 border-l border-gray-200 overflow-y-auto hide-scrollbar"
+                        ref={minutesRef}
+                      >
+                        <div className="py-[120px]">
+                          {minutes.map((minute) => (
+                            <button
+                              key={minute}
+                              type="button"
+                              onClick={() => setSelectedMinute(minute)}
+                              className={`w-full py-3 text-center text-[16px] transition-colors ${
+                                selectedMinute === minute
+                                  ? "bg-gray-100 text-[#5A5E4D] font-semibold"
+                                  : "text-gray-600 hover:bg-gray-50"
+                              }`}
+                              style={{ fontFamily: "var(--font-almarai)" }}
+                            >
+                              {minute.toString().padStart(2, "0")}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* عمود الساعات */}
+                      <div
+                        className="flex-1 border-l border-gray-200 overflow-y-auto hide-scrollbar"
+                        ref={hoursRef}
+                      >
+                        <div className="py-[120px]">
+                          {hours.map((hour) => (
+                            <button
+                              key={hour}
+                              type="button"
+                              onClick={() => setSelectedHour(hour)}
+                              className={`w-full py-3 text-center text-[16px] transition-colors ${
+                                selectedHour === hour
+                                  ? "bg-gray-100 text-[#5A5E4D] font-semibold"
+                                  : "text-gray-600 hover:bg-gray-50"
+                              }`}
+                              style={{ fontFamily: "var(--font-almarai)" }}
+                            >
+                              {hour.toString().padStart(2, "0")}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* عمود الفترة (ص/م) */}
+                      <div
+                        className="flex-1 border-l border-gray-200 overflow-y-auto hide-scrollbar"
+                        ref={periodRef}
+                      >
+                        <div className="py-[120px]">
+                          {periods.map((period) => (
+                            <button
+                              key={period}
+                              type="button"
+                              onClick={() => setSelectedPeriod(period)}
+                              className={`w-full py-3 text-center text-[16px] transition-colors ${
+                                selectedPeriod === period
+                                  ? "bg-gray-100 text-[#5A5E4D] font-semibold"
+                                  : "text-gray-600 hover:bg-gray-50"
+                              }`}
+                              style={{ fontFamily: "var(--font-almarai)" }}
+                            >
+                              {period}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -368,38 +539,116 @@ export default function DeliveryStep({
             وقت التوصيل
           </div>
           <div className="relative" ref={timePickerRef}>
+            {/* واجهة العرض */}
             <div
               onClick={toggleTimePicker}
               className="w-full h-[50px] sm:h-[59px] rounded-[10px] border border-[#e1dada] bg-white px-3 sm:px-4 py-2 pr-10 text-right text-[16px] sm:text-[18px] lg:text-[20px] cursor-pointer flex items-center hover:border-[#5A5E4D]/50 transition-colors"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
-              <span className={deliveryTime ? "text-black" : "text-gray-400"}>
-                {deliveryTime || "اختر الوقت"}
+              <span className={displayTime ? "text-black" : "text-gray-400"}>
+                {displayTime || "اختر الوقت"}
               </span>
             </div>
-            <ChevronDown
-              className={`absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#605f5f] pointer-events-none transition-transform ${isTimePickerOpen ? "rotate-180" : ""}`}
-            />
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleTimePicker();
+              }}
+              className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#605f5f] hover:text-[#5A5E4D] cursor-pointer flex items-center justify-center transition-colors z-10"
+              aria-label="فتح منتقي الوقت"
+            >
+              <Clock
+                className={`w-5 h-5 transition-transform ${isTimePickerOpen ? "rotate-180" : ""}`}
+              />
+            </button>
 
-            {/* قائمة الأوقات */}
+            {/* منتقي الوقت المخصص بتصميم ثلاثة أعمدة */}
             {isTimePickerOpen && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#e1dada] rounded-[10px] shadow-lg z-50 max-h-[300px] overflow-y-auto">
-                <div className="p-2">
-                  {timeOptions.map((time, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      onClick={() => handleTimeSelect(time)}
-                      className={`w-full text-right px-4 py-2 rounded-[8px] transition-colors ${
-                        deliveryTime === time
-                          ? "bg-[#5A5E4D] text-white"
-                          : "text-black hover:bg-gray-100"
-                      }`}
-                      style={{ fontFamily: "var(--font-almarai)" }}
-                    >
-                      {time}
-                    </button>
-                  ))}
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#e1dada] rounded-[10px] shadow-lg z-50 overflow-hidden">
+                {/* رأس المنتقي */}
+                <div className="p-4 border-b border-gray-200">
+                  <div
+                    className="text-[16px] font-semibold text-black text-center"
+                    style={{ fontFamily: "var(--font-almarai)" }}
+                  >
+                    اختر الوقت
+                  </div>
+                </div>
+
+                {/* الأعمدة الثلاثة */}
+                <div className="flex h-[280px]">
+                  {/* عمود الدقائق */}
+                  <div
+                    className="flex-1 border-l border-gray-200 overflow-y-auto hide-scrollbar"
+                    ref={minutesRef}
+                  >
+                    <div className="py-[120px]">
+                      {minutes.map((minute) => (
+                        <button
+                          key={minute}
+                          type="button"
+                          onClick={() => setSelectedMinute(minute)}
+                          className={`w-full py-3 text-center text-[16px] transition-colors ${
+                            selectedMinute === minute
+                              ? "bg-gray-100 text-[#5A5E4D] font-semibold"
+                              : "text-gray-600 hover:bg-gray-50"
+                          }`}
+                          style={{ fontFamily: "var(--font-almarai)" }}
+                        >
+                          {minute.toString().padStart(2, "0")}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* عمود الساعات */}
+                  <div
+                    className="flex-1 border-l border-gray-200 overflow-y-auto hide-scrollbar"
+                    ref={hoursRef}
+                  >
+                    <div className="py-[120px]">
+                      {hours.map((hour) => (
+                        <button
+                          key={hour}
+                          type="button"
+                          onClick={() => setSelectedHour(hour)}
+                          className={`w-full py-3 text-center text-[16px] transition-colors ${
+                            selectedHour === hour
+                              ? "bg-gray-100 text-[#5A5E4D] font-semibold"
+                              : "text-gray-600 hover:bg-gray-50"
+                          }`}
+                          style={{ fontFamily: "var(--font-almarai)" }}
+                        >
+                          {hour.toString().padStart(2, "0")}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* عمود الفترة (ص/م) */}
+                  <div
+                    className="flex-1 border-l border-gray-200 overflow-y-auto hide-scrollbar"
+                    ref={periodRef}
+                  >
+                    <div className="py-[120px]">
+                      {periods.map((period) => (
+                        <button
+                          key={period}
+                          type="button"
+                          onClick={() => setSelectedPeriod(period)}
+                          className={`w-full py-3 text-center text-[16px] transition-colors ${
+                            selectedPeriod === period
+                              ? "bg-gray-100 text-[#5A5E4D] font-semibold"
+                              : "text-gray-600 hover:bg-gray-50"
+                          }`}
+                          style={{ fontFamily: "var(--font-almarai)" }}
+                        >
+                          {period}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -414,7 +663,7 @@ export default function DeliveryStep({
           className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#dadada] text-[#434445] text-[18px] font-bold hover:bg-gray-300 transition-colors flex items-center justify-center gap-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           style={{ fontFamily: "var(--font-almarai)" }}
         >
-          <ChevronRight className="w-5 h-5 flex-shrink-0" />
+          <ChevronRight className="w-5 h-5 shrink-0" />
           <span className="flex-1 text-center">السابق</span>
         </button>
         <button
@@ -425,7 +674,7 @@ export default function DeliveryStep({
         >
           {isAddingToCart ? (
             <span className="flex items-center gap-1 text-right">
-              <Loader2 className="animate-spin h-3 w-3 text-white flex-shrink-0" />
+              <Loader2 className="animate-spin h-3 w-3 text-white shrink-0" />
               {isEditMode ? "جاري التحديث..." : "جاري الإضافة..."}
             </span>
           ) : (
