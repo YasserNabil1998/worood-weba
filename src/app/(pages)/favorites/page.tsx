@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, X, ShoppingCart, Trash2, Sparkles, Pencil } from "lucide-react";
 
-import ProductCard from "@/src/components/ProductCard";
+import FavoriteProductCard from "@/src/components/FavoriteProductCard";
 import { CustomBouquet } from "@/src/@types/favorites/CustomBouquet.type";
 import { useFavorites } from "@/src/hooks/useFavorites";
 import { useCustomBouquetFavorites } from "@/src/hooks/useCustomBouquetFavorites";
@@ -56,28 +56,31 @@ export default function FavoritesPage() {
   }
 
   return (
-    <div className="min-h-screen" dir="rtl">
+    <div className="min-h-screen bg-[#fbfaf2]" dir="rtl">
       <main className="py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Breadcrumb */}
+          <div className="mb-4">
+            <nav
+              className="flex items-center gap-2 text-[18px] text-[#a0a0a0] justify-start"
+              style={{ fontFamily: "var(--font-almarai)" }}
+            >
+              <Link href="/" className="hover:text-[#5A5E4D] transition-colors">
+                الرئيسية
+              </Link>
+              <span> / </span>
+              <span className="text-[#5A5E4D]">المفضلة</span>
+            </nav>
+          </div>
+
           {/* Page Title */}
-          <div className="mb-10 md:mb-12">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="p-3 bg-[#5A5E4D]/10 rounded-xl">
-                <Heart className="w-7 h-7 text-[#5A5E4D]" fill="#5A5E4D" />
-              </div>
-              <h1
-                className="text-[32px] md:text-[40px] font-bold leading-tight text-[#2D3319] tracking-[-0.5px]"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
-                المفضلة
-              </h1>
-            </div>
-            <p
-              className="text-[15px] md:text-[16px] font-normal leading-relaxed text-[#5A5E4D] pr-12"
+          <div className="mb-8 md:mb-12 flex justify-start">
+            <h1
+              className="text-[20px] font-bold text-[rgba(0,0,0,0.72)]"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               المنتجات التي أضفتها إلى قائمة المفضلة
-            </p>
+            </h1>
           </div>
 
           {favorites.length === 0 && customBouquets.length === 0 ? (
@@ -107,7 +110,7 @@ export default function FavoritesPage() {
                 </p>
                 <Link
                   href="/bouquets"
-                  className="inline-flex items-center gap-2 bg-[#5A5E4D] hover:bg-[#4A4E3D] text-white px-8 py-3.5 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95"
+                  className="inline-flex items-center gap-2 bg-[#5f664f] hover:bg-[#4A4E3D] text-white px-8 py-3.5 rounded-[10px] font-bold text-[22px] transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95"
                   style={{
                     fontFamily: "var(--font-almarai)",
                   }}
@@ -119,117 +122,108 @@ export default function FavoritesPage() {
             </div>
           ) : (
             <>
+              {/* المنتجات العادية */}
+              {favorites.length > 0 && (
+                <div className="mb-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {favorites.map((item) => (
+                      <FavoriteProductCard key={item.id} item={item} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* التصاميم المخصصة */}
               {customBouquets.length > 0 && (
-                <div className="mb-12 md:mb-16">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="h-px flex-1 bg-gradient-to-l from-[#5A5E4D]/20 to-transparent"></div>
-                    <h2
-                      className="text-xl md:text-2xl font-bold text-gray-800 px-4"
-                      style={{
-                        fontFamily: "var(--font-almarai)",
-                      }}
-                    >
-                      التصاميم المخصصة ({customBouquets.length})
-                    </h2>
-                    <div className="h-px flex-1 bg-gradient-to-r from-[#5A5E4D]/20 to-transparent"></div>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="mb-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {customBouquets.map((bouquet) => (
                       <div
                         key={bouquet.id}
-                        className="group bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer hover:-translate-y-2 border border-gray-100"
+                        className="bg-white border border-[#eae9e9] rounded-[20px] h-[149px] flex overflow-hidden relative cursor-pointer w-full"
+                        dir="rtl"
                         onClick={() => openPreview(bouquet)}
                       >
-                        <div className="relative h-64 bg-gradient-to-br from-pink-100 to-purple-100 overflow-hidden">
+                        {/* Image Section */}
+                        <div className="relative w-[140px] h-full shrink-0">
                           <Image
-                            src={bouquet.image}
+                            src="/assets/custom-bouquet/معاينة الباقة.png"
                             alt="باقة مخصصة"
                             fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-110"
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                            className="object-cover"
+                            sizes="140px"
                             loading="lazy"
+                            onError={(e) => {
+                              // Fallback to saved bouquet image (from bouquetImage) if the preview image doesn't exist
+                              const target = e.target as HTMLImageElement;
+                              if (bouquet.image && target.src !== bouquet.image) {
+                                target.src = bouquet.image;
+                              }
+                            }}
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                          <div className="absolute top-3 right-3 bg-[#5A5E4D] text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg backdrop-blur-sm">
-                            مخصصة
-                          </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeCustomBouquet(bouquet.id);
+                            }}
+                            className="absolute top-2 left-2 z-10 cursor-pointer hover:scale-110 transition-transform duration-200"
+                            dir="rtl"
+                            aria-label="إزالة من المفضلة"
+                          >
+                            <div className="relative w-[42px] h-[42px]">
+                              <div className="absolute inset-0 bg-white/80 rounded-full backdrop-blur-sm"></div>
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <Heart
+                                  className="w-[27px] h-[27px] text-red-800"
+                                  fill="currentColor"
+                                />
+                              </div>
+                            </div>
+                          </button>
                         </div>
-                        <div className="p-5">
-                          <h3
-                            className="text-lg font-bold text-gray-800 mb-2 line-clamp-1"
-                            style={{
-                              fontFamily: "var(--font-almarai)",
-                            }}
-                          >
-                            باقة مخصصة - {bouquet.occasion}
-                          </h3>
-                          <p
-                            className="text-sm text-gray-600 mb-3 flex items-center gap-1"
-                            style={{
-                              fontFamily: "var(--font-almarai)",
-                            }}
-                          >
-                            <Sparkles className="w-3.5 h-3.5 text-[#5A5E4D]" />
-                            {bouquet.flowers.length} نوع من الزهور
-                          </p>
-                          <div className="flex items-center justify-start gap-1.5 mb-4">
-                            <span
-                              className="text-xl sm:text-2xl font-bold text-[#5A5E4D]"
-                              style={{
-                                fontFamily: "var(--font-almarai)",
-                              }}
+                        {/* Content Section */}
+                        <div className="flex-1 flex flex-col justify-between p-4 pl-5">
+                          <div className="flex items-start justify-start">
+                            <h3
+                              className="font-bold text-[16px] text-gray-800 text-right leading-[24px]"
+                              style={{ fontFamily: "var(--font-almarai)" }}
                             >
-                              {bouquet.total}
-                            </span>
-                            <span
-                              className="text-sm sm:text-base text-[#5A5E4D]"
-                              style={{
-                                fontFamily: "var(--font-almarai)",
-                              }}
-                            >
-                              ر.س
-                            </span>
+                              باقة مخصصة - {bouquet.occasion}
+                            </h3>
                           </div>
-                          <div className="flex flex-col gap-2">
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                addCustomBouquetToCart(bouquet);
-                              }}
-                              className="flex items-center justify-center gap-2 bg-[#5A5E4D] text-white py-2.5 px-4 rounded-xl text-sm font-semibold hover:bg-[#4A4E3D] transition-all duration-300 hover:shadow-md active:scale-95"
-                              style={{
-                                fontFamily: "var(--font-almarai)",
-                              }}
+                          <div className="flex items-center justify-between gap-3 mt-auto">
+                            <span
+                              className="text-[16px] font-bold text-[#3c3d39] text-right whitespace-nowrap"
+                              style={{ fontFamily: "var(--font-almarai)" }}
                             >
-                              <ShoppingCart className="w-4 h-4" />
-                              أضف إلى السلة
-                            </button>
-                            <div className="flex gap-2">
+                              {bouquet.total} ر.س
+                            </span>
+                            <div className="flex items-center gap-2">
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   editCustomBouquet(bouquet);
                                 }}
-                                className="flex-1 flex items-center justify-center gap-2 bg-[#5A5E4D]/10 text-[#5A5E4D] py-2.5 px-4 rounded-xl text-sm font-semibold hover:bg-[#5A5E4D]/20 transition-all duration-300 active:scale-95"
-                                style={{
-                                  fontFamily: "var(--font-almarai)",
-                                }}
+                                className="bg-[#5A5E4D]/10 text-[#5A5E4D] rounded-[4px] w-[44px] h-[37px] flex items-center justify-center hover:bg-[#5A5E4D]/20 transition-all duration-300 cursor-pointer shrink-0"
+                                aria-label="تعديل الباقة"
                               >
                                 <Pencil className="w-4 h-4" />
-                                تعديل
                               </button>
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  removeCustomBouquet(bouquet.id);
+                                  addCustomBouquetToCart(bouquet);
                                 }}
-                                className="flex items-center justify-center gap-2 bg-red-50 text-red-600 py-2.5 px-4 rounded-xl text-sm font-semibold hover:bg-red-100 transition-all duration-300 active:scale-95"
-                                style={{
-                                  fontFamily: "var(--font-almarai)",
-                                }}
+                                className="bg-[#5f664f] rounded-[4px] w-[44px] h-[37px] flex items-center justify-center hover:bg-[#4a4e3d] transition-all duration-300 cursor-pointer shrink-0"
+                                aria-label="أضف إلى السلة"
                               >
-                                <Trash2 className="w-4 h-4" />
+                                <Image
+                                  src="/assets/add-to-cart-icon.svg"
+                                  alt="أضف إلى السلة"
+                                  width={27}
+                                  height={27}
+                                  className="object-contain"
+                                />
                               </button>
                             </div>
                           </div>
@@ -240,26 +234,20 @@ export default function FavoritesPage() {
                 </div>
               )}
 
-              {/* المنتجات العادية */}
-              {favorites.length > 0 && (
-                <div>
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="h-px flex-1 bg-gradient-to-l from-[#5A5E4D]/20 to-transparent"></div>
-                    <h2
-                      className="text-xl md:text-2xl font-bold text-gray-800 px-4"
-                      style={{
-                        fontFamily: "var(--font-almarai)",
-                      }}
-                    >
-                      المنتجات ({favorites.length})
-                    </h2>
-                    <div className="h-px flex-1 bg-gradient-to-r from-[#5A5E4D]/20 to-transparent"></div>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {favorites.map((item) => (
-                      <ProductCard key={item.id} item={item} />
-                    ))}
-                  </div>
+              {/* Browse Packages Button */}
+              {(favorites.length > 0 || customBouquets.length > 0) && (
+                <div className="flex justify-center mt-8">
+                  <Link
+                    href="/bouquets"
+                    className="bg-[#5f664f] h-[70px] rounded-[10px] px-8 flex items-center justify-center hover:bg-[#4A4E3D] transition-all duration-300"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                  >
+                    <span className="text-white font-bold text-[22px] text-right">
+                      تصفح الباقات
+                    </span>
+                  </Link>
                 </div>
               )}
             </>
