@@ -53,12 +53,6 @@ export default function BouquetPreview({
   getStyleLabel,
   getVaseName,
 }: BouquetPreviewProps) {
-  // Get the first selected flower name
-  const firstSelectedFlower = Object.entries(selectedFlowers)
-    .filter(([_, qty]) => qty > 0)
-    .map(([flowerId]) => flowers.find((f) => f.id === Number(flowerId)))
-    .find(Boolean);
-
   return (
     <div className="order-1 lg:order-1 w-full lg:max-w-[445px] lg:justify-self-start">
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
@@ -73,7 +67,7 @@ export default function BouquetPreview({
         </div>
 
         {/* Bouquet Image - using the image from assets */}
-        <div className="px-3 sm:px-4 flex justify-center">
+        <div className="px-3 sm:px-4 flex flex-col items-center relative">
           <div className="relative h-[200px] w-[170px] sm:h-[250px] sm:w-[220px] lg:h-[318px] lg:w-[270px] mb-3 sm:mb-4">
             <div className="absolute inset-0 rounded-full overflow-hidden bg-white">
               <img
@@ -87,13 +81,39 @@ export default function BouquetPreview({
               />
             </div>
           </div>
+          {/* Elegant curved underline - subtle reflective shadow */}
+          <svg
+            className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[200px] sm:w-[250px] lg:w-[350px] h-[60px] pointer-events-none"
+            viewBox="0 0 220 60"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              <linearGradient id="shadowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#5A5E4D" stopOpacity="0" />
+                <stop offset="20%" stopColor="#5A5E4D" stopOpacity="0.3" />
+                <stop offset="50%" stopColor="#5A5E4D" stopOpacity="0.5" />
+                <stop offset="80%" stopColor="#5A5E4D" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#5A5E4D" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M10 20 Q110 90, 210 30"
+              stroke="url(#shadowGradient)"
+              strokeWidth="1.5"
+              fill="none"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
         </div>
 
         {/* Content */}
         <div className="px-3 sm:px-4 pb-3 sm:pb-4">
           {/* Total */}
-          <div className="text-center mb-2">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 mb-1">
+          <div className="flex flex-col mb-2">
+            {/* First row - الإجمالي and السعر */}
+            <div className="flex items-center justify-between mb-1">
               <span
                 className="text-[16px] font-bold text-black"
                 style={{ fontFamily: "var(--font-almarai)" }}
@@ -107,8 +127,9 @@ export default function BouquetPreview({
                 {total.toFixed(0)} ريال
               </span>
             </div>
+            {/* Second row - غير شامل الضريبة */}
             <div
-              className="text-[14px] font-normal text-black"
+              className="text-[14px] font-normal text-black text-right"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               غير شامل الضريبة
@@ -117,22 +138,6 @@ export default function BouquetPreview({
 
           {/* Divider line */}
           <div className="h-px bg-gray-300 my-3 sm:my-4 mx-auto w-full max-w-[354px]" />
-
-          {/* Flower Type */}
-          <div className="bg-[#f9f9f9] h-[70px] sm:h-[86px] rounded-[10px] px-3 sm:px-4 flex items-center justify-between mb-3 sm:mb-4">
-            <span
-              className="text-[16px] font-normal text-black"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
-              نوع الزهور
-            </span>
-            <span
-              className="text-[16px] font-normal text-[#727272]"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
-              {firstSelectedFlower?.name || "غير محدد"}
-            </span>
-          </div>
 
           {/* Price Breakdown */}
           <PriceBreakdown

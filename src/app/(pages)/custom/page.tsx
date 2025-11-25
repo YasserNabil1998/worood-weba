@@ -33,6 +33,7 @@ import SizeAndPackagingStep from "@/src/components/custom/steps/SizeAndPackaging
 import CustomizationStep from "@/src/components/custom/steps/CustomizationStep";
 import DeliveryStep from "@/src/components/custom/steps/DeliveryStep";
 import DataLoader from "@/src/components/DataLoader";
+import { ChevronRight, ChevronLeft, Loader2 } from "lucide-react";
 
 function CustomBuilderContent() {
   const searchParams = useSearchParams();
@@ -289,52 +290,54 @@ function CustomBuilderContent() {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
                 {/* Left - selector */}
                 <div className="order-2 lg:order-2 lg:col-span-2">
-                  <div className="bg-white rounded-lg border border-gray-200 p-3 sm:p-5 mb-4">
+                  {/* Step Indicator - Outside content component */}
+                  <div className="mb-4">
                     <StepIndicator currentStep={state.step} onStepChange={state.setStep} />
+                  </div>
 
-                    {/* Step content */}
-                    {state.step === 1 && (
-                      <FlowerSelectionStep
-                        flowers={flowers}
-                        selectedFlowers={state.selectedFlowers}
-                        totalFlowersCount={prices.totalFlowersCount}
-                        searchQuery={state.searchQuery}
-                        onSearchChange={state.setSearchQuery}
-                        onInc={flowerManagement.inc}
-                        onDec={flowerManagement.dec}
-                        qty={flowerManagement.qty}
-                        onNextStep={() => state.setStep(2)}
-                      />
-                    )}
+                  {/* Step 1 - بدون خلفية بيضاء */}
+                  {state.step === 1 && (
+                    <FlowerSelectionStep
+                      flowers={flowers}
+                      selectedFlowers={state.selectedFlowers}
+                      totalFlowersCount={prices.totalFlowersCount}
+                      searchQuery={state.searchQuery}
+                      onSearchChange={state.setSearchQuery}
+                      onInc={flowerManagement.inc}
+                      onDec={flowerManagement.dec}
+                      qty={flowerManagement.qty}
+                      onNextStep={() => state.setStep(2)}
+                    />
+                  )}
 
-                    {state.step === 2 && (
-                      <SizeAndPackagingStep
-                        selectedFlowers={state.selectedFlowers}
-                        flowers={flowers}
-                        colors={colors}
-                        selectedColors={state.selectedColors}
-                        expandedFlower={state.expandedFlower}
-                        onToggleFlowerExpansion={toggleFlowerExpansion}
-                        onSetFlowerColor={flowerManagement.setFlowerColor}
-                        bouquetSizes={bouquetSizes}
-                        size={state.size}
-                        totalFlowersCount={prices.totalFlowersCount}
-                        customFlowerCount={state.customFlowerCount}
-                        onCustomFlowerCountChange={state.setCustomFlowerCount}
-                        onSizeChange={flowerManagement.handleSizeChange}
-                        packagingType={state.packagingType}
-                        onPackagingTypeChange={state.setPackagingType}
-                        bouquetStyles={bouquetStyles}
-                        style={state.style}
-                        onStyleChange={state.setStyle}
+                  {/* Steps 2-4 - مع خلفية بيضاء */}
+                  {(state.step === 2 || state.step === 3 || state.step === 4) && (
+                    <div className="bg-white rounded-lg border border-gray-200 p-3 sm:p-5 mb-4">
+                      {state.step === 2 && (
+                        <SizeAndPackagingStep
+                          selectedFlowers={state.selectedFlowers}
+                          flowers={flowers}
+                          colors={colors}
+                          selectedColors={state.selectedColors}
+                          expandedFlower={state.expandedFlower}
+                          onToggleFlowerExpansion={toggleFlowerExpansion}
+                          onSetFlowerColor={flowerManagement.setFlowerColor}
+                          bouquetSizes={bouquetSizes}
+                          size={state.size}
+                          totalFlowersCount={prices.totalFlowersCount}
+                          customFlowerCount={state.customFlowerCount}
+                          onCustomFlowerCountChange={state.setCustomFlowerCount}
+                          onSizeChange={flowerManagement.handleSizeChange}
+                          packagingType={state.packagingType}
+                          onPackagingTypeChange={state.setPackagingType}
+                          bouquetStyles={bouquetStyles}
+                          style={state.style}
+                          onStyleChange={state.setStyle}
                         vases={vases}
                         selectedVase={state.selectedVase}
                         onVaseChange={state.setSelectedVase}
-                        onPrevStep={() => state.setStep(1)}
-                        onNextStep={() => {
-                          flowerManagement.completeFlowersForSize();
-                          state.setStep(3);
-                        }}
+                        onPrevStep={() => {}}
+                        onNextStep={() => {}}
                       />
                     )}
 
@@ -355,8 +358,8 @@ function CustomBuilderContent() {
                         notes={state.notes}
                         onNotesChange={state.setNotes}
                         config={config}
-                        onPrevStep={() => state.setStep(2)}
-                        onNextStep={() => state.setStep(4)}
+                        onPrevStep={() => {}}
+                        onNextStep={() => {}}
                       />
                     )}
 
@@ -370,11 +373,67 @@ function CustomBuilderContent() {
                         deliveryDate={state.deliveryDate}
                         onDeliveryDateChange={state.setDeliveryDate}
                         isAddingToCart={state.isAddingToCart}
-                        onPrevStep={() => state.setStep(3)}
+                        onPrevStep={() => {}}
                         onAddToCart={cartOps.addToCart}
                       />
                     )}
-                  </div>
+                    </div>
+                  )}
+
+                  {/* Navigation buttons - خارج الخلفية البيضاء */}
+                  {(state.step === 2 || state.step === 3 || state.step === 4) && (
+                    <div className="flex flex-row items-center justify-between gap-2 mt-4">
+                      <button
+                        onClick={() => {
+                          if (state.step === 2) state.setStep(1);
+                          else if (state.step === 3) state.setStep(2);
+                          else if (state.step === 4) state.setStep(3);
+                        }}
+                        disabled={state.isAddingToCart}
+                        className="w-[130px] h-[50px] px-4 rounded-[5px] bg-transparent border border-[#5A5E4D] text-[#5A5E4D] hover:bg-gray-50 transition-colors flex items-center justify-center gap-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        style={{ fontFamily: "var(--font-almarai)" }}
+                      >
+                        <ChevronRight className="w-5 h-5 shrink-0" />
+                        <span className="text-[18px] font-bold flex-1 text-center">السابق</span>
+                      </button>
+                      {state.step !== 4 ? (
+                        <button
+                          onClick={() => {
+                            if (state.step === 2) {
+                              flowerManagement.completeFlowersForSize();
+                              state.setStep(3);
+                            } else if (state.step === 3) {
+                              state.setStep(4);
+                            }
+                          }}
+                          disabled={state.isAddingToCart}
+                          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#5f664f] text-white hover:bg-[#4b5244] transition-colors flex items-center justify-center gap-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                          style={{ fontFamily: "var(--font-almarai)" }}
+                        >
+                          <span className="text-[18px] font-bold flex-1 text-center">التالي</span>
+                          <ChevronLeft className="w-5 h-5 shrink-0" />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={cartOps.addToCart}
+                          disabled={state.isAddingToCart}
+                          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#5f664f] text-white text-[15px] font-bold hover:bg-[#4b5244] transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1"
+                          style={{ fontFamily: "var(--font-almarai)" }}
+                        >
+                          {state.isAddingToCart ? (
+                            <span className="flex items-center gap-1 text-right">
+                              <Loader2 className="animate-spin h-3 w-3 text-white shrink-0" />
+                              {isEditMode ? "جاري التحديث..." : "جاري الإضافة..."}
+                            </span>
+                          ) : (
+                            <span className="text-right whitespace-nowrap">
+                              {isEditMode ? "تحديث السلة" : "إضافة إلى السلة"}
+                            </span>
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <BouquetPreview

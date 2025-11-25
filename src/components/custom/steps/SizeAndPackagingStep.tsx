@@ -61,7 +61,7 @@ export default function SizeAndPackagingStep({
   onNextStep,
 }: SizeAndPackagingStepProps) {
   const packagingBaseClasses =
-    "h-[45px] w-[160px] rounded-[12px] border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-[#5a5e4d]/30 cursor-pointer";
+    "h-[45px] w-full sm:w-[160px] rounded-[12px] border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-[#5a5e4d]/30 cursor-pointer";
 
   const getPackagingButtonClasses = (type: PackagingType) => {
     const isActive = packagingType === type;
@@ -119,7 +119,7 @@ export default function SizeAndPackagingStep({
                   key={opt.key}
                   onClick={() => onSizeChange(opt.key as "small" | "medium" | "large" | "custom")}
                   disabled={totalFlowersCount === 0 && opt.key !== "custom"}
-                  className={`flex flex-col rounded-[20px] border transition-all h-[110px] px-4 py-4 ${
+                  className={`flex flex-col rounded-[20px] border transition-all h-[110px] px-3 sm:px-4 py-4 ${
                     isSelected
                       ? "border-[#6d6d6d] bg-white"
                       : totalFlowersCount === 0 && opt.key !== "custom"
@@ -129,7 +129,7 @@ export default function SizeAndPackagingStep({
                 >
                   {/* العنوان في الأعلى - موضع ثابت */}
                   <div
-                    className="font-normal text-[16px] leading-[20px] text-black text-center"
+                    className="font-normal text-[14px] sm:text-[16px] leading-[20px] text-black text-center"
                     style={{ fontFamily: "var(--font-almarai)" }}
                   >
                     {opt.label}
@@ -139,14 +139,14 @@ export default function SizeAndPackagingStep({
                   <div className="flex-1 flex items-center justify-center">
                     {opt.key !== "custom" && opt.stems && (
                       <div
-                        className="text-[16px] leading-[20px] text-gray-600 text-center"
+                        className="text-[14px] sm:text-[16px] leading-[20px] text-gray-600 text-center"
                         style={{ fontFamily: "var(--font-almarai)" }}
                       >
                         {opt.stems}
                       </div>
                     )}
                     {opt.key === "custom" && (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center justify-center gap-2 w-full flex-wrap sm:flex-nowrap">
                         <input
                           type="number"
                           min="5"
@@ -155,11 +155,11 @@ export default function SizeAndPackagingStep({
                           onChange={(e) => onCustomFlowerCountChange(Number(e.target.value))}
                           onClick={(e) => e.stopPropagation()}
                           placeholder="50"
-                          className="w-[100px] h-[26px] px-2 text-[16px] leading-[20px] text-center border-[0.5px] border-[#b7b7b7] rounded-[5px] bg-white text-gray-800 placeholder:text-[#b9b6b6] focus:outline-none focus:ring-1 focus:ring-[#5A5E4D]/30"
+                          className="w-full sm:w-[100px] h-[26px] px-2 text-[14px] sm:text-[16px] leading-[20px] text-center border-[0.5px] border-[#b7b7b7] rounded-[5px] bg-white text-gray-800 placeholder:text-[#b9b6b6] focus:outline-none focus:ring-1 focus:ring-[#5A5E4D]/30"
                           style={{ fontFamily: "var(--font-almarai)" }}
                         />
                         <div
-                          className="text-[16px] leading-[20px] text-gray-600"
+                          className="text-[14px] sm:text-[16px] leading-[20px] text-gray-600 whitespace-nowrap"
                           style={{ fontFamily: "var(--font-almarai)" }}
                         >
                           زهرة
@@ -192,7 +192,7 @@ export default function SizeAndPackagingStep({
         </div>
 
         {/* Packaging type options */}
-        <div className="flex items-start justify-start gap-3 sm:gap-4 mb-6 flex-wrap">
+        <div className="grid grid-cols-2 sm:flex sm:items-start sm:justify-start gap-3 sm:gap-4 mb-6">
           <button
             onClick={() => onPackagingTypeChange("paper")}
             className={getPackagingButtonClasses("paper")}
@@ -214,7 +214,7 @@ export default function SizeAndPackagingStep({
         {/* Show options based on type */}
         {packagingType === "paper" && (
           <div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 justify-center">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 justify-center">
               {bouquetStyles.map((styleOption) => {
                 // Map style keys to match design labels
                 const styleLabelMap: Record<string, string> = {
@@ -243,7 +243,7 @@ export default function SizeAndPackagingStep({
 
                 const isActiveStyle = style === styleOption.key;
                 const styleCardBaseClasses =
-                  "text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[155px] w-full sm:w-[160px] overflow-hidden mx-auto flex flex-col cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#5a5e4d]/30";
+                  "text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[155px] w-full max-w-full sm:max-w-[160px] overflow-hidden mx-auto flex flex-col cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#5a5e4d]/30";
 
                 return (
                   <button
@@ -303,7 +303,7 @@ export default function SizeAndPackagingStep({
 
         {packagingType === "vase" && (
           <div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 justify-center">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 justify-center">
               {vases.map((vase) => {
                 // Descriptions based on vase
                 const vaseDescriptionMap: Record<number, { text: string; color: string }> = {
@@ -320,7 +320,7 @@ export default function SizeAndPackagingStep({
 
                 const isActiveVase = selectedVase === vase.id.toString();
                 const vaseCardBaseClasses =
-                  "text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[155px] w-full sm:w-[160px] overflow-hidden mx-auto flex flex-col cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#5a5e4d]/30";
+                  "text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[155px] w-full max-w-full sm:max-w-[160px] overflow-hidden mx-auto flex flex-col cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#5a5e4d]/30";
 
                 return (
                   <button
@@ -375,25 +375,6 @@ export default function SizeAndPackagingStep({
             </div>
           </div>
         )}
-      </div>
-
-      <div className="mt-6 flex flex-row items-center justify-between gap-2">
-        <button
-          onClick={onPrevStep}
-          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#dadada] text-[#434445] hover:bg-gray-300 transition-colors flex items-center justify-center gap-1 cursor-pointer"
-          style={{ fontFamily: "var(--font-almarai)" }}
-        >
-          <ChevronRight className="w-5 h-5 shrink-0" />
-          <span className="text-[18px] font-bold flex-1 text-center">السابق</span>
-        </button>
-        <button
-          onClick={onNextStep}
-          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#5f664f] text-white hover:bg-[#4b5244] transition-colors flex items-center justify-center gap-1 cursor-pointer"
-          style={{ fontFamily: "var(--font-almarai)" }}
-        >
-          <span className="text-[18px] font-bold flex-1 text-center">التالي</span>
-          <ChevronLeft className="w-5 h-5 shrink-0" />
-        </button>
       </div>
     </div>
   );

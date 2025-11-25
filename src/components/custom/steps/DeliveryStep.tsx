@@ -655,35 +655,6 @@ export default function DeliveryStep({
           </div>
         </div>
       )}
-
-      <div className="flex flex-row items-center justify-between gap-2 mt-6">
-        <button
-          onClick={onPrevStep}
-          disabled={isAddingToCart}
-          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#dadada] text-[#434445] text-[18px] font-bold hover:bg-gray-300 transition-colors flex items-center justify-center gap-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{ fontFamily: "var(--font-almarai)" }}
-        >
-          <ChevronRight className="w-5 h-5 shrink-0" />
-          <span className="flex-1 text-center">السابق</span>
-        </button>
-        <button
-          onClick={onAddToCart}
-          disabled={isAddingToCart}
-          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#5f664f] text-white text-[15px] font-bold hover:bg-[#4b5244] transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1"
-          style={{ fontFamily: "var(--font-almarai)" }}
-        >
-          {isAddingToCart ? (
-            <span className="flex items-center gap-1 text-right">
-              <Loader2 className="animate-spin h-3 w-3 text-white shrink-0" />
-              {isEditMode ? "جاري التحديث..." : "جاري الإضافة..."}
-            </span>
-          ) : (
-            <span className="text-right whitespace-nowrap">
-              {isEditMode ? "تحديث السلة" : "إضافة إلى السلة"}
-            </span>
-          )}
-        </button>
-      </div>
     </div>
   );
 }

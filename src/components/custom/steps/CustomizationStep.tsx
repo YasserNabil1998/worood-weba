@@ -173,26 +173,6 @@ export default function CustomizationStep({
           style={{ fontFamily: "var(--font-almarai)" }}
         />
       </div>
-
-      {/* Navigation buttons */}
-      <div className="flex flex-row items-center justify-between gap-2">
-        <button
-          onClick={onPrevStep}
-          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#dadada] text-[#434445] hover:bg-gray-300 transition-colors flex items-center justify-center gap-1 cursor-pointer"
-          style={{ fontFamily: "var(--font-almarai)" }}
-        >
-          <ChevronRight className="w-5 h-5 flex-shrink-0" />
-          <span className="text-[18px] font-bold flex-1 text-center">السابق</span>
-        </button>
-        <button
-          onClick={onNextStep}
-          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#5f664f] text-white hover:bg-[#4b5244] transition-colors flex items-center justify-center gap-1 cursor-pointer"
-          style={{ fontFamily: "var(--font-almarai)" }}
-        >
-          <span className="text-[18px] font-bold flex-1 text-center">التالي</span>
-          <ChevronLeft className="w-5 h-5 flex-shrink-0" />
-        </button>
-      </div>
     </div>
   );
 }

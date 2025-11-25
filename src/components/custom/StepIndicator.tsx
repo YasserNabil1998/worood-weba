@@ -12,11 +12,13 @@ export default function StepIndicator({ currentStep, onStepChange }: StepIndicat
   ] as const;
 
   return (
-    <div className="flex items-center justify-between mb-4 sm:mb-6 overflow-x-hidden sm:overflow-x-auto pb-2 gap-1 sm:gap-4" dir="rtl">
-      {steps.map((s, index) => {
+    <div
+      className="flex items-center justify-between mb-4 sm:mb-6 overflow-x-hidden sm:overflow-x-auto pb-2 gap-1 sm:gap-4 pt-4 sm:pt-6 lg:pt-8 overflow-y-hidden"
+      dir="rtl"
+    >
+      {steps.map((s) => {
         const isActive = currentStep === s.n;
         const isCompleted = currentStep > s.n;
-        const isLast = index === steps.length - 1;
 
         return (
           <div key={s.n} className="flex items-center flex-shrink-0 flex-1">
@@ -26,66 +28,164 @@ export default function StepIndicator({ currentStep, onStepChange }: StepIndicat
               aria-pressed={isActive}
             >
               {/* Step Circle */}
-              <div className="relative">
+              <div className="relative flex items-center justify-center">
+                {/* Sunbeam rays - only for active step */}
+                {isActive && (
+                  <>
+                    {/* Mobile rays */}
+                    <div
+                      className="absolute pointer-events-none z-20 w-[100px] h-[100px] sm:hidden"
+                      style={{
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%)",
+                      }}
+                    >
+                      {Array.from({ length: 9 }).map((_, index) => {
+                        const startAngle = -126;
+                        const endAngle = 126;
+                        const totalAngle = endAngle - startAngle;
+                        const angleStep = totalAngle / (9 - 1);
+                        const angle = startAngle + index * angleStep;
+                        const angleRad = (angle * Math.PI) / 180;
+                        const distanceFromCenter = 30;
+                        const x = Math.sin(angleRad) * distanceFromCenter;
+                        const y = -Math.cos(angleRad) * distanceFromCenter;
+
+                        return (
+                          <div
+                            key={index}
+                            className="absolute w-[2px] h-[12px] bg-[#facd5a] rounded-full"
+                            style={{
+                              left: "50%",
+                              top: "50%",
+                              transform: `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${angle}deg)`,
+                              transformOrigin: "center",
+                              opacity: 0.95,
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+
+                    {/* Tablet rays */}
+                    <div
+                      className="hidden sm:block lg:hidden absolute pointer-events-none z-20 w-[140px] h-[140px]"
+                      style={{
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%)",
+                      }}
+                    >
+                      {Array.from({ length: 9 }).map((_, index) => {
+                        const startAngle = -126;
+                        const endAngle = 126;
+                        const totalAngle = endAngle - startAngle;
+                        const angleStep = totalAngle / (9 - 1);
+                        const angle = startAngle + index * angleStep;
+                        const angleRad = (angle * Math.PI) / 180;
+                        const distanceFromCenter = 55;
+                        const x = Math.sin(angleRad) * distanceFromCenter;
+                        const y = -Math.cos(angleRad) * distanceFromCenter;
+
+                        return (
+                          <div
+                            key={index}
+                            className="absolute w-[2.5px] h-[18px] bg-[#facd5a] rounded-full"
+                            style={{
+                              left: "50%",
+                              top: "50%",
+                              transform: `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${angle}deg)`,
+                              transformOrigin: "center",
+                              opacity: 0.95,
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+
+                    {/* Desktop rays */}
+                    <div
+                      className="hidden lg:block absolute pointer-events-none z-20 w-[160px] h-[160px]"
+                      style={{
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%)",
+                      }}
+                    >
+                      {Array.from({ length: 9 }).map((_, index) => {
+                        const startAngle = -126;
+                        const endAngle = 126;
+                        const totalAngle = endAngle - startAngle;
+                        const angleStep = totalAngle / (9 - 1);
+                        const angle = startAngle + index * angleStep;
+                        const angleRad = (angle * Math.PI) / 180;
+                        const distanceFromCenter = 60; 
+                        const x = Math.sin(angleRad) * distanceFromCenter;
+                        const y = -Math.cos(angleRad) * distanceFromCenter;
+
+                        return (
+                          <div
+                            key={index}
+                            className="absolute w-[3px] h-[20px] bg-[#facd5a] rounded-full"
+                            style={{
+                              left: "50%",
+                              top: "50%",
+                              transform: `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${angle}deg)`,
+                              transformOrigin: "center",
+                              opacity: 0.95,
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
                 <div
-                  className={`w-[40px] h-[40px] sm:w-[70px] sm:h-[70px] lg:w-[80px] lg:h-[80px] rounded-full flex items-center justify-center transition-all ${
+                  className={`w-[44px] h-[44px] sm:w-[76px] sm:h-[76px] lg:w-[88px] lg:h-[88px] rounded-full flex items-center justify-center transition-all relative z-10 ${
                     isActive
                       ? "bg-[#facd5a] border-2 border-[#facd5a]"
                       : isCompleted
-                        ? "bg-white border-2 border-[#5A5E4D]"
+                        ? "bg-white border-2 border-gray-300"
                         : "bg-white border-2 border-gray-300 group-hover:border-gray-400"
                   }`}
                 >
-                  {/* Step Icon */}
-                  <img
-                    src={s.icon}
-                    alt={s.t}
-                    className={`w-[26px] h-[26px] sm:w-[35px] sm:h-[35px] lg:w-[40px] lg:h-[40px] object-contain transition-all ${
-                      isActive
-                        ? s.n === 3
-                          ? "opacity-100"
-                          : "opacity-100"
-                        : isCompleted
-                          ? "opacity-100"
-                          : "opacity-60 grayscale group-hover:opacity-100 group-hover:grayscale-0"
-                    }`}
-                  />
+                  {/* Step Icon or Checkmark */}
+                  {isCompleted ? (
+                    <svg
+                      className="w-[24px] h-[24px] sm:w-[32px] sm:h-[32px] lg:w-[36px] lg:h-[36px] flex-shrink-0"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
+                        fill="#5A5E4D"
+                      />
+                    </svg>
+                  ) : (
+                    <img
+                      src={s.icon}
+                      alt={s.t}
+                      className="w-[30px] h-[30px] sm:w-[42px] sm:h-[42px] lg:w-[48px] lg:h-[48px] object-contain transition-all flex-shrink-0"
+                      style={{
+                        filter: "none",
+                        opacity: 1,
+                      }}
+                    />
+                  )}
                 </div>
               </div>
               {/* Step Label */}
               <span
                 className={`text-[12px] sm:text-[16px] font-bold sm:font-normal leading-[16px] sm:leading-[20px] whitespace-nowrap transition-colors text-center ${
-                  isActive
-                    ? "text-black"
-                    : isCompleted
-                      ? "text-gray-600"
-                      : "text-gray-400"
+                  isActive ? "text-black" : isCompleted ? "text-gray-600" : "text-gray-400"
                 }`}
                 style={{ fontFamily: "var(--font-almarai)" }}
               >
                 {s.t}
               </span>
             </button>
-            {/* Connecting Dots */}
-            {!isLast && (
-              <div className="flex items-center mx-0.5 sm:mx-2 gap-1 sm:gap-1 flex-1 justify-center">
-                <div
-                  className={`w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] lg:w-[13px] lg:h-[13px] rounded-full ${
-                    isCompleted || isActive ? "bg-[#5A5E4D]" : "bg-[#d9d9d9]"
-                  }`}
-                />
-                <div
-                  className={`w-[7px] h-[7px] sm:w-[8px] sm:h-[8px] lg:w-[10px] lg:h-[10px] rounded-full ${
-                    isCompleted || isActive ? "bg-[#5A5E4D]" : "bg-[#d9d9d9]"
-                  }`}
-                />
-                <div
-                  className={`w-[6px] h-[6px] sm:w-[6px] sm:h-[6px] lg:w-[8px] lg:h-[8px] rounded-full ${
-                    isCompleted || isActive ? "bg-[#5A5E4D]" : "bg-[#d9d9d9]"
-                  }`}
-                />
-              </div>
-            )}
           </div>
         );
       })}

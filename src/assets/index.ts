@@ -19,6 +19,7 @@ export interface Assets {
     mada: string;
     visa: string;
     applePay: string;
+    cod: string;
   };
   icons: {
     occasions: {
