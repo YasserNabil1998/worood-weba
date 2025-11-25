@@ -12,6 +12,9 @@ export const APP_CONFIG = {
   DEFAULT_LOCALE: "ar-SA",
 } as const;
 
+// صورة معاينة الباقة المخصصة الافتراضية
+export const CUSTOM_BOUQUET_PREVIEW_IMAGE = "/assets/custom-bouquet/معاينة الباقة.png";
+
 // مفاتيح localStorage
 export const STORAGE_KEYS = {
   CART: "cart",

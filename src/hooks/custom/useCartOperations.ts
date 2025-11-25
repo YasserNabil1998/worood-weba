@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS, NAVIGATION_DELAY } from "@/src/constants";
+import { STORAGE_KEYS, NAVIGATION_DELAY, CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/src/constants";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { generateProductKey } from "@/src/lib/cartUtils";
 import {
@@ -96,7 +96,7 @@ function buildCartItem(
     subtotal,
     vat,
     quantity: 1,
-    image: input.bouquetImage,
+    image: input.bouquetImage || CUSTOM_BOUQUET_PREVIEW_IMAGE,
     isCustom: true,
     customData,
   };

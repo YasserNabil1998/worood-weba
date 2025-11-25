@@ -55,12 +55,8 @@ export default function OrderItemsList({ items }: OrderItemsListProps) {
                   {item.quantity} ×
                 </span>
                 <div className="flex items-center gap-1" style={almaraiFont}>
-                  <span className="text-sm font-bold text-[#5A5E4D]">
-                    {item.price}
-                  </span>
-                  <span className="text-xs text-[#5A5E4D]">
-                    ر.س
-                  </span>
+                  <span className="text-sm font-bold text-[#5A5E4D]">{item.price}</span>
+                  <span className="text-xs text-[#5A5E4D]">ر.س</span>
                 </div>
               </div>
             </div>

@@ -60,6 +60,18 @@ export default function SizeAndPackagingStep({
   onPrevStep,
   onNextStep,
 }: SizeAndPackagingStepProps) {
+  const packagingBaseClasses =
+    "h-[45px] w-[160px] rounded-[12px] border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-[#5a5e4d]/30 cursor-pointer";
+
+  const getPackagingButtonClasses = (type: PackagingType) => {
+    const isActive = packagingType === type;
+    return `${packagingBaseClasses} ${
+      isActive
+        ? "bg-[#5a5e4d] text-white border-[#5a5e4d] shadow-[0_10px_25px_rgba(90,94,77,0.25)] scale-[1.02]"
+        : "bg-[#fcfcfc] text-black border-[#d7d6d6] hover:bg-gray-50 hover:border-[#b4b4b4]"
+    }`;
+  };
+
   return (
     <div className="space-y-6">
       {/* Flower color selector */}
@@ -183,22 +195,16 @@ export default function SizeAndPackagingStep({
         <div className="flex items-start justify-start gap-3 sm:gap-4 mb-6 flex-wrap">
           <button
             onClick={() => onPackagingTypeChange("paper")}
-            className={`h-[45px] w-[160px] rounded-[10px] border border-[#d7d6d6] transition-all ${
-              packagingType === "paper"
-                ? "bg-[#5a5e4d] text-white"
-                : "bg-[#fcfcfc] text-black hover:bg-gray-50"
-            }`}
+            className={getPackagingButtonClasses("paper")}
+            aria-pressed={packagingType === "paper"}
             style={{ fontFamily: "var(--font-almarai)" }}
           >
             <span className="text-[16px] leading-[20px]">تغليف ورقي</span>
           </button>
           <button
             onClick={() => onPackagingTypeChange("vase")}
-            className={`h-[45px] w-[160px] rounded-[10px] border border-[#d7d6d6] transition-all ${
-              packagingType === "vase"
-                ? "bg-[#5a5e4d] text-white"
-                : "bg-[#fcfcfc] text-black hover:bg-gray-50"
-            }`}
+            className={getPackagingButtonClasses("vase")}
+            aria-pressed={packagingType === "vase"}
             style={{ fontFamily: "var(--font-almarai)" }}
           >
             <span className="text-[16px] leading-[20px]">مزهرية</span>
@@ -235,14 +241,20 @@ export default function SizeAndPackagingStep({
                   align: "",
                 };
 
+                const isActiveStyle = style === styleOption.key;
+                const styleCardBaseClasses =
+                  "text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[155px] w-full sm:w-[160px] overflow-hidden mx-auto flex flex-col cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#5a5e4d]/30";
+
                 return (
                   <button
                     key={styleOption.key}
                     onClick={() =>
                       onStyleChange(styleOption.key as "classic" | "premium" | "gift" | "eco")
                     }
-                    className={`text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[155px] w-full sm:w-[160px] overflow-hidden mx-auto flex flex-col ${
-                      style === styleOption.key ? "border-[#6d6d6d]" : "hover:border-gray-400"
+                    className={`${styleCardBaseClasses} ${
+                      isActiveStyle
+                        ? "border-[#5a5e4d] shadow-[0_14px_30px_rgba(90,94,77,0.2)] scale-[1.02]"
+                        : "hover:border-gray-400 hover:-translate-y-0.5"
                     }`}
                   >
                     <div className="h-[100px] w-full overflow-hidden">
@@ -306,14 +318,18 @@ export default function SizeAndPackagingStep({
                   color: "text-[#5a5e4d]",
                 };
 
+                const isActiveVase = selectedVase === vase.id.toString();
+                const vaseCardBaseClasses =
+                  "text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[155px] w-full sm:w-[160px] overflow-hidden mx-auto flex flex-col cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#5a5e4d]/30";
+
                 return (
                   <button
                     key={vase.id}
                     onClick={() => onVaseChange(vase.id.toString())}
-                    className={`text-center bg-white border border-[#d7d6d6] rounded-[20px] transition-all h-[155px] w-full sm:w-[160px] overflow-hidden mx-auto flex flex-col ${
-                      selectedVase === vase.id.toString()
-                        ? "border-[#6d6d6d]"
-                        : "hover:border-gray-400"
+                    className={`${vaseCardBaseClasses} ${
+                      isActiveVase
+                        ? "border-[#5a5e4d] shadow-[0_14px_30px_rgba(90,94,77,0.2)] scale-[1.02]"
+                        : "hover:border-gray-400 hover:-translate-y-0.5"
                     }`}
                   >
                     <div className="h-[100px] w-full overflow-hidden">

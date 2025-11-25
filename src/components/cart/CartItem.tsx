@@ -11,7 +11,7 @@ import QuantitySelector from "@/src/components/QuantitySelector";
 import CustomBouquetDetails from "./CustomBouquetDetails";
 import { getItemId, getItemPrice, getItemTotal } from "@/src/lib/cartHelpers";
 import { CART_LABELS, CART_SIZES } from "@/src/constants/cart";
-import { APP_CONFIG, COLORS } from "@/src/constants";
+import { APP_CONFIG, COLORS, CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/src/constants";
 import { PRODUCT_DATA } from "@/src/constants/productData";
 
 interface CartItemProps {
@@ -39,6 +39,7 @@ export default function CartItem({
   const itemPrice = getItemPrice(item);
   const itemTotal = getItemTotal(item);
   const isCustom = isCustomBouquet(item);
+  const displayImage = isCustom ? item.image || CUSTOM_BOUQUET_PREVIEW_IMAGE : item.image;
 
   const canEdit = isCustom ? Boolean(item.customData) : true;
   const hasDetails = isCustom ? Boolean(item.customData) : true;
@@ -81,7 +82,7 @@ export default function CartItem({
           {/* الصورة */}
           <div className="w-[142px] h-[155px] shrink-0">
             <Image
-              src={item.image}
+              src={displayImage}
               alt={item.title}
               width={142}
               height={155}
