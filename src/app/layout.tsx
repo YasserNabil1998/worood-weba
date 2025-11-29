@@ -55,7 +55,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased rtl`}
         suppressHydrationWarning
       >
-        <SplashScreen />
+      <SplashScreen />
         <ErrorBoundary>
           <Providers>
             <Header />

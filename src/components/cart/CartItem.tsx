@@ -3,12 +3,16 @@
  * مكون عرض عنصر في السلة
  */
 
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { ChevronUp, ChevronDown, Pencil, Trash2 } from "lucide-react";
 import { CartItem as CartItemType } from "@/src/@types/cart/CartItem.type";
 import { isCustomBouquet } from "@/src/@types/cart/CartItem.type";
 import QuantitySelector from "@/src/components/QuantitySelector";
 import CustomBouquetDetails from "./CustomBouquetDetails";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import { getItemId, getItemPrice, getItemTotal } from "@/src/lib/cartHelpers";
 import { CART_LABELS, CART_SIZES } from "@/src/constants/cart";
 import { APP_CONFIG, COLORS, CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/src/constants";
@@ -48,13 +52,23 @@ export default function CartItem({
   const giftWrapAddonPrice = PRODUCT_DATA.addons.giftWrap.price;
 
   const hasAddons = item.addCard || item.addChocolate || item.giftWrap;
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleEdit = () => {
     onEdit(item);
   };
 
-  const handleRemove = () => {
+  const handleRemoveClick = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = () => {
     onRemove(itemId);
+    setShowDeleteModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowDeleteModal(false);
   };
 
   return (
@@ -113,8 +127,8 @@ export default function CartItem({
                 </button>
               )}
               <button
-                onClick={handleRemove}
-                className="bg-[#e57373] text-white cursor-pointer px-3 py-2 h-[41px] rounded-[5px] transition-all duration-200 hover:bg-[#ef5350] hover:scale-105 flex items-center justify-center"
+                onClick={handleRemoveClick}
+                className="bg-[#800020] text-white cursor-pointer px-3 py-2 h-[41px] rounded-[5px] transition-all duration-200 hover:bg-[#9a0026] hover:scale-105 flex items-center justify-center"
                 style={{ fontFamily: "var(--font-almarai)" }}
               >
                 <Trash2 className="w-5 h-5" />
@@ -312,6 +326,14 @@ export default function CartItem({
           </div>
         </div>
       </div>
+
+      {/* بوب أب تأكيد الحذف */}
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmDelete}
+        itemTitle={item.title}
+      />
     </div>
   );
 }
