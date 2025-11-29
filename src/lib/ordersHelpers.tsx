@@ -113,6 +113,15 @@ export function generateOrderNumber(): string {
 }
 
 /**
+ * توليد رقم التتبع
+ */
+export function generateTrackingNumber(): string {
+  const timestamp = Date.now().toString().slice(-9);
+  const random = Math.floor(Math.random() * 1000).toString().padStart(3, "0");
+  return `TRK-${timestamp}${random}`;
+}
+
+/**
  * تحويل عنصر السلة إلى عنصر الطلب
  */
 function mapCartItemToOrderItem(item: CartItem): OrderItem {
@@ -140,6 +149,7 @@ export function createOrderFromCheckoutItems(
   const deliveryAddress = formatDeliveryAddress(formData.address);
   const paymentMethodLabel =
     PAYMENT_METHOD_LABELS[formData.paymentMethod as PaymentMethod] || formData.paymentMethod;
+  const trackingNumber = generateTrackingNumber();
 
   return {
     id: orderId,
@@ -153,5 +163,6 @@ export function createOrderFromCheckoutItems(
     phoneNumber: formData.address.phone,
     paymentMethod: paymentMethodLabel,
     notes: formData.notes || undefined,
+    trackingNumber: trackingNumber,
   };
 }

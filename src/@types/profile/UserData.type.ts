@@ -5,6 +5,8 @@ export interface UserData {
   profileImage: string | null;
   gender: string;
   address: string;
+  address2?: string;
+  password?: string;
   joinDate: string;
   totalOrders: number;
   totalSpent: number;

@@ -5,9 +5,14 @@ import { UserData } from "@/src/@types/profile/UserData.type";
 import { useProfile } from "@/src/hooks/useProfile";
 import ProfileHeader from "@/src/components/profile/ProfileHeader";
 import ProfileDetailsForm from "@/src/components/profile/ProfileDetailsForm";
-import ProfileQuickActions from "@/src/components/profile/ProfileQuickActions";
+import OccasionsSection from "@/src/components/profile/OccasionsSection";
+import SupportSection from "@/src/components/profile/SupportSection";
+import OrdersSection from "@/src/components/profile/OrdersSection";
+import FavoritesSection from "@/src/components/profile/FavoritesSection";
 
 const initialUserData: UserData = profileData.userData;
+const occasions = profileData.occasions || [];
+const supportContent = profileData.supportContent || { title: "الدعم والمساعدة", faqs: [] };
 
 export default function ProfilePage() {
   const {
@@ -24,10 +29,21 @@ export default function ProfilePage() {
     isValidSaudiPhone,
   } = useProfile(initialUserData);
 
+  const handleAddOccasion = () => {
+    // TODO: Implement add occasion functionality
+    console.log("Add occasion");
+  };
+
+  const handleEditOccasion = (id: string) => {
+    // TODO: Implement edit occasion functionality
+    console.log("Edit occasion", id);
+  };
+
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-[#fbfaf2]" dir="rtl">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-[1248px] mx-auto">
+          {/* Profile Header */}
           <ProfileHeader
             userData={userData}
             editData={editData}
@@ -39,16 +55,40 @@ export default function ProfilePage() {
             onImageUpload={handleImageUpload}
           />
 
-          <ProfileDetailsForm
-            userData={userData}
-            editData={editData}
-            isEditing={isEditing}
-            onInputChange={handleInputChange}
-            isValidEmail={isValidEmail}
-            isValidPhone={isValidSaudiPhone}
-          />
+          {/* Profile Details Form - Only shows when editing */}
+          {isEditing && (
+            <ProfileDetailsForm
+              userData={userData}
+              editData={editData}
+              isEditing={isEditing}
+              onInputChange={handleInputChange}
+              isValidEmail={isValidEmail}
+              isValidPhone={isValidSaudiPhone}
+            />
+          )}
 
-          <ProfileQuickActions />
+          {/* Orders Section */}
+          {!isEditing && <OrdersSection />}
+
+          {/* Favorites Section */}
+          {!isEditing && <FavoritesSection />}
+
+          {/* Occasions Section */}
+          {!isEditing && (
+            <OccasionsSection
+              occasions={occasions}
+              onAddOccasion={handleAddOccasion}
+              onEditOccasion={handleEditOccasion}
+            />
+          )}
+
+          {/* Support Section */}
+          {!isEditing && (
+            <SupportSection
+              title={supportContent.title}
+              faqs={supportContent.faqs}
+            />
+          )}
         </div>
       </div>
     </div>

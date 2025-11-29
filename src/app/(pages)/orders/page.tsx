@@ -55,7 +55,7 @@ export default function OrdersPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
         <div className="max-w-5xl mx-auto">
           {/* Page Header */}
           <OrdersPageHeader totalOrders={orders.length} />
@@ -67,7 +67,7 @@ export default function OrdersPage() {
           {filteredOrders.length === 0 ? (
             <EmptyOrders selectedStatus={selectedStatus} />
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {filteredOrders.map((order: Order) => (
                 <OrderCard key={order.id} order={order} onRateOrder={openRatingPopup} />
               ))}
