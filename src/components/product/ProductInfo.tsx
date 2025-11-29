@@ -1,4 +1,3 @@
-import { Star } from "lucide-react";
 import FavoriteButton from "@/src/components/FavoriteButton";
 
 interface ProductInfoProps {
@@ -23,18 +22,10 @@ export default function ProductInfo({
         <FavoriteButton productId={productId} />
       </div>
 
-      <div className="flex items-center gap-1 mb-2">
-        {[...Array(5)].map((_, i) => (
-          <Star key={i} className="w-3.5 h-3.5 text-yellow-400 fill-current" />
-        ))}
-      </div>
-
       <div className="flex items-center gap-1.5 mb-3">
         <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">{price}</span>
         <span className="text-sm sm:text-base text-[#5A5E4D]">ر.س</span>
       </div>
-
-      <p className="text-sm text-gray-600 leading-relaxed">{description}</p>
     </div>
   );
 }
