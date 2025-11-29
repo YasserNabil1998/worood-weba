@@ -275,27 +275,27 @@ export default function OccasionsSection({
 
   return (
     <div
-      className="bg-white rounded-[25px] p-8 mb-6 cursor-pointer"
+      className="bg-white rounded-[25px] p-6 mb-4 cursor-pointer"
       style={fontStyle}
       onClick={() => setIsExpanded(!isExpanded)}
     >
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-4">
-          <h2 className="text-[30px] font-bold text-black" style={fontStyle}>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <h2 className="text-[20px] font-bold text-black" style={fontStyle}>
             مناسباتي
           </h2>
 
-          <p className="text-[20px] text-[#383737]" style={fontStyle}>
+          <p className="text-[16px] text-[#383737]" style={fontStyle}>
             (سيتم إرسال تذكير لك على إيميلك لتذكيرك قبل بأسبوع)
           </p>
         </div>
         <div className="flex items-center justify-center">
           {isExpanded ? (
-            <ChevronUp className="w-[37px] h-[37px] text-[#585858]" />
+            <ChevronUp className="w-[32px] h-[32px] text-[#585858]" />
           ) : (
             <div className="rotate-180">
-              <ChevronUp className="w-[37px] h-[37px] text-[#585858]" />
+              <ChevronUp className="w-[32px] h-[32px] text-[#585858]" />
             </div>
           )}
         </div>
@@ -304,28 +304,28 @@ export default function OccasionsSection({
       {/* Occasions List */}
       {isExpanded && (
         <div onClick={(e) => e.stopPropagation()}>
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-2 gap-3 mb-3">
             {occasions.map((occasion) => (
               <div
                 key={occasion.id}
-                className="bg-[#fbfbfb] border border-[#e0e0e0] rounded-[15px] p-6 flex items-center justify-between"
+                className="bg-[#fbfbfb] border border-[#e0e0e0] rounded-[15px] p-4 flex items-center justify-between"
               >
-                <div className="flex items-center gap-4 flex-1">
-                  <div className="text-[40px]">{occasion.icon}</div>
+                <div className="flex items-center gap-3 flex-1">
+                  <div className="text-[28px]">{occasion.icon}</div>
                   <div className="flex-1">
-                    <h3 className="text-[30px] font-bold text-black mb-2" style={fontStyle}>
+                    <h3 className="text-[18px] font-bold text-black mb-1" style={fontStyle}>
                       {occasion.name}
                     </h3>
-                    <p className="text-[25px] text-[#727272]" style={fontStyle}>
+                    <p className="text-[16px] text-[#727272]" style={fontStyle}>
                       {occasion.date}
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={(e) => handleEditClick(e, occasion.id)}
-                  className="bg-[gainsboro] w-[46px] h-[42px] rounded-[5px] flex items-center justify-center hover:bg-gray-300 transition-colors cursor-pointer"
+                  className="bg-[gainsboro] w-[40px] h-[36px] rounded-[5px] flex items-center justify-center hover:bg-gray-300 transition-colors cursor-pointer"
                 >
-                  <Edit className="w-[25px] h-[25px] text-gray-700" />
+                  <Edit className="w-[20px] h-[20px] text-gray-700" />
                 </button>
               </div>
             ))}
@@ -532,7 +532,7 @@ export default function OccasionsSection({
             <div className="flex items-center justify-start mt-4">
               <button
                 onClick={handleAddClick}
-                className="flex items-center gap-2 text-[25px] text-black hover:text-[#5f664f] transition-colors cursor-pointer"
+                className="flex items-center gap-2 text-[16px] text-black hover:text-[#5f664f] transition-colors cursor-pointer"
                 style={fontStyle}
               >
                 <div className="relative w-[29px] h-[27px]">
