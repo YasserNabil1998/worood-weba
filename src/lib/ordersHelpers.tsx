@@ -95,11 +95,30 @@ export const almaraiFont = {
  * تنسيق عنوان التسليم
  */
 export function formatDeliveryAddress(address: Address): string {
-  const parts = [address.city, address.district, address.street];
-  if (address.landmark?.trim()) {
-    parts.push(address.landmark);
+  const parts: string[] = [];
+  
+  // إضافة اسم المستلم إذا كان موجوداً
+  if (address.recipientName?.trim()) {
+    parts.push(`اسم المستلم: ${address.recipientName}`);
   }
-  return parts.join("، ");
+  
+  // إضافة العنوان (street) - الحقل الرئيسي في التصميم الجديد
+  if (address.street?.trim()) {
+    parts.push(address.street);
+  }
+  
+  // إضافة الحقول القديمة إذا كانت موجودة (للتوافق مع البيانات القديمة)
+  if (address.city?.trim()) {
+    parts.push(address.city);
+  }
+  if (address.district?.trim()) {
+    parts.push(address.district);
+  }
+  if (address.landmark?.trim()) {
+    parts.push(`معلم بارز: ${address.landmark}`);
+  }
+  
+  return parts.length > 0 ? parts.join("، ") : "لم يتم تحديد العنوان";
 }
 
 /**

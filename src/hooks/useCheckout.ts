@@ -28,6 +28,7 @@ export function useCheckout() {
   const [items, setItems] = useState<CartItem[]>([]);
   const [formData, setFormData] = useState<CheckoutFormData>({
     address: {
+      recipientName: "",
       city: "",
       district: "",
       street: "",
