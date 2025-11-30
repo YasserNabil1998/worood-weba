@@ -48,6 +48,7 @@ const FeaturedBouquets = ({
   const [visibleCount, setVisibleCount] = useState(1);
   const [isQuickAddOpen, setQuickAddOpen] = useState(false);
   const [selectedBouquet, setSelectedBouquet] = useState<BouquetItem | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const { showNotification } = useNotification();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
 
@@ -93,14 +94,40 @@ const FeaturedBouquets = ({
   }, [computeVisibleCount]);
 
   const nextSlide = useCallback(() => {
-    if (!shouldShowControls) return;
-    setCurrentIndex((prev) => (prev + 1) % totalItems);
-  }, [shouldShowControls, totalItems]);
+    if (!shouldShowControls || isTransitioning) return;
+    setIsTransitioning(true);
+    // بدء fade out تدريجي
+    setTimeout(() => {
+      setCurrentIndex((prev) => {
+        const next = prev + 1;
+        // الانتقال باقة باقة - تأكد من عدم تجاوز الحد الأقصى
+        if (next + visibleCount > totalItems) {
+          return 0; // العودة للبداية
+        }
+        return next;
+      });
+      // بدء fade in بعد تغيير الصورة
+      setTimeout(() => setIsTransitioning(false), 80);
+    }, 300); // نصف مدة الانتقال (600ms / 2)
+  }, [shouldShowControls, totalItems, visibleCount, isTransitioning]);
 
   const prevSlide = useCallback(() => {
-    if (!shouldShowControls) return;
-    setCurrentIndex((prev) => (prev - 1 + totalItems) % totalItems);
-  }, [shouldShowControls, totalItems]);
+    if (!shouldShowControls || isTransitioning) return;
+    setIsTransitioning(true);
+    // بدء fade out تدريجي
+    setTimeout(() => {
+      setCurrentIndex((prev) => {
+        const prevIndex = prev - 1;
+        // الانتقال باقة باقة - إذا وصلنا للبداية، اذهب للنهاية
+        if (prevIndex < 0) {
+          return Math.max(0, totalItems - visibleCount);
+        }
+        return prevIndex;
+      });
+      // بدء fade in بعد تغيير الصورة
+      setTimeout(() => setIsTransitioning(false), 80);
+    }, 300); // نصف مدة الانتقال (600ms / 2)
+  }, [shouldShowControls, totalItems, visibleCount, isTransitioning]);
 
   useEffect(() => {
     if (!shouldShowControls) return;
@@ -139,12 +166,9 @@ const FeaturedBouquets = ({
           showNotification("تم إزالة المنتج من المفضلة", "info");
         } else {
           // تحويل bouquet إلى النوع الصحيح المتوقع من useFavorites
-          const favoriteItem = {
+          const favoriteItem: BouquetItem = {
+            ...bouquet,
             id: bouquetId,
-            title: bouquet.title,
-            image: bouquet.image,
-            price: bouquet.price,
-            currency: bouquet.currency,
           };
           addToFavorites(favoriteItem);
           showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
@@ -171,7 +195,7 @@ const FeaturedBouquets = ({
 
   return (
     <>
-      <section className="py-8 sm:py-10 md:py-12">
+      <section className="py-6 sm:py-8 md:py-10 overflow-x-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
             <div className="text-right">
@@ -213,16 +237,20 @@ const FeaturedBouquets = ({
               <>
                 <div className="overflow-hidden">
                   <div
-                    className={`grid ${gridColumnsClass} gap-3 sm:gap-4 lg:gap-6 justify-items-center`}
+                    className={`grid ${gridColumnsClass} gap-3 sm:gap-4 lg:gap-6 justify-items-center transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
+                      isTransitioning ? "opacity-60" : "opacity-100"
+                    }`}
                   >
-                    {displayedBouquets.map((bouquet) => {
+                    {displayedBouquets.map((bouquet, idx) => {
                       const bouquetId = getBouquetId(bouquet);
                       const isBouquetFavorite = isFavorite(bouquetId);
 
                       return (
                         <div
-                          key={getBouquetKey(bouquet)}
-                          className="group border border-[#a1a1a1] rounded-[20px] overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col cursor-pointer max-w-[294px] w-full bg-white"
+                          key={`${getBouquetKey(bouquet)}-${currentIndex}`}
+                          className={`group border border-[#a1a1a1] rounded-[20px] overflow-hidden transition-all duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:shadow-xl flex flex-col cursor-pointer max-w-[294px] w-full bg-white ${
+                            !isTransitioning ? "animate-fadeInSlide" : ""
+                          }`}
                         >
                           {/* Image Section - matching Figma: 294x222 */}
                           <Link
@@ -237,6 +265,40 @@ const FeaturedBouquets = ({
                               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                               loading="lazy"
                             />
+                            {/* Favorite Button */}
+                            <div className="absolute top-2 left-2 flex items-center gap-2 z-10">
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  toggleFavorite(e, bouquet);
+                                }}
+                                className={`h-8 w-8 rounded-full backdrop-blur flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 ${
+                                  isBouquetFavorite
+                                    ? "bg-white/90"
+                                    : "bg-white/90 text-gray-700"
+                                }`}
+                                style={isBouquetFavorite ? { color: "#9F0712" } : {}}
+                                onMouseEnter={(e) => {
+                                  if (!isBouquetFavorite) {
+                                    e.currentTarget.style.color = "#9F0712";
+                                  }
+                                }}
+                                onMouseLeave={(e) => {
+                                  if (!isBouquetFavorite) {
+                                    e.currentTarget.style.color = "";
+                                  }
+                                }}
+                                title={isBouquetFavorite ? "إزالة من المفضلة" : "إضافة إلى المفضلة"}
+                              >
+                                <Heart
+                                  className="w-4 h-4 transition-colors"
+                                  fill={isBouquetFavorite ? "currentColor" : "none"}
+                                  stroke="currentColor"
+                                  strokeWidth={2}
+                                />
+                              </button>
+                            </div>
                           </Link>
                           
                           {/* Content Section - matching Figma: white bg, border, rounded bottom */}
@@ -301,14 +363,14 @@ const FeaturedBouquets = ({
                   <>
                     <button
                       onClick={prevSlide}
-                      className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+                      className="absolute -left-2 md:-left-6 lg:-left-12 lg:hidden top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
                       aria-label="Previous bouquet"
                     >
                       <ChevronLeftIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
                     <button
                       onClick={nextSlide}
-                      className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+                      className="absolute -right-2 md:-right-6 lg:-right-12 lg:hidden top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
                       aria-label="Next bouquet"
                     >
                       <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />

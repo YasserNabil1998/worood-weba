@@ -41,56 +41,70 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-[#fbfaf2]" dir="rtl">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-[1248px] mx-auto">
-          {/* Profile Header */}
-          <ProfileHeader
-            userData={userData}
-            editData={editData}
-            isEditing={isEditing}
-            isLoading={isLoading}
-            onEdit={handleEdit}
-            onCancel={handleCancel}
-            onSave={handleSave}
-            onImageUpload={handleImageUpload}
-          />
+      <main>
+        {/* Page Title Section */}
+        <section className="pt-8 pb-4">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-right">
+            <h1 className="text-[32px] font-bold leading-[40px] text-[#2D3319] mb-2 tracking-[0px]">
+              الملف الشخصي
+            </h1>
+            <p className="text-[16px] font-normal leading-[20px] text-[#5A5E4D] tracking-[0px]">
+              إدارة معلوماتك الشخصية والطلبات والمناسبات المفضلة
+            </p>
+          </div>
+        </section>
 
-          {/* Profile Details Form - Only shows when editing */}
-          {isEditing && (
-            <ProfileDetailsForm
-              userData={userData}
-              editData={editData}
-              isEditing={isEditing}
-              onInputChange={handleInputChange}
-              isValidEmail={isValidEmail}
-              isValidPhone={isValidSaudiPhone}
-            />
-          )}
+        {/* Content Section */}
+        <section className="py-8">
+          <div className="container mx-auto px-4">
+            <div className="max-w-[1248px] mx-auto">
+              {/* Profile Header */}
+              <ProfileHeader
+                userData={userData}
+                editData={editData}
+                isEditing={isEditing}
+                isLoading={isLoading}
+                onEdit={handleEdit}
+                onCancel={handleCancel}
+                onSave={handleSave}
+                onImageUpload={handleImageUpload}
+              />
 
-          {/* Orders Section */}
-          {!isEditing && <OrdersSection />}
+              {/* Profile Details Form - Only shows when editing */}
+              {isEditing && (
+                <ProfileDetailsForm
+                  userData={userData}
+                  editData={editData}
+                  isEditing={isEditing}
+                  onInputChange={handleInputChange}
+                  isValidEmail={isValidEmail}
+                  isValidPhone={isValidSaudiPhone}
+                />
+              )}
 
-          {/* Favorites Section */}
-          {!isEditing && <FavoritesSection />}
+              {/* Orders Section */}
+              {!isEditing && <OrdersSection />}
 
-          {/* Occasions Section */}
-          {!isEditing && (
-            <OccasionsSection
-              occasions={occasions}
-              onAddOccasion={handleAddOccasion}
-              onEditOccasion={handleEditOccasion}
-            />
-          )}
+              {/* Favorites Section */}
+              {!isEditing && <FavoritesSection />}
 
-          {/* Support Section */}
-          {!isEditing && (
-            <SupportSection
-              title={supportContent.title}
-              faqs={supportContent.faqs}
-            />
-          )}
-        </div>
-      </div>
+              {/* Occasions Section */}
+              {!isEditing && (
+                <OccasionsSection
+                  occasions={occasions}
+                  onAddOccasion={handleAddOccasion}
+                  onEditOccasion={handleEditOccasion}
+                />
+              )}
+
+              {/* Support Section */}
+              {!isEditing && (
+                <SupportSection title={supportContent.title} faqs={supportContent.faqs} />
+              )}
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

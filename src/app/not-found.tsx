@@ -63,14 +63,14 @@ export default function NotFound() {
             </Link>
 
             <Link
-              href="/occasions"
+              href="/custom"
               className="group bg-white hover:bg-[#F5F8F0] border-2 border-[#E1E8D8] hover:border-[#8B9D83] rounded-xl p-6 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="flex flex-col items-center gap-3">
                 <div className="w-12 h-12 bg-[#F5F8F0] group-hover:bg-[#8B9D83] rounded-full flex items-center justify-center transition-colors">
                   <ShoppingBag className="w-6 h-6 text-[#8B9D83] group-hover:text-white transition-colors" />
                 </div>
-                <span className="text-lg font-semibold text-[#2C3E2B]">المناسبات</span>
+                <span className="text-lg font-semibold text-[#2C3E2B]">صمم باقتك</span>
               </div>
             </Link>
 

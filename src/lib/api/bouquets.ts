@@ -28,6 +28,58 @@ const fallbackFeaturedBouquets: BouquetItem[] = defaultBouquets.map((bouquet, id
   id: typeof bouquet.id === "number" ? bouquet.id + 1000 + idx : Number(bouquet.id) + 1000 + idx,
 }));
 
+// Vases from "Happiness in a Vase" section
+const VASES: BouquetItem[] = [
+  {
+    id: 2001,
+    title: "مزهرية زهور فاخرة",
+    image: "/assets/home/happiness-in-vase/Luxury-flower-vase.png",
+    price: 350,
+    currency: "ر.س",
+    badge: undefined,
+    category: undefined,
+    isPopular: false,
+    color: COLORS[1].key,
+    occasion: OCCASIONS[1].key,
+  },
+  {
+    id: 2002,
+    title: "مزهرية الورود الهادئة",
+    image: "/assets/home/happiness-in-vase/vase-of-beauty.png",
+    price: 350,
+    currency: "ر.س",
+    badge: undefined,
+    category: undefined,
+    isPopular: false,
+    color: COLORS[2].key,
+    occasion: OCCASIONS[2].key,
+  },
+  {
+    id: 2003,
+    title: "مزهرية الجمال",
+    image: "/assets/home/happiness-in-vase/Vase-of-Life.png",
+    price: 350,
+    currency: "ر.س",
+    badge: undefined,
+    category: undefined,
+    isPopular: false,
+    color: COLORS[3].key,
+    occasion: OCCASIONS[3].key,
+  },
+  {
+    id: 2004,
+    title: "مزهرية الحياة",
+    image: "/assets/home/happiness-in-vase/calm-floral-pattern.png",
+    price: 350,
+    currency: "ر.س",
+    badge: undefined,
+    category: undefined,
+    isPopular: false,
+    color: COLORS[4].key,
+    occasion: OCCASIONS[4].key,
+  },
+];
+
 const FALLBACK_BOUQUETS: BouquetItem[] = [
   {
     id: 1,
@@ -113,12 +165,12 @@ export async function fetchBouquets(): Promise<BouquetItem[]> {
       };
     });
 
-    return [...bouquetsFromApi, ...fallbackFeaturedBouquets];
+    return [...bouquetsFromApi, ...fallbackFeaturedBouquets, ...VASES];
   } catch (error) {
     console.error("Failed to fetch bouquets from API:", error);
 
     // Return fallback data in case of API failure
-    return [...FALLBACK_BOUQUETS, ...fallbackFeaturedBouquets];
+    return [...FALLBACK_BOUQUETS, ...fallbackFeaturedBouquets, ...VASES];
   }
 }
 

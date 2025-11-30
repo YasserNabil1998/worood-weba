@@ -1,38 +1,39 @@
 "use client";
 
-import { useState } from "react";
 import { useNotification } from "../providers/notification-provider";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
+import { useFavorites } from "../hooks/useFavorites";
 import { Heart } from "lucide-react";
+import { BouquetItem } from "@/src/@types/bouquets/index.type";
 
 interface FavoriteButtonProps {
   productId: string;
+  product?: BouquetItem;
 }
 
-export default function FavoriteButton({ productId }: FavoriteButtonProps) {
-  const [isFavorited, setIsFavorited] = useState(false);
+export default function FavoriteButton({ productId, product }: FavoriteButtonProps) {
   const { showNotification } = useNotification();
+  const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
+  
+  const productIdNum = typeof productId === "string" ? Number(productId) : productId;
+  const isFavorited = isFavorite(productIdNum);
 
   const handleToggleFavorite = () => {
     try {
-      const favorites = storage.get<string[]>(STORAGE_KEYS.FAVORITES, []);
-
       if (isFavorited) {
-        const updatedFavorites = favorites.filter((id: string) => id !== productId);
-        storage.set(STORAGE_KEYS.FAVORITES, updatedFavorites);
+        removeFromFavorites(productIdNum);
+        showNotification("تم إزالة المنتج من المفضلة", "info");
       } else {
-        favorites.push(productId);
-        storage.set(STORAGE_KEYS.FAVORITES, favorites);
+        if (product) {
+          const favoriteItem: BouquetItem = {
+            ...product,
+            id: productIdNum,
+          };
+          addToFavorites(favoriteItem);
+          showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
+        } else {
+          showNotification("يرجى استخدام زر المفضلة في صفحة المنتج", "info");
+        }
       }
-
-      setIsFavorited(!isFavorited);
-
-      // إشعار موحد
-      showNotification(
-        isFavorited ? "تم إزالة المنتج من المفضلة" : "تم إضافة المنتج إلى المفضلة",
-        isFavorited ? "info" : "success"
-      );
     } catch (error) {
       console.error("خطأ في تحديث المفضلة:", error);
       showNotification("حدث خطأ في تحديث المفضلة", "error");
@@ -43,8 +44,20 @@ export default function FavoriteButton({ productId }: FavoriteButtonProps) {
     <button
       onClick={handleToggleFavorite}
       className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${
-        isFavorited ? "text-red-500 hover:text-red-600" : "text-gray-400 hover:text-red-500"
+        isFavorited ? "" : "text-gray-400"
       }`}
+      style={isFavorited ? { color: "#9F0712" } : {}}
+      onMouseEnter={(e) => {
+        if (!isFavorited) {
+          e.currentTarget.style.color = "#9F0712";
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!isFavorited) {
+          e.currentTarget.style.color = "";
+        }
+      }}
+      aria-label={isFavorited ? "إزالة من المفضلة" : "إضافة إلى المفضلة"}
       title={isFavorited ? "إزالة من المفضلة" : "إضافة إلى المفضلة"}
     >
       <Heart

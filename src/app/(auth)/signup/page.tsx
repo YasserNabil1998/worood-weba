@@ -3,12 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { MapPin } from "lucide-react";
 
 export default function SignupPage() {
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
     email: "",
+    address: "",
     password: "",
     gender: "ذكر",
     agree: false,
@@ -29,10 +31,20 @@ export default function SignupPage() {
     if (!form.fullName.trim()) err.fullName = "الاسم مطلوب";
     if (!/^\S+@\S+\.\S+$/.test(form.email)) err.email = "بريد غير صالح";
     if (!/^\+?\d{8,15}$/.test(form.phone)) err.phone = "رقم غير صالح";
+    if (!form.address.trim()) err.address = "العنوان مطلوب";
     if (form.password.length < 6) err.password = "كلمة المرور 6 أحرف على الأقل";
     if (!form.agree) err.agree = "يجب الموافقة على الشروط";
     setErrors(err);
     return Object.keys(err).length === 0;
+  };
+
+  const handleMapClick = () => {
+    // محاكاة لفتح الخريطة
+    alert("سيتم فتح خريطة لتحديد الموقع (محاكاة)");
+    // في التطبيق الحقيقي، يمكن استخدام:
+    // - Google Maps API
+    // - MapBox
+    // - أو أي خدمة خرائط أخرى
   };
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -112,6 +124,31 @@ export default function SignupPage() {
             />
             {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password}</p>}
           </div>
+          <div>
+            <label className="block text-sm text-gray-700 mb-1" htmlFor="address">
+              العنوان
+            </label>
+            <div className="relative">
+              <input
+                id="address"
+                name="address"
+                type="text"
+                value={form.address}
+                onChange={handleChange}
+                className="w-full h-10 rounded-md border border-gray-300 bg-white pl-10 pr-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
+                placeholder="مثال: مكة، شارع الملك سعود"
+              />
+              <button
+                type="button"
+                onClick={handleMapClick}
+                className="absolute left-1 top-1/2 -translate-y-1/2 p-1.5 hover:bg-gray-100 rounded-md transition-colors cursor-pointer"
+                aria-label="فتح الخريطة لتحديد الموقع"
+              >
+                <MapPin className="w-5 h-5 text-gray-600" />
+              </button>
+            </div>
+            {errors.address && <p className="mt-1 text-xs text-red-600">{errors.address}</p>}
+          </div>
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -158,7 +195,7 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full h-10 rounded-md text-white font-semibold transition-opacity"
+            className="w-full h-10 rounded-md text-white font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed"
             style={{
               backgroundColor: "#5A5E4D",
               opacity: submitting ? 0.8 : 1,
@@ -168,7 +205,7 @@ export default function SignupPage() {
             {submitting ? "... جاري الإنشاء" : "إنشاء حساب"}
           </button>
           <div className="text-center text-xs text-gray-600">
-            <Link href="/login" className="hover:underline">
+            <Link href="/login" className="hover:underline cursor-pointer">
               لديك حساب؟ تسجيل الدخول
             </Link>
           </div>

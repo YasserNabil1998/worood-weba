@@ -122,6 +122,7 @@ export default function CartItem({
                   onClick={handleEdit}
                   className="bg-[#6e7b5a] text-white cursor-pointer px-3 py-2 h-[41px] rounded-[5px] transition-all duration-200 hover:bg-[#5a6550] hover:scale-105 flex items-center justify-center"
                   style={{ fontFamily: "var(--font-almarai)" }}
+                  aria-label={`تعديل ${item.title}`}
                 >
                   <Pencil className="w-5 h-5" />
                 </button>
@@ -130,6 +131,7 @@ export default function CartItem({
                 onClick={handleRemoveClick}
                 className="bg-[#800020] text-white cursor-pointer px-3 py-2 h-[41px] rounded-[5px] transition-all duration-200 hover:bg-[#9a0026] hover:scale-105 flex items-center justify-center"
                 style={{ fontFamily: "var(--font-almarai)" }}
+                aria-label={`حذف ${item.title}`}
               >
                 <Trash2 className="w-5 h-5" />
               </button>
@@ -148,6 +150,8 @@ export default function CartItem({
                 onClick={() => onToggleExpand(itemId)}
                 className="text-[18px] text-[#727272] hover:bg-[#5A5E4D]/10 hover:text-[#4b5244] flex items-center gap-1 cursor-pointer px-2 py-1 rounded-lg transition-all duration-200 text-center"
                 style={{ fontFamily: "var(--font-almarai)" }}
+                aria-label={isExpanded ? "إخفاء التفاصيل" : "عرض التفاصيل"}
+                aria-expanded={isExpanded}
               >
                 {isExpanded ? (
                   <>

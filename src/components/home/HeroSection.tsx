@@ -16,14 +16,14 @@ export default function HeroSection() {
       description: "باقات مميزة صممت بعناية لتناسب جميع الأذواق والمناسبات الخاصة",
       buttons: [
         {
-          text: "تصفح الباقات",
-          href: ROUTES.BOUQUETS,
-          type: "primary", // أخضر
-        },
-        {
           text: "تنسيق باقة خاصة",
           href: ROUTES.CUSTOM,
           type: "secondary", // أبيض
+        },
+        {
+          text: "تصفح الباقات",
+          href: ROUTES.BOUQUETS,
+          type: "primary", // أخضر
         },
       ],
     },
@@ -100,8 +100,8 @@ export default function HeroSection() {
           {slides.map((slide, index) => (
             <div
               key={index}
-              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                index === currentSlide ? "opacity-100" : "opacity-0"
+              className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+                index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
               }`}
             >
               {/* Background Image */}
@@ -109,7 +109,9 @@ export default function HeroSection() {
                 src={slide.image}
                 alt={slide.title}
                 fill
-                className="object-cover rounded-[20px]"
+                className={`object-cover rounded-[20px] transition-transform duration-[8000ms] ease-out ${
+                  index === currentSlide ? "scale-110" : "scale-100"
+                }`}
                 priority={index === 0}
                 loading={index === 0 ? undefined : "lazy"}
                 sizes="100vw"
@@ -121,14 +123,24 @@ export default function HeroSection() {
               {/* Content */}
               <div className="relative z-10 h-full flex items-center">
                 <div className="w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28">
-                  <div className="ml-auto max-w-[576px] text-right px-8">
+                  <div
+                    className={`ml-auto max-w-[576px] text-right px-8 transition-all duration-700 ease-out ${
+                      index === currentSlide
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-8"
+                    }`}
+                  >
                     {/* Title - matching Figma: 48px, Almarai Bold, white */}
                     <h1
-                      className="text-[36px] sm:text-[42px] md:text-[48px] font-bold text-white mb-6 leading-[48px] text-right "
+                      className={`text-[36px] sm:text-[42px] md:text-[48px] font-bold text-white mb-6 leading-[48px] text-right transition-all duration-700 ease-out delay-100 ${
+                        index === currentSlide
+                          ? "opacity-100 translate-y-0"
+                          : "opacity-0 translate-y-6"
+                      }`}
                       style={{
                         fontFamily: "var(--font-almarai)",
                         textShadow:
-                          "3px 3px 12px rgba(0, 0, 0, 0.9), 2px 2px 8px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 0, 0, 0.6)",
+                          "2px 2px 8px rgba(0, 0, 0, 0.5), 1px 1px 4px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 0, 0, 0.3)",
                       }}
                     >
                       {slide.title}
@@ -136,26 +148,35 @@ export default function HeroSection() {
 
                     {/* Description - matching Figma: 20px, Almarai Regular, white */}
                     <p
-                      className="text-[18px] sm:text-[20px] text-white mb-8 leading-[28px] text-right"
+                      className={`text-[18px] sm:text-[20px] text-white mb-8 leading-[28px] text-right transition-all duration-700 ease-out delay-200 ${
+                        index === currentSlide
+                          ? "opacity-100 translate-y-0"
+                          : "opacity-0 translate-y-6"
+                      }`}
                       style={{
                         fontFamily: "var(--font-almarai)",
-                        textShadow:
-                          "2px 2px 10px rgba(0, 0, 0, 0.9), 1px 1px 6px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 0, 0, 0.7), 0 0 12px rgba(0, 0, 0, 0.6)",
+                        textShadow: "1px 1px 6px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 0, 0, 0.3)",
                       }}
                     >
                       {slide.description}
                     </p>
 
                     {/* Buttons */}
-                    <div className="flex flex-row-reverse justify-end gap-4 ">
+                    <div
+                      className={`flex flex-row-reverse justify-end gap-4 transition-all duration-700 ease-out delay-300 ${
+                        index === currentSlide
+                          ? "opacity-100 translate-y-0"
+                          : "opacity-0 translate-y-6"
+                      }`}
+                    >
                       {slide.buttons.map((button, buttonIndex) => (
                         <Link
                           key={buttonIndex}
                           href={button.href}
-                          className={`h-[59px] px-8 py-3 rounded-[4px] font-bold text-[16px] transition-all duration-300 flex items-center justify-center ${
+                          className={`h-[59px] px-8 py-3 rounded-[4px] font-bold text-[16px] transition-all duration-300 flex items-center justify-center w-[187px] ${
                             button.type === "primary"
-                              ? "bg-[#5f664f] text-white hover:bg-[#4b5244] w-[160px]"
-                              : "bg-white text-black hover:bg-gray-100 w-[187px]"
+                              ? "bg-[#5f664f] text-white hover:bg-[#4b5244]"
+                              : "bg-white text-black hover:bg-gray-100"
                           }`}
                           style={{
                             fontFamily: "var(--font-almarai)",

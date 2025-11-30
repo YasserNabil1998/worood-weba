@@ -1,6 +1,5 @@
 "use client";
 
-import { Mail } from "lucide-react";
 import { useState } from "react";
 
 const NewsletterSection = () => {
@@ -55,108 +54,88 @@ const NewsletterSection = () => {
   };
 
   return (
-    <section className="py-12">
+    <section className="py-12 bg-[#fbfaf2]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Matching Figma: bg-[#dadada], rounded-[16px], padding 32px */}
-        <div className="bg-[#dadada] rounded-[16px] p-8">
-          <div className="max-w-[672px] mx-auto text-center">
-            {/* Title - matching Figma: 24px, Almarai Bold, gray-800 */}
+        {/* Container - matching bouquets section width */}
+        <div className="relative">
+          {/* Matching image design: bg-[#B5BAAA], rounded box, centered */}
+          <div className="bg-[#B5BAAA] rounded-[16px] p-8">
+            <div className="text-center max-w-4xl mx-auto">
+            {/* Title - centered, bold, dark gray */}
             <h2
               className="text-[22px] sm:text-[24px] font-bold text-gray-800 mb-4"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               اشترك في نشرتنا البريدية
             </h2>
-            {/* Description - matching Figma: 16px, Almarai Regular, gray-600 */}
+            {/* Description - centered, lighter gray */}
             <p
               className="text-[14px] sm:text-[16px] text-gray-600 mb-6"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
-              ادخل على آخر العروض والتحديثات مباشرة إلى بريدك الإلكتروني
+              احصل على آخر العروض والتخفيضات مباشرة إلى بريدك الإلكتروني
             </p>
-            {/* Form - matching Figma layout */}
-            <form onSubmit={handleSubmit} className="flex items-center justify-end gap-0">
-              {/* Button - matching Figma: #5a5e4d, 97.14px width, 48px height */}
-              <button
-                type="submit"
-                aria-label="اشتراك في النشرة"
-                className={`bg-[#5a5e4d] h-[48px] px-6 rounded-[4px] text-white font-normal text-[16px] shrink-0 transition-all ${
-                  isLoading ? "opacity-80 cursor-not-allowed" : "hover:opacity-95"
+            {/* Form - horizontal row with input and button */}
+            <form onSubmit={handleSubmit} className="flex items-center justify-center gap-2 flex-wrap">
+              {/* Email Input - white background, rounded corners */}
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (error) setError("");
+                }}
+                placeholder="أدخل بريدك الإلكتروني"
+                className={`flex-1 min-w-[200px] max-w-md h-[48px] pr-4 pl-4 rounded-[4px] border border-gray-300 bg-white text-right placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 text-[14px] sm:text-[16px] ${
+                  error ? "border-red-300 bg-red-50/50" : ""
                 }`}
                 style={{
                   fontFamily: "var(--font-almarai)",
-                  width: "97.14px",
+                }}
+              />
+              {/* Subscribe Button - darker green/gray, rounded corners */}
+              <button
+                type="submit"
+                aria-label="اشتراك في النشرة"
+                className={`bg-[#6B7565] h-[48px] px-6 rounded-[4px] text-white font-normal text-[14px] sm:text-[16px] shrink-0 transition-all hover:opacity-90 ${
+                  isLoading ? "opacity-80 cursor-not-allowed" : ""
+                }`}
+                style={{
+                  fontFamily: "var(--font-almarai)",
                 }}
                 disabled={isLoading}
               >
                 {isLoading ? "... جارٍ" : "اشتراك"}
               </button>
-              {/* Input - matching Figma: white bg, border gray-300, 574.86px width, 48px height */}
-              <div className="relative flex-1">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    if (error) setError("");
-                  }}
-                  placeholder="أدخل بريدك الإلكتروني"
-                  className={`w-full h-[48px] pr-4 pl-4 rounded-tr-[8px] rounded-br-[8px] border border-gray-300 bg-white text-right placeholder-gray-500 focus:outline-none text-[14px] ${
-                    error ? "border-red-300 bg-red-50/50" : ""
-                  }`}
+            </form>
+
+            {/* رسائل الحالة - simplified */}
+            {error && (
+              <div className="mt-4 text-center">
+                <p
+                  className="text-sm text-red-700"
                   style={{
                     fontFamily: "var(--font-almarai)",
                   }}
-                />
-              </div>
-            </form>
-
-            {/* شريط تقدم عند الإرسال */}
-            <div className="mt-4 h-1 rounded bg-white/50 overflow-hidden">
-              <div
-                className="h-full bg-[#5A5E4D] transition-all duration-200"
-                style={{
-                  width: `${isLoading ? progress : isSuccess ? 100 : 0}%`,
-                }}
-              />
-            </div>
-
-            {/* رسائل الحالة */}
-            {error && (
-              <div className="mt-4 flex items-center justify-center">
-                <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-4 py-3 max-w-md">
-                  <div className="shrink-0">
-                    <Mail className="w-5 h-5 text-red-500" />
-                  </div>
-                  <p
-                    className="text-sm text-red-700 text-right"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
-                  >
-                    {error}
-                  </p>
-                </div>
+                >
+                  {error}
+                </p>
               </div>
             )}
 
             {isSuccess && (
-              <div className="mt-4 flex items-center justify-center">
-                <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-lg px-4 py-3 max-w-md">
-                  <div className="shrink-0">
-                    <Mail className="w-5 h-5 text-green-500" />
-                  </div>
-                  <p
-                    className="text-sm text-green-700 text-right"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
-                  >
-                    تم الاشتراك بنجاح! شكرًا لانضمامك.
-                  </p>
-                </div>
+              <div className="mt-4 text-center">
+                <p
+                  className="text-sm text-green-700"
+                  style={{
+                    fontFamily: "var(--font-almarai)",
+                  }}
+                >
+                  تم الاشتراك بنجاح! شكرًا لانضمامك.
+                </p>
               </div>
             )}
+            </div>
           </div>
         </div>
       </div>

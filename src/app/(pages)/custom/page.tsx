@@ -275,7 +275,7 @@ function CustomBuilderContent() {
           {/* Page Title Section */}
           <section className="pt-8 pb-4">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-right">
-              <h1 className="text-[20px] font-bold leading-[24px] text-[#2D3319] mb-2 tracking-[0px]">
+              <h1 className="text-[32px] font-bold leading-[40px] text-[#2D3319] mb-2 tracking-[0px]">
                 تنسيق باقة خاص
               </h1>
               <p className="text-[16px] font-normal leading-[20px] text-[#5A5E4D] tracking-[0px]">
@@ -333,50 +333,50 @@ function CustomBuilderContent() {
                           bouquetStyles={bouquetStyles}
                           style={state.style}
                           onStyleChange={state.setStyle}
-                        vases={vases}
-                        selectedVase={state.selectedVase}
-                        onVaseChange={state.setSelectedVase}
-                        onPrevStep={() => {}}
-                        onNextStep={() => {}}
-                      />
-                    )}
+                          vases={vases}
+                          selectedVase={state.selectedVase}
+                          onVaseChange={state.setSelectedVase}
+                          onPrevStep={() => {}}
+                          onNextStep={() => {}}
+                        />
+                      )}
 
-                    {state.step === 3 && (
-                      <CustomizationStep
-                        occasions={occasions}
-                        occasion={state.occasion}
-                        onOccasionChange={state.setOccasion}
-                        includeCard={state.includeCard}
-                        onIncludeCardChange={state.setIncludeCard}
-                        cardMessage={state.cardMessage}
-                        onCardMessageChange={state.setCardMessage}
-                        showSuggestions={state.showSuggestions}
-                        onShowSuggestionsToggle={() =>
-                          state.setShowSuggestions(!state.showSuggestions)
-                        }
-                        cardSuggestions={cardSuggestionsData.cardSuggestions}
-                        notes={state.notes}
-                        onNotesChange={state.setNotes}
-                        config={config}
-                        onPrevStep={() => {}}
-                        onNextStep={() => {}}
-                      />
-                    )}
+                      {state.step === 3 && (
+                        <CustomizationStep
+                          occasions={occasions}
+                          occasion={state.occasion}
+                          onOccasionChange={state.setOccasion}
+                          includeCard={state.includeCard}
+                          onIncludeCardChange={state.setIncludeCard}
+                          cardMessage={state.cardMessage}
+                          onCardMessageChange={state.setCardMessage}
+                          showSuggestions={state.showSuggestions}
+                          onShowSuggestionsToggle={() =>
+                            state.setShowSuggestions(!state.showSuggestions)
+                          }
+                          cardSuggestions={cardSuggestionsData.cardSuggestions}
+                          notes={state.notes}
+                          onNotesChange={state.setNotes}
+                          config={config}
+                          onPrevStep={() => {}}
+                          onNextStep={() => {}}
+                        />
+                      )}
 
-                    {state.step === 4 && (
-                      <DeliveryStep
-                        deliveryType={state.deliveryType}
-                        onDeliveryTypeChange={state.setDeliveryType}
-                        deliveryTimes={deliveryTimes}
-                        deliveryTime={state.deliveryTime}
-                        onDeliveryTimeChange={state.setDeliveryTime}
-                        deliveryDate={state.deliveryDate}
-                        onDeliveryDateChange={state.setDeliveryDate}
-                        isAddingToCart={state.isAddingToCart}
-                        onPrevStep={() => {}}
-                        onAddToCart={cartOps.addToCart}
-                      />
-                    )}
+                      {state.step === 4 && (
+                        <DeliveryStep
+                          deliveryType={state.deliveryType}
+                          onDeliveryTypeChange={state.setDeliveryType}
+                          deliveryTimes={deliveryTimes}
+                          deliveryTime={state.deliveryTime}
+                          onDeliveryTimeChange={state.setDeliveryTime}
+                          deliveryDate={state.deliveryDate}
+                          onDeliveryDateChange={state.setDeliveryDate}
+                          isAddingToCart={state.isAddingToCart}
+                          onPrevStep={() => {}}
+                          onAddToCart={cartOps.addToCart}
+                        />
+                      )}
                     </div>
                   )}
 

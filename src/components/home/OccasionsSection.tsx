@@ -12,28 +12,28 @@ const OccasionsSection = () => {
       title: "مولود جديد",
       description: "باقات ناعمة ترحب بالحياة الجديدة",
       image: "/assets/home/occasions-img/newborn.png",
-      href: ROUTES.OCCASIONS + "/newborn",
+      href: ROUTES.BOUQUETS + "?occasion=newborn&openFilter=occasion",
     },
     {
       id: 2,
       title: "نجاح",
       description: "احتفل بإنجازك بأجمل الورود",
       image: "/assets/home/occasions-img/Success.png",
-      href: ROUTES.OCCASIONS + "/success",
+      href: ROUTES.BOUQUETS + "?occasion=graduation&openFilter=occasion",
     },
     {
       id: 3,
       title: "زواج",
       description: "ورود بألوان فخمة ولمسات ناعمة",
       image: "/assets/home/occasions-img/Wedding.png",
-      href: ROUTES.OCCASIONS + "/wedding",
+      href: ROUTES.BOUQUETS + "?occasion=wedding&openFilter=occasion",
     },
     {
       id: 4,
       title: "خطوبة",
       description: "باقتك المميزة بداية تعبر عن فرحتك",
       image: "/assets/home/occasions-img/Engagement.png",
-      href: ROUTES.OCCASIONS + "/engagement",
+      href: ROUTES.BOUQUETS + "?occasion=engagement&openFilter=occasion",
     },
   ];
 
@@ -50,7 +50,7 @@ const OccasionsSection = () => {
             </p>
           </div>
           <Link
-            href="/occasions"
+            href="/bouquets"
             className="text-primary hover:underline text-sm font-semibold cursor-pointer"
           >
             عرض الكل <ArrowLeft className="w-4 h-4 inline mr-1" />

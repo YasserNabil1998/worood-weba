@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState, useId } from "react";
+import { useMemo, useState, useId, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import ProductCard from "@/src/components/ProductCard";
-import { Heart, ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
+import { Heart, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from "lucide-react";
 import { BouquetItem } from "@/src/@types/bouquets/index.type";
 import { PRICE_RANGES } from "@/src/constants/bouquets";
 import ToggleButton from "@/src/components/ToggleButton";
@@ -16,15 +17,31 @@ function useBouquetListing(
     priceRange: string;
     occasion: string;
     color: string;
+    type: string;
     sort: string;
     page: number;
     pageSize: number;
   }
 ) {
-  const { priceRange, occasion, color, sort, page, pageSize } = options;
+  const { priceRange, occasion, color, type, sort, page, pageSize } = options;
 
   const filtered = useMemo(() => {
     let filteredItems = items;
+
+    // Filter by type (bouquets vs vases)
+    if (type !== "all") {
+      if (type === "vases") {
+        // Filter items that contain "مزهرية" in the title
+        filteredItems = filteredItems.filter((item) => 
+          item.title.includes("مزهرية")
+        );
+      } else if (type === "bouquets") {
+        // Filter items that don't contain "مزهرية" in the title
+        filteredItems = filteredItems.filter((item) => 
+          !item.title.includes("مزهرية")
+        );
+      }
+    }
 
     if (priceRange !== "all") {
       const selectedRange = PRICE_RANGES.find((range) => range.key === priceRange);
@@ -44,7 +61,7 @@ function useBouquetListing(
     }
 
     return filteredItems;
-  }, [items, priceRange, occasion, color]);
+  }, [items, priceRange, occasion, color, type]);
 
   const sorted = useMemo(() => {
     const arr = [...filtered];
@@ -77,12 +94,47 @@ export default function BouquetsListingClient({
   items: BouquetItem[];
   pageSize?: number;
 }) {
+  const searchParams = useSearchParams();
   const [priceRange, setPriceRange] = useState<string>("all");
   const [occasion, setOccasion] = useState<string>("all");
   const [color, setColor] = useState<string>("all");
+  const [type, setType] = useState<string>("all");
   const [page, setPage] = useState<number>(1);
   const [sort, setSort] = useState<string>("popular");
   const [isFiltersOpen, setIsFiltersOpen] = useState<boolean>(false);
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState<boolean>(false);
+
+  const [shouldOpenOccasionFilter, setShouldOpenOccasionFilter] = useState<boolean>(false);
+  const [shouldOpenTypeFilter, setShouldOpenTypeFilter] = useState<boolean>(false);
+
+  // Read query parameters from URL and apply filters
+  useEffect(() => {
+    const occasionParam = searchParams.get("occasion");
+    const typeParam = searchParams.get("type");
+    const openFilterParam = searchParams.get("openFilter");
+
+    if (occasionParam) {
+      setOccasion(occasionParam);
+      setPage(1);
+    }
+
+    if (typeParam) {
+      setType(typeParam);
+      setPage(1);
+    }
+
+    // Open filters panel and occasion section if openFilter=occasion
+    if (openFilterParam === "occasion") {
+      setIsFiltersOpen(true);
+      setShouldOpenOccasionFilter(true);
+    }
+
+    // Open filters panel and type section if openFilter=type
+    if (openFilterParam === "type") {
+      setIsFiltersOpen(true);
+      setShouldOpenTypeFilter(true);
+    }
+  }, [searchParams]);
 
   // Removed outside click-to-close behavior; panel toggles only via header button or close icon
 
@@ -90,6 +142,7 @@ export default function BouquetsListingClient({
     priceRange,
     occasion,
     color,
+    type,
     sort,
     page,
     pageSize,
@@ -99,6 +152,7 @@ export default function BouquetsListingClient({
     setPriceRange("all");
     setOccasion("all");
     setColor("all");
+    setType("all");
     setPage(1);
   };
 
@@ -115,8 +169,12 @@ export default function BouquetsListingClient({
           setOccasion={setOccasion}
           color={color}
           setColor={setColor}
+          type={type}
+          setType={setType}
           setPage={setPage}
           reset={reset}
+          openOccasionFilter={shouldOpenOccasionFilter}
+          openTypeFilter={shouldOpenTypeFilter}
         />
         <div className="lg:col-span-3 space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end gap-4">
@@ -128,23 +186,57 @@ export default function BouquetsListingClient({
                 الترتيب حسب
               </span>
               <div className="relative w-full sm:w-[195px]">
-                <select
-                  value={sort}
-                  onChange={(e) => {
-                    setSort(e.target.value);
-                    setPage(1);
+                <button
+                  type="button"
+                  onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+                  onBlur={() => setTimeout(() => setIsSortDropdownOpen(false), 200)}
+                  className="w-full h-[45px] rounded-[10px] border border-[#c6c5c5] bg-white px-4 py-2.5 text-right text-[18px] text-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 cursor-pointer flex items-center justify-between"
+                  style={{ 
+                    paddingLeft: "2.5rem",
+                    fontFamily: "var(--font-almarai)"
                   }}
-                  className="appearance-none pr-4 pl-10 py-2.5 h-[45px] rounded-[10px] border border-[#c6c5c5] bg-white text-[18px] text-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 w-full"
-                  style={{ fontFamily: "var(--font-almarai)" }}
                 >
-                  <option value="popular">الأكثر طلبا</option>
-                  <option value="price-asc">السعر: من الأقل للأعلى</option>
-                  <option value="price-desc">السعر: من الأعلى للأقل</option>
-                  <option value="newest">الأحدث</option>
-                </select>
-                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                  ▾
-                </span>
+                  <span>
+                    {sort === "popular" && "الأكثر طلبا"}
+                    {sort === "price-asc" && "السعر: من الأقل للأعلى"}
+                    {sort === "price-desc" && "السعر: من الأعلى للأقل"}
+                    {sort === "newest" && "الأحدث"}
+                  </span>
+                  {isSortDropdownOpen ? (
+                    <ChevronUp className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#9d9d9d] pointer-events-none transition-transform" />
+                  ) : (
+                    <ChevronDown className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#9d9d9d] pointer-events-none transition-transform" />
+                  )}
+                </button>
+
+                {isSortDropdownOpen && (
+                  <div 
+                    className="absolute z-50 w-full mt-1 bg-white border border-[#c6c5c5] rounded-[10px] shadow-lg max-h-[200px] overflow-y-auto"
+                    style={{ direction: 'ltr' }}
+                  >
+                    {[
+                      { value: "popular", label: "الأكثر طلبا" },
+                      { value: "price-asc", label: "السعر: من الأقل للأعلى" },
+                      { value: "price-desc", label: "السعر: من الأعلى للأقل" },
+                      { value: "newest", label: "الأحدث" },
+                    ].map((option) => (
+                      <div
+                        key={option.value}
+                        onClick={() => {
+                          setSort(option.value);
+                          setPage(1);
+                          setIsSortDropdownOpen(false);
+                        }}
+                        className={`px-4 py-2.5 text-[16px] text-right cursor-pointer hover:bg-[#5A5E4D]/10 transition-colors ${
+                          sort === option.value ? "bg-[#5A5E4D]/5 font-semibold" : ""
+                        }`}
+                        style={{ fontFamily: "var(--font-almarai)" }}
+                      >
+                        {option.label}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>

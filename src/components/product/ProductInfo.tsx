@@ -1,4 +1,5 @@
 import FavoriteButton from "@/src/components/FavoriteButton";
+import { BouquetItem } from "@/src/@types/bouquets/index.type";
 
 interface ProductInfoProps {
   productId: string;
@@ -6,6 +7,7 @@ interface ProductInfoProps {
   price: number;
   currency: string;
   description: string;
+  product?: BouquetItem;
 }
 
 export default function ProductInfo({
@@ -14,12 +16,13 @@ export default function ProductInfo({
   price,
   currency,
   description,
+  product,
 }: ProductInfoProps) {
   return (
     <div>
       <div className="flex items-center gap-3 mb-2">
         <h1 className="text-2xl font-bold text-gray-900 flex-1">{title}</h1>
-        <FavoriteButton productId={productId} />
+        <FavoriteButton productId={productId} product={product} />
       </div>
 
       <div className="flex items-center gap-1.5 mb-3">

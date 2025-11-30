@@ -126,6 +126,13 @@ export default function ProductDetailPage() {
                   price={product.price}
                   currency={product.currency}
                   description={product.description}
+                  product={{
+                    id: product.id,
+                    title: product.title,
+                    price: product.price,
+                    currency: product.currency,
+                    image: product.image,
+                  }}
                 />
 
                 <div className="border-t border-gray-200 pt-4">

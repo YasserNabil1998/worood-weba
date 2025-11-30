@@ -76,7 +76,7 @@ export default function FavoritesPage() {
           {/* Page Title */}
           <div className="mb-8 md:mb-12 flex justify-start">
             <h1
-              className="text-[20px] font-bold text-[rgba(0,0,0,0.72)]"
+              className="text-[32px] font-bold leading-[40px] text-[rgba(0,0,0,0.72)]"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               المنتجات التي أضفتها إلى قائمة المفضلة
@@ -170,12 +170,13 @@ export default function FavoritesPage() {
                             dir="rtl"
                             aria-label="إزالة من المفضلة"
                           >
-                            <div className="relative w-[42px] h-[42px]">
+                            <div className="relative w-8 h-8 rounded-full shadow-lg">
                               <div className="absolute inset-0 bg-white/80 rounded-full backdrop-blur-sm"></div>
                               <div className="absolute inset-0 flex items-center justify-center">
                                 <Heart
-                                  className="w-[27px] h-[27px] text-red-800"
+                                  className="w-5 h-5"
                                   fill="currentColor"
+                                  style={{ color: "#9F0712" }}
                                 />
                               </div>
                             </div>

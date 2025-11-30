@@ -3,11 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useMemo } from "react";
-import { ASSETS } from "@/src/assets";
-import { OccasionItem, OccasionWithHref } from "@/src/@types/home/index.type";
+import { OccasionWithHref } from "@/src/@types/home/index.type";
 import { defaultOccasions } from "@/src/content/occasions";
 import { ROUTES } from "@/src/constants/routes";
-import { Baby, GraduationCap, Heart, Gift, Sparkles, Calendar, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 type OccasionsSectionProps = {
   occasions?: OccasionWithHref[];
@@ -25,40 +24,35 @@ const OccasionsSection = ({
   // Memoize occasions to prevent unnecessary re-renders
   const memoizedOccasions = useMemo(() => occasions, [occasions]);
 
-  // Map icon names to Lucide components
-  const getIconComponent = (iconName: string) => {
-    const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-      Baby,
-      GraduationCap,
-      Heart,
-      Gift,
-      Sparkles,
-      Calendar,
-    };
-    return iconMap[iconName] || Heart; // Default to Heart if not found
-  };
-
-  // Occasion data matching Figma design
+  // Occasion data matching Figma design - ordered as in design: مولود جديد, نجاح, عيد ميلاد, خطوبة
   const occasionsData = [
     {
-      title: "خطوبة",
-      description: "باقتك المميزة بداية تعبر عن فرحتك",
-      image: "/assets/home/occasions-img/Engagement.png",
-    },
-    {
-      title: "زواج",
-      description: "ورود بألوان فخمة ولمسات ناعمة",
-      image: "/assets/home/occasions-img/Wedding.png",
+      title: "مولود جديد",
+      description: "باقات ناعمة ترحب بالحياة الجديدة",
+      image: "/assets/home/occasions-img/icons8-baby-stroller-96 1.svg",
+      imageSize: 96,
+      occasionKey: "newborn",
     },
     {
       title: "نجاح",
       description: "احتفل بإنجازك بأجمل الورود",
-      image: "/assets/home/occasions-img/Success.png",
+      image: "/assets/home/occasions-img/noto_graduation-cap.svg",
+      imageSize: 85,
+      occasionKey: "graduation",
     },
     {
-      title: "مولود جديد",
-      description: "باقات ناعمة ترحب بالحياة الجديدة",
-      image: "/assets/home/occasions-img/newborn.png",
+      title: "عيد ميلاد",
+      description: "ورود مناسبة للحفل عيد ميلاد",
+      image: "/assets/home/occasions-img/noto_birthday-cake.svg",
+      imageSize: 100,
+      occasionKey: "anniversary",
+    },
+    {
+      title: "خطوبة",
+      description: "باقتك المميزة بداية تعبر عن فرحتك",
+      image: "/assets/home/occasions-img/stash_engagement.svg",
+      imageSize: 70,
+      occasionKey: "engagement",
     },
   ];
 
@@ -69,22 +63,22 @@ const OccasionsSection = ({
           <div className="text-right">
             {/* Title - matching Figma: 30px, Almarai Bold */}
             <h2
-              className="text-[24px] sm:text-[28px] md:text-[30px] font-bold text-black mb-2"
+              className="text-[30px] font-bold text-black mb-2"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               {title}
             </h2>
             {/* Description - matching Figma: 25px, Almarai Regular */}
             <p
-              className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
+              className="text-[25px] font-normal text-black"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               {description || "كل لحظة تستحق باقة مميزة"}
             </p>
           </div>
           <Link
-            href={ROUTES.OCCASIONS}
-            className="text-[#5a5e4d] hover:underline text-[16px] font-normal cursor-pointer flex items-center gap-2"
+            href={`${ROUTES.BOUQUETS}?openFilter=occasion`}
+            className="text-[#5a5e4d] hover:text-[#4a4e3d] text-[20px] font-normal cursor-pointer flex items-center gap-2 transition-colors"
             style={{ fontFamily: "var(--font-almarai)" }}
           >
             <span>عرض الكل</span>
@@ -105,32 +99,31 @@ const OccasionsSection = ({
 
           {/* 4 occasion cards - matching Figma design */}
           {occasionsData.map((occasion, index) => {
-            const occasionItem = memoizedOccasions[index];
-            const href = occasionItem?.href || ROUTES.OCCASIONS + `/${occasion.title.toLowerCase().replace(/\s+/g, "-")}`;
+            const href = `${ROUTES.BOUQUETS}?occasion=${occasion.occasionKey}&openFilter=occasion`;
             
             return (
-              <Link
-                key={index}
-                href={href}
-                className="group cursor-pointer"
-              >
+              <Link key={index} href={href} className="group cursor-pointer">
                 {/* Card - matching Figma: bg-neutral-100, border #e0dede, rounded-[20px], 260px width, 283px height */}
-                <div className="bg-neutral-100 border border-[#e0dede] rounded-[20px] h-[281px] sm:h-[283px] p-6 flex flex-col items-center text-center hover:shadow-lg transition-all duration-300">
-                  {/* Image - matching Figma: 120px circle, border #9d9d9d */}
-                  <div className="w-[120px] h-[120px] rounded-[60px] border border-[#9d9d9d] overflow-hidden mb-4">
+                <div className="bg-neutral-100 border border-[#e0dede] rounded-[20px] h-[283px] p-6 flex flex-col items-center justify-start text-center hover:shadow-lg transition-all duration-300">
+                  {/* Image - matching Figma design with appropriate sizes */}
+                  <div
+                    className="flex items-center justify-center shrink-0 mb-4"
+                    style={{ minHeight: "120px", maxHeight: "120px" }}
+                  >
                     <Image
                       src={occasion.image}
                       alt={occasion.title}
-                      width={120}
-                      height={120}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
+                      width={occasion.imageSize}
+                      height={occasion.imageSize}
+                      className="object-contain"
                     />
                   </div>
 
+                  {/* Title and Description - Fixed position below image */}
+                  <div className="w-full">
                   {/* Title - matching Figma: 20px, Almarai Bold, black */}
                   <h3
-                    className="text-[18px] sm:text-[20px] font-bold text-black mb-2"
+                      className="text-[20px] font-bold text-black mb-2"
                     style={{
                       fontFamily: "var(--font-almarai)",
                     }}
@@ -140,13 +133,14 @@ const OccasionsSection = ({
 
                   {/* Description - matching Figma: 16px, Almarai Bold, #5c5a57 */}
                   <p
-                    className="text-[14px] sm:text-[16px] font-bold text-[#5c5a57] text-center leading-relaxed"
+                      className="text-[16px] font-bold text-[#5c5a57] text-center leading-relaxed"
                     style={{
                       fontFamily: "var(--font-almarai)",
                     }}
                   >
                     {occasion.description}
                   </p>
+                  </div>
                 </div>
               </Link>
             );

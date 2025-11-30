@@ -3,7 +3,11 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, Heart, ArrowLeft } from "lucide-react";
+import { useFavorites } from "@/src/hooks/useFavorites";
+import { useNotification } from "@/src/providers/notification-provider";
+import { BouquetItem } from "@/src/@types/bouquets/index.type";
+import { ROUTES } from "@/src/constants/routes";
 
 interface Product {
   id: number;
@@ -16,6 +20,9 @@ interface Product {
 const ProductsSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(1);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
+  const { showNotification } = useNotification();
 
   const products: Product[] = [
     {
@@ -76,22 +83,51 @@ const ProductsSlider = () => {
     return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
   }, []);
 
-  const gridColumnsClass = useMemo(() => getGridColumnsClass(visibleCount), [visibleCount, getGridColumnsClass]);
+  const gridColumnsClass = useMemo(
+    () => getGridColumnsClass(visibleCount),
+    [visibleCount, getGridColumnsClass]
+  );
 
   const nextSlide = useCallback(() => {
-    if (!shouldShowControls) return;
-    setCurrentIndex((prev) => (prev + 1) % totalItems);
-  }, [shouldShowControls, totalItems]);
+    if (!shouldShowControls || isTransitioning) return;
+    setIsTransitioning(true);
+    // بدء fade out تدريجي
+    setTimeout(() => {
+      setCurrentIndex((prev) => {
+        const next = prev + 1;
+        // الانتقال منتج منتج - تأكد من عدم تجاوز الحد الأقصى
+        if (next + visibleCount > totalItems) {
+          return 0; // العودة للبداية
+        }
+        return next;
+      });
+      // بدء fade in بعد تغيير الصورة
+      setTimeout(() => setIsTransitioning(false), 80);
+    }, 300); // نصف مدة الانتقال (600ms / 2)
+  }, [shouldShowControls, totalItems, visibleCount, isTransitioning]);
 
   const prevSlide = useCallback(() => {
-    if (!shouldShowControls) return;
-    setCurrentIndex((prev) => (prev - 1 + totalItems) % totalItems);
-  }, [shouldShowControls, totalItems]);
+    if (!shouldShowControls || isTransitioning) return;
+    setIsTransitioning(true);
+    // بدء fade out تدريجي
+    setTimeout(() => {
+      setCurrentIndex((prev) => {
+        const prevIndex = prev - 1;
+        // الانتقال منتج منتج - إذا وصلنا للبداية، اذهب للنهاية
+        if (prevIndex < 0) {
+          return Math.max(0, totalItems - visibleCount);
+        }
+        return prevIndex;
+      });
+      // بدء fade in بعد تغيير الصورة
+      setTimeout(() => setIsTransitioning(false), 80);
+    }, 300); // نصف مدة الانتقال (600ms / 2)
+  }, [shouldShowControls, totalItems, visibleCount, isTransitioning]);
 
   // Reset index when visible count changes
   useEffect(() => {
     setCurrentIndex(0);
-  }, [visibleCount]);
+  }, [visibleCount, totalItems]);
 
   // Auto slide every 5 seconds
   useEffect(() => {
@@ -102,7 +138,7 @@ const ProductsSlider = () => {
     return () => clearInterval(timer);
   }, [nextSlide, shouldShowControls]);
 
-  // Calculate displayed products with circular logic
+  // Calculate displayed products
   const displayedProducts = useMemo(() => {
     if (totalItems === 0) return [];
 
@@ -113,8 +149,39 @@ const ProductsSlider = () => {
     });
   }, [currentIndex, products, totalItems, visibleCount]);
 
+  const toggleFavorite = useCallback(
+    (e: React.MouseEvent, product: Product) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      try {
+        const isCurrentlyFavorite = isFavorite(product.id);
+
+        if (isCurrentlyFavorite) {
+          removeFromFavorites(product.id);
+          showNotification("تم إزالة المنتج من المفضلة", "info");
+        } else {
+          // تحويل product إلى BouquetItem
+          const favoriteItem: BouquetItem = {
+            id: product.id,
+            title: product.title,
+            image: product.image,
+            price: product.price,
+            currency: product.currency,
+          };
+          addToFavorites(favoriteItem);
+          showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
+        }
+      } catch (error) {
+        console.error("خطأ في تبديل المفضلة:", error);
+        showNotification("حدث خطأ في تحديث المفضلة", "error");
+      }
+    },
+    [isFavorite, addToFavorites, removeFromFavorites, showNotification]
+  );
+
   return (
-    <section className="py-6 sm:py-8 md:py-10">
+    <section className="py-6 sm:py-8 md:py-10 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
           <div className="text-right">
@@ -133,6 +200,15 @@ const ProductsSlider = () => {
               اختر باقتك المفضلة لتضفي لمسة جمال على يومك
             </p>
           </div>
+          {/* View All Button */}
+          <Link
+            href={`${ROUTES.BOUQUETS}?type=vases&openFilter=type`}
+            className="text-[#5a5e4d] hover:underline text-[16px] font-normal cursor-pointer flex items-center gap-2"
+            style={{ fontFamily: "var(--font-almarai)" }}
+          >
+            <span>عرض الكل</span>
+            <ArrowLeft className="w-4 h-4" />
+          </Link>
         </div>
 
         <div className="relative">
@@ -141,12 +217,16 @@ const ProductsSlider = () => {
             <>
               <div className="overflow-hidden">
                 <div
-                  className={`grid ${gridColumnsClass} gap-3 sm:gap-4 lg:gap-6 justify-items-center`}
+                  className={`grid ${gridColumnsClass} gap-3 sm:gap-4 lg:gap-6 justify-items-center transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
+                    isTransitioning ? "opacity-60" : "opacity-100"
+                  }`}
                 >
                   {displayedProducts.map((product, idx) => (
                     <div
-                      key={`${product.id}-${currentIndex}-${idx}`}
-                      className="group border border-[#a1a1a1] border-solid rounded-[20px] overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col cursor-pointer max-w-[294px] w-full bg-white"
+                      key={`${product.id}-${currentIndex}`}
+                      className={`group border border-[#a1a1a1] border-solid rounded-[20px] overflow-hidden transition-all duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:shadow-xl flex flex-col cursor-pointer max-w-[294px] w-full bg-white ${
+                        !isTransitioning ? "animate-fadeInSlide" : ""
+                      }`}
                     >
                       {/* Image Section - matching Figma: 222px height */}
                       <Link
@@ -161,15 +241,51 @@ const ProductsSlider = () => {
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                           loading="lazy"
                         />
+                        {/* Favorite Button */}
+                        <div className="absolute top-2 left-2 flex items-center gap-2 z-10">
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              toggleFavorite(e, product);
+                            }}
+                            className={`h-8 w-8 rounded-full backdrop-blur flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 ${
+                              isFavorite(product.id) ? "bg-white/90" : "bg-white/90 text-gray-700"
+                            }`}
+                            style={isFavorite(product.id) ? { color: "#9F0712" } : {}}
+                            onMouseEnter={(e) => {
+                              if (!isFavorite(product.id)) {
+                                e.currentTarget.style.color = "#9F0712";
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!isFavorite(product.id)) {
+                                e.currentTarget.style.color = "";
+                              }
+                            }}
+                            aria-label={
+                              isFavorite(product.id)
+                                ? `إزالة ${product.title} من المفضلة`
+                                : `إضافة ${product.title} إلى المفضلة`
+                            }
+                            title={
+                              isFavorite(product.id) ? "إزالة من المفضلة" : "إضافة إلى المفضلة"
+                            }
+                          >
+                            <Heart
+                              className="w-4 h-4 transition-colors"
+                              fill={isFavorite(product.id) ? "currentColor" : "none"}
+                              stroke="currentColor"
+                              strokeWidth={2}
+                            />
+                          </button>
+                        </div>
                       </Link>
-                      
+
                       {/* Content Section - matching Figma: white bg, border, rounded bottom */}
                       <div className="bg-white border-t border-[#e0dede] border-solid flex flex-col flex-1 rounded-bl-[20px] rounded-br-[20px] p-4 min-h-[147px]">
                         {/* Title - matching Figma: 18px, Almarai Bold, gray-800 */}
-                        <Link
-                          href={`/product/${product.id}`}
-                          className="mb-3"
-                        >
+                        <Link href={`/product/${product.id}`} className="mb-3">
                           <h3
                             className="font-bold text-[18px] text-gray-800 text-right line-clamp-1 leading-[28px]"
                             style={{
@@ -180,7 +296,7 @@ const ProductsSlider = () => {
                             {product.title}
                           </h3>
                         </Link>
-                        
+
                         {/* Price and Add to Cart Button */}
                         <div className="flex items-center justify-between mt-auto">
                           {/* Price - matching Figma: 16px, Almarai Bold, #5a5e4d */}
@@ -194,7 +310,7 @@ const ProductsSlider = () => {
                               {product.price} ر.س
                             </span>
                           </div>
-                          
+
                           {/* Add to Cart Button - matching Figma: #5f664f bg, rounded-[4px], icon centered */}
                           <button
                             onClick={(e) => {
@@ -225,14 +341,14 @@ const ProductsSlider = () => {
                 <>
                   <button
                     onClick={prevSlide}
-                    className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+                    className="absolute -left-2 md:-left-6 lg:-left-12 lg:hidden top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
                     aria-label="Previous product"
                   >
                     <ChevronLeftIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </button>
                   <button
                     onClick={nextSlide}
-                    className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+                    className="absolute -right-2 md:-right-6 lg:-right-12 lg:hidden top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
                     aria-label="Next product"
                   >
                     <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -255,4 +371,3 @@ const ProductsSlider = () => {
 };
 
 export default ProductsSlider;
-

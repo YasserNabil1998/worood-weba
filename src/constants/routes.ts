@@ -3,7 +3,6 @@ export const ROUTES = {
   HOME: "/",
   BOUQUETS: "/bouquets",
   CUSTOM: "/custom",
-  OCCASIONS: "/occasions",
   CONTACT: "/contact",
   CART: "/cart",
   CHECKOUT: "/checkout",

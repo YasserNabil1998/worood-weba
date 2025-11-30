@@ -7,7 +7,7 @@ import { useNotification } from "@/src/providers/notification-provider";
 import { ASSETS } from "@/src/assets";
 import { useCart } from "@/src/hooks/useCart";
 import { storage } from "@/src/lib/utils";
-import { ShoppingCart, User, Menu } from "lucide-react";
+import { ShoppingCart, User, Menu, Search, X } from "lucide-react";
 
 const Header = () => {
   const pathname = usePathname();
@@ -18,6 +18,11 @@ const Header = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<
+    Array<{ element: HTMLElement; text: string; context: string }>
+  >([]);
 
   // إخفاء/إظهار الهيدر عند السكرول
   useEffect(() => {
@@ -82,6 +87,124 @@ const Header = () => {
     return false;
   };
 
+  // وظيفة البحث في محتوى الصفحة
+  const performSearch = (query: string) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    const results: Array<{ element: HTMLElement; text: string; context: string }> = [];
+    const searchText = query.trim().toLowerCase();
+
+    // البحث في جميع العناصر النصية في الصفحة
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: (node) => {
+        // تجاهل العناصر المخفية أو في scripts/styles
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_REJECT;
+
+        const style = window.getComputedStyle(parent);
+        if (
+          style.display === "none" ||
+          style.visibility === "hidden" ||
+          parent.tagName === "SCRIPT" ||
+          parent.tagName === "STYLE" ||
+          parent.closest("header") ||
+          parent.closest("nav") ||
+          parent.closest("[role='dialog']") ||
+          parent.closest(".search-modal")
+        ) {
+          return NodeFilter.FILTER_REJECT;
+        }
+
+        const text = node.textContent || "";
+        if (text.trim().length < 2) return NodeFilter.FILTER_REJECT;
+
+        if (text.toLowerCase().includes(searchText)) {
+          return NodeFilter.FILTER_ACCEPT;
+        }
+        return NodeFilter.FILTER_REJECT;
+      },
+    });
+
+    let node;
+    const processedElements = new Set<HTMLElement>();
+
+    while ((node = walker.nextNode())) {
+      const parent = node.parentElement;
+      if (!parent || processedElements.has(parent)) continue;
+
+      // تجنب العناصر الصغيرة جداً
+      if (parent.textContent && parent.textContent.trim().length < 3) continue;
+
+      processedElements.add(parent);
+      const text = node.textContent || "";
+
+      // الحصول على سياق النص (60 حرف قبل وبعد)
+      const index = text.toLowerCase().indexOf(searchText);
+      if (index !== -1) {
+        const start = Math.max(0, index - 60);
+        const end = Math.min(text.length, index + searchText.length + 60);
+        let context = text.substring(start, end);
+
+        // إضافة "..." في البداية والنهاية إذا كان هناك نص أكثر
+        if (start > 0) context = "..." + context;
+        if (end < text.length) context = context + "...";
+
+        results.push({
+          element: parent,
+          text: text.trim(),
+          context: context.trim(),
+        });
+      }
+    }
+
+    setSearchResults(results.slice(0, 10)); // حد أقصى 10 نتائج
+  };
+
+  // معالجة تغيير نص البحث
+  useEffect(() => {
+    if (isSearchOpen) {
+      const timeoutId = setTimeout(() => {
+        performSearch(searchQuery);
+      }, 300); // تأخير 300ms للبحث
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [searchQuery, isSearchOpen]);
+
+  // الانتقال إلى العنصر عند النقر على نتيجة
+  const scrollToResult = (element: HTMLElement) => {
+    element.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    // تمييز العنصر مؤقتاً
+    element.style.backgroundColor = "rgba(255, 255, 0, 0.3)";
+    element.style.transition = "background-color 0.3s";
+
+    setTimeout(() => {
+      element.style.backgroundColor = "";
+    }, 2000);
+
+    setIsSearchOpen(false);
+    setSearchQuery("");
+    setSearchResults([]);
+  };
+
+  // إغلاق البحث عند الضغط على ESC
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isSearchOpen) {
+        setIsSearchOpen(false);
+        setSearchQuery("");
+        setSearchResults([]);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isSearchOpen]);
+
   return (
     <header
       className={`bg-white/95 backdrop-blur fixed top-0 left-0 right-0 z-50 shadow-md transition-transform duration-300 ${
@@ -132,18 +255,28 @@ const Header = () => {
 
           {/* Right icons */}
           <div className="flex items-center gap-8">
+            {/* Search */}
+            <button
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              className="flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D] transition-all"
+              aria-label="فتح البحث"
+            >
+              <Search className="w-6 h-6" />
+            </button>
+
             {/* Cart */}
             <Link
               href="/cart"
               className="relative flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D] transition-all"
+              aria-label={totalItems > 0 ? `السلة (${totalItems} منتج)` : "السلة"}
             >
-              <ShoppingCart className="w-6 h-6" />
+              <ShoppingCart className="w-6 h-6" fill="currentColor" />
+              <span className="sr-only">السلة</span>
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                <span className="absolute -top-2 -right-2 bg-[#5A5E4D] text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
                   {totalItems}
                 </span>
               )}
-              <span className="text-[15px] font-medium">السلة</span>
             </Link>
 
             {/* User */}
@@ -151,9 +284,10 @@ const Header = () => {
               <button
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                 className="user-menu-button flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D] transition-all"
+                aria-label="فتح قائمة المستخدم"
+                aria-expanded={isUserMenuOpen}
               >
-                <User className="w-6 h-6" />
-                <span className="text-[15px] font-medium">حسابي</span>
+                <User className="w-6 h-6" fill="currentColor" />
               </button>
 
               {/* Dropdown */}
@@ -201,6 +335,8 @@ const Header = () => {
           <button
             className="p-2 text-gray-700 hover:text-[#5A5E4D] transition"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="فتح القائمة"
+            aria-expanded={isMenuOpen}
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -219,26 +355,36 @@ const Header = () => {
 
           {/* Right: Icons */}
           <div className="flex items-center gap-6">
+            <button
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              className="text-gray-700 hover:text-[#5A5E4D] transition"
+              aria-label="فتح البحث"
+            >
+              <Search className="w-6 h-6" />
+            </button>
+
             <Link
               href="/cart"
               className="relative flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D]"
+              aria-label={totalItems > 0 ? `السلة (${totalItems} منتج)` : "السلة"}
             >
-              <ShoppingCart className="w-6 h-6" />
+              <ShoppingCart className="w-6 h-6" fill="currentColor" />
+              <span className="sr-only">السلة</span>
               {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                <span className="absolute -top-1 -right-1 bg-[#5A5E4D] text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
                   {totalItems}
                 </span>
               )}
-              <span className="text-sm font-medium">السلة</span>
             </Link>
 
             <div className="relative">
               <button
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                 className="user-menu-button flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D]"
+                aria-label="فتح قائمة المستخدم"
+                aria-expanded={isUserMenuOpen}
               >
-                <User className="w-6 h-6" />
-                <span className="text-sm font-medium">حسابي</span>
+                <User className="w-6 h-6" fill="currentColor" />
               </button>
 
               {isUserMenuOpen && (
@@ -285,6 +431,8 @@ const Header = () => {
           <button
             className="p-2 text-gray-700 hover:text-[#5A5E4D] transition"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="فتح القائمة"
+            aria-expanded={isMenuOpen}
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -303,10 +451,23 @@ const Header = () => {
 
           {/* Right: Icons */}
           <div className="flex items-center gap-4">
-            <Link href="/cart" className="relative text-gray-700 hover:text-[#5A5E4D]">
-              <ShoppingCart className="w-6 h-6" />
+            <button
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              className="text-gray-700 hover:text-[#5A5E4D] transition"
+              aria-label="فتح البحث"
+            >
+              <Search className="w-6 h-6" />
+            </button>
+
+            <Link
+              href="/cart"
+              className="relative text-gray-700 hover:text-[#5A5E4D]"
+              aria-label={totalItems > 0 ? `السلة (${totalItems} منتج)` : "السلة"}
+            >
+              <ShoppingCart className="w-6 h-6" fill="currentColor" />
+              <span className="sr-only">السلة</span>
               {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                <span className="absolute -top-1 -right-1 bg-[#5A5E4D] text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
                   {totalItems}
                 </span>
               )}
@@ -316,8 +477,10 @@ const Header = () => {
               <button
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                 className="user-menu-button text-gray-700 hover:text-[#5A5E4D]"
+                aria-label="فتح قائمة المستخدم"
+                aria-expanded={isUserMenuOpen}
               >
-                <User className="w-6 h-6" />
+                <User className="w-6 h-6" fill="currentColor" />
               </button>
 
               {/* Mobile User Menu Dropdown */}
@@ -383,6 +546,74 @@ const Header = () => {
                 </Link>
               ))}
             </nav>
+          </div>
+        )}
+
+        {/* Search Modal */}
+        {isSearchOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-100 flex items-start justify-end pt-20 px-4 search-modal"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setIsSearchOpen(false);
+                setSearchQuery("");
+                setSearchResults([]);
+              }
+            }}
+          >
+            <div className="bg-white rounded-lg shadow-xl w-full max-w-xl max-h-[70vh] flex flex-col overflow-hidden">
+              {/* Search Input */}
+              <div className="flex items-center gap-3 p-4 border-b">
+                <Search className="w-5 h-5 text-gray-400 shrink-0" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="ابحث في الصفحة..."
+                  className="flex-1 outline-none text-gray-800 placeholder-gray-400"
+                  autoFocus
+                />
+                <button
+                  onClick={() => {
+                    setIsSearchOpen(false);
+                    setSearchQuery("");
+                    setSearchResults([]);
+                  }}
+                  className="text-gray-400 hover:text-gray-600 transition"
+                  aria-label="إغلاق البحث"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Search Results */}
+              <div className="flex-1 overflow-y-auto p-4">
+                {searchQuery.trim() && searchResults.length === 0 ? (
+                  <div className="text-center text-gray-500 py-8">
+                    <p className="text-sm">لم يتم العثور على نتائج</p>
+                  </div>
+                ) : searchResults.length > 0 ? (
+                  <div className="space-y-1">
+                    <p className="text-xs text-gray-500 mb-3">
+                      {searchResults.length} {searchResults.length === 1 ? "نتيجة" : "نتائج"}
+                    </p>
+                    {searchResults.map((result, index) => (
+                      <button
+                        key={index}
+                        onClick={() => scrollToResult(result.element)}
+                        className="w-full text-right p-3 rounded-lg hover:bg-gray-50 transition text-sm text-gray-700"
+                      >
+                        <p className="line-clamp-2">{result.context}</p>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center text-gray-400 py-8">
+                    <p className="text-sm">ابدأ الكتابة للبحث</p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -61,10 +61,10 @@ export default function FavoriteProductCard({ item }: FavoriteProductCardProps) 
             dir="rtl"
             aria-label="إزالة من المفضلة"
           >
-            <div className="relative w-[42px] h-[42px]">
+            <div className="relative w-8 h-8 rounded-full shadow-lg">
               <div className="absolute inset-0 bg-white/80 rounded-full backdrop-blur-sm"></div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <Heart className="w-[27px] h-[27px] text-red-800" fill="currentColor" />
+                <Heart className="w-5 h-5" fill="currentColor" style={{ color: "#9F0712" }} />
               </div>
             </div>
           </button>

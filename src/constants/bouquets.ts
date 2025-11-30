@@ -70,9 +70,17 @@ export const SORT_OPTIONS = [
   { key: "newest", label: "الأحدث" },
 ] as const;
 
+// Type options for filtering (bouquets vs vases)
+export const TYPES = [
+  { key: "all", label: "الكل" },
+  { key: "bouquets", label: "باقات" },
+  { key: "vases", label: "مزهريات" },
+] as const;
+
 // Type definitions for better type safety
 export type OccasionKey = (typeof OCCASIONS)[number]["key"];
 export type ColorKey = (typeof COLORS)[number]["key"];
 export type BadgeType = (typeof BADGES)[number];
 export type SortKey = (typeof SORT_OPTIONS)[number]["key"];
 export type PriceRangeKey = (typeof PRICE_RANGES)[number]["key"];
+export type TypeKey = (typeof TYPES)[number]["key"];

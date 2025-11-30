@@ -76,11 +76,23 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
                 e.preventDefault();
                 toggleFavorite();
               }}
-              className={`h-8 w-8 rounded-full backdrop-blur flex items-center justify-center shadow transition-all duration-300 hover:scale-110 ${
+              className={`h-8 w-8 rounded-full backdrop-blur flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 ${
                 isCurrentlyFavorite
-                  ? "bg-[#5A5E4D] text-white"
-                  : "bg-white/90 text-gray-700 hover:bg-[#5A5E4D] hover:text-white"
+                  ? "bg-white/90"
+                  : "bg-white/90 text-gray-700"
               }`}
+              style={isCurrentlyFavorite ? { color: "#9F0712" } : {}}
+              onMouseEnter={(e) => {
+                if (!isCurrentlyFavorite) {
+                  e.currentTarget.style.color = "#9F0712";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isCurrentlyFavorite) {
+                  e.currentTarget.style.color = "";
+                }
+              }}
+              aria-label={isCurrentlyFavorite ? `إزالة ${item.title} من المفضلة` : `إضافة ${item.title} إلى المفضلة`}
             >
               <Heart
                 className="w-4 h-4 transition-colors"

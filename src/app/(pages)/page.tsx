@@ -27,11 +27,11 @@ export default async function Home() {
         {/* 3. Most Popular Bouquets - الباقات الأكثر طلباً */}
         <FeaturedBouquets bouquets={mostRequestedBouquets} />
 
-        {/* 4. Vase Happiness Section - سعادة في مزهرية */}
-        <ProductsSlider />
-
-        {/* 5. Design Your Own Bouquet - صمم باقتك الخاصة */}
+        {/* 4. Design Your Own Bouquet - صمم باقتك الخاصة */}
         <CustomBouquetSection />
+
+        {/* 5. Vase Happiness Section - سعادة في مزهرية */}
+        <ProductsSlider />
 
         {/* 6. Why Choose Us Section - لماذا تختارنا ؟ */}
         <FeaturesSection />

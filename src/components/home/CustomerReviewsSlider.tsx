@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import type { ReviewItem } from "@/types";
 import { getAllReviews } from "@/src/actions/reviews-manager";
-import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star } from "lucide-react";
 
 type CustomerReviewsSliderProps = {
   reviews?: ReviewItem[];
@@ -71,19 +71,6 @@ const CustomerReviewsSlider = ({
 
   const finalIsLoading = propIsLoading || isLoading;
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % (reviews.length - visibleCount + 1));
-    setIsAutoPlaying(false);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide(
-      (prev) =>
-        (prev - 1 + (reviews.length - visibleCount + 1)) % (reviews.length - visibleCount + 1)
-    );
-    setIsAutoPlaying(false);
-  };
-
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
       <Star
@@ -132,7 +119,6 @@ const CustomerReviewsSlider = ({
   const visibleReviews = reviews.slice(currentSlide, currentSlide + visibleCount);
   // Determine which item is the visual center
   const centerIndex = Math.floor(visibleCount / 2);
-  const showNavigation = reviews.length > visibleCount;
 
   return (
     <section className="py-12 sm:py-14 md:py-16">
@@ -149,26 +135,6 @@ const CustomerReviewsSlider = ({
 
         {/* Slider Container */}
         <div className="relative">
-          {/* Navigation Buttons - Inside the container */}
-          {showNavigation && (
-            <>
-              <button
-                onClick={prevSlide}
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-20 cursor-pointer"
-                aria-label="Previous"
-              >
-                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
-              <button
-                onClick={nextSlide}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-20 cursor-pointer"
-                aria-label="Next"
-              >
-                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
-            </>
-          )}
-
           {/* Reviews Grid */}
           <div
             className={`grid gap-4 sm:gap-6 ${
@@ -180,30 +146,15 @@ const CustomerReviewsSlider = ({
               return (
                 <div
                   key={review.id}
-                  className={`bg-white rounded-[12px] p-6 h-[160px] flex flex-col transition-all duration-300 ease-out shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1),0px_4px_6px_-1px_rgba(0,0,0,0.1)] ${
+                  className={`bg-white rounded-[12px] p-6 pb-12 h-[160px] flex flex-col transition-all duration-300 ease-out shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1),0px_4px_6px_-1px_rgba(0,0,0,0.1)] ${
                     isCenter
                       ? "scale-105 md:scale-110 z-10 shadow-xl translate-y-0"
                       : "scale-95 opacity-90 shadow-lg translate-y-1 sm:translate-y-2"
                   }`}
                 >
-                  <div className="flex items-start justify-between mb-4 flex-shrink-0">
-                    <div className="flex-1 text-right">
-                      {/* Name - matching Figma: 16px, Almarai Bold, gray-800 */}
-                      <h3
-                        className="text-[16px] font-bold text-gray-800 mb-2"
-                        style={{
-                          fontFamily: "var(--font-almarai)",
-                        }}
-                      >
-                        {review.customerName}
-                      </h3>
-                      {/* Stars - matching Figma */}
-                      <div className="flex items-center justify-end mb-3 gap-1">
-                        {renderStars(review.rating)}
-                      </div>
-                    </div>
+                  <div className="flex items-center justify-start mb-4 flex-shrink-0 gap-4">
                     {/* Avatar - matching Figma: 48px circle, bg-[rgba(227,230,216,0.9)] */}
-                    <div className="w-12 h-12 bg-[rgba(227,230,216,0.9)] rounded-full flex items-center justify-center ml-4 flex-shrink-0">
+                    <div className="w-12 h-12 bg-[rgba(227,230,216,0.9)] rounded-full flex items-center justify-center flex-shrink-0">
                       {review.customerImage ? (
                         <Image
                           src={review.customerImage}
@@ -224,6 +175,21 @@ const CustomerReviewsSlider = ({
                         </span>
                       )}
                     </div>
+                    <div className="text-right mt-2">
+                      {/* Name - matching Figma: 16px, Almarai Bold, gray-800 */}
+                      <h3
+                        className="text-[16px] font-bold text-gray-800 mb-2"
+                        style={{
+                          fontFamily: "var(--font-almarai)",
+                        }}
+                      >
+                        {review.customerName}
+                      </h3>
+                      {/* Stars - matching Figma */}
+                      <div className="flex items-center justify-end gap-1">
+                        {renderStars(review.rating)}
+                      </div>
+                    </div>
                   </div>
                   {/* Comment - matching Figma: 16px, Almarai Regular, gray-600 */}
                   <div className="flex-1 flex flex-col justify-center">
@@ -243,26 +209,6 @@ const CustomerReviewsSlider = ({
               );
             })}
           </div>
-
-          {/* Dots Indicator */}
-          {showNavigation && (
-            <div className="flex justify-center mt-6 sm:mt-8 space-x-2">
-              {Array.from({ length: reviews.length - visibleCount + 1 }, (_, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    setCurrentSlide(index);
-                    setIsAutoPlaying(false);
-                  }}
-                  className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
-                    index === currentSlide
-                      ? "bg-[#5A5E4D] scale-125"
-                      : "bg-gray-300 hover:bg-gray-400"
-                  }`}
-                />
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </section>

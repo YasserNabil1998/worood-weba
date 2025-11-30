@@ -114,7 +114,7 @@ export default function QuantitySelector({
       <button
         onClick={handleDecrease}
         disabled={quantity <= 1}
-        className="w-[23px] h-[23px] flex items-center justify-center bg-white border border-[gainsboro] rounded-[5px] disabled:opacity-50 transition-opacity"
+        className="min-w-[44px] min-h-[44px] w-[44px] h-[44px] flex items-center justify-center bg-white border border-[gainsboro] rounded-[5px] disabled:opacity-50 transition-opacity"
         aria-label="تقليل الكمية"
       >
         <div className="w-[14px] h-[2px] bg-[#5a5e4d]"></div>
@@ -128,7 +128,7 @@ export default function QuantitySelector({
       <button
         onClick={handleIncrease}
         disabled={isMaxReached}
-        className="w-[23px] h-[23px] flex items-center justify-center bg-white border border-[gainsboro] rounded-[5px] disabled:opacity-50 transition-opacity relative"
+        className="min-w-[44px] min-h-[44px] w-[44px] h-[44px] flex items-center justify-center bg-white border border-[gainsboro] rounded-[5px] disabled:opacity-50 transition-opacity relative"
         aria-label="زيادة الكمية"
       >
         <div className="w-[14px] h-[2px] bg-[#5a5e4d]"></div>
