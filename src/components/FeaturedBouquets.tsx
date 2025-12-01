@@ -96,38 +96,36 @@ const FeaturedBouquets = ({
   const nextSlide = useCallback(() => {
     if (!shouldShowControls || isTransitioning) return;
     setIsTransitioning(true);
-    // بدء fade out تدريجي
-    setTimeout(() => {
-      setCurrentIndex((prev) => {
-        const next = prev + 1;
-        // الانتقال باقة باقة - تأكد من عدم تجاوز الحد الأقصى
-        if (next + visibleCount > totalItems) {
-          return 0; // العودة للبداية
-        }
-        return next;
-      });
-      // بدء fade in بعد تغيير الصورة
-      setTimeout(() => setIsTransitioning(false), 80);
-    }, 300); // نصف مدة الانتقال (600ms / 2)
+    setCurrentIndex((prev) => {
+      // الانتقال 4 كاردات مع بعض
+      const step = 4;
+      const next = prev + step;
+      // تأكد من عدم تجاوز الحد الأقصى
+      if (next + visibleCount > totalItems) {
+        return 0; // العودة للبداية
+      }
+      return next;
+    });
+    setTimeout(() => setIsTransitioning(false), 100);
   }, [shouldShowControls, totalItems, visibleCount, isTransitioning]);
 
   const prevSlide = useCallback(() => {
     if (!shouldShowControls || isTransitioning) return;
     setIsTransitioning(true);
-    // بدء fade out تدريجي
-    setTimeout(() => {
-      setCurrentIndex((prev) => {
-        const prevIndex = prev - 1;
-        // الانتقال باقة باقة - إذا وصلنا للبداية، اذهب للنهاية
-        if (prevIndex < 0) {
-          return Math.max(0, totalItems - visibleCount);
-        }
-        return prevIndex;
-      });
-      // بدء fade in بعد تغيير الصورة
-      setTimeout(() => setIsTransitioning(false), 80);
-    }, 300); // نصف مدة الانتقال (600ms / 2)
-  }, [shouldShowControls, totalItems, visibleCount, isTransitioning]);
+    setCurrentIndex((prev) => {
+      // الانتقال 4 كاردات مع بعض للخلف
+      const step = 4;
+      const prevIndex = prev - step;
+      // إذا وصلنا للبداية، اذهب للنهاية
+      if (prevIndex < 0) {
+        // احسب أقرب مضاعف لـ 4 من الأسفل
+        const remainder = totalItems % 4;
+        return remainder === 0 ? totalItems - 4 : totalItems - remainder;
+      }
+      return prevIndex;
+    });
+    setTimeout(() => setIsTransitioning(false), 500);
+  }, [shouldShowControls, totalItems, isTransitioning]);
 
   useEffect(() => {
     if (!shouldShowControls) return;
@@ -201,7 +199,7 @@ const FeaturedBouquets = ({
             <div className="text-right">
               {/* Title - matching Figma: 30px, Almarai Bold */}
               <div className="text-right">
-                <h2 
+                <h2
                   className="text-[28px] sm:text-[30px] font-bold text-black mb-2"
                   style={{ fontFamily: "var(--font-almarai)" }}
                 >
@@ -237,8 +235,8 @@ const FeaturedBouquets = ({
               <>
                 <div className="overflow-hidden">
                   <div
-                    className={`grid ${gridColumnsClass} gap-3 sm:gap-4 lg:gap-6 justify-items-center transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
-                      isTransitioning ? "opacity-60" : "opacity-100"
+                    className={`grid ${gridColumnsClass} gap-3 sm:gap-4 lg:gap-6 justify-items-center transition-all duration-700 ease-in-out ${
+                      isTransitioning ? "opacity-90" : "opacity-100"
                     }`}
                   >
                     {displayedBouquets.map((bouquet, idx) => {
@@ -248,14 +246,12 @@ const FeaturedBouquets = ({
                       return (
                         <div
                           key={`${getBouquetKey(bouquet)}-${currentIndex}`}
-                          className={`group border border-[#a1a1a1] rounded-[20px] overflow-hidden transition-all duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:shadow-xl flex flex-col cursor-pointer max-w-[294px] w-full bg-white ${
-                            !isTransitioning ? "animate-fadeInSlide" : ""
-                          }`}
+                          className="group border border-[#a1a1a1] rounded-[20px] overflow-hidden transition-all duration-600 ease-out hover:shadow-xl flex flex-col cursor-pointer max-w-[294px] w-full bg-white"
                         >
                           {/* Image Section - matching Figma: 294x222 */}
                           <Link
                             href={`/product/${getBouquetId(bouquet)}`}
-                            className="relative aspect-[294/222] overflow-hidden"
+                            className="relative aspect-294/222 overflow-hidden"
                           >
                             <Image
                               src={bouquet.image}
@@ -274,9 +270,7 @@ const FeaturedBouquets = ({
                                   toggleFavorite(e, bouquet);
                                 }}
                                 className={`h-8 w-8 rounded-full backdrop-blur flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 ${
-                                  isBouquetFavorite
-                                    ? "bg-white/90"
-                                    : "bg-white/90 text-gray-700"
+                                  isBouquetFavorite ? "bg-white/90" : "bg-white/90 text-gray-700"
                                 }`}
                                 style={isBouquetFavorite ? { color: "#9F0712" } : {}}
                                 onMouseEnter={(e) => {
@@ -300,14 +294,11 @@ const FeaturedBouquets = ({
                               </button>
                             </div>
                           </Link>
-                          
+
                           {/* Content Section - matching Figma: white bg, border, rounded bottom */}
                           <div className="bg-white border-t border-[#e0dede] p-4 flex flex-col flex-1 rounded-bl-[20px] rounded-br-[20px]">
                             {/* Title - matching Figma: 18px, Almarai Bold, gray-800 */}
-                            <Link
-                              href={`/product/${getBouquetId(bouquet)}`}
-                              className="mb-3"
-                            >
+                            <Link href={`/product/${getBouquetId(bouquet)}`} className="mb-3">
                               <h3
                                 className="font-bold text-[18px] text-gray-800 text-right line-clamp-1 mb-3"
                                 style={{
@@ -318,7 +309,7 @@ const FeaturedBouquets = ({
                                 {bouquet.title}
                               </h3>
                             </Link>
-                            
+
                             {/* Price and Add to Cart Button */}
                             <div className="flex items-center justify-between mt-auto">
                               {/* Price - matching Figma: 16px, Almarai Bold, #5a5e4d */}
@@ -332,7 +323,7 @@ const FeaturedBouquets = ({
                                   {bouquet.price} ر.س
                                 </span>
                               </div>
-                              
+
                               {/* Add to Cart Button - matching Figma: #5f664f bg, rounded-[4px], icon centered */}
                               <button
                                 onClick={(e) => {
@@ -363,17 +354,19 @@ const FeaturedBouquets = ({
                   <>
                     <button
                       onClick={prevSlide}
-                      className="absolute -left-2 md:-left-6 lg:-left-12 lg:hidden top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+                      disabled={isTransitioning}
+                      className="absolute -left-2 md:-left-6 lg:-left-12 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/70 text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-20 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                       aria-label="Previous bouquet"
                     >
-                      <ChevronLeftIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                      <ChevronLeftIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                     <button
                       onClick={nextSlide}
-                      className="absolute -right-2 md:-right-6 lg:-right-12 lg:hidden top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-10 cursor-pointer"
+                      disabled={isTransitioning}
+                      className="absolute -right-2 md:-right-6 lg:-right-12 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/70 text-[#2D3319] p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-20 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                       aria-label="Next bouquet"
                     >
-                      <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                      <ChevronRightIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                   </>
                 )}

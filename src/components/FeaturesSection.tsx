@@ -44,12 +44,12 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
       ref={sectionRef}
       style={{ backgroundColor: "#fbfaf2" }}
     >
-      <div className="w-full flex justify-center px-4 sm:px-6">
-        <div className="w-[95%] max-w-[1440px] relative">
-          {/* Title and Description - original sizes */}
-          <div className="text-right mb-8 sm:mb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
+          <div className="text-right">
+            {/* Title - matching سعادة في مزهرية section: 28px mobile, 30px tablet+ */}
             <h2
-              className="text-[26px] sm:text-[28px] md:text-[30px] font-bold text-black mb-3 leading-[36px]"
+              className="text-[28px] sm:text-[30px] font-bold text-black mb-2"
               style={{
                 fontFamily: "var(--font-almarai)",
               }}
@@ -57,8 +57,9 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
             >
               لماذا تختارنا ؟
             </h2>
+            {/* Description - matching سعادة في مزهرية section: 20px mobile, 23px tablet, 25px desktop */}
             <p
-              className="text-[20px] sm:text-[22px] md:text-[25px] text-[#727272] font-normal leading-[28px]"
+              className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
               style={{
                 fontFamily: "var(--font-almarai)",
               }}
@@ -67,19 +68,20 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
               لأننا نهتم بكل تفصيلة بتجربتك مع الورد
             </p>
           </div>
+        </div>
 
-          {/* Cards Grid - flat design matching the image: no borders, no shadows, same background */}
-          <div className="grid gap-2 sm:gap-3 md:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center items-start">
-            {featuresToShow.map((feature: FeatureItem, index: number) => {
-              const isVisible = mounted || visibleCards.has(String(feature.id));
-              // Middle card (index 1) should be higher up, side cards should be lower
-              const isMiddleCard = index === 1;
-              const isSideCard = index === 0 || index === 2;
-              return (
-                <div
-                  key={feature.id}
-                  data-card-id={String(feature.id)}
-                  className={`
+        {/* Cards Grid - flat design matching the image: no borders, no shadows, same background */}
+        <div className="grid gap-2 sm:gap-3 md:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center items-start">
+          {featuresToShow.map((feature: FeatureItem, index: number) => {
+            const isVisible = mounted || visibleCards.has(String(feature.id));
+            // Middle card (index 1) should be higher up, side cards should be lower
+            const isMiddleCard = index === 1;
+            const isSideCard = index === 0 || index === 2;
+            return (
+              <div
+                key={feature.id}
+                data-card-id={String(feature.id)}
+                className={`
                   feature-card
                   relative
                   w-full
@@ -90,38 +92,37 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
                   ${isMiddleCard ? "lg:-translate-y-12" : ""}
                   ${isSideCard ? "lg:translate-y-12" : ""}
                 `}
-                  style={{
-                    animationDelay: `${index * 150}ms`,
-                  }}
-                >
-                  {/* Icon Container - simple, no background circles */}
-                  <div className="mb-6 sm:mb-8 flex justify-center items-center relative">
-                    {feature.icon}
-                  </div>
-
-                  {/* Content - original sizes */}
-                  <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2">
-                    <h3
-                      className="text-[22px] sm:text-[24px] md:text-[26px] font-bold text-gray-800 leading-[28px]"
-                      style={{
-                        fontFamily: "var(--font-almarai)",
-                      }}
-                      dir="auto"
-                    >
-                      {feature.title}
-                    </h3>
-                    <p
-                      className="text-[18px] sm:text-[20px] md:text-[22px] text-[#727272] font-medium leading-[28px] sm:leading-[30px] max-w-[319px]"
-                      style={{ fontFamily: "var(--font-almarai)" }}
-                      dir="auto"
-                    >
-                      {feature.description}
-                    </p>
-                  </div>
+                style={{
+                  animationDelay: `${index * 150}ms`,
+                }}
+              >
+                {/* Icon Container - simple, no background circles */}
+                <div className="mb-6 sm:mb-8 flex justify-center items-center relative">
+                  {feature.icon}
                 </div>
-              );
-            })}
-          </div>
+
+                {/* Content - original sizes */}
+                <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2">
+                  <h3
+                    className="text-[22px] sm:text-[24px] md:text-[26px] font-bold text-gray-800 leading-[28px]"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                    dir="auto"
+                  >
+                    {feature.title}
+                  </h3>
+                  <p
+                    className="text-[18px] sm:text-[20px] md:text-[22px] text-[#727272] font-medium leading-[28px] sm:leading-[30px] max-w-[319px]"
+                    style={{ fontFamily: "var(--font-almarai)" }}
+                    dir="auto"
+                  >
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

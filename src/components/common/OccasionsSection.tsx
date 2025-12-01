@@ -61,16 +61,16 @@ const OccasionsSection = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
           <div className="text-right">
-            {/* Title - matching Figma: 30px, Almarai Bold */}
+            {/* Title - matching سعادة في مزهرية section: 28px mobile, 30px tablet+ */}
             <h2
-              className="text-[30px] font-bold text-black mb-2"
+              className="text-[28px] sm:text-[30px] font-bold text-black mb-2"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               {title}
             </h2>
-            {/* Description - matching Figma: 25px, Almarai Regular */}
+            {/* Description - matching سعادة في مزهرية section: 20px mobile, 23px tablet, 25px desktop */}
             <p
-              className="text-[25px] font-normal text-black"
+              className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               {description || "كل لحظة تستحق باقة مميزة"}

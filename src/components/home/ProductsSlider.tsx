@@ -217,21 +217,19 @@ const ProductsSlider = () => {
             <>
               <div className="overflow-hidden">
                 <div
-                  className={`grid ${gridColumnsClass} gap-3 sm:gap-4 lg:gap-6 justify-items-center transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
-                    isTransitioning ? "opacity-60" : "opacity-100"
+                  className={`grid ${gridColumnsClass} gap-3 sm:gap-4 lg:gap-6 justify-items-center transition-all duration-700 ease-in-out ${
+                    isTransitioning ? "opacity-90" : "opacity-100"
                   }`}
                 >
                   {displayedProducts.map((product, idx) => (
                     <div
                       key={`${product.id}-${currentIndex}`}
-                      className={`group border border-[#a1a1a1] border-solid rounded-[20px] overflow-hidden transition-all duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:shadow-xl flex flex-col cursor-pointer max-w-[294px] w-full bg-white ${
-                        !isTransitioning ? "animate-fadeInSlide" : ""
-                      }`}
+                      className="group border border-[#a1a1a1] border-solid rounded-[20px] overflow-hidden transition-all duration-600 ease-out hover:shadow-xl flex flex-col cursor-pointer max-w-[294px] w-full bg-white"
                     >
                       {/* Image Section - matching Figma: 222px height */}
                       <Link
                         href={`/product/${product.id}`}
-                        className="relative aspect-[294/222] overflow-hidden"
+                        className="relative aspect-294/222 overflow-hidden"
                       >
                         <Image
                           src={product.image}

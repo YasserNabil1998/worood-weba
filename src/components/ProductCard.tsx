@@ -106,7 +106,7 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
         <div className="bg-white border-t border-[#e0dede] rounded-bl-[20px] rounded-br-[20px] p-4 flex flex-col flex-1 h-[134px]">
           <div className="flex-1 mb-3">
             <h3
-              className="font-bold text-[18px] text-gray-800 mb-2 line-clamp-1 text-right"
+              className="font-bold text-responsive-lg text-gray-800 mb-2 line-clamp-1 text-right"
               style={{ fontFamily: "var(--font-almarai)" }}
               title={item.title}
               data-product-title
@@ -118,7 +118,7 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
           <div className="mt-auto flex items-center justify-between">
             <div className="flex items-center justify-end gap-1.5">
               <span
-                className="text-[16px] font-bold text-[#5a5e4d]"
+                className="text-responsive-base font-bold text-[#5a5e4d]"
                 style={{ fontFamily: "var(--font-almarai)" }}
               >
                 {item.price} ر.س

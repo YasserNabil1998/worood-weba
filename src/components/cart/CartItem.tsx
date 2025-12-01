@@ -111,7 +111,7 @@ export default function CartItem({
           {/* العنوان والأزرار في نفس السطر */}
           <div className="flex items-center justify-between gap-2 mb-2">
             <h3
-              className="font-bold text-gray-800 text-[23px] line-clamp-2 flex-1 min-w-0"
+              className="font-bold text-gray-800 text-responsive-2xl line-clamp-2 flex-1 min-w-0"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               {item.title}

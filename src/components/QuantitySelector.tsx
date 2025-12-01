@@ -120,7 +120,7 @@ export default function QuantitySelector({
         <div className="w-[14px] h-[2px] bg-[#5a5e4d]"></div>
       </button>
       <span 
-        className="text-[20px] font-bold text-black mx-2 min-w-[20px] text-center"
+        className="text-responsive-xl font-bold text-black mx-2 min-w-[20px] text-center"
         style={{ fontFamily: "var(--font-almarai)" }}
       >
         {quantity}

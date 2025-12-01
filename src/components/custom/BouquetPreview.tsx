@@ -115,13 +115,13 @@ export default function BouquetPreview({
             {/* First row - الإجمالي and السعر */}
             <div className="flex items-center justify-between mb-1">
               <span
-                className="text-[16px] font-bold text-black"
+                className="text-responsive-base font-bold text-black"
                 style={{ fontFamily: "var(--font-almarai)" }}
               >
                 الإجمالي
               </span>
               <span
-                className="text-[16px] font-normal text-black"
+                className="text-responsive-base font-normal text-black"
                 style={{ fontFamily: "var(--font-almarai)" }}
               >
                 {total.toFixed(0)} ريال

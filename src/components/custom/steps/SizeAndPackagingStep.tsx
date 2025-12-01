@@ -88,14 +88,14 @@ export default function SizeAndPackagingStep({
       {/* Bouquet size */}
       <div>
         <div
-          className="mb-4 text-[18px] font-normal leading-[20px] text-black text-right"
+          className="mb-4 text-responsive-lg font-normal leading-[20px] text-black text-right"
           style={{ fontFamily: "var(--font-almarai)" }}
         >
           اختر الحجم والتغليف
         </div>
         {totalFlowersCount > 0 && (
           <div
-            className="mb-3 bg-[#5A5E4D]/10 border border-[#d0d2c7]/30 rounded-md p-2 text-[13px] leading-[18px] text-[#5A5E4D] flex items-center gap-2"
+            className="mb-3 bg-[#5A5E4D]/10 border border-[#d0d2c7]/30 rounded-md p-2 text-responsive-sm leading-[18px] text-[#5A5E4D] flex items-center gap-2"
             style={{ fontFamily: "var(--font-almarai)" }}
           >
             <Lightbulb className="w-4 h-4 shrink-0" />

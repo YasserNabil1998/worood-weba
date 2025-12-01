@@ -237,7 +237,7 @@ const Header = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[15px] font-medium relative transition-all duration-200 hover:scale-105 ${
+                className={`text-responsive-base font-medium relative transition-all duration-200 hover:scale-105 ${
                   isActivePage(link.href)
                     ? "text-[#5A5E4D] font-bold"
                     : "text-gray-700 hover:text-[#5A5E4D]"
@@ -273,7 +273,7 @@ const Header = () => {
               <ShoppingCart className="w-6 h-6" fill="currentColor" />
               <span className="sr-only">السلة</span>
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#5A5E4D] text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                <span className="absolute -top-2 -right-2 bg-[#5A5E4D] text-white text-responsive-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">
                   {totalItems}
                 </span>
               )}
@@ -535,7 +535,7 @@ const Header = () => {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`block px-3 py-2 rounded-lg text-[15px] ${
+                  className={`block px-3 py-2 rounded-lg text-responsive-base ${
                     isActivePage(link.href)
                       ? "text-[#5A5E4D] font-bold bg-gray-50 border-r-4 border-[#5A5E4D]"
                       : "text-gray-700 hover:text-[#5A5E4D] hover:bg-gray-50"

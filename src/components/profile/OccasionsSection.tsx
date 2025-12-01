@@ -275,22 +275,22 @@ export default function OccasionsSection({
 
   return (
     <div
-      className="bg-white rounded-[25px] p-6 mb-4 cursor-pointer"
+      className="bg-white rounded-[25px] p-4 sm:p-6 mb-4 cursor-pointer"
       style={fontStyle}
       onClick={() => setIsExpanded(!isExpanded)}
     >
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 flex-1">
           <h2 className="text-[20px] font-bold text-black" style={fontStyle}>
             مناسباتي
           </h2>
 
-          <p className="text-[16px] text-[#383737]" style={fontStyle}>
+          <p className="text-[14px] sm:text-[16px] text-[#383737]" style={fontStyle}>
             (سيتم إرسال تذكير لك على إيميلك لتذكيرك قبل بأسبوع)
           </p>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center flex-shrink-0">
           {isExpanded ? (
             <ChevronUp className="w-[32px] h-[32px] text-[#585858]" />
           ) : (
@@ -304,26 +304,26 @@ export default function OccasionsSection({
       {/* Occasions List */}
       {isExpanded && (
         <div onClick={(e) => e.stopPropagation()}>
-          <div className="grid grid-cols-2 gap-3 mb-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
             {occasions.map((occasion) => (
               <div
                 key={occasion.id}
-                className="bg-[#fbfbfb] border border-[#e0e0e0] rounded-[15px] p-4 flex items-center justify-between"
+                className="bg-[#fbfbfb] border border-[#e0e0e0] rounded-[15px] p-4 flex items-center justify-between gap-3"
               >
-                <div className="flex items-center gap-3 flex-1">
-                  <div className="text-[28px]">{occasion.icon}</div>
-                  <div className="flex-1">
-                    <h3 className="text-[18px] font-bold text-black mb-1" style={fontStyle}>
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <div className="text-[24px] sm:text-[28px] flex-shrink-0">{occasion.icon}</div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-[16px] sm:text-[18px] font-bold text-black mb-1 truncate" style={fontStyle}>
                       {occasion.name}
                     </h3>
-                    <p className="text-[16px] text-[#727272]" style={fontStyle}>
+                    <p className="text-[14px] sm:text-[16px] text-[#727272]" style={fontStyle}>
                       {occasion.date}
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={(e) => handleEditClick(e, occasion.id)}
-                  className="bg-[gainsboro] w-[40px] h-[36px] rounded-[5px] flex items-center justify-center hover:bg-gray-300 transition-colors cursor-pointer"
+                  className="bg-[gainsboro] w-[40px] h-[36px] rounded-[5px] flex items-center justify-center hover:bg-gray-300 transition-colors cursor-pointer flex-shrink-0"
                 >
                   <Edit className="w-[20px] h-[20px] text-gray-700" />
                 </button>
@@ -333,13 +333,13 @@ export default function OccasionsSection({
 
           {/* Add Occasion Form */}
           {showAddForm ? (
-            <div className="bg-[#fbfbfb] border border-[#e0e0e0] rounded-[15px] p-6 mt-4 w-1/2 ml-auto">
+            <div className="bg-[#fbfbfb] border border-[#e0e0e0] rounded-[15px] p-4 sm:p-6 mt-4 w-full sm:w-1/2 sm:ml-auto">
               <div className="space-y-4">
                 {/* Row 1: ما المناسبة؟ و من صاحب المناسبة */}
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
                   {/* ما المناسبة؟ */}
-                  <div className="flex flex-col gap-2 flex-1">
-                    <label className="text-[16px] text-black" style={fontStyle}>
+                  <div className="flex flex-col gap-2 flex-1 w-full sm:w-auto">
+                    <label className="text-[14px] sm:text-[16px] text-black" style={fontStyle}>
                       ما المناسبة ؟
                     </label>
                     <div className="relative">
@@ -350,13 +350,13 @@ export default function OccasionsSection({
                           setIsDropdownOpen(!isDropdownOpen);
                         }}
                       >
-                        <span className="text-[14px] text-[#727272]" style={fontStyle}>
+                        <span className="text-[14px] text-[#727272] truncate" style={fontStyle}>
                           {occasionType || "اختر المناسبة"}
                         </span>
                         {isDropdownOpen ? (
-                          <ChevronUp className="w-[24px] h-[24px] text-[#585858]" />
+                          <ChevronUp className="w-[24px] h-[24px] text-[#585858] flex-shrink-0" />
                         ) : (
-                          <ChevronDown className="w-[24px] h-[24px] text-[#585858]" />
+                          <ChevronDown className="w-[24px] h-[24px] text-[#585858] flex-shrink-0" />
                         )}
                       </div>
                       {isDropdownOpen && (
@@ -381,8 +381,8 @@ export default function OccasionsSection({
                   </div>
 
                   {/* من صاحب المناسبة */}
-                  <div className="flex flex-col gap-2 flex-1">
-                    <label className="text-[16px] text-black" style={fontStyle}>
+                  <div className="flex flex-col gap-2 flex-1 w-full sm:w-auto">
+                    <label className="text-[14px] sm:text-[16px] text-black" style={fontStyle}>
                       من صاحب المناسبة
                     </label>
                     <input
@@ -393,7 +393,7 @@ export default function OccasionsSection({
                         setOccasionOwner(e.target.value);
                       }}
                       onClick={(e) => e.stopPropagation()}
-                      className="border border-[#d2d2d2] rounded-[5px] h-[41px] px-3 text-[14px] text-[#727272] bg-white"
+                      className="border border-[#d2d2d2] rounded-[5px] h-[41px] px-3 text-[14px] text-[#727272] bg-white w-full"
                       style={fontStyle}
                       placeholder="أدخل اسم صاحب المناسبة"
                     />
@@ -402,7 +402,7 @@ export default function OccasionsSection({
 
                 {/* Row 2: ما تاريخ المناسبة؟ */}
                 <div className="flex flex-col gap-2">
-                  <label className="text-[16px] text-black" style={fontStyle}>
+                  <label className="text-[14px] sm:text-[16px] text-black" style={fontStyle}>
                     ما تاريخ المناسبة ؟
                   </label>
                   <div className="relative" ref={calendarRef}>
@@ -414,7 +414,7 @@ export default function OccasionsSection({
                       className="w-full h-[41px] rounded-[5px] border border-[#d2d2d2] bg-white px-3 pr-10 text-right text-[14px] cursor-pointer flex items-center hover:border-[#5A5E4D]/50 transition-colors"
                       style={fontStyle}
                     >
-                      <span className={occasionDate ? "text-black" : "text-gray-400"}>
+                      <span className={`truncate ${occasionDate ? "text-black" : "text-gray-400"}`}>
                         {occasionDate ? formatDateToArabic(occasionDate) : "اختر التاريخ"}
                       </span>
                     </div>
@@ -434,7 +434,7 @@ export default function OccasionsSection({
 
                     {/* التقويم المخصص */}
                     {isDatePickerOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#e1dada] rounded-[10px] shadow-lg z-50 p-2 max-h-[280px]">
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#e1dada] rounded-[10px] shadow-lg z-50 p-2 max-h-[280px] w-full sm:w-auto min-w-[280px]">
                         {/* رأس التقويم */}
                         <div className="flex items-center justify-between mb-1">
                           <button
@@ -448,7 +448,7 @@ export default function OccasionsSection({
                           >
                             <ChevronRight className="w-3 h-3 text-[#605f5f]" />
                           </button>
-                          <div className="text-[13px] font-semibold text-black" style={fontStyle}>
+                          <div className="text-[12px] sm:text-[13px] font-semibold text-black" style={fontStyle}>
                             {ARABIC_MONTHS[currentMonth]} {currentYear}
                           </div>
                           <button
@@ -519,7 +519,7 @@ export default function OccasionsSection({
                 <div className="flex items-center justify-center mt-4">
                   <button
                     onClick={handleSave}
-                    className="bg-[#5f664f] text-white px-6 py-2 rounded-[5px] text-[15px] hover:bg-[#4f5440] transition-colors cursor-pointer"
+                    className="bg-[#5f664f] text-white px-6 py-2 rounded-[5px] text-[14px] sm:text-[15px] hover:bg-[#4f5440] transition-colors cursor-pointer w-full sm:w-auto"
                     style={fontStyle}
                   >
                     {editingOccasionId ? "تعديل" : "حفظ"}

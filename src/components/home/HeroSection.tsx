@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ROUTES } from "@/src/constants/routes";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
   const slides = [
     {
@@ -92,15 +94,54 @@ export default function HeroSection() {
     setCurrentSlide(index);
   };
 
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  // Swipe gestures for mobile
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    }
+    if (isRightSwipe) {
+      prevSlide();
+    }
+  };
+
   return (
     <section className="relative">
       <div className="w-full">
-        <div className="relative h-[566px] overflow-hidden rounded-[20px]">
+        <div
+          className="relative overflow-hidden h-[400px] sm:h-[500px] md:h-[566px]"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           {/* Slides */}
           {slides.map((slide, index) => (
             <div
               key={index}
-              className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+              className={`absolute inset-0 transition-all duration-[1200ms] sm:duration-700 ease-in-out ${
                 index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
               }`}
             >
@@ -109,22 +150,23 @@ export default function HeroSection() {
                 src={slide.image}
                 alt={slide.title}
                 fill
-                className={`object-cover rounded-[20px] transition-transform duration-[8000ms] ease-out ${
+                className={`object-cover transition-transform duration-[10000ms] sm:duration-[8000ms] ease-out ${
                   index === currentSlide ? "scale-110" : "scale-100"
                 }`}
                 priority={index === 0}
                 loading={index === 0 ? undefined : "lazy"}
-                sizes="100vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
+                quality={85}
               />
 
               {/* Dark Overlay - matching Figma rgba(35,35,35,0.4) */}
-              <div className="absolute inset-0 bg-[rgba(35,35,35,0.4)] rounded-[20px]"></div>
+              <div className="absolute inset-0 bg-[rgba(35,35,35,0.4)]"></div>
 
               {/* Content */}
               <div className="relative z-10 h-full flex items-center">
-                <div className="w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28">
+                <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
                   <div
-                    className={`ml-auto max-w-[576px] text-right px-8 transition-all duration-700 ease-out ${
+                    className={`ml-auto max-w-full sm:max-w-[500px] md:max-w-[576px] text-right px-4 sm:px-6 md:px-8 transition-all duration-[1200ms] sm:duration-700 ease-out ${
                       index === currentSlide
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 translate-y-8"
@@ -132,7 +174,7 @@ export default function HeroSection() {
                   >
                     {/* Title - matching Figma: 48px, Almarai Bold, white */}
                     <h1
-                      className={`text-[36px] sm:text-[42px] md:text-[48px] font-bold text-white mb-6 leading-[48px] text-right transition-all duration-700 ease-out delay-100 ${
+                      className={`text-[28px] sm:text-[36px] md:text-[42px] lg:text-[48px] font-bold text-white mb-4 sm:mb-5 md:mb-6 leading-tight sm:leading-[42px] md:leading-[48px] text-right transition-all duration-[1200ms] sm:duration-700 ease-out delay-100 ${
                         index === currentSlide
                           ? "opacity-100 translate-y-0"
                           : "opacity-0 translate-y-6"
@@ -148,7 +190,7 @@ export default function HeroSection() {
 
                     {/* Description - matching Figma: 20px, Almarai Regular, white */}
                     <p
-                      className={`text-[18px] sm:text-[20px] text-white mb-8 leading-[28px] text-right transition-all duration-700 ease-out delay-200 ${
+                      className={`text-[16px] sm:text-[18px] md:text-[20px] text-white mb-6 sm:mb-7 md:mb-8 leading-relaxed sm:leading-[26px] md:leading-[28px] text-right transition-all duration-[1200ms] sm:duration-700 ease-out delay-200 ${
                         index === currentSlide
                           ? "opacity-100 translate-y-0"
                           : "opacity-0 translate-y-6"
@@ -163,7 +205,7 @@ export default function HeroSection() {
 
                     {/* Buttons */}
                     <div
-                      className={`flex flex-row-reverse justify-end gap-4 transition-all duration-700 ease-out delay-300 ${
+                      className={`flex flex-row-reverse justify-end gap-3 sm:gap-4 transition-all duration-[1200ms] sm:duration-700 ease-out delay-300 ${
                         index === currentSlide
                           ? "opacity-100 translate-y-0"
                           : "opacity-0 translate-y-6"
@@ -173,16 +215,16 @@ export default function HeroSection() {
                         <Link
                           key={buttonIndex}
                           href={button.href}
-                          className={`h-[59px] px-8 py-3 rounded-[4px] font-bold text-[16px] transition-all duration-300 flex items-center justify-center w-[187px] ${
+                          className={`h-[50px] sm:h-[55px] md:h-[59px] px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 rounded-[4px] font-bold text-[14px] sm:text-[15px] md:text-[16px] transition-all duration-300 flex items-center justify-center flex-1 sm:flex-none sm:w-[160px] md:w-[187px] min-w-0 ${
                             button.type === "primary"
-                              ? "bg-[#5f664f] text-white hover:bg-[#4b5244]"
-                              : "bg-white text-black hover:bg-gray-100"
+                              ? "bg-[#5f664f] text-white hover:bg-[#4b5244] active:bg-[#3d4235]"
+                              : "bg-white text-black hover:bg-gray-100 active:bg-gray-200"
                           }`}
                           style={{
                             fontFamily: "var(--font-almarai)",
                           }}
                         >
-                          {button.text}
+                          <span className="truncate">{button.text}</span>
                         </Link>
                       ))}
                     </div>
@@ -193,15 +235,15 @@ export default function HeroSection() {
           ))}
 
           {/* Dots Navigation - matching Figma style */}
-          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex gap-2 items-center">
+          <div className="absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex gap-2 items-center">
             {slides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`rounded-[30px] transition-all duration-300 ${
                   index === currentSlide
-                    ? "bg-white h-[8px] w-[35px]"
-                    : "bg-white h-[8px] w-[8px] hover:bg-white/80"
+                    ? "bg-white h-[6px] sm:h-[8px] w-[28px] sm:w-[35px]"
+                    : "bg-white/80 h-[6px] sm:h-[8px] w-[6px] sm:w-[8px] hover:bg-white"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -210,18 +252,18 @@ export default function HeroSection() {
 
           {/* Navigation Arrows */}
           <button
-            onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
-            className="hidden sm:block absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300"
+            onClick={prevSlide}
+            className="hidden sm:block absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2.5 sm:p-3 rounded-full transition-all duration-300 active:bg-white/40"
             aria-label="Previous slide"
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
           <button
-            onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
-            className="hidden sm:block absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300"
+            onClick={nextSlide}
+            className="hidden sm:block absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2.5 sm:p-3 rounded-full transition-all duration-300 active:bg-white/40"
             aria-label="Next slide"
           >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
       </div>
