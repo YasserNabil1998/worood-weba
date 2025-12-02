@@ -12,6 +12,7 @@ import {
 } from "@/src/constants/contact";
 import { cn } from "@/src/lib/utils";
 import { logError } from "@/src/lib/logger";
+import { fontStyle } from "@/src/lib/styles";
 
 export default function ContactForm({ data, onSubmit }: ContactFormProps) {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -90,15 +91,9 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
   };
 
   return (
-    <div
-      className="bg-white rounded-[20px] min-h-[726px] p-4 sm:p-6 md:p-8 lg:p-12 order-1 lg:order-1"
-      style={{ fontFamily: "var(--font-almarai)" }}
-    >
+    <div className="bg-white rounded-[20px] min-h-[726px] p-4 sm:p-6 md:p-8 lg:p-12 order-1 lg:order-1" style={fontStyle}>
       <div className="text-right mb-6 sm:mb-8">
-        <h3
-          className="text-[18px] sm:text-[19px] lg:text-[20px] font-bold text-black mb-2"
-          style={{ fontFamily: "var(--font-almarai)" }}
-        >
+        <h3 className="text-[18px] sm:text-[19px] lg:text-[20px] font-bold text-black mb-2" style={fontStyle}>
           {data.title}
         </h3>
       </div>
@@ -124,17 +119,14 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
       >
         {/* Name field */}
         <div>
-          <label
-            className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
+          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
             {data.fields.name.label}
           </label>
           <input
             type="text"
             placeholder="أدخل الاسم كامل "
             className={getInputClasses(!!errors.name)}
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
             {...register("name")}
           />
           {errors.name && (
@@ -146,17 +138,14 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
 
         {/* Email field */}
         <div>
-          <label
-            className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
+          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
             {data.fields.email.label}
           </label>
           <input
             type="email"
             placeholder="أدخل بريدك الإلكتروني "
             className={getInputClasses(!!errors.email)}
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
             {...register("email")}
           />
           {errors.email && (
@@ -168,17 +157,14 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
 
         {/* Phone field */}
         <div>
-          <label
-            className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
+          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
             {data.fields.phone.label}
           </label>
           <input
             type="tel"
             placeholder="أدخل رقم هاتفك "
             className={getInputClasses(!!errors.phone)}
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
             {...register("phone")}
           />
           {errors.phone && (
@@ -190,10 +176,7 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
 
         {/* Subject field */}
         <div className="min-w-0">
-          <label
-            className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
+          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
             {data.fields.subject.label}
           </label>
           <div className="relative" ref={subjectDropdownRef}>
@@ -205,8 +188,8 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
                 "appearance-none cursor-pointer pr-12 flex items-center justify-between text-right"
               )}
               style={{
+                ...fontStyle,
                 direction: "rtl",
-                fontFamily: "var(--font-almarai)",
                 backgroundColor: "#f3f4f6",
               }}
             >
@@ -239,7 +222,7 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
                       "px-4 py-3 text-[16px] sm:text-[18px] lg:text-[20px] text-right cursor-pointer hover:bg-[#f3f4f6] transition-colors",
                       selectedSubject === option ? "bg-[#f3f4f6] font-semibold" : ""
                     )}
-                    style={{ fontFamily: "var(--font-almarai)" }}
+                    style={fontStyle}
                   >
                     {option}
                   </div>
@@ -256,17 +239,14 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
 
         {/* Message field */}
         <div className="md:col-span-2">
-          <label
-            className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
+          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
             {data.fields.message.label}
           </label>
           <textarea
             rows={8}
             className={cn(getInputClasses(!!errors.message, true), "resize-none")}
             placeholder="اكتب رسالتك هنا...."
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
             {...register("message")}
           />
           {errors.message && (
@@ -285,7 +265,7 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
               "w-full h-[50px] sm:h-[55px] lg:h-[60px] rounded-[10px] text-white font-bold text-[16px] sm:text-[18px] lg:text-[20px] transition-all duration-300 flex items-center justify-center gap-2",
               isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-[#5f664f] hover:bg-[#4A4E3D]"
             )}
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
           >
             {isSubmitting ? (
               <>

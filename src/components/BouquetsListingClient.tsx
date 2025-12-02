@@ -8,6 +8,8 @@ import { BouquetItem } from "@/src/@types/bouquets/index.type";
 import { PRICE_RANGES } from "@/src/constants/bouquets";
 import ToggleButton from "@/src/components/ToggleButton";
 import Sidebar from "@/src/components/Sidebar";
+import { fontStyle } from "@/src/lib/styles";
+import { TIMEOUTS } from "@/src/constants";
 
 // FilterSection was removed as it was unused
 
@@ -187,17 +189,14 @@ export default function BouquetsListingClient({
         <div className="lg:col-span-3 space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end gap-4">
             <div className="flex items-center gap-4 w-full sm:w-auto">
-              <span
-                className="text-[18px] font-medium text-[#4d4d4d] whitespace-nowrap"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
+              <span className="text-[18px] font-medium text-[#4d4d4d] whitespace-nowrap" style={fontStyle}>
                 الترتيب حسب
               </span>
               <div className="relative w-full sm:w-[195px]">
                 <button
                   type="button"
                   onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-                  onBlur={() => setTimeout(() => setIsSortDropdownOpen(false), 200)}
+                  onBlur={() => setTimeout(() => setIsSortDropdownOpen(false), TIMEOUTS.DROPDOWN_CLOSE_DELAY)}
                   className="w-full h-[45px] rounded-[10px] border border-[#c6c5c5] bg-white px-4 py-2.5 text-right text-[18px] text-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 cursor-pointer flex items-center justify-between"
                   style={{ 
                     paddingLeft: "2.5rem",
@@ -238,7 +237,7 @@ export default function BouquetsListingClient({
                         className={`px-4 py-2.5 text-[16px] text-right cursor-pointer hover:bg-[#5A5E4D]/10 transition-colors ${
                           sort === option.value ? "bg-[#5A5E4D]/5 font-semibold" : ""
                         }`}
-                        style={{ fontFamily: "var(--font-almarai)" }}
+                        style={fontStyle}
                       >
                         {option.label}
                       </div>
@@ -312,7 +311,7 @@ export default function BouquetsListingClient({
             </div>
           )}
           {sorted.length > 0 && (
-            <div className="text-sm text-gray-600 mt-4" style={{ fontFamily: "var(--font-almarai)" }}>
+            <div className="text-sm text-gray-600 mt-4" style={fontStyle}>
               {`عرض ${current.length} من أصل ${sorted.length} باقة`}
             </div>
           )}
@@ -355,7 +354,7 @@ function Pagination({
                   ? "bg-[#5A5E4D] text-white border-[#5A5E4D] font-normal"
                   : "bg-white border-[#dedcdc] text-black hover:bg-gray-50"
               }`}
-              style={{ fontFamily: "var(--font-almarai)" }}
+              style={fontStyle}
             >
               {n}
             </button>
@@ -367,7 +366,7 @@ function Pagination({
                 <button
                   onClick={() => onPageChange(1)}
                   className="w-[35px] h-[33px] flex items-center justify-center rounded-[2px] border bg-white border-[#dedcdc] text-black hover:bg-gray-50 text-[18px]"
-                  style={{ fontFamily: "var(--font-almarai)" }}
+                  style={fontStyle}
                 >
                   1
                 </button>
@@ -390,7 +389,7 @@ function Pagination({
                       ? "bg-[#5A5E4D] text-white border-[#5A5E4D] font-normal"
                       : "bg-white border-[#dedcdc] text-black hover:bg-gray-50"
                   }`}
-                  style={{ fontFamily: "var(--font-almarai)" }}
+                  style={fontStyle}
                 >
                   {n}
                 </button>
@@ -406,7 +405,7 @@ function Pagination({
                 <button
                   onClick={() => onPageChange(totalPages)}
                   className="w-[35px] h-[33px] flex items-center justify-center rounded-[2px] border bg-white border-[#dedcdc] text-black hover:bg-gray-50 text-[18px]"
-                  style={{ fontFamily: "var(--font-almarai)" }}
+                  style={fontStyle}
                 >
                   {totalPages}
                 </button>

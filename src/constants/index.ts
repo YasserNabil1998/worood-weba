@@ -46,6 +46,30 @@ export const NAVIGATION_DELAY = {
   CART_REDIRECT: 1500,
 } as const;
 
+// Timeouts (setTimeout) - بالمللي ثانية
+export const TIMEOUTS = {
+  SPLASH_FADE_OUT: 1800, // بداية التلاشي في شاشة البداية
+  SPLASH_HIDE: 2300, // إخفاء شاشة البداية تماماً
+  NEWSLETTER_PROGRESS_INTERVAL: 250, // تحديث شريط التقدم في النشرة البريدية
+  NEWSLETTER_COMPLETE: 1600, // اكتمال عملية الاشتراك في النشرة
+  SUCCESS_MESSAGE_HIDE: 3000, // إخفاء رسالة النجاح
+  FORM_SUBMIT_RESET: 600, // إعادة تعيين حالة الإرسال في النماذج
+  FORM_SUBMIT_RESET_LONG: 800, // إعادة تعيين حالة الإرسال في النماذج (مدة أطول)
+  TRANSITION_DELAY: 80, // تأخير الانتقالات البصرية
+  TRANSITION_HALF: 300, // نصف مدة الانتقال
+  TRANSITION_SHORT: 100, // انتقال قصير
+  TRANSITION_MEDIUM: 500, // انتقال متوسط
+  DROPDOWN_CLOSE_DELAY: 200, // تأخير إغلاق القوائم المنسدلة
+  API_SIMULATION: 1000, // محاكاة استدعاء API
+} as const;
+
+// Intervals (setInterval) - بالمللي ثانية
+export const INTERVALS = {
+  HERO_SLIDER: 4000, // تغيير الشريحة في قسم البطل
+  REVIEWS_SLIDER: 4000, // تغيير الشريحة في قسم التقييمات
+  PRODUCTS_SLIDER: 5000, // تغيير الشريحة في قسم المنتجات
+} as const;
+
 // طرق الدفع
 export const PAYMENT_METHODS = {
   MADA: "mada",

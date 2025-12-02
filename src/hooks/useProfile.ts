@@ -4,6 +4,7 @@ import { UserData } from "@/src/@types/profile/UserData.type";
 import isValidEmail from "@/src/validations/isValidEmail";
 import isValidSaudiPhone from "@/src/validations/isValidSaudiPhone";
 import { normalizeSaudiPhone } from "@/src/validations/isValidSaudiPhone";
+import { TIMEOUTS } from "@/src/constants";
 
 export function useProfile(initialData: UserData) {
   const [userData, setUserData] = useState<UserData>(initialData);
@@ -45,7 +46,7 @@ export function useProfile(initialData: UserData) {
 
     try {
       // Simulate API call - Replace with actual API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, TIMEOUTS.API_SIMULATION));
 
       // Normalize phone number before saving
       const normalizedData = {

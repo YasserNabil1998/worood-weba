@@ -1,6 +1,7 @@
 "use client";
 
 import { SocialMediaLinksProps } from "@/src/@types/contact/index.type";
+import { fontStyle } from "@/src/lib/styles";
 
 // WhatsApp SVG Icon Component
 const WhatsAppIcon = () => (
@@ -39,7 +40,7 @@ const iconMap = {
 
 export default function SocialMediaLinks({ data }: SocialMediaLinksProps) {
   return (
-    <div className="mt-8 pt-6" style={{ fontFamily: "var(--font-almarai)" }}>
+    <div className="mt-8 pt-6" style={fontStyle}>
       <h4 className="text-[17px] font-bold text-black mb-6 text-center">{data.title}</h4>
 
       <div className="flex items-center justify-center gap-4">

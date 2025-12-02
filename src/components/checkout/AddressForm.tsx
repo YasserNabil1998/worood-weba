@@ -1,4 +1,5 @@
 import { Address, CheckoutFormErrors } from "@/src/@types/checkout/CheckoutForm.type";
+import { fontStyle } from "@/src/lib/styles";
 
 interface AddressFormProps {
   address: Address;
@@ -13,17 +14,14 @@ export default function AddressForm({ address, errors, onAddressChange }: Addres
 
   return (
     <section className="bg-white rounded-[10px] border border-gray-200 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] p-6">
-      <h2
-        className="text-[20px] font-bold mb-6 text-black text-right"
-        style={{ fontFamily: "var(--font-almarai)" }}
-      >
+      <h2 className="text-[20px] font-bold mb-6 text-black text-right" style={fontStyle}>
         معلومات الشحن والمستلم
       </h2>
 
       <div className="space-y-5">
         {/* اسم المستلم */}
         <div>
-          <label htmlFor="recipientName" className="block text-[20px] font-normal text-black mb-2 text-right" style={{ fontFamily: "var(--font-almarai)" }}>
+          <label htmlFor="recipientName" className="block text-[20px] font-normal text-black mb-2 text-right" style={fontStyle}>
             اسم المستلم
           </label>
           <input
@@ -37,7 +35,7 @@ export default function AddressForm({ address, errors, onAddressChange }: Addres
                 ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50"
                 : "border-[#e1dada] focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 bg-white hover:border-gray-300"
             }`}
-            style={{ fontFamily: "var(--font-almarai)", color: (address.recipientName?.trim() && !errors.address?.recipientName) ? "black" : "#9ea2a9" }}
+            style={{ ...fontStyle, color: (address.recipientName?.trim() && !errors.address?.recipientName) ? "black" : "#9ea2a9" }}
             aria-invalid={!!errors.address?.recipientName}
             aria-describedby={errors.address?.recipientName ? "recipientName-error" : undefined}
           />
@@ -50,7 +48,7 @@ export default function AddressForm({ address, errors, onAddressChange }: Addres
 
         {/* رقم الهاتف */}
         <div>
-          <label htmlFor="phone" className="block text-[20px] font-normal text-black mb-2 text-right" style={{ fontFamily: "var(--font-almarai)" }}>
+          <label htmlFor="phone" className="block text-[20px] font-normal text-black mb-2 text-right" style={fontStyle}>
             رقم الهاتف
           </label>
           <input
@@ -65,7 +63,7 @@ export default function AddressForm({ address, errors, onAddressChange }: Addres
                 ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50"
                 : "border-[#e1dada] focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 bg-white hover:border-gray-300"
             }`}
-            style={{ fontFamily: "var(--font-almarai)", color: (address.phone?.trim() && !errors.address?.phone) ? "black" : "#9ea2a9" }}
+            style={{ ...fontStyle, color: (address.phone?.trim() && !errors.address?.phone) ? "black" : "#9ea2a9" }}
             aria-invalid={!!errors.address?.phone}
             aria-describedby={errors.address?.phone ? "phone-error" : undefined}
           />
@@ -78,7 +76,7 @@ export default function AddressForm({ address, errors, onAddressChange }: Addres
 
         {/* عنوان التوصيل */}
         <div>
-          <label htmlFor="address" className="block text-[20px] font-normal text-black mb-2 text-right" style={{ fontFamily: "var(--font-almarai)" }}>
+          <label htmlFor="address" className="block text-[20px] font-normal text-black mb-2 text-right" style={fontStyle}>
             عنوان التوصيل
           </label>
           <input
@@ -92,7 +90,7 @@ export default function AddressForm({ address, errors, onAddressChange }: Addres
                 ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50"
                 : "border-[#e1dada] focus:border-[#5A5E4D] focus:ring-2 focus:ring-[#5A5E4D]/20 bg-white hover:border-gray-300"
             }`}
-            style={{ fontFamily: "var(--font-almarai)", color: (address.street?.trim() && !errors.address?.street) ? "black" : "#9ea2a9" }}
+            style={{ ...fontStyle, color: (address.street?.trim() && !errors.address?.street) ? "black" : "#9ea2a9" }}
             aria-invalid={!!errors.address?.street}
             aria-describedby={errors.address?.street ? "address-error" : undefined}
           />
@@ -105,13 +103,13 @@ export default function AddressForm({ address, errors, onAddressChange }: Addres
 
         {/* اختيار العنوان */}
         <div>
-          <label htmlFor="addressSelect" className="block text-[20px] font-normal text-black mb-2 text-right" style={{ fontFamily: "var(--font-almarai)" }}>
+          <label htmlFor="addressSelect" className="block text-[20px] font-normal text-black mb-2 text-right" style={fontStyle}>
             إختيار العنوان
           </label>
           <div className="relative">
             <div className="rounded-[10px] border border-[#b9b9b9] overflow-hidden">
               <div className="h-[148px] bg-gray-100 flex items-center justify-center">
-                <span className="text-gray-400 text-sm" style={{ fontFamily: "var(--font-almarai)" }}>
+                <span className="text-gray-400 text-sm" style={fontStyle}>
                   خريطة العنوان
                 </span>
               </div>

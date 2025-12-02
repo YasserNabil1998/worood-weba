@@ -7,6 +7,7 @@
 
 import { memo, useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { fontStyle } from "@/src/lib/styles";
 
 interface DeleteConfirmationModalProps {
   isOpen: boolean;
@@ -72,10 +73,7 @@ function DeleteConfirmationModal({
       >
         {/* نص السؤال */}
         <div className="text-start mb-6">
-          <p
-            className="text-[20px] font-bold text-black leading-normal"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
+          <p className="text-[20px] font-bold text-black leading-normal" style={fontStyle}>
             هل أنت متأكد أنك تريد حذف الباقة ؟
           </p>
         </div>
@@ -86,7 +84,7 @@ function DeleteConfirmationModal({
           <button
             onClick={handleConfirm}
             className="bg-[#5f664f] text-white rounded-[10px] h-[45px] w-[110px] flex items-center justify-center transition-all duration-200 hover:bg-[#4d5240] hover:scale-105 active:scale-95"
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
           >
             <span className="text-[16px] font-bold">حذف</span>
           </button>
@@ -95,7 +93,7 @@ function DeleteConfirmationModal({
           <button
             onClick={onClose}
             className="bg-[#fcfcfc] border border-black rounded-[10px] h-[45px] w-[110px] flex items-center justify-center transition-all duration-200 hover:bg-gray-50 hover:scale-105 active:scale-95"
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
           >
             <span className="text-[16px] font-bold text-[#403f3e]">تراجع</span>
           </button>

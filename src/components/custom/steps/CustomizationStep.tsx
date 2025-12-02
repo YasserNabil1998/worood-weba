@@ -2,6 +2,8 @@ import { useState } from "react";
 import { MessageSquare, ChevronDown, ChevronUp, ChevronRight, ChevronLeft } from "lucide-react";
 import { Occasion, Config } from "@/src/@types/custom/index.type";
 import CardSuggestions from "../CardSuggestions";
+import { fontStyle } from "@/src/lib/styles";
+import { TIMEOUTS } from "@/src/constants";
 
 interface CustomizationStepProps {
   occasions: Occasion[];
@@ -44,17 +46,14 @@ export default function CustomizationStep({
     <div className="space-y-5">
       {/* المناسبة */}
       <div>
-        <div
-          className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right"
-          style={{ fontFamily: "var(--font-almarai)" }}
-        >
+        <div className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right" style={fontStyle}>
           المناسبة
         </div>
         <div className="relative">
           <button
             type="button"
             onClick={() => setIsSelectOpen(!isSelectOpen)}
-            onBlur={() => setTimeout(() => setIsSelectOpen(false), 200)}
+            onBlur={() => setTimeout(() => setIsSelectOpen(false), TIMEOUTS.DROPDOWN_CLOSE_DELAY)}
             className="w-full h-[62px] rounded-[10px] border border-[#cfcfcf] bg-white px-3 py-2 text-right text-[20px] text-[#727272] focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 cursor-pointer"
             style={{ 
               paddingLeft: "2.5rem",
@@ -81,7 +80,7 @@ export default function CustomizationStep({
                   className={`px-3 py-2 text-[20px] text-right cursor-pointer hover:bg-[#5A5E4D]/10 transition-colors ${
                     occasion === o.name ? "bg-[#5A5E4D]/5 font-semibold" : ""
                   }`}
-                  style={{ fontFamily: "var(--font-almarai)" }}
+                  style={fontStyle}
                 >
                   {o.name}
                 </div>
@@ -93,10 +92,7 @@ export default function CustomizationStep({
 
       {/* بطاقة التهنئة */}
       <div>
-        <div
-          className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right"
-          style={{ fontFamily: "var(--font-almarai)" }}
-        >
+        <div className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right" style={fontStyle}>
           بطاقة التهنئة
         </div>
 
@@ -108,7 +104,7 @@ export default function CustomizationStep({
             className="w-[26px] h-[23px] rounded-[2px] border-0 bg-[#5A5E4D] text-[#5A5E4D] focus:ring-[#5A5E4D] cursor-pointer"
             style={{ accentColor: "#5A5E4D" }}
           />
-          <span style={{ fontFamily: "var(--font-almarai)" }}>
+          <span style={fontStyle}>
             إضافة بطاقة تهنئة (+
             <span className="font-bold">{config.cardPrice}</span>
             <span> ر.س</span>)
@@ -134,7 +130,7 @@ export default function CustomizationStep({
                 type="button"
                 onClick={onShowSuggestionsToggle}
                 className="w-[140px] h-[47px] rounded-[10px] border border-[#cfcfcf] bg-[#f6f7f6] text-[18px] text-black hover:bg-[#e8e9e8] transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
-                style={{ fontFamily: "var(--font-almarai)" }}
+                style={fontStyle}
               >
                 <span>اقتراحات</span>
                 {showSuggestions ? (
@@ -159,10 +155,7 @@ export default function CustomizationStep({
 
       {/* ملاحظات خاصة */}
       <div>
-        <div
-          className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right"
-          style={{ fontFamily: "var(--font-almarai)" }}
-        >
+        <div className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right" style={fontStyle}>
           ملاحظات خاصة
         </div>
         <textarea
@@ -170,7 +163,7 @@ export default function CustomizationStep({
           onChange={(e) => onNotesChange(e.target.value)}
           placeholder="أي متطلبات أو تفاصيل خاصة ترغب بإضافتها ...."
           className="w-full h-[120px] resize-none rounded-[10px] border border-[#cfcfcf] bg-white p-3 text-right text-[16px] text-[#727272] focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
-          style={{ fontFamily: "var(--font-almarai)" }}
+          style={fontStyle}
         />
       </div>
     </div>

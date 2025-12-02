@@ -2,6 +2,7 @@
 
 import { ContactInfoProps } from "@/src/@types/contact/index.type";
 import { SocialMedia } from "@/src/@types/contact/index.type";
+import { fontStyle } from "@/src/lib/styles";
 
 // WhatsApp SVG Icon Component
 const WhatsAppIcon = () => (
@@ -88,10 +89,7 @@ export default function ContactInfo({ data, socialMedia }: ContactInfoWithSocial
   };
 
   return (
-    <aside
-      className="bg-white rounded-[20px] min-h-[726px] p-4 sm:p-5 lg:p-6 relative order-2 lg:order-2"
-      style={{ fontFamily: "var(--font-almarai)" }}
-    >
+    <aside className="bg-white rounded-[20px] min-h-[726px] p-4 sm:p-5 lg:p-6 relative order-2 lg:order-2" style={fontStyle}>
       {/* Title */}
       <h3 className="text-[21px] sm:text-[22px] lg:text-[19px] font-bold text-black mb-8 sm:mb-10 lg:mb-12 text-right">
         {data.title}

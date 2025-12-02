@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
+import { fontStyle } from "@/src/lib/styles";
+import { TIMEOUTS } from "@/src/constants";
 
 export default function SignupPage() {
   const [form, setForm] = useState({
@@ -51,7 +53,7 @@ export default function SignupPage() {
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
-    setTimeout(() => setSubmitting(false), 800);
+    setTimeout(() => setSubmitting(false), TIMEOUTS.FORM_SUBMIT_RESET_LONG);
   };
 
   return (
@@ -60,7 +62,7 @@ export default function SignupPage() {
         <div className="flex justify-center">
           <Image src="/Logo-shams.svg" alt="شعار الموقع" width={120} height={60} priority />
         </div>
-        <p className="mt-2 text-sm text-gray-600" style={{ fontFamily: "var(--font-almarai)" }}>
+        <p className="mt-2 text-sm text-gray-600" style={fontStyle}>
           مرحبًا بك في زهور الشمس
         </p>
       </div>

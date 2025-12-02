@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { Flower } from "@/src/@types/custom/index.type";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { fontStyle } from "@/src/lib/styles";
 
 interface FlowerSelectionStepProps {
   flowers: Flower[];
@@ -88,10 +89,10 @@ export default function FlowerSelectionStep({
               {/* Content */}
               <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-[#e0dede] rounded-b-[20px] h-[100px] sm:h-[100px] px-4 py-3 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-2">
-                  <div className="text-[16px] font-bold leading-[24px] text-gray-800 text-right" style={{ fontFamily: "var(--font-almarai)" }}>
+                  <div className="text-[16px] font-bold leading-[24px] text-gray-800 text-right" style={fontStyle}>
                     {f.name}
                   </div>
-                  <div className="text-[14px] font-bold leading-[20px] text-[#5a5e4d] text-right" style={{ fontFamily: "var(--font-almarai)" }}>
+                  <div className="text-[14px] font-bold leading-[20px] text-[#5a5e4d] text-right" style={fontStyle}>
                     {f.price} ر.س
                   </div>
                 </div>
@@ -203,7 +204,7 @@ export default function FlowerSelectionStep({
         <button
           onClick={onNextStep}
           className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#5f664f] text-white text-[18px] font-bold hover:bg-[#4b5244] transition-colors flex items-center justify-center gap-1 cursor-pointer relative"
-          style={{ fontFamily: "var(--font-almarai)" }}
+          style={fontStyle}
         >
           <span className="flex-1 text-center">التالي</span>
           <ChevronLeft className="w-5 h-5 flex-shrink-0" />

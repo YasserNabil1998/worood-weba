@@ -4,6 +4,7 @@ import { useCheckout } from "@/src/hooks/useCheckout";
 import AddressForm from "@/src/components/checkout/AddressForm";
 import PaymentMethodSelector from "@/src/components/checkout/PaymentMethodSelector";
 import OrderSummary from "@/src/components/checkout/OrderSummary";
+import { fontStyle } from "@/src/lib/styles";
 
 export default function CheckoutPage() {
   const {
@@ -37,7 +38,7 @@ export default function CheckoutPage() {
           <h1
             className="text-3xl md:text-4xl font-extrabold mb-8 md:mb-10 animate-fadeIn"
             style={{
-              fontFamily: "var(--font-almarai)",
+              ...fontStyle,
               background: "linear-gradient(135deg, #5A5E4D 0%, #4A4E3D 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -73,10 +74,7 @@ export default function CheckoutPage() {
 
               {/* ملاحظات إضافية */}
               <section className="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300 p-6">
-                <h2
-                  className="text-lg font-semibold mb-4 text-gray-800"
-                  style={{ fontFamily: "var(--font-almarai)" }}
-                >
+                <h2 className="text-lg font-semibold mb-4 text-gray-800" style={fontStyle}>
                   ملاحظات إضافية
                 </h2>
                 <textarea

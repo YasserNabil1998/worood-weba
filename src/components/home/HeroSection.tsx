@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { ROUTES } from "@/src/constants/routes";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { INTERVALS } from "@/src/constants";
 
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -86,7 +87,7 @@ export default function HeroSection() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 4000);
+    }, INTERVALS.HERO_SLIDER);
     return () => clearInterval(timer);
   }, [slides.length]);
 

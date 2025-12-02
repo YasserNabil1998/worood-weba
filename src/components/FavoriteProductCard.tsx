@@ -7,6 +7,7 @@ import { BouquetItem } from "@/src/@types/bouquets/index.type";
 import { QuickAddModal } from "@/src/components/product";
 import { useFavorites } from "@/src/hooks/useFavorites";
 import { useNotification } from "@/src/providers/notification-provider";
+import { fontStyle } from "@/src/lib/styles";
 
 interface FavoriteProductCardProps {
   item: BouquetItem;
@@ -74,20 +75,14 @@ export default function FavoriteProductCard({ item }: FavoriteProductCardProps) 
         <div className="flex-1 flex flex-col justify-between p-4 pl-5">
           {/* Product Name */}
           <div className="flex items-start justify-start">
-            <h3
-              className="font-bold text-[16px] text-gray-800 text-right leading-[24px]"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h3 className="font-bold text-[16px] text-gray-800 text-right leading-[24px]" style={fontStyle}>
               {item.title}
             </h3>
           </div>
 
           {/* Price and Add to Cart Button */}
           <div className="flex items-center justify-between gap-3 mt-auto">
-            <span
-              className="text-[16px] font-bold text-[#3c3d39] text-right whitespace-nowrap"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <span className="text-[16px] font-bold text-[#3c3d39] text-right whitespace-nowrap" style={fontStyle}>
               {item.price} ر.س
             </span>
             <button

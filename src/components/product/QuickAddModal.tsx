@@ -11,6 +11,7 @@ import { addProductToCart } from "@/src/lib/cartUtils";
 import { storage } from "@/src/lib/utils";
 import { useNotification } from "@/src/providers/notification-provider";
 import { logError } from "@/src/lib/logger";
+import { fontStyle } from "@/src/lib/styles";
 
 import SizeSelector from "./SizeSelector";
 import ColorSelector from "./ColorSelector";
@@ -220,10 +221,7 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
         <div className="flex flex-col p-5 sm:p-6">
           <div className="mb-4">
             <div className="mb-1 text-xs font-medium text-gray-500">إضافة سريعة للسلة</div>
-            <h3
-              className="text-lg font-bold text-[#2D3319]"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h3 className="text-lg font-bold text-[#2D3319]" style={fontStyle}>
               {bouquet.title}
             </h3>
             <div className="mt-2 flex items-center gap-2 text-sm text-[#5A5E4D]">

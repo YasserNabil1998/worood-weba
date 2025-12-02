@@ -5,6 +5,7 @@ import { useCart } from "@/src/hooks/useCart";
 import { generateProductKey, ProductInput } from "@/src/lib/cartUtils";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { Minus, Plus } from "lucide-react";
+import { fontStyle } from "@/src/lib/styles";
 
 interface QuantitySelectorProps {
   itemId: string | number;
@@ -119,10 +120,7 @@ export default function QuantitySelector({
       >
         <div className="w-[14px] h-[2px] bg-[#5a5e4d]"></div>
       </button>
-      <span 
-        className="text-responsive-xl font-bold text-black mx-2 min-w-[20px] text-center"
-        style={{ fontFamily: "var(--font-almarai)" }}
-      >
+      <span className="text-responsive-xl font-bold text-black mx-2 min-w-[20px] text-center" style={fontStyle}>
         {quantity}
       </span>
       <button

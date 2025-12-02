@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import "./SplashScreen.css";
+import { TIMEOUTS } from "@/src/constants";
 
 export default function SplashScreen() {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,12 +28,12 @@ export default function SplashScreen() {
     // بعد 1.8 ثانية نبدأ التلاشي
     const fadeTimer = setTimeout(() => {
       setIsFadingOut(true);
-    }, 1800);
+    }, TIMEOUTS.SPLASH_FADE_OUT);
 
     // بعد 2.3 ثانية نخفي الصفحة تماماً
     const hideTimer = setTimeout(() => {
       setIsLoading(false);
-    }, 2300);
+    }, TIMEOUTS.SPLASH_HIDE);
 
     return () => {
       clearTimeout(fadeTimer);

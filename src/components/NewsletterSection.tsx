@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { fontStyle } from "@/src/lib/styles";
+import { TIMEOUTS, NOTIFICATION_DURATION } from "@/src/constants";
 
 const NewsletterSection = () => {
   const [email, setEmail] = useState("");
@@ -41,7 +43,7 @@ const NewsletterSection = () => {
         const next = Math.min(100, p + Math.random() * 20 + 10);
         return next;
       });
-    }, 250);
+    }, TIMEOUTS.NEWSLETTER_PROGRESS_INTERVAL);
 
     setTimeout(() => {
       clearInterval(interval);
@@ -49,8 +51,8 @@ const NewsletterSection = () => {
       setIsLoading(false);
       setIsSuccess(true);
       setEmail("");
-      setTimeout(() => setIsSuccess(false), 3000);
-    }, 1600);
+      setTimeout(() => setIsSuccess(false), TIMEOUTS.SUCCESS_MESSAGE_HIDE);
+    }, TIMEOUTS.NEWSLETTER_COMPLETE);
   };
 
   return (
@@ -62,17 +64,11 @@ const NewsletterSection = () => {
           <div className="bg-[#B5BAAA] rounded-[16px] p-8">
             <div className="text-center max-w-4xl mx-auto">
             {/* Title - centered, bold, dark gray */}
-            <h2
-              className="text-[22px] sm:text-[24px] font-bold text-gray-800 mb-4"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h2 className="text-[22px] sm:text-[24px] font-bold text-gray-800 mb-4" style={fontStyle}>
               اشترك في نشرتنا البريدية
             </h2>
             {/* Description - centered, lighter gray */}
-            <p
-              className="text-[14px] sm:text-[16px] text-gray-600 mb-6"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="text-[14px] sm:text-[16px] text-gray-600 mb-6" style={fontStyle}>
               احصل على آخر العروض والتخفيضات مباشرة إلى بريدك الإلكتروني
             </p>
             {/* Form - horizontal row with input and button */}

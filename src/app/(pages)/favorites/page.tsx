@@ -9,6 +9,7 @@ import FavoriteProductCard from "@/src/components/FavoriteProductCard";
 import { CustomBouquet } from "@/src/@types/favorites/CustomBouquet.type";
 import { useFavorites } from "@/src/hooks/useFavorites";
 import { useCustomBouquetFavorites } from "@/src/hooks/useCustomBouquetFavorites";
+import { fontStyle } from "@/src/lib/styles";
 
 export default function FavoritesPage() {
   const { favorites, loading: favoritesLoading } = useFavorites();
@@ -46,7 +47,7 @@ export default function FavoritesPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#5A5E4D] mx-auto"></div>
-            <p className="mt-6 text-gray-600 text-lg" style={{ fontFamily: "var(--font-almarai)" }}>
+            <p className="mt-6 text-gray-600 text-lg" style={fontStyle}>
               جاري التحميل...
             </p>
           </div>
@@ -61,10 +62,7 @@ export default function FavoritesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
           <div className="mb-4">
-            <nav
-              className="flex items-center gap-2 text-[18px] text-[#a0a0a0] justify-start"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <nav className="flex items-center gap-2 text-[18px] text-[#a0a0a0] justify-start" style={fontStyle}>
               <Link href="/" className="hover:text-[#5A5E4D] transition-colors">
                 الرئيسية
               </Link>
@@ -75,10 +73,7 @@ export default function FavoritesPage() {
 
           {/* Page Title */}
           <div className="mb-8 md:mb-12 flex justify-start">
-            <h1
-              className="text-[32px] font-bold leading-[40px] text-[rgba(0,0,0,0.72)]"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h1 className="text-[32px] font-bold leading-[40px] text-[rgba(0,0,0,0.72)]" style={fontStyle}>
               المنتجات التي أضفتها إلى قائمة المفضلة
             </h1>
           </div>
@@ -185,18 +180,12 @@ export default function FavoritesPage() {
                         {/* Content Section */}
                         <div className="flex-1 flex flex-col justify-between p-4 pl-5">
                           <div className="flex items-start justify-start">
-                            <h3
-                              className="font-bold text-[16px] text-gray-800 text-right leading-[24px]"
-                              style={{ fontFamily: "var(--font-almarai)" }}
-                            >
+                            <h3 className="font-bold text-[16px] text-gray-800 text-right leading-[24px]" style={fontStyle}>
                               باقة مخصصة - {bouquet.occasion}
                             </h3>
                           </div>
                           <div className="flex items-center justify-between gap-3 mt-auto">
-                            <span
-                              className="text-[16px] font-bold text-[#3c3d39] text-right whitespace-nowrap"
-                              style={{ fontFamily: "var(--font-almarai)" }}
-                            >
+                            <span className="text-[16px] font-bold text-[#3c3d39] text-right whitespace-nowrap" style={fontStyle}>
                               {bouquet.total} ر.س
                             </span>
                             <div className="flex items-center gap-2">

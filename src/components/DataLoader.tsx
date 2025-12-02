@@ -3,6 +3,7 @@
 import React from "react";
 import { Loader2 } from "lucide-react";
 import { SkeletonGrid } from "@/src/components/common/SkeletonCard";
+import { fontStyle } from "@/src/lib/styles";
 
 interface DataLoaderProps {
   isLoading: boolean;
@@ -57,13 +58,10 @@ const DataLoader = ({
 
           {/* Loading Text */}
           <div className="text-center">
-            <p
-              className="text-[#5A5E4D] font-medium text-lg"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="text-[#5A5E4D] font-medium text-lg" style={fontStyle}>
               {loadingText}
             </p>
-            <p className="text-gray-500 text-sm mt-1" style={{ fontFamily: "var(--font-almarai)" }}>
+            <p className="text-gray-500 text-sm mt-1" style={fontStyle}>
               يرجى الانتظار
             </p>
           </div>

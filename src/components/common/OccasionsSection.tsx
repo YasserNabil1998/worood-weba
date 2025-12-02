@@ -7,6 +7,7 @@ import { OccasionWithHref } from "@/src/@types/home/index.type";
 import { defaultOccasions } from "@/src/content/occasions";
 import { ROUTES } from "@/src/constants/routes";
 import { ArrowLeft } from "lucide-react";
+import { fontStyle } from "@/src/lib/styles";
 
 type OccasionsSectionProps = {
   occasions?: OccasionWithHref[];
@@ -62,24 +63,18 @@ const OccasionsSection = ({
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
           <div className="text-right">
             {/* Title - matching سعادة في مزهرية section: 28px mobile, 30px tablet+ */}
-            <h2
-              className="text-[28px] sm:text-[30px] font-bold text-black mb-2"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h2 className="text-[28px] sm:text-[30px] font-bold text-black mb-2" style={fontStyle}>
               {title}
             </h2>
             {/* Description - matching سعادة في مزهرية section: 20px mobile, 23px tablet, 25px desktop */}
-            <p
-              className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black" style={fontStyle}>
               {description || "كل لحظة تستحق باقة مميزة"}
             </p>
           </div>
           <Link
             href={`${ROUTES.BOUQUETS}?openFilter=occasion`}
             className="text-[#5a5e4d] hover:text-[#4a4e3d] text-[20px] font-normal cursor-pointer flex items-center gap-2 transition-colors"
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
           >
             <span>عرض الكل</span>
             <ArrowLeft className="w-4 h-4" />
@@ -89,10 +84,7 @@ const OccasionsSection = ({
         {/* 4 horizontal cards - matching Figma design */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {isLoading && (
-            <div
-              className="col-span-full text-center text-gray-600 flex items-center justify-center h-[283px]"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <div className="col-span-full text-center text-gray-600 flex items-center justify-center h-[283px]" style={fontStyle}>
               جاري التحميل...
             </div>
           )}
@@ -122,22 +114,12 @@ const OccasionsSection = ({
                   {/* Title and Description - Fixed position below image */}
                   <div className="w-full">
                   {/* Title - matching Figma: 20px, Almarai Bold, black */}
-                  <h3
-                      className="text-[20px] font-bold text-black mb-2"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
-                  >
+                  <h3 className="text-[20px] font-bold text-black mb-2" style={fontStyle}>
                     {occasion.title}
                   </h3>
 
                   {/* Description - matching Figma: 16px, Almarai Bold, #5c5a57 */}
-                  <p
-                      className="text-[16px] font-bold text-[#5c5a57] text-center leading-relaxed"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
-                  >
+                  <p className="text-[16px] font-bold text-[#5c5a57] text-center leading-relaxed" style={fontStyle}>
                     {occasion.description}
                   </p>
                   </div>

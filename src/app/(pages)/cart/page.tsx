@@ -15,6 +15,7 @@ import CartSummary from "@/src/components/cart/CartSummary";
 import EmptyCart from "@/src/components/cart/EmptyCart";
 import { CART_MESSAGES } from "@/src/constants/cart";
 import { COLORS } from "@/src/constants";
+import { fontStyle } from "@/src/lib/styles";
 
 export default function CartPage() {
   const [expandedItems, setExpandedItems] = useState<Set<string | number>>(new Set());
@@ -128,7 +129,7 @@ export default function CartPage() {
                     <button
                       onClick={() => toggleSelectAll(items)}
                       className="text-sm hover:bg-white hover:shadow-md flex items-center gap-2 cursor-pointer bg-white rounded-lg px-4 py-2 transition-all duration-200 border border-gray-200"
-                      style={{ color: COLORS.PRIMARY, fontFamily: "var(--font-almarai)" }}
+                      style={{ ...fontStyle, color: COLORS.PRIMARY }}
                     >
                       <input
                         type="checkbox"
@@ -145,7 +146,7 @@ export default function CartPage() {
                       <button
                         onClick={handleRemoveSelected}
                         className="text-sm text-red-600 hover:bg-red-50 hover:shadow-md cursor-pointer bg-white rounded-lg px-4 py-2 transition-all duration-200 border border-red-200 font-medium whitespace-nowrap"
-                        style={{ fontFamily: "var(--font-almarai)" }}
+                        style={fontStyle}
                       >
                         {CART_MESSAGES.REMOVE_SELECTED} ({selectedItems.size})
                       </button>

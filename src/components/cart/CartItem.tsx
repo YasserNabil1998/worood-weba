@@ -12,6 +12,7 @@ import { getItemId, getItemPrice, getItemTotal } from "@/src/lib/cartHelpers";
 import { CART_LABELS, CART_SIZES } from "@/src/constants/cart";
 import { APP_CONFIG, COLORS, CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/src/constants";
 import { PRODUCT_DATA } from "@/src/constants/productData";
+import { fontStyle } from "@/src/lib/styles";
 
 interface CartItemProps {
   item: CartItemType;
@@ -105,10 +106,7 @@ function CartItem({
         <div className="flex-1 min-w-0">
           {/* العنوان والأزرار في نفس السطر */}
           <div className="flex items-center justify-between gap-2 mb-2">
-            <h3
-              className="font-bold text-gray-800 text-responsive-xl line-clamp-2 flex-1 min-w-0"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h3 className="font-bold text-gray-800 text-responsive-xl line-clamp-2 flex-1 min-w-0" style={fontStyle}>
               {item.title}
             </h3>
             <div className="flex gap-2 shrink-0">
@@ -116,7 +114,7 @@ function CartItem({
                 <button
                   onClick={handleEdit}
                   className="bg-[#6e7b5a] text-white cursor-pointer px-3 py-2 h-[41px] rounded-[5px] transition-all duration-200 hover:bg-[#5a6550] hover:scale-105 flex items-center justify-center"
-                  style={{ fontFamily: "var(--font-almarai)" }}
+                  style={fontStyle}
                   aria-label={`تعديل ${item.title}`}
                 >
                   <Pencil className="w-5 h-5" />
@@ -125,7 +123,7 @@ function CartItem({
               <button
                 onClick={handleRemoveClick}
                 className="bg-[#800020] text-white cursor-pointer px-3 py-2 h-[41px] rounded-[5px] transition-all duration-200 hover:bg-[#9a0026] hover:scale-105 flex items-center justify-center"
-                style={{ fontFamily: "var(--font-almarai)" }}
+                style={fontStyle}
                 aria-label={`حذف ${item.title}`}
               >
                 <Trash2 className="w-5 h-5" />
@@ -144,7 +142,7 @@ function CartItem({
               <button
                 onClick={() => onToggleExpand(itemId)}
                 className="text-[18px] text-[#727272] hover:bg-[#5A5E4D]/10 hover:text-[#4b5244] flex items-center gap-1 cursor-pointer px-2 py-1 rounded-lg transition-all duration-200 text-center"
-                style={{ fontFamily: "var(--font-almarai)" }}
+                style={fontStyle}
                 aria-label={isExpanded ? "إخفاء التفاصيل" : "عرض التفاصيل"}
                 aria-expanded={isExpanded}
               >
@@ -269,17 +267,11 @@ function CartItem({
           {/* السعر وعداد الكمية */}
           <div className="mt-3 pt-3">
             <div className="flex justify-between items-baseline mb-2">
-              <div
-                className="text-[18px] font-normal text-black text-right flex-1 leading-normal"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
+              <div className="text-[18px] font-normal text-black text-right flex-1 leading-normal" style={fontStyle}>
                 {CART_LABELS.PRICE}
               </div>
               <div className="flex items-baseline justify-end gap-1.5 flex-1">
-                <span
-                  className="text-[18px] font-normal text-black text-right leading-normal"
-                  style={{ fontFamily: "var(--font-almarai)" }}
-                >
+                <span className="text-[18px] font-normal text-black text-right leading-normal" style={fontStyle}>
                   {itemPrice.toFixed(2)} {APP_CONFIG.CURRENCY}
                 </span>
               </div>
@@ -288,10 +280,7 @@ function CartItem({
 
             {/* عداد الكمية */}
             <div className="flex justify-between items-center mb-2.5">
-              <span
-                className="text-[18px] font-normal text-black text-right flex-1 leading-normal"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
+              <span className="text-[18px] font-normal text-black text-right flex-1 leading-normal" style={fontStyle}>
                 {CART_LABELS.QUANTITY}
               </span>
               <div className="flex-1 flex justify-end items-center">
@@ -307,17 +296,11 @@ function CartItem({
 
             {/* إجمالي السعر للكمية */}
             <div className="flex justify-between items-baseline">
-              <span
-                className="font-bold text-[20px] text-black text-right flex-1 leading-normal"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
+              <span className="font-bold text-[20px] text-black text-right flex-1 leading-normal" style={fontStyle}>
                 {CART_LABELS.TOTAL_PRICE}
               </span>
               <div className="flex items-baseline justify-end gap-1.5 flex-1">
-                <span
-                  className="text-[20px] font-bold text-black text-right leading-normal"
-                  style={{ fontFamily: "var(--font-almarai)" }}
-                >
+                <span className="text-[20px] font-bold text-black text-right leading-normal" style={fontStyle}>
                   {itemTotal.toFixed(2)} {APP_CONFIG.CURRENCY}
                 </span>
               </div>

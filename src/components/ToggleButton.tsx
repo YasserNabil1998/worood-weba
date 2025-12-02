@@ -1,6 +1,7 @@
 "use client";
 
 import { Filter } from "lucide-react";
+import { fontStyle } from "@/src/lib/styles";
 
 type ToggleButtonProps = {
   isFiltersOpen: boolean;
@@ -24,7 +25,7 @@ export default function ToggleButton({ isFiltersOpen, setIsFiltersOpen }: Toggle
           />
           <span className="text-sm text-gray-600">تصفية النتائج</span>
         </div>
-        <h3 className="font-bold text-gray-800" style={{ fontFamily: "var(--font-almarai)" }}>
+        <h3 className="font-bold text-gray-800" style={fontStyle}>
           تصفية النتائج
         </h3>
       </button>

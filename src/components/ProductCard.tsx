@@ -9,6 +9,7 @@ import { useNotification } from "@/src/providers/notification-provider";
 import { useFavorites } from "@/src/hooks/useFavorites";
 import { QuickAddModal } from "@/src/components/product";
 import { logError } from "@/src/lib/logger";
+import { fontStyle } from "@/src/lib/styles";
 
 // Keep ProductItem for backward compatibility
 export type ProductItem = BouquetItem;
@@ -107,7 +108,7 @@ function ProductCard({ item }: { item: BouquetItem }) {
           <div className="flex-1 mb-3">
             <h3
               className="font-bold text-responsive-lg text-gray-800 mb-2 line-clamp-1 text-right"
-              style={{ fontFamily: "var(--font-almarai)" }}
+              style={fontStyle}
               title={item.title}
               data-product-title
             >
@@ -117,10 +118,7 @@ function ProductCard({ item }: { item: BouquetItem }) {
 
           <div className="mt-auto flex items-center justify-between">
             <div className="flex items-center justify-end gap-1.5">
-              <span
-                className="text-responsive-base font-bold text-[#5a5e4d]"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
+              <span className="text-responsive-base font-bold text-[#5a5e4d]" style={fontStyle}>
                 {item.price} ر.س
               </span>
             </div>

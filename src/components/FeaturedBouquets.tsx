@@ -12,6 +12,8 @@ import { APP_CONFIG } from "../constants";
 import { BEST_SELLER_BADGE } from "../constants/bouquets";
 import { QuickAddModal } from "./product";
 import { logError } from "../lib/logger";
+import { fontStyle } from "@/src/lib/styles";
+import { TIMEOUTS } from "@/src/constants";
 
 const normalizeText = (value?: string) => {
   if (!value) return "";
@@ -107,7 +109,7 @@ const FeaturedBouquets = ({
       }
       return next;
     });
-    setTimeout(() => setIsTransitioning(false), 100);
+    setTimeout(() => setIsTransitioning(false), TIMEOUTS.TRANSITION_SHORT);
   }, [shouldShowControls, totalItems, visibleCount, isTransitioning]);
 
   const prevSlide = useCallback(() => {
@@ -125,7 +127,7 @@ const FeaturedBouquets = ({
       }
       return prevIndex;
     });
-    setTimeout(() => setIsTransitioning(false), 500);
+    setTimeout(() => setIsTransitioning(false), TIMEOUTS.TRANSITION_MEDIUM);
   }, [shouldShowControls, totalItems, isTransitioning]);
 
   useEffect(() => {
@@ -199,16 +201,10 @@ const FeaturedBouquets = ({
             <div className="text-right">
               {/* Title - matching Figma: 30px, Almarai Bold */}
               <div className="text-right">
-                <h2
-                  className="text-[28px] sm:text-[30px] font-bold text-black mb-2"
-                  style={{ fontFamily: "var(--font-almarai)" }}
-                >
+                <h2 className="text-[28px] sm:text-[30px] font-bold text-black mb-2" style={fontStyle}>
                   الباقات الأكثر طلباً
                 </h2>
-                <p
-                  className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
-                  style={{ fontFamily: "var(--font-almarai)" }}
-                >
+                <p className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black" style={fontStyle}>
                   الباقات الأكثر طلباً من عملائنا الكرام
                 </p>
               </div>
@@ -216,7 +212,7 @@ const FeaturedBouquets = ({
             <Link
               href="/bouquets"
               className="text-[#5a5e4d] hover:underline text-[16px] font-normal cursor-pointer flex items-center gap-2"
-              style={{ fontFamily: "var(--font-almarai)" }}
+              style={fontStyle}
             >
               <span>عرض الكل</span>
               <ArrowLeft className="w-4 h-4" />
@@ -225,10 +221,7 @@ const FeaturedBouquets = ({
 
           <div className="relative">
             {isLoading ? (
-              <div
-                className="col-span-full text-center text-gray-600"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
+              <div className="col-span-full text-center text-gray-600" style={fontStyle}>
                 جاري التحميل...
               </div>
             ) : totalItems > 0 ? (
@@ -372,10 +365,7 @@ const FeaturedBouquets = ({
                 )}
               </>
             ) : (
-              <div
-                className="col-span-full text-center text-gray-600 py-8"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
+              <div className="col-span-full text-center text-gray-600 py-8" style={fontStyle}>
                 لا توجد باقات متاحة حالياً
               </div>
             )}

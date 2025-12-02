@@ -10,6 +10,7 @@ import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { CART_MESSAGES, CART_ROUTES } from "@/src/constants/cart";
 import { APP_CONFIG, STORAGE_KEYS } from "@/src/constants";
 import { storage } from "@/src/lib/utils";
+import { fontStyle } from "@/src/lib/styles";
 
 interface CartSummaryProps {
   totals: CartTotals;
@@ -73,10 +74,7 @@ export default function CartSummary({ totals, totalItems, selectedItems }: CartS
             <div className="flex justify-center mb-4">
               <AlertTriangle className="w-8 h-8 text-yellow-600" />
             </div>
-            <p
-              className="text-[18px] font-normal text-[#857f7f]"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="text-[18px] font-normal text-[#857f7f]" style={fontStyle}>
               {CART_MESSAGES.SELECT_AT_LEAST_ONE}
             </p>
           </div>
@@ -159,7 +157,7 @@ export default function CartSummary({ totals, totalItems, selectedItems }: CartS
         <button
           disabled
           className="mt-6 w-full rounded-[10px] py-4 bg-[#a9a7a3] text-white font-bold text-[22px] cursor-not-allowed"
-          style={{ fontFamily: "var(--font-almarai)" }}
+          style={fontStyle}
         >
           {CART_MESSAGES.PROCEED_TO_CHECKOUT}
         </button>
@@ -168,7 +166,7 @@ export default function CartSummary({ totals, totalItems, selectedItems }: CartS
           href={CART_ROUTES.CHECKOUT}
           onClick={handleProceedToCheckout}
           className="mt-6 w-full rounded-[10px] py-4 bg-[#5f664f] text-white font-bold text-[22px] hover:opacity-90 transition-opacity text-center block"
-          style={{ fontFamily: "var(--font-almarai)" }}
+          style={fontStyle}
         >
           متابعة للدفع
         </Link>

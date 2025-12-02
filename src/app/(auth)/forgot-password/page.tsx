@@ -4,6 +4,7 @@ import { useState } from "react";
 import isValidEmail from "@/src/validations/isValidEmail";
 import Link from "next/link";
 import Image from "next/image";
+import { fontStyle } from "@/src/lib/styles";
 
 export default function ForgotPasswordPage() {
   const [form, setForm] = useState({ email: "" });
@@ -48,7 +49,7 @@ export default function ForgotPasswordPage() {
           <div className="flex justify-center">
             <Image src="/Logo-shams.svg" alt="شعار الموقع" width={120} height={60} priority />
           </div>
-          <p className="mt-2 text-sm text-gray-600" style={{ fontFamily: "var(--font-almarai)" }}>
+          <p className="mt-2 text-sm text-gray-600" style={fontStyle}>
             تم إرسال رابط إعادة تعيين كلمة المرور
           </p>
         </div>
@@ -70,18 +71,13 @@ export default function ForgotPasswordPage() {
               </svg>
             </div>
             <div>
-              <h3
-                className="text-lg font-semibold text-gray-800 mb-2"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
+              <h3 className="text-lg font-semibold text-gray-800 mb-2" style={fontStyle}>
                 تحقق من بريدك الإلكتروني
               </h3>
-              <p className="text-sm text-gray-600" style={{ fontFamily: "var(--font-almarai)" }}>
+              <p className="text-sm text-gray-600" style={fontStyle}>
                 تم إرسال رابط إعادة تعيين كلمة المرور إلى:
               </p>
-              <p
-                className="text-sm font-medium text-[#5A5E4D] mt-1"
-                style={{ fontFamily: "var(--font-almarai)" }}
+              <p className="text-sm font-medium text-[#5A5E4D] mt-1" style={fontStyle}
               >
                 {form.email}
               </p>
@@ -113,7 +109,7 @@ export default function ForgotPasswordPage() {
         <div className="flex justify-center">
           <Image src="/Logo-shams.svg" alt="شعار الموقع" width={120} height={60} priority />
         </div>
-        <p className="mt-2 text-sm text-gray-600" style={{ fontFamily: "var(--font-almarai)" }}>
+        <p className="mt-2 text-sm text-gray-600" style={fontStyle}>
           نسيت كلمة المرور؟
         </p>
       </div>

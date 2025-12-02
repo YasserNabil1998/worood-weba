@@ -1,3 +1,5 @@
+import { fontStyle } from "@/src/lib/styles";
+
 interface StepIndicatorProps {
   currentStep: 1 | 2 | 3 | 4;
   onStepChange: (step: 1 | 2 | 3 | 4) => void;
@@ -181,7 +183,7 @@ export default function StepIndicator({ currentStep, onStepChange }: StepIndicat
                 className={`text-[12px] sm:text-[16px] font-bold sm:font-normal leading-[16px] sm:leading-[20px] whitespace-nowrap transition-colors text-center ${
                   isActive ? "text-black" : isCompleted ? "text-gray-600" : "text-gray-400"
                 }`}
-                style={{ fontFamily: "var(--font-almarai)" }}
+                style={fontStyle}
               >
                 {s.t}
               </span>

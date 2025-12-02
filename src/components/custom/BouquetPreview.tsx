@@ -1,6 +1,7 @@
 import { Flower, Color, Vase, PackagingType } from "@/src/@types/custom/index.type";
 import PriceBreakdown from "./PriceBreakdown";
 import { Heart, ExternalLink } from "lucide-react";
+import { fontStyle } from "@/src/lib/styles";
 
 interface BouquetPreviewProps {
   bouquetImage: string;
@@ -58,10 +59,7 @@ export default function BouquetPreview({
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
         {/* Title - في بداية السيكشن */}
         <div className="px-3 sm:px-4 pt-3 sm:pt-4 pb-2">
-          <div
-            className="text-[18px] font-bold leading-[20px] text-black text-right mb-4"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
+          <div className="text-[18px] font-bold leading-[20px] text-black text-right mb-4" style={fontStyle}>
             معاينة الباقة
           </div>
         </div>
@@ -114,24 +112,15 @@ export default function BouquetPreview({
           <div className="flex flex-col mb-2">
             {/* First row - الإجمالي and السعر */}
             <div className="flex items-center justify-between mb-1">
-              <span
-                className="text-responsive-base font-bold text-black"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
+              <span className="text-responsive-base font-bold text-black" style={fontStyle}>
                 الإجمالي
               </span>
-              <span
-                className="text-responsive-base font-normal text-black"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
+              <span className="text-responsive-base font-normal text-black" style={fontStyle}>
                 {total.toFixed(0)} ريال
               </span>
             </div>
             {/* Second row - غير شامل الضريبة */}
-            <div
-              className="text-[14px] font-normal text-black text-right"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <div className="text-[14px] font-normal text-black text-right" style={fontStyle}>
               غير شامل الضريبة
             </div>
           </div>

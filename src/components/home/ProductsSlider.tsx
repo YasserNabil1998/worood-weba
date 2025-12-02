@@ -9,6 +9,8 @@ import { useNotification } from "@/src/providers/notification-provider";
 import { BouquetItem } from "@/src/@types/bouquets/index.type";
 import { ROUTES } from "@/src/constants/routes";
 import { logError } from "@/src/lib/logger";
+import { fontStyle } from "@/src/lib/styles";
+import { INTERVALS, TIMEOUTS } from "@/src/constants";
 
 interface Product {
   id: number;
@@ -103,8 +105,8 @@ const ProductsSlider = () => {
         return next;
       });
       // بدء fade in بعد تغيير الصورة
-      setTimeout(() => setIsTransitioning(false), 80);
-    }, 300); // نصف مدة الانتقال (600ms / 2)
+      setTimeout(() => setIsTransitioning(false), TIMEOUTS.TRANSITION_DELAY);
+    }, TIMEOUTS.TRANSITION_HALF); // نصف مدة الانتقال (600ms / 2)
   }, [shouldShowControls, totalItems, visibleCount, isTransitioning]);
 
   const prevSlide = useCallback(() => {
@@ -121,8 +123,8 @@ const ProductsSlider = () => {
         return prevIndex;
       });
       // بدء fade in بعد تغيير الصورة
-      setTimeout(() => setIsTransitioning(false), 80);
-    }, 300); // نصف مدة الانتقال (600ms / 2)
+      setTimeout(() => setIsTransitioning(false), TIMEOUTS.TRANSITION_DELAY);
+    }, TIMEOUTS.TRANSITION_HALF); // نصف مدة الانتقال (600ms / 2)
   }, [shouldShowControls, totalItems, visibleCount, isTransitioning]);
 
   // Reset index when visible count changes
@@ -135,7 +137,7 @@ const ProductsSlider = () => {
     if (!shouldShowControls) return;
     const timer = setInterval(() => {
       nextSlide();
-    }, 5000);
+    }, INTERVALS.PRODUCTS_SLIDER);
     return () => clearInterval(timer);
   }, [nextSlide, shouldShowControls]);
 
@@ -187,17 +189,11 @@ const ProductsSlider = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
           <div className="text-right">
             {/* Title - matching Figma: 30px, Almarai Bold */}
-            <h2
-              className="text-[28px] sm:text-[30px] font-bold text-black mb-2"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h2 className="text-[28px] sm:text-[30px] font-bold text-black mb-2" style={fontStyle}>
               سعادة في مزهرية
             </h2>
             {/* Description - matching Figma: 25px, Almarai Regular, black */}
-            <p
-              className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black" style={fontStyle}>
               اختر باقتك المفضلة لتضفي لمسة جمال على يومك
             </p>
           </div>
@@ -205,7 +201,7 @@ const ProductsSlider = () => {
           <Link
             href={`${ROUTES.BOUQUETS}?type=vases&openFilter=type`}
             className="text-[#5a5e4d] hover:underline text-[16px] font-normal cursor-pointer flex items-center gap-2"
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
           >
             <span>عرض الكل</span>
             <ArrowLeft className="w-4 h-4" />
@@ -356,10 +352,7 @@ const ProductsSlider = () => {
               )}
             </>
           ) : (
-            <div
-              className="text-center text-gray-600 py-8"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <div className="text-center text-gray-600 py-8" style={fontStyle}>
               لا توجد منتجات متاحة حالياً
             </div>
           )}

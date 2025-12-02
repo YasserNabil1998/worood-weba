@@ -5,6 +5,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { ContactFAQProps } from "@/src/@types/contact/index.type";
 import { generateId } from "@/src/lib/utils";
 import { cn } from "@/src/lib/utils";
+import { fontStyle } from "@/src/lib/styles";
 
 export default function ContactFAQ({ data }: ContactFAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(1); // فتح السؤال الثاني افتراضياً كما في التصميم
@@ -18,17 +19,11 @@ export default function ContactFAQ({ data }: ContactFAQProps) {
       <div className="max-w-[1364px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         {/* Header */}
         <div className="text-right mb-8 sm:mb-10 lg:mb-12">
-          <h3
-            className="text-[18px] sm:text-[19px] lg:text-[20px] font-bold text-black mb-2 sm:mb-3"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
+          <h3 className="text-[18px] sm:text-[19px] lg:text-[20px] font-bold text-black mb-2 sm:mb-3" style={fontStyle}>
             {data.title}
           </h3>
           {data.subtitle && (
-            <p
-              className="text-[15px] sm:text-[16px] lg:text-[17px] text-[#727272]"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="text-[15px] sm:text-[16px] lg:text-[17px] text-[#727272]" style={fontStyle}>
               {data.subtitle}
             </p>
           )}
@@ -57,10 +52,7 @@ export default function ContactFAQ({ data }: ContactFAQProps) {
                   )}
                   aria-expanded={isOpen}
                 >
-                  <span
-                    className="text-[15px] sm:text-[16px] lg:text-[17px] font-normal text-black flex-1 ml-2 sm:ml-3 lg:ml-4"
-                    style={{ fontFamily: "var(--font-almarai)" }}
-                  >
+                  <span className="text-[15px] sm:text-[16px] lg:text-[17px] font-normal text-black flex-1 ml-2 sm:ml-3 lg:ml-4" style={fontStyle}>
                     {item.question}
                   </span>
 
@@ -81,10 +73,7 @@ export default function ContactFAQ({ data }: ContactFAQProps) {
                   )}
                 >
                   <div className="px-4 sm:px-6 lg:px-8 pb-3 sm:pb-4 pt-2">
-                    <p
-                      className="text-[15px] sm:text-[16px] lg:text-[17px] text-[#5c5a57] leading-relaxed"
-                      style={{ fontFamily: "var(--font-almarai)" }}
-                    >
+                    <p className="text-[15px] sm:text-[16px] lg:text-[17px] text-[#5c5a57] leading-relaxed" style={fontStyle}>
                       {item.answer}
                     </p>
                   </div>

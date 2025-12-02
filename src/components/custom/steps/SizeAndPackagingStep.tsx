@@ -8,6 +8,7 @@ import {
 } from "@/src/@types/custom/index.type";
 import FlowerColorSelector from "../FlowerColorSelector";
 import { Lightbulb, ChevronRight, ChevronLeft } from "lucide-react";
+import { fontStyle } from "@/src/lib/styles";
 
 interface SizeAndPackagingStepProps {
   selectedFlowers: Record<number, number>;
@@ -89,14 +90,14 @@ export default function SizeAndPackagingStep({
       <div>
         <div
           className="mb-4 text-responsive-lg font-normal leading-[20px] text-black text-right"
-          style={{ fontFamily: "var(--font-almarai)" }}
+          style={fontStyle}
         >
           اختر الحجم والتغليف
         </div>
         {totalFlowersCount > 0 && (
           <div
             className="mb-3 bg-[#5A5E4D]/10 border border-[#d0d2c7]/30 rounded-md p-2 text-responsive-sm leading-[18px] text-[#5A5E4D] flex items-center gap-2"
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
           >
             <Lightbulb className="w-4 h-4 shrink-0" />
             <span>تم اختيار الحجم تلقائياً. يمكنك تغييره وسيتم تعديل عدد الزهور بنفس النسبة</span>
@@ -130,7 +131,7 @@ export default function SizeAndPackagingStep({
                   {/* العنوان في الأعلى - موضع ثابت */}
                   <div
                     className="font-normal text-[14px] sm:text-[16px] leading-[20px] text-black text-center"
-                    style={{ fontFamily: "var(--font-almarai)" }}
+                    style={fontStyle}
                   >
                     {opt.label}
                   </div>
@@ -140,7 +141,7 @@ export default function SizeAndPackagingStep({
                     {opt.key !== "custom" && opt.stems && (
                       <div
                         className="text-[14px] sm:text-[16px] leading-[20px] text-gray-600 text-center"
-                        style={{ fontFamily: "var(--font-almarai)" }}
+                        style={fontStyle}
                       >
                         {opt.stems}
                       </div>
@@ -156,11 +157,11 @@ export default function SizeAndPackagingStep({
                           onClick={(e) => e.stopPropagation()}
                           placeholder="50"
                           className="w-full sm:w-[100px] h-[26px] px-2 text-[14px] sm:text-[16px] leading-[20px] text-center border-[0.5px] border-[#b7b7b7] rounded-[5px] bg-white text-gray-800 placeholder:text-[#b9b6b6] focus:outline-none focus:ring-1 focus:ring-[#5A5E4D]/30"
-                          style={{ fontFamily: "var(--font-almarai)" }}
+                          style={fontStyle}
                         />
                         <div
                           className="text-[14px] sm:text-[16px] leading-[20px] text-gray-600 whitespace-nowrap"
-                          style={{ fontFamily: "var(--font-almarai)" }}
+                          style={fontStyle}
                         >
                           زهرة
                         </div>
@@ -175,7 +176,7 @@ export default function SizeAndPackagingStep({
         {totalFlowersCount === 0 && (
           <p
             className="mt-3 text-[13px] leading-[18px] text-gray-500 text-center bg-gray-50 rounded-md p-2"
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
           >
             ⚠️ يرجى اختيار الزهور أولاً من الخطوة السابقة
           </p>
@@ -186,7 +187,7 @@ export default function SizeAndPackagingStep({
       <div>
         <div
           className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right"
-          style={{ fontFamily: "var(--font-almarai)" }}
+          style={fontStyle}
         >
           أنواع التغليف
         </div>
@@ -197,7 +198,7 @@ export default function SizeAndPackagingStep({
             onClick={() => onPackagingTypeChange("paper")}
             className={getPackagingButtonClasses("paper")}
             aria-pressed={packagingType === "paper"}
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
           >
             <span className="text-[16px] leading-[20px]">تغليف ورقي</span>
           </button>
@@ -205,7 +206,7 @@ export default function SizeAndPackagingStep({
             onClick={() => onPackagingTypeChange("vase")}
             className={getPackagingButtonClasses("vase")}
             aria-pressed={packagingType === "vase"}
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
           >
             <span className="text-[16px] leading-[20px]">مزهرية</span>
           </button>
@@ -269,13 +270,13 @@ export default function SizeAndPackagingStep({
                       <div className="flex items-center justify-between h-[20px]">
                         <div
                           className="text-[13px] font-bold leading-[18px] text-gray-800 text-right"
-                          style={{ fontFamily: "var(--font-almarai)" }}
+                          style={fontStyle}
                         >
                           {styleLabelMap[styleOption.key] || styleOption.label}
                         </div>
                         <div
                           className="text-[13px] font-bold leading-[18px] text-[#5a5e4d] text-right"
-                          style={{ fontFamily: "var(--font-almarai)" }}
+                          style={fontStyle}
                         >
                           {styleOption.price} ر.س
                         </div>
@@ -285,7 +286,7 @@ export default function SizeAndPackagingStep({
                         {description.text ? (
                           <div
                             className={`${description.color} text-right text-[13px]`}
-                            style={{ fontFamily: "var(--font-almarai)" }}
+                            style={fontStyle}
                           >
                             {description.text}
                           </div>
@@ -344,13 +345,13 @@ export default function SizeAndPackagingStep({
                       <div className="flex items-center justify-between mb-0.5 h-[20px]">
                         <div
                           className="text-[13px] font-bold leading-[18px] text-gray-800 text-right"
-                          style={{ fontFamily: "var(--font-almarai)" }}
+                          style={fontStyle}
                         >
                           {vase.name}
                         </div>
                         <div
                           className="text-[13px] font-bold leading-[18px] text-[#5a5e4d] text-right"
-                          style={{ fontFamily: "var(--font-almarai)" }}
+                          style={fontStyle}
                         >
                           {vase.price} ر.س
                         </div>
@@ -360,7 +361,7 @@ export default function SizeAndPackagingStep({
                         {description.text ? (
                           <div
                             className={`${description.color} text-right text-[13px]`}
-                            style={{ fontFamily: "var(--font-almarai)" }}
+                            style={fontStyle}
                           >
                             {description.text}
                           </div>

@@ -4,6 +4,7 @@ import { Loader2, ChevronRight, ChevronLeft, Calendar, Clock } from "lucide-reac
 import { formatDateToArabic, formatTimeToArabic, formatTimeToHTML } from "@/src/lib/utils";
 import { ARABIC_MONTHS } from "@/src/constants";
 import { useRef, useState, useEffect } from "react";
+import { fontStyle } from "@/src/lib/styles";
 
 interface DeliveryStepProps {
   deliveryType: "today" | "scheduled";
@@ -252,13 +253,13 @@ export default function DeliveryStep({
       <div>
         <div
           className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right"
-          style={{ fontFamily: "var(--font-almarai)" }}
+          style={fontStyle}
         >
           التوصيل
         </div>
         <div
           className="mb-2 text-[18px] font-normal leading-[20px] text-[#605f5f] text-right"
-          style={{ fontFamily: "var(--font-almarai)" }}
+          style={fontStyle}
         >
           نوع التوصيل
         </div>
@@ -271,7 +272,7 @@ export default function DeliveryStep({
                 ? "border-[#5A5E4D] bg-[#5A5E4D] text-white"
                 : "border-[#e1dada] bg-[#f2f2f2] text-[#303030] hover:bg-gray-100"
             }`}
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
           >
             <span className="text-[16px] sm:text-[18px] lg:text-[20px]">توصيل اليوم</span>
           </button>
@@ -283,7 +284,7 @@ export default function DeliveryStep({
                 ? "border-[#5A5E4D] bg-[#5A5E4D] text-white"
                 : "border-[#e1dada] bg-[#f2f2f2] text-[#303030] hover:bg-gray-100"
             }`}
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
           >
             <span className="text-[16px] sm:text-[18px] lg:text-[20px]">حجز مسبق</span>
           </button>
@@ -299,7 +300,7 @@ export default function DeliveryStep({
             <div className="relative" ref={timePickerRef}>
               <div
                 className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right"
-                style={{ fontFamily: "var(--font-almarai)" }}
+                style={fontStyle}
               >
                 وقت التوصيل
               </div>
@@ -308,7 +309,7 @@ export default function DeliveryStep({
                 <div
                   onClick={toggleTimePicker}
                   className="w-full h-[50px] sm:h-[59px] rounded-[10px] border border-[#e1dada] bg-white px-3 sm:px-4 py-2 pr-10 text-right text-[16px] sm:text-[18px] lg:text-[20px] cursor-pointer flex items-center hover:border-[#5A5E4D]/50 transition-colors"
-                  style={{ fontFamily: "var(--font-almarai)" }}
+                  style={fontStyle}
                 >
                   <span className={displayTime ? "text-black" : "text-gray-400"}>
                     {displayTime || "اختر الوقت"}
@@ -335,7 +336,7 @@ export default function DeliveryStep({
                     <div className="p-4 border-b border-gray-200">
                       <div
                         className="text-[16px] font-semibold text-black text-center"
-                        style={{ fontFamily: "var(--font-almarai)" }}
+                        style={fontStyle}
                       >
                         اختر الوقت
                       </div>
@@ -359,7 +360,7 @@ export default function DeliveryStep({
                                   ? "bg-gray-100 text-[#5A5E4D] font-semibold"
                                   : "text-gray-600 hover:bg-gray-50"
                               }`}
-                              style={{ fontFamily: "var(--font-almarai)" }}
+                              style={fontStyle}
                             >
                               {minute.toString().padStart(2, "0")}
                             </button>
@@ -383,7 +384,7 @@ export default function DeliveryStep({
                                   ? "bg-gray-100 text-[#5A5E4D] font-semibold"
                                   : "text-gray-600 hover:bg-gray-50"
                               }`}
-                              style={{ fontFamily: "var(--font-almarai)" }}
+                              style={fontStyle}
                             >
                               {hour.toString().padStart(2, "0")}
                             </button>
@@ -407,7 +408,7 @@ export default function DeliveryStep({
                                   ? "bg-gray-100 text-[#5A5E4D] font-semibold"
                                   : "text-gray-600 hover:bg-gray-50"
                               }`}
-                              style={{ fontFamily: "var(--font-almarai)" }}
+                              style={fontStyle}
                             >
                               {period}
                             </button>
@@ -423,7 +424,7 @@ export default function DeliveryStep({
             <div className="relative" ref={calendarRef}>
               <div
                 className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right"
-                style={{ fontFamily: "var(--font-almarai)" }}
+                style={fontStyle}
               >
                 تاريخ التوصيل
               </div>
@@ -431,7 +432,7 @@ export default function DeliveryStep({
                 <div
                   onClick={toggleDatePicker}
                   className="w-full h-[50px] sm:h-[59px] rounded-[10px] border border-[#e1dada] bg-white px-3 sm:px-4 py-2 pr-10 text-right text-[16px] sm:text-[18px] lg:text-[20px] cursor-pointer flex items-center hover:border-[#5A5E4D]/50 transition-colors"
-                  style={{ fontFamily: "var(--font-almarai)" }}
+                  style={fontStyle}
                 >
                   <span className={deliveryDate ? "text-black" : "text-gray-400"}>
                     {deliveryDate ? formatDateToArabic(deliveryDate) : "اختر التاريخ"}
@@ -466,7 +467,7 @@ export default function DeliveryStep({
                       </button>
                       <div
                         className="text-[18px] font-semibold text-black"
-                        style={{ fontFamily: "var(--font-almarai)" }}
+                        style={fontStyle}
                       >
                         {ARABIC_MONTHS[currentMonth]} {currentYear}
                       </div>
@@ -486,7 +487,7 @@ export default function DeliveryStep({
                         <div
                           key={index}
                           className="text-center text-[14px] font-semibold text-[#605f5f] py-2"
-                          style={{ fontFamily: "var(--font-almarai)" }}
+                          style={fontStyle}
                         >
                           {day}
                         </div>
@@ -516,7 +517,7 @@ export default function DeliveryStep({
                                   ? "bg-[#5A5E4D] text-white font-semibold"
                                   : "text-black hover:bg-gray-100 cursor-pointer"
                             }`}
-                            style={{ fontFamily: "var(--font-almarai)" }}
+                            style={fontStyle}
                           >
                             {day}
                           </button>
@@ -534,7 +535,7 @@ export default function DeliveryStep({
         <div>
           <div
             className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right"
-            style={{ fontFamily: "var(--font-almarai)" }}
+            style={fontStyle}
           >
             وقت التوصيل
           </div>
@@ -543,7 +544,7 @@ export default function DeliveryStep({
             <div
               onClick={toggleTimePicker}
               className="w-full h-[50px] sm:h-[59px] rounded-[10px] border border-[#e1dada] bg-white px-3 sm:px-4 py-2 pr-10 text-right text-[16px] sm:text-[18px] lg:text-[20px] cursor-pointer flex items-center hover:border-[#5A5E4D]/50 transition-colors"
-              style={{ fontFamily: "var(--font-almarai)" }}
+              style={fontStyle}
             >
               <span className={displayTime ? "text-black" : "text-gray-400"}>
                 {displayTime || "اختر الوقت"}
@@ -570,7 +571,7 @@ export default function DeliveryStep({
                 <div className="p-4 border-b border-gray-200">
                   <div
                     className="text-[16px] font-semibold text-black text-center"
-                    style={{ fontFamily: "var(--font-almarai)" }}
+                    style={fontStyle}
                   >
                     اختر الوقت
                   </div>
@@ -594,7 +595,7 @@ export default function DeliveryStep({
                               ? "bg-gray-100 text-[#5A5E4D] font-semibold"
                               : "text-gray-600 hover:bg-gray-50"
                           }`}
-                          style={{ fontFamily: "var(--font-almarai)" }}
+                          style={fontStyle}
                         >
                           {minute.toString().padStart(2, "0")}
                         </button>
@@ -618,7 +619,7 @@ export default function DeliveryStep({
                               ? "bg-gray-100 text-[#5A5E4D] font-semibold"
                               : "text-gray-600 hover:bg-gray-50"
                           }`}
-                          style={{ fontFamily: "var(--font-almarai)" }}
+                          style={fontStyle}
                         >
                           {hour.toString().padStart(2, "0")}
                         </button>
@@ -642,7 +643,7 @@ export default function DeliveryStep({
                               ? "bg-gray-100 text-[#5A5E4D] font-semibold"
                               : "text-gray-600 hover:bg-gray-50"
                           }`}
-                          style={{ fontFamily: "var(--font-almarai)" }}
+                          style={fontStyle}
                         >
                           {period}
                         </button>

@@ -5,6 +5,7 @@ import Script from "next/script";
 import contactData from "./contact-data.json";
 import { ContactData, ContactFormData } from "@/src/@types/contact/index.type";
 import { generateFAQSchema, generateBreadcrumbSchema } from "@/src/lib/structuredData";
+import { TIMEOUTS } from "@/src/constants";
 
 const ContactForm = lazy(() => import("@/src/components/contact/ContactForm"));
 const ContactInfo = lazy(() => import("@/src/components/contact/ContactInfo"));
@@ -16,7 +17,7 @@ export default function ContactPage() {
   const handleFormSubmit = async (_formData: ContactFormData) => {
     // Simulate API call - In production, replace with actual API endpoint
     // Example: await fetch('/api/contact', { method: 'POST', body: JSON.stringify(formData) });
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, TIMEOUTS.API_SIMULATION));
   };
 
   // Generate FAQ Schema for SEO

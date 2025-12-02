@@ -3,6 +3,7 @@
 import type { FeatureItem } from "@/types";
 import { localFeatures } from "@/src/content/features";
 import { useEffect, useRef, useState } from "react";
+import { fontStyle } from "@/src/lib/styles";
 
 type FeaturesSectionProps = {
   features?: FeatureItem[];
@@ -105,16 +106,14 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
                 <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2">
                   <h3
                     className="text-[22px] sm:text-[24px] md:text-[26px] font-bold text-gray-800 leading-[28px]"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
+                    style={fontStyle}
                     dir="auto"
                   >
                     {feature.title}
                   </h3>
                   <p
                     className="text-[18px] sm:text-[20px] md:text-[22px] text-[#727272] font-medium leading-[28px] sm:leading-[30px] max-w-[319px]"
-                    style={{ fontFamily: "var(--font-almarai)" }}
+                    style={fontStyle}
                     dir="auto"
                   >
                     {feature.description}

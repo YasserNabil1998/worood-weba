@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useNotification } from "@/src/providers/notification-provider";
 import type { ReviewItem } from "@/types";
 import { Star, X } from "lucide-react";
+import { fontStyle } from "@/src/lib/styles";
+import { TIMEOUTS } from "@/src/constants";
 
 type RatingPopupProps = {
   isOpen: boolean;
@@ -60,7 +62,7 @@ export default function RatingPopup({
     };
 
     // محاكاة إرسال البيانات
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, TIMEOUTS.API_SIMULATION));
 
     onRatingSubmit(newReview);
     setIsSubmitting(false);
@@ -109,10 +111,7 @@ export default function RatingPopup({
         {/* Header */}
         <div className="border-b border-gray-200 p-6">
           <div className="flex items-center justify-between">
-            <h2
-              className="text-xl font-bold text-gray-800"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h2 className="text-xl font-bold text-gray-800" style={fontStyle}>
               تقييم الطلب
             </h2>
             <button
@@ -128,13 +127,10 @@ export default function RatingPopup({
         <div className="p-6 space-y-6">
           {/* Order Info */}
           <div className="bg-gray-50 rounded-lg p-4">
-            <p className="text-sm text-gray-600 mb-1" style={{ fontFamily: "var(--font-almarai)" }}>
+            <p className="text-sm text-gray-600 mb-1" style={fontStyle}>
               رقم الطلب: {orderNumber}
             </p>
-            <p
-              className="text-sm text-gray-800 font-medium"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="text-sm text-gray-800 font-medium" style={fontStyle}>
               {productName}
             </p>
           </div>
@@ -151,19 +147,14 @@ export default function RatingPopup({
               ) : (
                 <span
                   className="text-green-600 font-bold text-lg"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
+                  style={fontStyle}
                 >
                   {customerName.charAt(0)}
                 </span>
               )}
             </div>
             <div>
-              <p
-                className="font-semibold text-gray-800"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
+              <p className="font-semibold text-gray-800" style={fontStyle}>
                 {customerName}
               </p>
             </div>
@@ -171,21 +162,13 @@ export default function RatingPopup({
 
           {/* Rating */}
           <div>
-            <label
-              className="block text-sm font-semibold text-gray-700 mb-3"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <label className="block text-sm font-semibold text-gray-700 mb-3" style={fontStyle}>
               كيف تقيم تجربتك؟
             </label>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1">{renderStars(rating, true)}</div>
               {rating > 0 && (
-                <p
-                  className="text-sm font-medium text-gray-700"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
+                <p className="text-sm font-medium text-gray-700" style={fontStyle}>
                   {rating === 1 && "سيء جداً"}
                   {rating === 2 && "سيء"}
                   {rating === 3 && "متوسط"}
@@ -198,10 +181,7 @@ export default function RatingPopup({
 
           {/* Comment */}
           <div>
-            <label
-              className="block text-sm font-semibold text-gray-700 mb-3"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <label className="block text-sm font-semibold text-gray-700 mb-3" style={fontStyle}>
               شاركنا رأيك (اختياري)
             </label>
             <textarea
@@ -210,9 +190,9 @@ export default function RatingPopup({
               placeholder="اكتب تعليقك هنا..."
               rows={4}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5A5E4D] focus:border-transparent resize-none"
-              style={{ fontFamily: "var(--font-almarai)" }}
+              style={fontStyle}
             />
-            <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: "var(--font-almarai)" }}>
+            <p className="text-xs text-gray-500 mt-1" style={fontStyle}>
               {comment.length} / 500 حرف
             </p>
           </div>
@@ -224,7 +204,7 @@ export default function RatingPopup({
             <button
               onClick={handleClose}
               className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-              style={{ fontFamily: "var(--font-almarai)" }}
+              style={fontStyle}
             >
               إلغاء
             </button>
@@ -232,7 +212,7 @@ export default function RatingPopup({
               onClick={handleSubmit}
               disabled={isSubmitting || rating === 0}
               className="flex-1 px-4 py-2 bg-[#5A5E4D] text-white rounded-lg hover:bg-[#4A4E3D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium flex items-center justify-center gap-2"
-              style={{ fontFamily: "var(--font-almarai)" }}
+              style={fontStyle}
             >
               {isSubmitting ? (
                 <>

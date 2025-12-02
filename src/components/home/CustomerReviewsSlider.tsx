@@ -6,6 +6,8 @@ import type { ReviewItem } from "@/types";
 import { getAllReviews } from "@/src/actions/reviews-manager";
 import { Star } from "lucide-react";
 import { logError } from "@/src/lib/logger";
+import { fontStyle } from "@/src/lib/styles";
+import { INTERVALS } from "@/src/constants";
 
 type CustomerReviewsSliderProps = {
   reviews?: ReviewItem[];
@@ -65,7 +67,7 @@ const CustomerReviewsSlider = ({
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % (reviews.length - visibleCount + 1));
-    }, 4000);
+    }, INTERVALS.REVIEWS_SLIDER);
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, reviews.length, visibleCount]);
@@ -87,7 +89,7 @@ const CustomerReviewsSlider = ({
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="text-gray-600" style={{ fontFamily: "var(--font-almarai)" }}>
+            <div className="text-gray-600" style={fontStyle}>
               جاري التحميل...
             </div>
           </div>
@@ -101,13 +103,10 @@ const CustomerReviewsSlider = ({
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2
-              className="text-3xl md:text-4xl font-bold text-gray-800 mb-4"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4" style={fontStyle}>
               آراء عملائنا
             </h2>
-            <p className="text-gray-600" style={{ fontFamily: "var(--font-almarai)" }}>
+            <p className="text-gray-600" style={fontStyle}>
               لا توجد تقييمات متاحة حالياً
             </p>
           </div>
@@ -126,10 +125,7 @@ const CustomerReviewsSlider = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header - matching Figma: 30px, Almarai Bold */}
         <div className="text-right mb-8 sm:mb-10 md:mb-12">
-          <h2
-            className="text-[28px] sm:text-[30px] font-bold text-black"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
+          <h2 className="text-[28px] sm:text-[30px] font-bold text-black" style={fontStyle}>
             أراء عملائنا
           </h2>
         </div>

@@ -8,6 +8,7 @@ import { STORAGE_KEYS } from "@/src/constants";
 import type { CartItem } from "@/src/@types/cart/CartItem.type";
 import { addProductToCart } from "@/src/lib/cartUtils";
 import { logError } from "../lib/logger";
+import { fontStyle } from "@/src/lib/styles";
 
 interface AddToCartButtonProps {
   productId: number | string;
@@ -66,7 +67,7 @@ export default function AddToCartButton({
     <button
       onClick={handleAddToCart}
       className="flex-1 bg-[#5A5E4D] text-white py-4 px-6 rounded-lg font-semibold hover:bg-[#4A4E3D] transition-colors"
-      style={{ fontFamily: "var(--font-almarai)" }}
+      style={fontStyle}
     >
       أضف إلى السلة
     </button>

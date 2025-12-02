@@ -28,6 +28,7 @@ import { useCartOperations } from "@/src/hooks/custom/useCartOperations";
 import NotificationToast from "@/src/components/custom/NotificationToast";
 import StepIndicator from "@/src/components/custom/StepIndicator";
 import DataLoader from "@/src/components/DataLoader";
+import { fontStyle } from "@/src/lib/styles";
 import { ChevronRight, ChevronLeft, Loader2 } from "lucide-react";
 import { logError } from "@/src/lib/logger";
 
@@ -391,7 +392,7 @@ function CustomBuilderContent() {
                         }}
                         disabled={state.isAddingToCart}
                         className="w-[130px] h-[50px] px-4 rounded-[5px] bg-transparent border border-[#5A5E4D] text-[#5A5E4D] hover:bg-gray-50 transition-colors flex items-center justify-center gap-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                        style={{ fontFamily: "var(--font-almarai)" }}
+                        style={fontStyle}
                       >
                         <ChevronRight className="w-5 h-5 shrink-0" />
                         <span className="text-[18px] font-bold flex-1 text-center">السابق</span>
@@ -408,7 +409,7 @@ function CustomBuilderContent() {
                           }}
                           disabled={state.isAddingToCart}
                           className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#5f664f] text-white hover:bg-[#4b5244] transition-colors flex items-center justify-center gap-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                          style={{ fontFamily: "var(--font-almarai)" }}
+                          style={fontStyle}
                         >
                           <span className="text-[18px] font-bold flex-1 text-center">التالي</span>
                           <ChevronLeft className="w-5 h-5 shrink-0" />
@@ -418,7 +419,7 @@ function CustomBuilderContent() {
                           onClick={cartOps.addToCart}
                           disabled={state.isAddingToCart}
                           className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#5f664f] text-white text-[15px] font-bold hover:bg-[#4b5244] transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1"
-                          style={{ fontFamily: "var(--font-almarai)" }}
+                          style={fontStyle}
                         >
                           {state.isAddingToCart ? (
                             <span className="flex items-center gap-1 text-right">
