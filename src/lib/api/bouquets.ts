@@ -8,6 +8,9 @@ import {
   COLORS,
 } from "@/src/constants/bouquets";
 import { defaultBouquets } from "@/src/content/featured-bouquets";
+import { logError } from "@/src/lib/logger";
+import { retryOperation, handleAndLogError } from "@/src/lib/errors";
+import { ErrorCode } from "@/src/lib/errors/errorTypes";
 
 // External API response type
 interface ExternalProduct {
@@ -133,41 +136,48 @@ const FALLBACK_BOUQUETS: BouquetItem[] = [
  */
 export async function fetchBouquets(): Promise<BouquetItem[]> {
   try {
-    const response = await fetch(
-      `https://dummyjson.com/products?limit=${BOUQUET_CONSTANTS.API_LIMIT}`,
-      {
-        next: { revalidate: BOUQUET_CONSTANTS.REVALIDATE_TIME },
+    const fetchOperation = async (): Promise<BouquetItem[]> => {
+      const response = await fetch(
+        `https://dummyjson.com/products?limit=${BOUQUET_CONSTANTS.API_LIMIT}`,
+        {
+          next: { revalidate: BOUQUET_CONSTANTS.REVALIDATE_TIME },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    );
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+      const data: ExternalApiResponse = await response.json();
+      const products = data.products || [];
 
-    const data: ExternalApiResponse = await response.json();
-    const products = data.products || [];
+      // Transform external API data to our BouquetItem format
+      const bouquetsFromApi = products.map((product: ExternalProduct, index: number) => {
+        const isBestSeller = index % 4 === 0;
+        const badge = isBestSeller ? BEST_SELLER_BADGE : OTHER_BADGES[index % OTHER_BADGES.length];
 
-    // Transform external API data to our BouquetItem format
-    const bouquetsFromApi = products.map((product: ExternalProduct, index: number) => {
-      const isBestSeller = index % 4 === 0;
-      const badge = isBestSeller ? BEST_SELLER_BADGE : OTHER_BADGES[index % OTHER_BADGES.length];
+        return {
+          id: product.id,
+          title: product.title,
+          image: BOUQUET_IMAGES[index % BOUQUET_IMAGES.length],
+          price: Math.round(product.price),
+          badge,
+          category: isBestSeller ? BEST_SELLER_BADGE : undefined,
+          isPopular: isBestSeller || index % 3 === 0, // Best sellers are always popular
+          color: COLORS[(index % (COLORS.length - 1)) + 1].key, // Skip "all" option
+          occasion: OCCASIONS[(index % (OCCASIONS.length - 1)) + 1].key, // Skip "all" option
+        };
+      });
 
-      return {
-        id: product.id,
-        title: product.title,
-        image: BOUQUET_IMAGES[index % BOUQUET_IMAGES.length],
-        price: Math.round(product.price),
-        badge,
-        category: isBestSeller ? BEST_SELLER_BADGE : undefined,
-        isPopular: isBestSeller || index % 3 === 0, // Best sellers are always popular
-        color: COLORS[(index % (COLORS.length - 1)) + 1].key, // Skip "all" option
-        occasion: OCCASIONS[(index % (OCCASIONS.length - 1)) + 1].key, // Skip "all" option
-      };
-    });
+      return [...bouquetsFromApi, ...fallbackFeaturedBouquets, ...VASES];
+    };
 
-    return [...bouquetsFromApi, ...fallbackFeaturedBouquets, ...VASES];
+    // Retry operation up to 3 times with exponential backoff
+    return await retryOperation(fetchOperation, 3, 1000, ErrorCode.API_FETCH_ERROR);
   } catch (error) {
-    console.error("Failed to fetch bouquets from API:", error);
+    handleAndLogError(error, "Failed to fetch bouquets from API", ErrorCode.API_FETCH_ERROR, {
+      apiLimit: BOUQUET_CONSTANTS.API_LIMIT,
+    });
 
     // Return fallback data in case of API failure
     return [...FALLBACK_BOUQUETS, ...fallbackFeaturedBouquets, ...VASES];
@@ -182,9 +192,23 @@ export async function fetchBouquets(): Promise<BouquetItem[]> {
 export async function fetchBouquetById(id: number): Promise<BouquetItem | null> {
   try {
     const bouquets = await fetchBouquets();
-    return bouquets.find((bouquet) => bouquet.id === id) || null;
+    const bouquet = bouquets.find((bouquet) => bouquet.id === id);
+
+    if (!bouquet) {
+      handleAndLogError(
+        new Error(`Bouquet with ID ${id} not found`),
+        "Bouquet not found",
+        ErrorCode.PRODUCT_NOT_FOUND,
+        { bouquetId: id }
+      );
+      return null;
+    }
+
+    return bouquet;
   } catch (error) {
-    console.error(`Failed to fetch bouquet with ID ${id}:`, error);
+    handleAndLogError(error, "Failed to fetch bouquet by ID", ErrorCode.PRODUCT_LOAD_ERROR, {
+      bouquetId: id,
+    });
     return null;
   }
 }

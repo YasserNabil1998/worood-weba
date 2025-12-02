@@ -9,6 +9,7 @@ import OccasionsSection from "@/src/components/profile/OccasionsSection";
 import SupportSection from "@/src/components/profile/SupportSection";
 import OrdersSection from "@/src/components/profile/OrdersSection";
 import FavoritesSection from "@/src/components/profile/FavoritesSection";
+import { logDebug } from "@/src/lib/logger";
 
 const initialUserData: UserData = profileData.userData;
 const occasions = profileData.occasions || [];
@@ -30,13 +31,13 @@ export default function ProfilePage() {
   } = useProfile(initialUserData);
 
   const handleAddOccasion = () => {
-    // TODO: Implement add occasion functionality
-    console.log("Add occasion");
+    // Functionality will be implemented when occasion management feature is added
+    logDebug("Add occasion");
   };
 
   const handleEditOccasion = (id: string) => {
-    // TODO: Implement edit occasion functionality
-    console.log("Edit occasion", id);
+    // Functionality will be implemented when occasion management feature is added
+    logDebug("Edit occasion", { occasionId: id });
   };
 
   return (

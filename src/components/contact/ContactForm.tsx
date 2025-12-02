@@ -7,14 +7,11 @@ import { ChevronDown, ChevronUp, Loader2, Send, CheckCircle2, AlertCircle } from
 import { ContactFormProps } from "@/src/@types/contact/index.type";
 import { contactSchema, ContactFormData } from "@/src/validations/schemas/contactSchema";
 import {
-  INPUT_HEIGHT,
-  TEXTAREA_ROWS,
   FORM_SUCCESS_TIMEOUT,
   MESSAGES,
-  BORDER_COLORS,
-  BACKGROUND_COLORS,
 } from "@/src/constants/contact";
 import { cn } from "@/src/lib/utils";
+import { logError } from "@/src/lib/logger";
 
 export default function ContactForm({ data, onSubmit }: ContactFormProps) {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -74,7 +71,7 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
         setIsSuccess(false);
       }, FORM_SUCCESS_TIMEOUT);
     } catch (error) {
-      console.error("Form submission error:", error);
+      logError("Form submission error", error, { formData: data });
       setIsError(true);
     }
   };

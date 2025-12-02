@@ -11,6 +11,7 @@ import { useFavorites } from "../hooks/useFavorites";
 import { APP_CONFIG } from "../constants";
 import { BEST_SELLER_BADGE } from "../constants/bouquets";
 import { QuickAddModal } from "./product";
+import { logError } from "../lib/logger";
 
 const normalizeText = (value?: string) => {
   if (!value) return "";
@@ -163,7 +164,6 @@ const FeaturedBouquets = ({
           removeFromFavorites(bouquetId);
           showNotification("تم إزالة المنتج من المفضلة", "info");
         } else {
-          // تحويل bouquet إلى النوع الصحيح المتوقع من useFavorites
           const favoriteItem: BouquetItem = {
             ...bouquet,
             id: bouquetId,
@@ -172,7 +172,7 @@ const FeaturedBouquets = ({
           showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
         }
       } catch (error) {
-        console.error("خطأ في تبديل المفضلة:", error);
+        logError("خطأ في تبديل المفضلة", error, { bouquetId: getBouquetId(bouquet), bouquetTitle: bouquet.title });
         showNotification("حدث خطأ في تحديث المفضلة", "error");
       }
     },

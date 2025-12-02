@@ -11,6 +11,8 @@ import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { STORAGE_KEYS } from "@/src/constants";
 import { storage } from "@/src/lib/utils";
 import { CART_ROUTES } from "@/src/constants/cart";
+import { handleAndLogError } from "@/src/lib/errors";
+import { ErrorCode } from "@/src/lib/errors/errorTypes";
 
 interface ProductOptions {
   selectedSize: string;
@@ -91,7 +93,9 @@ export function useProductDetails(productId: string) {
 
           setProduct(product);
         } catch (error) {
-          console.error("Error fetching product:", error);
+          handleAndLogError(error, "Error fetching product", ErrorCode.PRODUCT_LOAD_ERROR, {
+            productId,
+          });
         }
       });
     }
@@ -268,7 +272,12 @@ export function useProductDetails(productId: string) {
         const message = isNew ? "تم إضافة المنتج إلى السلة" : "تم زيادة كمية المنتج في السلة";
         showNotification(message, "success");
       } catch (error) {
-        console.error("خطأ:", error);
+        handleAndLogError(error, "خطأ في إضافة المنتج للسلة", ErrorCode.CART_SAVE_ERROR, {
+          productId,
+          quantity: options.quantity,
+          size: options.selectedSize,
+          color: options.color,
+        });
         showNotification("حدث خطأ في إضافة المنتج للسلة", "error");
       }
     }

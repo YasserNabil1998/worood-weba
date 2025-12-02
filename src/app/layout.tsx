@@ -8,6 +8,7 @@ import Footer from "../components/common/Footer";
 import ErrorBoundary from "../components/common/ErrorBoundary";
 import SplashScreen from "../components/SplashScreen";
 import { generateOrganizationSchema, generateWebsiteSchema } from "../lib/structuredData";
+import { generateHomeMetadata } from "../lib/seo/generateMetadata";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,11 +20,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "زهور الشمس - أجمل الباقات لأجمل المناسبات",
-  description:
-    "نقدم لكم أرقى تشكيلة من باقات الزهور المميزة والفريدة لجميع المناسبات. خدمة تنسيق الزهور بأعلى جودة وأفضل الأسعار.",
-};
+export const metadata: Metadata = generateHomeMetadata();
 
 export default function RootLayout({
   children,

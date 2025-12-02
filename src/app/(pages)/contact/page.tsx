@@ -1,30 +1,57 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, lazy } from "react";
+import Script from "next/script";
 import contactData from "./contact-data.json";
-import ContactForm from "@/src/components/contact/ContactForm";
-import ContactInfo from "@/src/components/contact/ContactInfo";
-import ContactFAQ from "@/src/components/contact/ContactFAQ";
 import { ContactData, ContactFormData } from "@/src/@types/contact/index.type";
+import { generateFAQSchema, generateBreadcrumbSchema } from "@/src/lib/structuredData";
+
+const ContactForm = lazy(() => import("@/src/components/contact/ContactForm"));
+const ContactInfo = lazy(() => import("@/src/components/contact/ContactInfo"));
+const ContactFAQ = lazy(() => import("@/src/components/contact/ContactFAQ"));
 
 export default function ContactPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Type assertion for JSON data
   const typedContactData = contactData as ContactData;
 
-  const handleFormSubmit = async (formData: ContactFormData) => {
-    setIsSubmitting(true);
-
+  const handleFormSubmit = async (_formData: ContactFormData) => {
     // Simulate API call - In production, replace with actual API endpoint
     // Example: await fetch('/api/contact', { method: 'POST', body: JSON.stringify(formData) });
     await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    setIsSubmitting(false);
   };
+
+  // Generate FAQ Schema for SEO
+  const faqSchema = typedContactData.faq?.items
+    ? generateFAQSchema(
+        typedContactData.faq.items.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        }))
+      )
+    : null;
+
+  // Generate Breadcrumb Schema
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "الرئيسية", url: "https://shamsflowers.com/" },
+    { name: "تواصل معنا", url: "https://shamsflowers.com/contact" },
+  ]);
 
   return (
     <div className="min-h-screen bg-[#fbfaf2]" dir="rtl">
+      {/* Structured Data for SEO */}
+      {faqSchema && (
+        <Script
+          id="faq-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+      {breadcrumbSchema && (
+        <Script
+          id="breadcrumb-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
       <main>
         {/* Page Title Section */}
         <section className="pt-8 pb-4">
@@ -43,21 +70,27 @@ export default function ContactPage() {
             <div className="flex flex-col lg:flex-row-reverse gap-4 sm:gap-6 lg:gap-8">
               {/* نموذج التواصل - سيظهر على اليمين في الديسكتوب */}
               <div className="w-full lg:w-[964px] lg:shrink-0">
-                <ContactForm data={typedContactData.form} onSubmit={handleFormSubmit} />
+                <Suspense fallback={<div className="bg-white rounded-[20px] p-8 animate-pulse h-[400px]" />}>
+                  <ContactForm data={typedContactData.form} onSubmit={handleFormSubmit} />
+                </Suspense>
               </div>
               {/* معلومات التواصل - سيظهر على اليسار في الديسكتوب */}
               <div className="w-full lg:w-[311px] lg:shrink-0">
-                <ContactInfo
-                  data={typedContactData.contactInfo}
-                  socialMedia={typedContactData.socialMedia}
-                />
+                <Suspense fallback={<div className="bg-white rounded-[20px] p-6 animate-pulse h-[300px]" />}>
+                  <ContactInfo
+                    data={typedContactData.contactInfo}
+                    socialMedia={typedContactData.socialMedia}
+                  />
+                </Suspense>
               </div>
             </div>
           </div>
         </section>
 
         {/* FAQ Section */}
-        <ContactFAQ data={typedContactData.faq} />
+        <Suspense fallback={<div className="bg-[#fbfaf2] py-8 animate-pulse h-[200px]" />}>
+          <ContactFAQ data={typedContactData.faq} />
+        </Suspense>
       </main>
     </div>
   );

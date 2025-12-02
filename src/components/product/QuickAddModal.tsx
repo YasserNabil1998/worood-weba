@@ -10,6 +10,7 @@ import { APP_CONFIG, STORAGE_KEYS } from "@/src/constants";
 import { addProductToCart } from "@/src/lib/cartUtils";
 import { storage } from "@/src/lib/utils";
 import { useNotification } from "@/src/providers/notification-provider";
+import { logError } from "@/src/lib/logger";
 
 import SizeSelector from "./SizeSelector";
 import ColorSelector from "./ColorSelector";
@@ -177,7 +178,7 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
       showNotification(message, "success");
       onClose();
     } catch (error) {
-      console.error("خطأ في إضافة المنتج للسلة:", error);
+      logError("خطأ في إضافة المنتج للسلة", error, { bouquetId: bouquet.id, bouquetTitle: bouquet.title });
       showNotification("حدث خطأ أثناء إضافة المنتج للسلة", "error");
     }
   }, [

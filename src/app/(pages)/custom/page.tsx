@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { useSearchParams } from "next/navigation";
 
 import bouquetsData from "./bouquets.json";
@@ -27,18 +27,19 @@ import { useCartOperations } from "@/src/hooks/custom/useCartOperations";
 // Components
 import NotificationToast from "@/src/components/custom/NotificationToast";
 import StepIndicator from "@/src/components/custom/StepIndicator";
-import BouquetPreview from "@/src/components/custom/BouquetPreview";
-import FlowerSelectionStep from "@/src/components/custom/steps/FlowerSelectionStep";
-import SizeAndPackagingStep from "@/src/components/custom/steps/SizeAndPackagingStep";
-import CustomizationStep from "@/src/components/custom/steps/CustomizationStep";
-import DeliveryStep from "@/src/components/custom/steps/DeliveryStep";
 import DataLoader from "@/src/components/DataLoader";
 import { ChevronRight, ChevronLeft, Loader2 } from "lucide-react";
+import { logError } from "@/src/lib/logger";
+
+const BouquetPreview = lazy(() => import("@/src/components/custom/BouquetPreview"));
+const FlowerSelectionStep = lazy(() => import("@/src/components/custom/steps/FlowerSelectionStep"));
+const SizeAndPackagingStep = lazy(() => import("@/src/components/custom/steps/SizeAndPackagingStep"));
+const CustomizationStep = lazy(() => import("@/src/components/custom/steps/CustomizationStep"));
+const DeliveryStep = lazy(() => import("@/src/components/custom/steps/DeliveryStep"));
 
 function CustomBuilderContent() {
   const searchParams = useSearchParams();
 
-  // Dynamic Data States
   const [flowers, setFlowers] = useState<Flower[]>([]);
   const [bouquetSizes, setBouquetSizes] = useState<BouquetSize[]>([]);
   const [bouquetStyles, setBouquetStyles] = useState<BouquetStyle[]>([]);
@@ -53,10 +54,8 @@ function CustomBuilderContent() {
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Custom hooks for state management
   const state = useCustomBouquetState();
 
-  // Load data - can be replaced with API call
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -77,7 +76,7 @@ function CustomBuilderContent() {
 
         setIsLoading(false);
       } catch (error) {
-        console.error("Error loading bouquet data:", error);
+        logError("Error loading bouquet data", error);
         setIsLoading(false);
       }
     };
@@ -138,7 +137,7 @@ function CustomBuilderContent() {
           state.setBouquetImage(design.image);
         }
       } catch (e) {
-        console.error("Failed to parse design data:", e);
+        logError("Failed to parse design data", e, { designParam });
       }
     }
   }, [searchParams]);
@@ -272,7 +271,6 @@ function CustomBuilderContent() {
         />
 
         <main>
-          {/* Page Title Section */}
           <section className="pt-8 pb-4">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-right">
               <h1 className="text-[32px] font-bold leading-[40px] text-[#2D3319] mb-2 tracking-[0px]">
@@ -284,37 +282,35 @@ function CustomBuilderContent() {
             </div>
           </section>
 
-          {/* Content Section */}
           <section className="py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-                {/* Left - selector */}
                 <div className="order-2 lg:order-2 lg:col-span-2">
-                  {/* Step Indicator - Outside content component */}
                   <div className="mb-4">
                     <StepIndicator currentStep={state.step} onStepChange={state.setStep} />
                   </div>
 
-                  {/* Step 1 - بدون خلفية بيضاء */}
                   {state.step === 1 && (
-                    <FlowerSelectionStep
-                      flowers={flowers}
-                      selectedFlowers={state.selectedFlowers}
-                      totalFlowersCount={prices.totalFlowersCount}
-                      searchQuery={state.searchQuery}
-                      onSearchChange={state.setSearchQuery}
-                      onInc={flowerManagement.inc}
-                      onDec={flowerManagement.dec}
-                      qty={flowerManagement.qty}
-                      onNextStep={() => state.setStep(2)}
-                    />
+                    <Suspense fallback={<div className="text-center py-8">جاري التحميل...</div>}>
+                      <FlowerSelectionStep
+                        flowers={flowers}
+                        selectedFlowers={state.selectedFlowers}
+                        totalFlowersCount={prices.totalFlowersCount}
+                        searchQuery={state.searchQuery}
+                        onSearchChange={state.setSearchQuery}
+                        onInc={flowerManagement.inc}
+                        onDec={flowerManagement.dec}
+                        qty={flowerManagement.qty}
+                        onNextStep={() => state.setStep(2)}
+                      />
+                    </Suspense>
                   )}
 
-                  {/* Steps 2-4 - مع خلفية بيضاء */}
                   {(state.step === 2 || state.step === 3 || state.step === 4) && (
                     <div className="bg-white rounded-lg border border-gray-200 p-3 sm:p-5 mb-4">
                       {state.step === 2 && (
-                        <SizeAndPackagingStep
+                        <Suspense fallback={<div className="text-center py-8">جاري التحميل...</div>}>
+                          <SizeAndPackagingStep
                           selectedFlowers={state.selectedFlowers}
                           flowers={flowers}
                           colors={colors}
@@ -339,48 +335,52 @@ function CustomBuilderContent() {
                           onPrevStep={() => {}}
                           onNextStep={() => {}}
                         />
+                        </Suspense>
                       )}
 
                       {state.step === 3 && (
-                        <CustomizationStep
-                          occasions={occasions}
-                          occasion={state.occasion}
-                          onOccasionChange={state.setOccasion}
-                          includeCard={state.includeCard}
-                          onIncludeCardChange={state.setIncludeCard}
-                          cardMessage={state.cardMessage}
-                          onCardMessageChange={state.setCardMessage}
-                          showSuggestions={state.showSuggestions}
-                          onShowSuggestionsToggle={() =>
-                            state.setShowSuggestions(!state.showSuggestions)
-                          }
-                          cardSuggestions={cardSuggestionsData.cardSuggestions}
-                          notes={state.notes}
-                          onNotesChange={state.setNotes}
-                          config={config}
-                          onPrevStep={() => {}}
-                          onNextStep={() => {}}
-                        />
+                        <Suspense fallback={<div className="text-center py-8">جاري التحميل...</div>}>
+                          <CustomizationStep
+                            occasions={occasions}
+                            occasion={state.occasion}
+                            onOccasionChange={state.setOccasion}
+                            includeCard={state.includeCard}
+                            onIncludeCardChange={state.setIncludeCard}
+                            cardMessage={state.cardMessage}
+                            onCardMessageChange={state.setCardMessage}
+                            showSuggestions={state.showSuggestions}
+                            onShowSuggestionsToggle={() =>
+                              state.setShowSuggestions(!state.showSuggestions)
+                            }
+                            cardSuggestions={cardSuggestionsData.cardSuggestions}
+                            notes={state.notes}
+                            onNotesChange={state.setNotes}
+                            config={config}
+                            onPrevStep={() => {}}
+                            onNextStep={() => {}}
+                          />
+                        </Suspense>
                       )}
 
                       {state.step === 4 && (
-                        <DeliveryStep
-                          deliveryType={state.deliveryType}
-                          onDeliveryTypeChange={state.setDeliveryType}
-                          deliveryTimes={deliveryTimes}
-                          deliveryTime={state.deliveryTime}
-                          onDeliveryTimeChange={state.setDeliveryTime}
-                          deliveryDate={state.deliveryDate}
-                          onDeliveryDateChange={state.setDeliveryDate}
-                          isAddingToCart={state.isAddingToCart}
-                          onPrevStep={() => {}}
-                          onAddToCart={cartOps.addToCart}
-                        />
+                        <Suspense fallback={<div className="text-center py-8">جاري التحميل...</div>}>
+                          <DeliveryStep
+                            deliveryType={state.deliveryType}
+                            onDeliveryTypeChange={state.setDeliveryType}
+                            deliveryTimes={deliveryTimes}
+                            deliveryTime={state.deliveryTime}
+                            onDeliveryTimeChange={state.setDeliveryTime}
+                            deliveryDate={state.deliveryDate}
+                            onDeliveryDateChange={state.setDeliveryDate}
+                            isAddingToCart={state.isAddingToCart}
+                            onPrevStep={() => {}}
+                            onAddToCart={cartOps.addToCart}
+                          />
+                        </Suspense>
                       )}
                     </div>
                   )}
 
-                  {/* Navigation buttons - خارج الخلفية البيضاء */}
                   {(state.step === 2 || state.step === 3 || state.step === 4) && (
                     <div className="flex flex-row items-center justify-between gap-2 mt-4">
                       <button
@@ -436,31 +436,33 @@ function CustomBuilderContent() {
                   )}
                 </div>
 
-                <BouquetPreview
-                  bouquetImage={state.bouquetImage}
-                  total={prices.total}
-                  totalFlowersCount={prices.totalFlowersCount}
-                  packagingType={state.packagingType}
-                  style={state.style}
-                  selectedVase={state.selectedVase}
-                  stylePrice={prices.stylePrice}
-                  vasePrice={prices.vasePrice}
-                  flowersPrice={prices.flowersPrice}
-                  includeCard={state.includeCard}
-                  cardPrice={prices.cardPrice}
-                  vat={prices.vat}
-                  vases={vases}
-                  size={state.size}
-                  customFlowerCount={state.customFlowerCount}
-                  selectedFlowers={state.selectedFlowers}
-                  flowers={flowers}
-                  selectedColors={state.selectedColors}
-                  colors={colors}
-                  onSaveToFavorites={historyOps.saveToFavorites}
-                  onShareDesign={historyOps.shareDesign}
-                  getStyleLabel={getStyleLabel}
-                  getVaseName={getVaseName}
-                />
+                <Suspense fallback={<div className="text-center py-8">جاري تحميل المعاينة...</div>}>
+                  <BouquetPreview
+                    bouquetImage={state.bouquetImage}
+                    total={prices.total}
+                    totalFlowersCount={prices.totalFlowersCount}
+                    packagingType={state.packagingType}
+                    style={state.style}
+                    selectedVase={state.selectedVase}
+                    stylePrice={prices.stylePrice}
+                    vasePrice={prices.vasePrice}
+                    flowersPrice={prices.flowersPrice}
+                    includeCard={state.includeCard}
+                    cardPrice={prices.cardPrice}
+                    vat={prices.vat}
+                    vases={vases}
+                    size={state.size}
+                    customFlowerCount={state.customFlowerCount}
+                    selectedFlowers={state.selectedFlowers}
+                    flowers={flowers}
+                    selectedColors={state.selectedColors}
+                    colors={colors}
+                    onSaveToFavorites={historyOps.saveToFavorites}
+                    onShareDesign={historyOps.shareDesign}
+                    getStyleLabel={getStyleLabel}
+                    getVaseName={getVaseName}
+                  />
+                </Suspense>
               </div>
             </div>
           </section>

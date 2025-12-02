@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useId, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductCard from "@/src/components/ProductCard";
 import { Heart, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from "lucide-react";
@@ -135,6 +135,14 @@ export default function BouquetsListingClient({
       setShouldOpenTypeFilter(true);
     }
   }, [searchParams]);
+
+  // Scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [page]);
 
   // Removed outside click-to-close behavior; panel toggles only via header button or close icon
 

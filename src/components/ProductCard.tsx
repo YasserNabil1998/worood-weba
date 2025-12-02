@@ -2,17 +2,18 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useCallback, useState, memo } from "react";
 import { Heart } from "lucide-react";
 import { BouquetItem } from "@/src/@types/bouquets/index.type";
 import { useNotification } from "@/src/providers/notification-provider";
 import { useFavorites } from "@/src/hooks/useFavorites";
 import { QuickAddModal } from "@/src/components/product";
+import { logError } from "@/src/lib/logger";
 
 // Keep ProductItem for backward compatibility
 export type ProductItem = BouquetItem;
 
-export default function ProductCard({ item }: { item: BouquetItem }) {
+function ProductCard({ item }: { item: BouquetItem }) {
   const { showNotification } = useNotification();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
   const [isQuickAddOpen, setQuickAddOpen] = useState(false);
@@ -27,16 +28,15 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
         removeFromFavorites(itemId);
         showNotification("تم إزالة المنتج من المفضلة", "info");
       } else {
-        // تحويل item إلى النوع الصحيح المتوقع من useFavorites
         const favoriteItem: BouquetItem = {
           ...item,
-          id: itemId, // تأكد من أن id هو number
+          id: itemId,
         };
         addToFavorites(favoriteItem);
         showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
       }
     } catch (error) {
-      console.error("خطأ في تبديل المفضلة:", error);
+      logError("خطأ في تبديل المفضلة", error, { itemId, itemTitle: item.title });
       showNotification("حدث خطأ في تحديث المفضلة", "error");
     }
   }, [itemId, item, isFavorite, addToFavorites, removeFromFavorites, showNotification]);
@@ -144,3 +144,13 @@ export default function ProductCard({ item }: { item: BouquetItem }) {
     </>
   );
 }
+
+export default memo(ProductCard, (prevProps, nextProps) => {
+  // Custom comparison function for better performance
+  return (
+    prevProps.item.id === nextProps.item.id &&
+    prevProps.item.title === nextProps.item.title &&
+    prevProps.item.price === nextProps.item.price &&
+    prevProps.item.image === nextProps.item.image
+  );
+});

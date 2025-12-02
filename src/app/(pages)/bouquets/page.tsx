@@ -1,12 +1,29 @@
 import { Suspense } from "react";
+import Script from "next/script";
+import type { Metadata } from "next";
 import BouquetsListingClient from "@/src/components/BouquetsListingClient";
-import { BouquetItem } from "@/src/@types/bouquets/index.type";
 import { fetchBouquets } from "@/src/lib/api/bouquets";
+import { generateProductsMetadata } from "@/src/lib/seo/generateMetadata";
+import { generateBreadcrumbSchema } from "@/src/lib/structuredData";
+
+export const metadata: Metadata = generateProductsMetadata();
+
+// Generate Breadcrumb Schema
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: "الرئيسية", url: "https://shamsflowers.com/" },
+  { name: "الباقات الجاهزة", url: "https://shamsflowers.com/bouquets" },
+]);
 
 export default async function BouquetsPage() {
   const items = await fetchBouquets();
   return (
     <div className="min-h-screen bg-[#fbfaf2]" dir="rtl">
+      {/* Breadcrumb Schema for SEO */}
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <main>
         {/* Page Title Section */}
         <section className="pt-8 pb-4">

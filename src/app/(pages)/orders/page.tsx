@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useNotification } from "@/src/providers/notification-provider";
 import RatingPopup from "@/src/components/RatingPopup";
 import type { ReviewItem } from "@/types";
 import { addReview } from "@/src/actions/reviews-manager";
@@ -14,7 +13,6 @@ import OrderCard from "@/src/components/orders/OrderCard";
 
 export default function OrdersPage() {
   const { orders, filteredOrders, selectedStatus, setSelectedStatus } = useOrders();
-  const { showNotification } = useNotification();
 
   const [ratingPopup, setRatingPopup] = useState<{
     isOpen: boolean;

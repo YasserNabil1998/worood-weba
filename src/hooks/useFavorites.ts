@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS } from "@/src/constants";
 import { BouquetItem } from "@/src/@types/bouquets/index.type";
+import { logError } from "@/src/lib/logger";
 
 export function useFavorites() {
   const [favorites, setFavorites] = useState<BouquetItem[]>([]);
@@ -15,7 +16,7 @@ export function useFavorites() {
       const stored = storage.get<BouquetItem[]>(STORAGE_KEYS.FAVORITES, []);
       setFavorites(stored);
     } catch (error) {
-      console.error("خطأ في تحميل المفضلة:", error);
+      logError("خطأ في تحميل المفضلة", error);
       setFavorites([]);
     } finally {
       setLoading(false);

@@ -1,5 +1,6 @@
 import { useCallback } from "react";
-import { Flower } from "@/src/@types/custom/index.type";
+import { Flower, DesignHistoryItem } from "@/src/@types/custom/index.type";
+import { CustomBouquet } from "@/src/@types/favorites/CustomBouquet.type";
 import { storage } from "@/src/lib/utils";
 
 interface UseHistoryOperationsProps {
@@ -49,7 +50,7 @@ export function useHistoryOperations({
       timestamp: Date.now(),
     };
 
-    const history = storage.get<any[]>("designHistory", []);
+    const history = storage.get<DesignHistoryItem[]>("designHistory", []);
     history.unshift(designData);
 
     // Keep only last 50 designs
@@ -82,8 +83,9 @@ export function useHistoryOperations({
         .map(([id, quantity]) => {
           const flower = flowers.find((f) => f.id === Number(id));
           return { flower, quantity };
-        }),
-      colors: selectedColors,
+        })
+        .filter((item): item is { flower: Flower; quantity: number } => item.flower !== undefined),
+      colors: Object.values(selectedColors).flat().map(String),
       size,
       style,
       occasion,
@@ -93,9 +95,10 @@ export function useHistoryOperations({
       total,
       image: bouquetImage,
       timestamp: Date.now(),
+      createdAt: new Date().toISOString(),
     };
 
-    const favorites = storage.get<any[]>("bouquetFavorites", []);
+    const favorites = storage.get<CustomBouquet[]>("bouquetFavorites", []);
     favorites.push(designData);
     storage.set("bouquetFavorites", favorites);
 

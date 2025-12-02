@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { ReviewItem } from "@/types";
 import { getAllReviews } from "@/src/actions/reviews-manager";
 import { Star } from "lucide-react";
+import { logError } from "@/src/lib/logger";
 
 type CustomerReviewsSliderProps = {
   reviews?: ReviewItem[];
@@ -31,7 +32,7 @@ const CustomerReviewsSlider = ({
       const allReviews = getAllReviews();
       setReviews(allReviews);
     } catch (error) {
-      console.error("Error loading reviews:", error);
+      logError("Error loading reviews", error);
     } finally {
       setIsLoading(false);
     }

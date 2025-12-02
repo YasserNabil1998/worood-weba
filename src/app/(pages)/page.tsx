@@ -1,3 +1,4 @@
+import Script from "next/script";
 import HeroSection from "@/src/components/home/HeroSection";
 import OccasionsSection from "@/src/components/common/OccasionsSection";
 import FeaturedBouquets from "@/src/components/FeaturedBouquets";
@@ -7,6 +8,12 @@ import FeaturesSection from "@/src/components/FeaturesSection";
 import CustomerReviewsSlider from "@/src/components/home/CustomerReviewsSlider";
 import NewsletterSection from "@/src/components/NewsletterSection";
 import { fetchBouquets } from "@/src/lib/api/bouquets";
+import { generateBreadcrumbSchema } from "@/src/lib/structuredData";
+
+// Generate Breadcrumb Schema for home page
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: "الرئيسية", url: "https://shamsflowers.com/" },
+]);
 
 export default async function Home() {
   // جلب الباقات وتصفيتها لإظهار الأكثر طلباً
@@ -17,6 +24,12 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-[#fbfaf2]">
+      {/* Breadcrumb Schema for SEO */}
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <main>
         {/* 1. Hero Section - قسم البطل */}
         <HeroSection />

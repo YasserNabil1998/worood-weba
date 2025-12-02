@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, X, ShoppingCart, Trash2, Sparkles, Pencil } from "lucide-react";

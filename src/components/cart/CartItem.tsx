@@ -1,11 +1,6 @@
-/**
- * CartItem Component
- * مكون عرض عنصر في السلة
- */
-
 "use client";
 
-import { useState } from "react";
+import { useState, memo } from "react";
 import Image from "next/image";
 import { ChevronUp, ChevronDown, Pencil, Trash2 } from "lucide-react";
 import { CartItem as CartItemType } from "@/src/@types/cart/CartItem.type";
@@ -29,7 +24,7 @@ interface CartItemProps {
   onEdit: (item: CartItemType) => void;
 }
 
-export default function CartItem({
+function CartItem({
   item,
   isSelected,
   isExpanded,
@@ -111,7 +106,7 @@ export default function CartItem({
           {/* العنوان والأزرار في نفس السطر */}
           <div className="flex items-center justify-between gap-2 mb-2">
             <h3
-              className="font-bold text-gray-800 text-responsive-2xl line-clamp-2 flex-1 min-w-0"
+              className="font-bold text-gray-800 text-responsive-xl line-clamp-2 flex-1 min-w-0"
               style={{ fontFamily: "var(--font-almarai)" }}
             >
               {item.title}
@@ -341,3 +336,13 @@ export default function CartItem({
     </div>
   );
 }
+
+export default memo(CartItem, (prevProps, nextProps) => {
+  // Custom comparison function for better performance
+  return (
+    prevProps.item.id === nextProps.item.id &&
+    prevProps.item.quantity === nextProps.item.quantity &&
+    prevProps.isSelected === nextProps.isSelected &&
+    prevProps.isExpanded === nextProps.isExpanded
+  );
+});

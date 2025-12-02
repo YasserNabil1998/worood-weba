@@ -8,6 +8,7 @@ import { useFavorites } from "@/src/hooks/useFavorites";
 import { useNotification } from "@/src/providers/notification-provider";
 import { BouquetItem } from "@/src/@types/bouquets/index.type";
 import { ROUTES } from "@/src/constants/routes";
+import { logError } from "@/src/lib/logger";
 
 interface Product {
   id: number;
@@ -173,7 +174,7 @@ const ProductsSlider = () => {
           showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
         }
       } catch (error) {
-        console.error("خطأ في تبديل المفضلة:", error);
+        logError("خطأ في تبديل المفضلة", error, { productId: product.id, productTitle: product.title });
         showNotification("حدث خطأ في تحديث المفضلة", "error");
       }
     },

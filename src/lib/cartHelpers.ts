@@ -1,8 +1,3 @@
-/**
- * Cart Helper Functions
- * دوال مساعدة لعمليات السلة
- */
-
 import {
   CartItem,
   CartTotals,
@@ -12,18 +7,10 @@ import {
 } from "@/src/@types/cart/CartItem.type";
 import { APP_CONFIG } from "@/src/constants";
 
-/**
- * الحصول على المعرف الفريد للعنصر
- * Get unique identifier for cart item
- */
 export function getItemId(item: CartItem): string | number {
   return hasUniqueKey(item) ? item.uniqueKey : item.id;
 }
 
-/**
- * حساب سعر العنصر الواحد
- * Calculate single item price
- */
 export function getItemPrice(item: CartItem): number {
   if (isCustomBouquet(item)) {
     return item.price || 0;
@@ -31,20 +18,12 @@ export function getItemPrice(item: CartItem): number {
   return item.total || item.price || 0;
 }
 
-/**
- * حساب إجمالي سعر العنصر مع الكمية
- * Calculate total price for item with quantity
- */
 export function getItemTotal(item: CartItem): number {
   const price = getItemPrice(item);
   const quantity = item.quantity || 1;
   return price * quantity;
 }
 
-/**
- * حساب إجماليات السلة
- * Calculate cart totals
- */
 export function calculateCartTotals(
   items: CartItem[],
   selectedItemIds: Set<string | number>
@@ -54,13 +33,13 @@ export function calculateCartTotals(
     return selectedItemIds.has(itemId);
   });
 
-  const subtotal = selectedItems.reduce((sum, item) => {
-    return sum + getItemTotal(item);
-  }, 0);
-
-  const totalItemsCount = selectedItems.reduce((sum, item) => {
-    return sum + (item.quantity || 1);
-  }, 0);
+  const { subtotal, totalItemsCount } = selectedItems.reduce(
+    (acc, item) => ({
+      subtotal: acc.subtotal + getItemTotal(item),
+      totalItemsCount: acc.totalItemsCount + (item.quantity || 1),
+    }),
+    { subtotal: 0, totalItemsCount: 0 }
+  );
 
   const vat = subtotal * APP_CONFIG.VAT_RATE;
   const total = subtotal + vat;
@@ -247,9 +226,8 @@ export function getUnselectedCount(
   items: CartItem[],
   selectedItemIds: Set<string | number>
 ): number {
-  const selectedCount = items.filter((item) => {
+  return items.reduce((count, item) => {
     const itemId = getItemId(item);
-    return selectedItemIds.has(itemId);
-  }).length;
-  return items.length - selectedCount;
+    return selectedItemIds.has(itemId) ? count : count + 1;
+  }, 0);
 }
