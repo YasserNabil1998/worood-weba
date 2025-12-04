@@ -27,9 +27,9 @@ export default function SizeSelector({
                 : "border-gray-300 text-gray-700 hover:border-[#5A5E4D]"
             }`}
           >
-            <div className="font-medium text-xs">{size.label}</div>
+            <div className="font-medium text-responsive-xs">{size.label}</div>
             {size.price > 0 && (
-              <div className="text-[10px] mt-0.5">
+              <div className="text-responsive-xs mt-0.5">
                 +{size.price} {currency}
               </div>
             )}

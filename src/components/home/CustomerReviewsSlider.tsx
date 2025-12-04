@@ -4,7 +4,11 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import type { ReviewItem } from "@/types";
 import { getAllReviews } from "@/src/actions/reviews-manager";
-import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star } from "lucide-react";
+import { logError } from "@/src/lib/logger";
+import { fontStyle } from "@/src/lib/styles";
+import { INTERVALS, UI_TEXTS } from "@/src/constants";
+import AOSWrapper from "@/src/components/common/AOSWrapper";
 
 type CustomerReviewsSliderProps = {
   reviews?: ReviewItem[];
@@ -31,7 +35,7 @@ const CustomerReviewsSlider = ({
       const allReviews = getAllReviews();
       setReviews(allReviews);
     } catch (error) {
-      console.error("Error loading reviews:", error);
+      logError("Error loading reviews", error);
     } finally {
       setIsLoading(false);
     }
@@ -64,25 +68,12 @@ const CustomerReviewsSlider = ({
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % (reviews.length - visibleCount + 1));
-    }, 4000);
+    }, INTERVALS.REVIEWS_SLIDER);
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, reviews.length, visibleCount]);
 
   const finalIsLoading = propIsLoading || isLoading;
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % (reviews.length - visibleCount + 1));
-    setIsAutoPlaying(false);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide(
-      (prev) =>
-        (prev - 1 + (reviews.length - visibleCount + 1)) % (reviews.length - visibleCount + 1)
-    );
-    setIsAutoPlaying(false);
-  };
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
@@ -99,8 +90,8 @@ const CustomerReviewsSlider = ({
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="text-gray-600" style={{ fontFamily: "var(--font-almarai)" }}>
-              جاري التحميل...
+            <div className="text-gray-600" style={fontStyle}>
+              {UI_TEXTS.LOADING}
             </div>
           </div>
         </div>
@@ -113,14 +104,11 @@ const CustomerReviewsSlider = ({
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2
-              className="text-3xl md:text-4xl font-bold text-gray-800 mb-4"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4" style={fontStyle}>
               آراء عملائنا
             </h2>
-            <p className="text-gray-600" style={{ fontFamily: "var(--font-almarai)" }}>
-              لا توجد تقييمات متاحة حالياً
+            <p className="text-gray-600" style={fontStyle}>
+              {UI_TEXTS.NO_REVIEWS_AVAILABLE}
             </p>
           </div>
         </div>
@@ -132,43 +120,19 @@ const CustomerReviewsSlider = ({
   const visibleReviews = reviews.slice(currentSlide, currentSlide + visibleCount);
   // Determine which item is the visual center
   const centerIndex = Math.floor(visibleCount / 2);
-  const showNavigation = reviews.length > visibleCount;
 
   return (
     <section className="py-12 sm:py-14 md:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+        {/* Header - matching Figma: 30px, Almarai Bold */}
         <div className="text-right mb-8 sm:mb-10 md:mb-12">
-          <h2
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
-            آراء عملائنا
+          <h2 className="text-[28px] sm:text-[30px] font-bold text-black" style={fontStyle}>
+            أراء عملائنا
           </h2>
         </div>
 
         {/* Slider Container */}
         <div className="relative">
-          {/* Navigation Buttons - Inside the container */}
-          {showNavigation && (
-            <>
-              <button
-                onClick={prevSlide}
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-20 cursor-pointer"
-                aria-label="Previous"
-              >
-                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
-              <button
-                onClick={nextSlide}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-gray-50 text-gray-800 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 z-20 cursor-pointer"
-                aria-label="Next"
-              >
-                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
-            </>
-          )}
-
           {/* Reviews Grid */}
           <div
             className={`grid gap-4 sm:gap-6 ${
@@ -178,47 +142,22 @@ const CustomerReviewsSlider = ({
             {visibleReviews.map((review, idx) => {
               const isCenter = visibleCount === 1 ? true : idx === centerIndex;
               return (
-                <div
+                <AOSWrapper
                   key={review.id}
-                  className={`bg-white rounded-xl p-4 sm:p-6 h-56 sm:h-64 flex flex-col transition-all duration-300 ease-out hover:-translate-y-1 ${
-                    isCenter
-                      ? "scale-105 md:scale-110 z-10 shadow-xl translate-y-0"
-                      : "scale-95 opacity-90 shadow-lg translate-y-1 sm:translate-y-2"
-                  }`}
+                  animation="fade-up"
+                  delay={idx * 100}
+                  duration={600}
                 >
-                  <div className="flex items-start justify-between mb-4 flex-shrink-0">
-                    <div className="flex-1">
-                      <h3
-                        className="text-lg font-bold text-gray-800 mb-2"
-                        style={{
-                          fontFamily: "var(--font-almarai)",
-                        }}
-                      >
-                        {review.customerName}
-                      </h3>
-                      {review.productName && (
-                        <p
-                          className="text-sm text-gray-600 mb-2"
-                          style={{
-                            fontFamily: "var(--font-almarai)",
-                          }}
-                        >
-                          طلب: {review.productName}
-                        </p>
-                      )}
-                      <div className="flex items-center mb-3">{renderStars(review.rating)}</div>
-                      {review.date && (
-                        <p
-                          className="text-xs text-gray-500"
-                          style={{
-                            fontFamily: "var(--font-almarai)",
-                          }}
-                        >
-                          {review.date}
-                        </p>
-                      )}
-                    </div>
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                  <div
+                    className={`bg-white rounded-[12px] p-6 pb-12 h-[160px] flex flex-col transition-all duration-300 ease-out shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1),0px_4px_6px_-1px_rgba(0,0,0,0.1)] ${
+                      isCenter
+                        ? "scale-105 md:scale-110 z-10 shadow-xl translate-y-0"
+                        : "scale-95 opacity-90 shadow-lg translate-y-1 sm:translate-y-2"
+                    }`}
+                  >
+                  <div className="flex items-center justify-start mb-4 flex-shrink-0 gap-4">
+                    {/* Avatar - matching Figma: 48px circle, bg-[rgba(227,230,216,0.9)] */}
+                    <div className="w-12 h-12 bg-[rgba(227,230,216,0.9)] rounded-full flex items-center justify-center flex-shrink-0">
                       {review.customerImage ? (
                         <Image
                           src={review.customerImage}
@@ -230,7 +169,7 @@ const CustomerReviewsSlider = ({
                         />
                       ) : (
                         <span
-                          className="text-green-600 font-bold text-lg"
+                          className="text-gray-600 font-bold text-lg"
                           style={{
                             fontFamily: "var(--font-almarai)",
                           }}
@@ -239,44 +178,41 @@ const CustomerReviewsSlider = ({
                         </span>
                       )}
                     </div>
+                    <div className="text-right mt-2">
+                      {/* Name - matching Figma: 16px, Almarai Bold, gray-800 */}
+                      <h3
+                        className="text-[16px] font-bold text-gray-800 mb-2"
+                        style={{
+                          fontFamily: "var(--font-almarai)",
+                        }}
+                      >
+                        {review.customerName}
+                      </h3>
+                      {/* Stars - matching Figma */}
+                      <div className="flex items-center justify-end gap-1">
+                        {renderStars(review.rating)}
+                      </div>
+                    </div>
                   </div>
+                  {/* Comment - matching Figma: 16px, Almarai Regular, gray-600 */}
                   <div className="flex-1 flex flex-col justify-center">
                     <p
-                      className="text-gray-700 leading-relaxed text-sm overflow-hidden"
+                      className="text-gray-600 leading-[24px] text-[16px] overflow-hidden text-right"
                       style={{
                         fontFamily: "var(--font-almarai)",
                         display: "-webkit-box",
-                        WebkitLineClamp: 4,
+                        WebkitLineClamp: 2,
                         WebkitBoxOrient: "vertical",
                       }}
                     >
-                      "{review.comment}"
+                      {review.comment}
                     </p>
                   </div>
                 </div>
+                </AOSWrapper>
               );
             })}
           </div>
-
-          {/* Dots Indicator */}
-          {showNavigation && (
-            <div className="flex justify-center mt-6 sm:mt-8 space-x-2">
-              {Array.from({ length: reviews.length - visibleCount + 1 }, (_, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    setCurrentSlide(index);
-                    setIsAutoPlaying(false);
-                  }}
-                  className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
-                    index === currentSlide
-                      ? "bg-[#5A5E4D] scale-125"
-                      : "bg-gray-300 hover:bg-gray-400"
-                  }`}
-                />
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </section>

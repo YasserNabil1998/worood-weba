@@ -55,3 +55,18 @@ export interface FlowerWithQuantity {
   flower: Flower;
   quantity: number;
 }
+
+// Design history item for saving custom bouquet designs
+export interface DesignHistoryItem {
+  flowers: Record<number, number>;
+  colors: { [flowerId: string]: number[] };
+  size: "small" | "medium" | "large" | "custom";
+  style: "classic" | "premium" | "gift" | "eco";
+  occasion: string;
+  cardMessage: string;
+  includeCard: boolean;
+  notes: string;
+  total: number;
+  image: string;
+  timestamp: number;
+}

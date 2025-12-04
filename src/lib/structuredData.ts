@@ -1,44 +1,26 @@
-/**
- * Structured Data (JSON-LD) Helper Functions
- * لمساعدة محركات البحث على فهم محتوى الموقع بشكل أفضل
- */
-
-/**
- * Organization Schema
- * معلومات المنظمة/الشركة
- */
 export function generateOrganizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "زهور الشمس",
     alternateName: "Shams Flowers",
-    url: "https://shamsflowers.com", // استبدل بالـ URL الحقيقي
+    url: "https://shamsflowers.com",
     logo: "https://shamsflowers.com/Logo-shams.svg",
     description: "نقدم لكم أرقى تشكيلة من باقات الزهور المميزة والفريدة لجميع المناسبات",
     address: {
       "@type": "PostalAddress",
       addressCountry: "SA",
-      addressLocality: "الرياض", // حدّث حسب موقعك الفعلي
+      addressLocality: "الرياض",
     },
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
       availableLanguage: ["Arabic", "ar"],
     },
-    sameAs: [
-      // أضف روابط وسائل التواصل الاجتماعي هنا
-      // "https://facebook.com/shamsflowers",
-      // "https://twitter.com/shamsflowers",
-      // "https://instagram.com/shamsflowers",
-    ],
+    sameAs: [],
   };
 }
 
-/**
- * Product Schema
- * schema للمنتج الفردي
- */
 export function generateProductSchema(product: {
   id: number | string;
   name: string;
@@ -85,10 +67,6 @@ export function generateProductSchema(product: {
   return schema;
 }
 
-/**
- * Breadcrumb List Schema
- * للـ breadcrumb navigation
- */
 export function generateBreadcrumbSchema(items: Array<{ name: string; url: string }>) {
   return {
     "@context": "https://schema.org",
@@ -102,10 +80,6 @@ export function generateBreadcrumbSchema(items: Array<{ name: string; url: strin
   };
 }
 
-/**
- * Local Business Schema
- * إذا كان لديك متجر فعلي
- */
 export function generateLocalBusinessSchema(options?: {
   address?: string;
   phone?: string;
@@ -156,10 +130,6 @@ export function generateWebsiteSchema() {
   };
 }
 
-/**
- * FAQ Schema
- * للأسئلة الشائعة
- */
 export function generateFAQSchema(faqs: Array<{ question: string; answer: string }>) {
   return {
     "@context": "https://schema.org",
@@ -175,10 +145,6 @@ export function generateFAQSchema(faqs: Array<{ question: string; answer: string
   };
 }
 
-/**
- * Review Schema
- * تقييم/مراجعة
- */
 export function generateReviewSchema(review: {
   author: string;
   rating: number;

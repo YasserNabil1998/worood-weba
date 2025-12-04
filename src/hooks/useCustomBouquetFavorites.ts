@@ -1,14 +1,17 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { storage } from "@/src/lib/utils";
 import { STORAGE_KEYS } from "@/src/constants";
 import { CustomBouquet } from "@/src/@types/favorites/CustomBouquet.type";
 import { useCart } from "./useCart";
 import { useNotification } from "@/src/providers/notification-provider";
 import { CART_ROUTES } from "@/src/constants/cart";
+import { logError } from "@/src/lib/logger";
 
 export function useCustomBouquetFavorites() {
+  const router = useRouter();
   const [customBouquets, setCustomBouquets] = useState<CustomBouquet[]>([]);
   const [loading, setLoading] = useState(true);
   const { addItem } = useCart();
@@ -20,7 +23,7 @@ export function useCustomBouquetFavorites() {
       const stored = storage.get<CustomBouquet[]>(STORAGE_KEYS.BOUQUET_FAVORITES, []);
       setCustomBouquets(stored);
     } catch (error) {
-      console.error("خطأ في تحميل التصاميم المخصصة:", error);
+      logError("خطأ في تحميل التصاميم المخصصة", error);
       setCustomBouquets([]);
     } finally {
       setLoading(false);
@@ -83,7 +86,7 @@ export function useCustomBouquetFavorites() {
         showNotification("تم إضافة الباقة إلى السلة!", "success");
         return true;
       } catch (error) {
-        console.error("خطأ في إضافة الباقة للسلة:", error);
+        logError("خطأ في إضافة الباقة للسلة", error, { bouquetId: bouquet.id });
         showNotification("حدث خطأ في إضافة الباقة إلى السلة", "error");
         return false;
       }
@@ -127,13 +130,13 @@ export function useCustomBouquetFavorites() {
 
         // الانتقال إلى صفحة التنسيق الخاص مع البيانات
         const encodedData = encodeURIComponent(JSON.stringify(editData));
-        window.location.href = `${CART_ROUTES.CUSTOM}?design=${encodedData}&editFromFavorites=true&favoriteId=${bouquet.id}`;
+        router.push(`${CART_ROUTES.CUSTOM}?design=${encodedData}&editFromFavorites=true&favoriteId=${bouquet.id}`);
       } catch (error) {
-        console.error("خطأ في تعديل الباقة:", error);
+        logError("خطأ في تعديل الباقة", error, { bouquetId: bouquet.id });
         showNotification("حدث خطأ في تعديل الباقة", "error");
       }
     },
-    [showNotification]
+    [router, showNotification]
   );
 
   return {

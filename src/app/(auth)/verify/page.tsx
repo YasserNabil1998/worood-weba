@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { fontStyle } from "@/src/lib/styles";
+import { TIMEOUTS } from "@/src/constants";
 
 export default function VerifyPage() {
   const [phone, setPhone] = useState("");
@@ -29,7 +31,7 @@ export default function VerifyPage() {
     }
     setError("");
     setSubmitting(true);
-    setTimeout(() => setSubmitting(false), 600);
+    setTimeout(() => setSubmitting(false), TIMEOUTS.FORM_SUBMIT_RESET);
   };
 
   return (
@@ -38,7 +40,7 @@ export default function VerifyPage() {
         <div className="flex justify-center">
           <Image src="/Logo-shams.svg" alt="شعار الموقع" width={120} height={60} priority />
         </div>
-        <p className="mt-2 text-sm text-gray-600" style={{ fontFamily: "var(--font-almarai)" }}>
+        <p className="mt-2 text-sm text-gray-600" style={fontStyle}>
           مرحبًا بك في زهور الشمس
         </p>
       </div>

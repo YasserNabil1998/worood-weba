@@ -4,6 +4,7 @@ import { useState } from "react";
 import isValidEmail from "@/src/validations/isValidEmail";
 import Link from "next/link";
 import Image from "next/image";
+import { fontStyle } from "@/src/lib/styles";
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -57,7 +58,7 @@ export default function LoginPage() {
         <div className="flex justify-center">
           <Image src="/Logo-shams.svg" alt="شعار الموقع" width={120} height={60} priority />
         </div>
-        <p className="mt-2 text-sm text-gray-600" style={{ fontFamily: "var(--font-almarai)" }}>
+        <p className="mt-2 text-sm text-gray-600" style={fontStyle}>
           مرحبًا بعودتك
         </p>
       </div>

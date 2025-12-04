@@ -5,6 +5,7 @@ import { useCart } from "@/src/hooks/useCart";
 import { generateProductKey, ProductInput } from "@/src/lib/cartUtils";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { Minus, Plus } from "lucide-react";
+import { fontStyle } from "@/src/lib/styles";
 
 interface QuantitySelectorProps {
   itemId: string | number;
@@ -114,28 +115,22 @@ export default function QuantitySelector({
       <button
         onClick={handleDecrease}
         disabled={quantity <= 1}
-        className="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 text-gray-600 rounded-lg border border-gray-200 transition-colors"
+        className="min-w-[44px] min-h-[44px] w-[44px] h-[44px] flex items-center justify-center bg-white border border-[gainsboro] rounded-[5px] disabled:opacity-50 transition-opacity"
         aria-label="تقليل الكمية"
       >
-        <Minus className="w-4 h-4" />
+        <div className="w-[14px] h-[2px] bg-[#5a5e4d]"></div>
       </button>
-      <input
-        type="number"
-        value={inputValue}
-        onChange={handleInputChange}
-        onBlur={handleInputBlur}
-        min="1"
-        max={maxQuantity}
-        className="w-16 text-center bg-white border border-gray-200 rounded-lg px-2 py-1 text-sm font-medium text-[#5A5E4D] focus:outline-none focus:border-[#5A5E4D] focus:ring-1 focus:ring-[#5A5E4D]/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-        aria-label="كمية المنتج"
-      />
+      <span className="text-responsive-xl font-bold text-black mx-2 min-w-[20px] text-center" style={fontStyle}>
+        {quantity}
+      </span>
       <button
         onClick={handleIncrease}
         disabled={isMaxReached}
-        className="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 text-gray-600 rounded-lg border border-gray-200 transition-colors"
+        className="min-w-[44px] min-h-[44px] w-[44px] h-[44px] flex items-center justify-center bg-white border border-[gainsboro] rounded-[5px] disabled:opacity-50 transition-opacity relative"
         aria-label="زيادة الكمية"
       >
-        <Plus className="w-4 h-4" />
+        <div className="w-[14px] h-[2px] bg-[#5a5e4d]"></div>
+        <div className="absolute w-[2px] h-[13px] bg-[#5a5e4d]"></div>
       </button>
     </div>
   );

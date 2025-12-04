@@ -1,16 +1,7 @@
-/**
- * دوال مساعدة عامة
- * General Utility Functions
- */
+import { logWarn, logError } from "./logger";
+import { ARABIC_MONTHS } from "@/src/constants";
 
-/**
- * معالجة آمنة للـ localStorage
- * Safe localStorage handling
- */
 export const storage = {
-  /**
-   * قراءة قيمة من localStorage
-   */
   get: <T>(key: string, defaultValue: T): T => {
     if (typeof window === "undefined") return defaultValue;
     try {
@@ -19,24 +10,24 @@ export const storage = {
 
       const parsed = JSON.parse(item);
 
-      // التحقق من أن النوع يطابق القيمة الافتراضية
       if (Array.isArray(defaultValue) && !Array.isArray(parsed)) {
-        console.warn(
-          `Expected array for key "${key}", got ${typeof parsed}. Resetting to default.`
+        logWarn(
+          `Expected array for key "${key}", got ${typeof parsed}. Resetting to default.`,
+          { key, parsedType: typeof parsed }
         );
         localStorage.setItem(key, JSON.stringify(defaultValue));
         return defaultValue;
       }
 
-      // التحقق من نوع object
       if (
         defaultValue !== null &&
         typeof defaultValue === "object" &&
         !Array.isArray(defaultValue)
       ) {
         if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
-          console.warn(
-            `Expected object for key "${key}", got ${Array.isArray(parsed) ? "array" : typeof parsed}. Resetting to default.`
+          logWarn(
+            `Expected object for key "${key}", got ${Array.isArray(parsed) ? "array" : typeof parsed}. Resetting to default.`,
+            { key, parsedType: Array.isArray(parsed) ? "array" : typeof parsed }
           );
           localStorage.setItem(key, JSON.stringify(defaultValue));
           return defaultValue;
@@ -45,78 +36,53 @@ export const storage = {
 
       return parsed;
     } catch (error) {
-      console.warn(`Error reading localStorage key "${key}":`, error);
-      // في حالة وجود خطأ في التحليل، نعيد تعيين القيمة الافتراضية
+      logWarn(`Error reading localStorage key "${key}"`, { error, key });
       try {
         localStorage.setItem(key, JSON.stringify(defaultValue));
       } catch (e) {
-        console.error(`Failed to reset localStorage key "${key}":`, e);
+        logError(`Failed to reset localStorage key "${key}"`, e, { key });
       }
       return defaultValue;
     }
   },
 
-  /**
-   * حفظ قيمة في localStorage
-   */
   set: <T>(key: string, value: T): boolean => {
     if (typeof window === "undefined") return false;
     try {
       localStorage.setItem(key, JSON.stringify(value));
       return true;
     } catch (error) {
-      console.error(`Error writing to localStorage key "${key}":`, error);
+      logError(`Error writing to localStorage key "${key}"`, error, { key });
       return false;
     }
   },
 
-  /**
-   * حذف قيمة من localStorage
-   */
   remove: (key: string): boolean => {
     if (typeof window === "undefined") return false;
     try {
       localStorage.removeItem(key);
       return true;
     } catch (error) {
-      console.error(`Error removing localStorage key "${key}":`, error);
+      logError(`Error removing localStorage key "${key}"`, error, { key });
       return false;
     }
   },
 };
 
-/**
- * تنسيق السعر
- */
-export const formatPrice = (price: number, currency: string = "ر.س"): string => {
-  return `${price} ${currency}`;
-};
 
-/**
- * حساب الضريبة
- */
 export const calculateVAT = (price: number, rate: number = 0.15): number => {
   return Number((price * rate).toFixed(2));
 };
 
-/**
- * حساب الإجمالي مع الضريبة
- */
 export const calculateTotalWithVAT = (price: number, rate: number = 0.15): number => {
   return Number((price + calculateVAT(price, rate)).toFixed(2));
 };
 
-/**
- * اختصار النص
- */
 export const truncate = (text: string, length: number = 50): string => {
   if (text.length <= length) return text;
   return text.substring(0, length) + "...";
 };
 
-/**
- * تنسيق التاريخ
- */
 export const formatDate = (date: string | Date): string => {
   const d = typeof date === "string" ? new Date(date) : date;
   return new Intl.DateTimeFormat("ar-SA", {
@@ -126,40 +92,84 @@ export const formatDate = (date: string | Date): string => {
   }).format(d);
 };
 
-/**
- * الحصول على التاريخ بالعربية
- */
 export const getArabicDate = (): string => {
   const date = new Date();
-  // استخدام dynamic import لتجنب circular dependency
-  const ARABIC_MONTHS = [
-    "يناير",
-    "فبراير",
-    "مارس",
-    "أبريل",
-    "مايو",
-    "يونيو",
-    "يوليو",
-    "أغسطس",
-    "سبتمبر",
-    "أكتوبر",
-    "نوفمبر",
-    "ديسمبر",
-  ];
   return `${date.getDate()} ${ARABIC_MONTHS[date.getMonth()]} ${date.getFullYear()}`;
 };
 
-/**
- * توليد معرف فريد
- */
+export const formatDateToArabic = (isoDate: string): string => {
+  if (!isoDate) return "";
+  const date = new Date(isoDate + "T00:00:00");
+  if (isNaN(date.getTime())) return "";
+  
+  const day = date.getDate();
+  const month = ARABIC_MONTHS[date.getMonth()];
+  const year = date.getFullYear();
+  
+  return `${day} ${month} ${year}`;
+};
+
+export const formatTimeToArabic = (time: string): string => {
+  if (!time) return "";
+  
+  const timeRegex = /^(\d{1,2}):(\d{2})$/;
+  const match = time.match(timeRegex);
+  
+  if (!match) {
+    if (time.includes("ص") || time.includes("م")) {
+      return time;
+    }
+    return "";
+  }
+  
+  const hour = parseInt(match[1], 10);
+  const minute = parseInt(match[2], 10);
+  const period = hour < 12 ? "ص" : "م";
+  
+  let displayHour = hour;
+  if (hour === 0) {
+    displayHour = 12;
+  } else if (hour > 12) {
+    displayHour = hour - 12;
+  }
+  
+  return `${displayHour.toString().padStart(2, "0")} : ${minute.toString().padStart(2, "0")} ${period}`;
+};
+
+export const formatTimeToHTML = (arabicTime: string): string => {
+  if (!arabicTime) return "";
+  
+  const timeRegex = /^(\d{1,2}):(\d{2})$/;
+  if (timeRegex.test(arabicTime)) {
+    return arabicTime;
+  }
+  
+  const match = arabicTime.match(/(\d{1,2})\s*:\s*(\d{2})\s*(ص|م)/);
+  
+  if (!match) return "";
+  
+  let hour = parseInt(match[1], 10);
+  const minute = parseInt(match[2], 10);
+  const period = match[3];
+  
+  if (period === "ص") {
+    if (hour === 12) {
+      hour = 0;
+    }
+  } else if (period === "م") {
+    if (hour !== 12) {
+      hour += 12;
+    }
+  }
+  
+  return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+};
+
 export const generateId = (): string => {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
 };
 
-/**
- * Debounce للبحث والإدخال
- */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -170,10 +180,6 @@ export function debounce<T extends (...args: any[]) => any>(
   };
 }
 
-/**
- * دمج class names مع clsx
- * Combine class names with clsx
- */
 export function cn(
   ...classes: (string | undefined | null | false | Record<string, boolean>)[]
 ): string {

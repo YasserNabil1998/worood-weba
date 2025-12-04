@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, memo } from "react";
 import ProductCard from "@/src/components/ProductCard";
 
 export type BouquetCardItem = {
@@ -22,7 +22,7 @@ const SORTS = [
   { key: "newest", label: "الأحدث" },
 ];
 
-export default function BouquetsGrid({ items }: Props) {
+function BouquetsGrid({ items }: Props) {
   const [sort, setSort] = useState<string>("popular");
 
   const sorted = useMemo(() => {
@@ -76,3 +76,19 @@ export default function BouquetsGrid({ items }: Props) {
     </div>
   );
 }
+
+export default memo(BouquetsGrid, (prevProps, nextProps) => {
+  // Only re-render if items array reference changes or length changes
+  return (
+    prevProps.items.length === nextProps.items.length &&
+    prevProps.items.every((item, index) => {
+      const nextItem = nextProps.items[index];
+      return (
+        item.id === nextItem.id &&
+        item.title === nextItem.title &&
+        item.price === nextItem.price &&
+        item.image === nextItem.image
+      );
+    })
+  );
+});

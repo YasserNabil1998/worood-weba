@@ -1,6 +1,7 @@
 import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { CheckoutTotals } from "@/src/@types/checkout/CheckoutForm.type";
 import { APP_CONFIG, COLORS } from "@/src/constants";
+import { fontStyle } from "@/src/lib/styles";
 
 interface OrderSummaryProps {
   items: CartItem[];
@@ -16,11 +17,8 @@ export default function OrderSummary({
   isSubmitting,
 }: OrderSummaryProps) {
   return (
-    <aside className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 h-fit lg:sticky lg:top-24">
-      <h2
-        className="text-lg font-semibold mb-6 text-gray-800"
-        style={{ fontFamily: "var(--font-almarai)" }}
-      >
+    <aside className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 h-fit lg:sticky lg:top-24 lg:self-start lg:z-10" data-aos="none">
+      <h2 className="text-lg font-semibold mb-6 text-gray-800" style={fontStyle}>
         ملخص الطلب
       </h2>
 
@@ -98,7 +96,7 @@ export default function OrderSummary({
             ? "bg-gray-400 text-gray-200 cursor-not-allowed"
             : "bg-[#5A5E4D] text-white hover:bg-[#4A4E3D] hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
         }`}
-        style={{ fontFamily: "var(--font-almarai)" }}
+        style={fontStyle}
       >
         {isSubmitting ? (
           <span className="flex items-center justify-center gap-2">

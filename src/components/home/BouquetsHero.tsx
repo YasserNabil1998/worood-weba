@@ -11,7 +11,7 @@ export default function BouquetsHero() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative h-[400px] rounded-xl overflow-hidden">
           <Image
-            src="/images/hero/DIV-133.png"
+            src="/assets/home/hero-home/hero-home.png"
             alt="متجر زهور"
             fill
             className="object-cover"

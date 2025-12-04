@@ -4,6 +4,7 @@
  */
 
 export interface Address {
+  recipientName?: string;
   city: string;
   district: string;
   street: string;

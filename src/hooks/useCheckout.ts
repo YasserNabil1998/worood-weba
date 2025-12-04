@@ -13,21 +13,15 @@ import {
 } from "@/src/@types/checkout/CheckoutForm.type";
 import { validateCheckoutForm, isFormValid } from "@/src/validations/checkoutValidation";
 import { createOrderFromCheckoutItems } from "@/src/lib/ordersHelpers";
-
-/**
- * حساب سعر عنصر checkout
- */
-function getCheckoutItemPrice(item: CartItem): number {
-  if (item.isCustom) {
-    return item.price ?? 0;
-  }
-  return item.total ?? item.price ?? 0;
-}
+import { handleAndLogError } from "@/src/lib/errors";
+import { ErrorCode } from "@/src/lib/errors/errorTypes";
+import { getItemPrice } from "@/src/lib/cartHelpers";
 
 export function useCheckout() {
   const [items, setItems] = useState<CartItem[]>([]);
   const [formData, setFormData] = useState<CheckoutFormData>({
     address: {
+      recipientName: "",
       city: "",
       district: "",
       street: "",
@@ -53,7 +47,6 @@ export function useCheckout() {
         const checkoutItems = storage.get(STORAGE_KEYS.CHECKOUT_ITEMS, []);
         const safeItems = Array.isArray(checkoutItems) ? checkoutItems : [];
 
-        // إزالة العناصر المكررة بناءً على id
         const uniqueItems = safeItems.filter(
           (item: CartItem, index: number, self: CartItem[]) =>
             index === self.findIndex((t: CartItem) => t.id === item.id)
@@ -67,7 +60,11 @@ export function useCheckout() {
 
         setItems(uniqueItems);
       } catch (error) {
-        console.error("خطأ في تحميل المنتجات:", error);
+        const checkoutItems = storage.get(STORAGE_KEYS.CHECKOUT_ITEMS, []);
+        const safeItems = Array.isArray(checkoutItems) ? checkoutItems : [];
+        handleAndLogError(error, "خطأ في تحميل المنتجات", ErrorCode.CHECKOUT_VALIDATION_ERROR, {
+          checkoutItemsCount: safeItems.length,
+        });
         showNotification("خطأ في تحميل المنتجات", "error", 4000);
         router.push("/cart");
       } finally {
@@ -80,7 +77,7 @@ export function useCheckout() {
 
   const totals = useMemo((): CheckoutTotals => {
     const subtotal = items.reduce((sum, item) => {
-      return sum + getCheckoutItemPrice(item);
+      return sum + getItemPrice(item);
     }, 0);
     const vat = Math.round(subtotal * APP_CONFIG.VAT_RATE);
     const grand = subtotal + vat;
@@ -91,7 +88,6 @@ export function useCheckout() {
   const updateFormData = useCallback((updates: Partial<CheckoutFormData>) => {
     setFormData((prev) => ({ ...prev, ...updates }));
 
-    // مسح الأخطاء عند تحديث البيانات
     setErrors((prev) => {
       if (Object.keys(prev.address).length > 0 || prev.general) {
         return { address: {} };
@@ -106,7 +102,6 @@ export function useCheckout() {
       address: { ...prev.address, ...addressUpdates },
     }));
 
-    // مسح أخطاء العنوان عند التحديث
     setErrors((prev) => ({
       ...prev,
       address: {},
@@ -135,15 +130,12 @@ export function useCheckout() {
     setIsSubmitting(true);
 
     try {
-      // إنشاء الطلب باستخدام الدالة المساعدة
       const newOrder = createOrderFromCheckoutItems(items, formData, totals);
 
-      // حفظ الطلب
       const existingOrders = storage.get<Order[]>(STORAGE_KEYS.ORDERS, []);
       const updatedOrders = [newOrder, ...existingOrders];
       storage.set(STORAGE_KEYS.ORDERS, updatedOrders);
 
-      // تنظيف السلة
       const fullCart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
       const itemIdsToRemove = items.map((item) => item.id);
       const updatedCart = fullCart.filter(
@@ -161,7 +153,10 @@ export function useCheckout() {
         router.push("/orders");
       }, 1000);
     } catch (error) {
-      console.error("خطأ في تأكيد الطلب:", error);
+      handleAndLogError(error, "خطأ في تأكيد الطلب", ErrorCode.CHECKOUT_SUBMIT_ERROR, {
+        itemsCount: items.length,
+        totals,
+      });
       showNotification("حدث خطأ في تأكيد الطلب، يرجى المحاولة مرة أخرى", "error", 5000);
     } finally {
       setIsSubmitting(false);

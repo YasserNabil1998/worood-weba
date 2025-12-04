@@ -1,4 +1,5 @@
 import { ShoppingCart } from "lucide-react";
+import { UI_TEXTS } from "@/src/constants";
 
 interface ProductActionsProps {
   quantity: number;
@@ -24,14 +25,16 @@ export default function ProductActions({
         <div className="flex items-center gap-2">
           <button
             onClick={() => onQuantityChange(Math.max(1, quantity - 1))}
-            className="w-8 h-8 rounded-lg border border-gray-300 hover:border-[#5A5E4D] hover:bg-[#5A5E4D] hover:text-white flex items-center justify-center transition-all font-bold text-sm"
+            className="min-w-[44px] min-h-[44px] w-11 h-11 rounded-lg border border-gray-300 hover:border-[#5A5E4D] hover:bg-[#5A5E4D] hover:text-white flex items-center justify-center transition-all font-bold text-sm"
+            aria-label="تقليل الكمية"
           >
             -
           </button>
           <span className="text-lg font-bold w-8 text-center text-[#5A5E4D]">{quantity}</span>
           <button
             onClick={() => onQuantityChange(quantity + 1)}
-            className="w-8 h-8 rounded-lg border border-gray-300 hover:border-[#5A5E4D] hover:bg-[#5A5E4D] hover:text-white flex items-center justify-center transition-all font-bold text-sm"
+            className="min-w-[44px] min-h-[44px] w-11 h-11 rounded-lg border border-gray-300 hover:border-[#5A5E4D] hover:bg-[#5A5E4D] hover:text-white flex items-center justify-center transition-all font-bold text-sm"
+            aria-label="زيادة الكمية"
           >
             +
           </button>
@@ -54,7 +57,7 @@ export default function ProductActions({
         className="w-full bg-[#5A5E4D] text-white py-2.5 px-4 rounded-lg font-semibold text-sm hover:bg-[#4A4E3D] transition-all flex items-center justify-center gap-2"
       >
         <ShoppingCart className="w-4 h-4" />
-        {isEditMode ? "تحديث السلة" : "إضافة إلى السلة"}
+        {isEditMode ? "تحديث السلة" : UI_TEXTS.ADD_TO_CART_ALT}
       </button>
     </div>
   );

@@ -9,12 +9,13 @@ import {
   isCartEmpty,
   getItemId,
 } from "@/src/lib/cartHelpers";
-import { ShoppingCart, AlertTriangle } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import CartItem from "@/src/components/cart/CartItem";
 import CartSummary from "@/src/components/cart/CartSummary";
 import EmptyCart from "@/src/components/cart/EmptyCart";
 import { CART_MESSAGES } from "@/src/constants/cart";
 import { COLORS } from "@/src/constants";
+import { fontStyle } from "@/src/lib/styles";
 
 export default function CartPage() {
   const [expandedItems, setExpandedItems] = useState<Set<string | number>>(new Set());
@@ -102,120 +103,115 @@ export default function CartPage() {
   });
 
   return (
-    <div className="min-h-screen" dir="rtl">
-      <main className="py-6 sm:py-8 md:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Page Title */}
-          <div className="mb-8 md:mb-10">
-            <div className="flex items-center gap-3 mb-3">
-              <ShoppingCart
-                className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-[#5A5E4D]"
-                fill="#5A5E4D"
-              />
-              <h1
-                className="text-[28px] sm:text-[32px] md:text-[40px] font-bold leading-tight text-[#2D3319] tracking-[-0.5px]"
-                style={{ fontFamily: "var(--font-almarai)" }}
-              >
-                {CART_MESSAGES.CART_TITLE}
-              </h1>
-            </div>
-            <p
-              className="text-[15px] md:text-[16px] font-normal leading-relaxed text-[#5A5E4D] pr-12"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+    <div className="min-h-screen bg-background" dir="rtl">
+      <main>
+        {/* Page Title Section */}
+        <section className="pt-8 pb-4">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-right">
+            <h1 className="text-[32px] font-bold leading-[40px] text-[#2D3319] mb-2 tracking-[0px]">
+              {CART_MESSAGES.CART_TITLE}
+            </h1>
+            <p className="text-[16px] font-normal leading-[20px] text-[#5A5E4D] tracking-[0px]">
               المنتجات التي أضفتها إلى سلة المشتريات
             </p>
           </div>
+        </section>
 
-          {/* Action Buttons */}
-          {!isEmpty && (
-            <div className="flex items-center gap-2 sm:gap-4 flex-wrap mb-6">
-              <button
-                onClick={() => toggleSelectAll(items)}
-                className="text-xs sm:text-sm hover:bg-white hover:shadow-md flex items-center gap-2 cursor-pointer bg-white/80 rounded-lg px-3 sm:px-4 py-2 transition-all duration-200 border border-gray-200"
-                style={{ color: COLORS.PRIMARY }}
-              >
-                <input
-                  type="checkbox"
-                  checked={allSelected}
-                  readOnly
-                  className="h-4 w-4 rounded border-gray-300 cursor-pointer"
-                  style={{ accentColor: COLORS.PRIMARY }}
-                />
-                <span className="font-medium whitespace-nowrap">
-                  {CART_MESSAGES.SELECT_ALL} ({items.length})
-                </span>
-              </button>
-              {hasSelection && (
-                <button
-                  onClick={handleRemoveSelected}
-                  className="text-xs sm:text-sm text-red-600 hover:bg-red-50 hover:shadow-md cursor-pointer bg-white/80 rounded-lg px-3 sm:px-4 py-2 transition-all duration-200 border border-red-200 font-medium whitespace-nowrap"
-                >
-                  {CART_MESSAGES.REMOVE_SELECTED} ({selectedItems.size})
-                </button>
-              )}
-            </div>
-          )}
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Items */}
-            <div className="lg:col-span-2 space-y-6">
-              {isEmpty ? (
-                <EmptyCart />
-              ) : (
-                <>
-                  {/* Warning Messages */}
-                  {unselectedCount > 0 && hasSelection && (
-                    <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-300 rounded-lg sm:rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-yellow-800 shadow-sm">
-                      <div className="flex items-center gap-2">
-                        <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                        <span className="font-medium">
-                          {CART_MESSAGES.PARTIAL_SELECTION_WARNING.replace(
-                            "{count}",
-                            unselectedCount.toString()
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                  {!hasSelection && (
-                    <div className="bg-gradient-to-r from-red-50 to-pink-50 border border-red-300 rounded-lg sm:rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-red-800 shadow-sm">
-                      <div className="flex items-center gap-2">
-                        <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                        <span className="font-medium">{CART_MESSAGES.NO_SELECTION_WARNING}</span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Cart Items */}
-                  {items.map((item) => {
-                    const itemId = getItemId(item);
-                    return (
-                      <CartItem
-                        key={itemId}
-                        item={item}
-                        isSelected={selectedItems.has(itemId)}
-                        isExpanded={expandedItems.has(itemId)}
-                        onToggleSelect={toggleSelectItem}
-                        onToggleExpand={toggleDetails}
-                        onUpdateQuantity={updateItemQuantity}
-                        onRemove={removeItem}
-                        onEdit={editItem}
+        {/* Content Section */}
+        <section className="py-8">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:items-start" style={{ transform: 'none' }}>
+              {/* Summary Sidebar */}
+              <div className="lg:sticky lg:top-24 lg:self-start lg:z-10 lg:h-fit" data-aos="none">
+                {/* Action Buttons */}
+                {!isEmpty && (
+                  <div className="flex items-center gap-2 sm:gap-4 flex-wrap mb-4">
+                    <button
+                      onClick={() => toggleSelectAll(items)}
+                      className="text-sm hover:bg-white hover:shadow-md flex items-center gap-2 cursor-pointer bg-white rounded-lg px-4 py-2 transition-all duration-200 border border-gray-200"
+                      style={{ ...fontStyle, color: COLORS.PRIMARY }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={allSelected}
+                        readOnly
+                        className="h-4 w-4 rounded border-gray-300 cursor-pointer"
+                        style={{ accentColor: COLORS.PRIMARY }}
                       />
-                    );
-                  })}
-                </>
-              )}
-            </div>
+                      <span className="font-medium whitespace-nowrap">
+                        {CART_MESSAGES.SELECT_ALL} ({items.length})
+                      </span>
+                    </button>
+                    {hasSelection && (
+                      <button
+                        onClick={handleRemoveSelected}
+                        className="text-sm text-red-600 hover:bg-red-50 hover:shadow-md cursor-pointer bg-white rounded-lg px-4 py-2 transition-all duration-200 border border-red-200 font-medium whitespace-nowrap"
+                        style={fontStyle}
+                      >
+                        {CART_MESSAGES.REMOVE_SELECTED} ({selectedItems.size})
+                      </button>
+                    )}
+                  </div>
+                )}
+                {/* Summary */}
+                <CartSummary
+                  totals={totals}
+                  totalItems={items.length}
+                  selectedItems={selectedItemsList}
+                />
+              </div>
+              {/* Items */}
+              <div className="lg:col-span-2 space-y-6 lg:pr-4">
+                {isEmpty ? (
+                  <EmptyCart />
+                ) : (
+                  <>
+                    {/* Warning Messages */}
+                    {unselectedCount > 0 && hasSelection && (
+                      <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-300 rounded-lg sm:rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-yellow-800 shadow-sm">
+                        <div className="flex items-center gap-2">
+                          <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                          <span className="font-medium">
+                            {CART_MESSAGES.PARTIAL_SELECTION_WARNING.replace(
+                              "{count}",
+                              unselectedCount.toString()
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                    {!hasSelection && (
+                      <div className="bg-gradient-to-r from-red-50 to-pink-50 border border-red-300 rounded-lg sm:rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-red-800 shadow-sm">
+                        <div className="flex items-center gap-2">
+                          <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                          <span className="font-medium">{CART_MESSAGES.NO_SELECTION_WARNING}</span>
+                        </div>
+                      </div>
+                    )}
 
-            {/* Summary */}
-            <CartSummary
-              totals={totals}
-              totalItems={items.length}
-              selectedItems={selectedItemsList}
-            />
+                    {/* Cart Items */}
+                    {items.map((item) => {
+                      const itemId = getItemId(item);
+                      return (
+                        <CartItem
+                          key={itemId}
+                          item={item}
+                          isSelected={selectedItems.has(itemId)}
+                          isExpanded={expandedItems.has(itemId)}
+                          onToggleSelect={toggleSelectItem}
+                          onToggleExpand={toggleDetails}
+                          onUpdateQuantity={updateItemQuantity}
+                          onRemove={removeItem}
+                          onEdit={editItem}
+                        />
+                      );
+                    })}
+                  </>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
       </main>
     </div>
   );

@@ -1,18 +1,19 @@
-/**
- * CartItem Component
- * مكون عرض عنصر في السلة
- */
+"use client";
 
+import { useState, memo } from "react";
 import Image from "next/image";
 import { ChevronUp, ChevronDown, Pencil, Trash2 } from "lucide-react";
 import { CartItem as CartItemType } from "@/src/@types/cart/CartItem.type";
 import { isCustomBouquet } from "@/src/@types/cart/CartItem.type";
-import QuantitySelector from "@/src/components/QuantitySelector";
 import CustomBouquetDetails from "./CustomBouquetDetails";
-import { getItemId, getItemPrice, getItemTotal } from "@/src/lib/cartHelpers";
-import { CART_LABELS, CART_SIZES } from "@/src/constants/cart";
-import { APP_CONFIG, COLORS } from "@/src/constants";
-import { PRODUCT_DATA } from "@/src/constants/productData";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import CartItemDetails from "./CartItemDetails";
+import CartItemPricing from "./CartItemPricing";
+import { getItemId } from "@/src/lib/cartHelpers";
+import { CART_LABELS } from "@/src/constants/cart";
+import { COLORS, CUSTOM_BOUQUET_PREVIEW_IMAGE, SIZES } from "@/src/constants";
+import { fontStyle } from "@/src/lib/styles";
+import { getButtonStyles, getButtonInlineStyles } from "@/src/lib/buttonStyles";
 
 interface CartItemProps {
   item: CartItemType;
@@ -25,7 +26,7 @@ interface CartItemProps {
   onEdit: (item: CartItemType) => void;
 }
 
-export default function CartItem({
+function CartItem({
   item,
   isSelected,
   isExpanded,
@@ -36,30 +37,34 @@ export default function CartItem({
   onEdit,
 }: CartItemProps) {
   const itemId = getItemId(item);
-  const itemPrice = getItemPrice(item);
-  const itemTotal = getItemTotal(item);
   const isCustom = isCustomBouquet(item);
+  const displayImage = isCustom ? item.image || CUSTOM_BOUQUET_PREVIEW_IMAGE : item.image;
 
   const canEdit = isCustom ? Boolean(item.customData) : true;
   const hasDetails = isCustom ? Boolean(item.customData) : true;
-  const cardAddonPrice = PRODUCT_DATA.addons.card.price;
-  const chocolateAddonPrice = PRODUCT_DATA.addons.chocolate.price;
-  const giftWrapAddonPrice = PRODUCT_DATA.addons.giftWrap.price;
-
-  const hasAddons = item.addCard || item.addChocolate || item.giftWrap;
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleEdit = () => {
     onEdit(item);
   };
 
-  const handleRemove = () => {
+  const handleRemoveClick = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = () => {
     onRemove(itemId);
+    setShowDeleteModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowDeleteModal(false);
   };
 
   return (
     <div
-      className={`bg-white rounded-xl sm:rounded-2xl shadow-sm p-3 sm:p-6 transition-all duration-300 hover:shadow-lg hover:scale-[1.01] sm:hover:scale-[1.02] ${
-        isSelected ? "shadow-lg ring-2 ring-[#5A5E4D]/20" : ""
+      className={`bg-white rounded-[25px] p-4 sm:p-6 transition-all duration-300 shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:scale-[1.01] max-w-3xl ${
+        isSelected ? "" : ""
       }`}
     >
       <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-4">
@@ -80,18 +85,19 @@ export default function CartItem({
 
           {/* الصورة */}
           <div
-            className={`${
-              isCustom ? "w-19 h-19 sm:w-28 sm:h-28" : "w-18 h-18 sm:w-24 sm:h-24"
-            } shrink-0`}
+            className="shrink-0 rounded-[15px]"
+            style={{ width: `${SIZES.CART_IMAGE_WIDTH}px`, height: `${SIZES.CART_IMAGE_HEIGHT}px` }}
           >
             <Image
-              src={item.image}
+              src={displayImage}
               alt={item.title}
-              width={112}
-              height={112}
-              className={`rounded-xl sm:rounded-2xl object-cover shadow-md transition-all duration-300 hover:shadow-lg ${
-                isCustom ? "h-19 sm:h-28" : "h-18 sm:h-24"
-              }`}
+              width={SIZES.CART_IMAGE_WIDTH}
+              height={SIZES.CART_IMAGE_HEIGHT}
+              className="rounded-[15px] object-cover transition-all duration-300"
+              style={{
+                width: `${SIZES.CART_IMAGE_WIDTH}px`,
+                height: `${SIZES.CART_IMAGE_HEIGHT}px`,
+              }}
               loading="lazy"
             />
           </div>
@@ -99,210 +105,95 @@ export default function CartItem({
 
         {/* التفاصيل */}
         <div className="flex-1 min-w-0">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0 mb-2">
-            <div className="flex-1 min-w-0">
-              <h3 className="font-bold text-gray-800 text-base sm:text-lg md:text-xl mb-2 line-clamp-2">
-                {item.title}
-              </h3>
-              <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                {isCustom && (
-                  <span className="inline-block text-xs bg-linear-to-r from-[#5A5E4D]/10 to-[#4A4E3D]/10 text-[#5A5E4D] px-2 sm:px-3 py-1 sm:py-1.5 rounded-full font-medium border border-[#5A5E4D]/20">
-                    {CART_LABELS.CUSTOM_BOUQUET}
-                  </span>
-                )}
-                {hasDetails && (
-                  <button
-                    onClick={() => onToggleExpand(itemId)}
-                    className="text-xs text-[#5A5E4D] hover:bg-[#5A5E4D]/10 hover:text-[#4b5244] flex items-center gap-1 cursor-pointer px-2 py-1 rounded-lg transition-all duration-200"
-                  >
-                    {isExpanded ? (
-                      <>
-                        <span className="font-medium">{CART_LABELS.HIDE_DETAILS}</span>
-                        <ChevronUp size={14} />
-                      </>
-                    ) : (
-                      <>
-                        <span className="font-medium">{CART_LABELS.SHOW_DETAILS}</span>
-                        <ChevronDown size={14} />
-                      </>
-                    )}
-                  </button>
-                )}
-              </div>
-            </div>
-            <div className="flex gap-2 sm:gap-3 shrink-0">
+          {/* العنوان والأزرار في نفس السطر */}
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <h3
+              className="font-bold text-gray-800 text-responsive-xl line-clamp-2 flex-1 min-w-0"
+              style={fontStyle}
+            >
+              {item.title}
+            </h3>
+            <div className="flex gap-2 shrink-0">
               {canEdit && (
                 <button
                   onClick={handleEdit}
-                  className="text-[#5A5E4D] text-xs sm:text-sm hover:bg-[#5A5E4D]/10 hover:text-[#4b5244] cursor-pointer px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all duration-200 font-medium flex items-center gap-1"
+                  className={getButtonStyles.edit()}
+                  style={{ ...fontStyle, ...getButtonInlineStyles.edit() }}
+                  aria-label={`تعديل ${item.title}`}
                 >
-                  <Pencil className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  {CART_LABELS.EDIT}
+                  <Pencil className="w-5 h-5" />
                 </button>
               )}
               <button
-                onClick={handleRemove}
-                className="text-red-600 text-xs sm:text-sm hover:bg-red-50 hover:text-red-700 cursor-pointer px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all duration-200 font-medium flex items-center gap-1"
+                onClick={handleRemoveClick}
+                className={getButtonStyles.delete()}
+                style={{ ...fontStyle, ...getButtonInlineStyles.delete() }}
+                aria-label={`حذف ${item.title}`}
               >
-                <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                {CART_LABELS.DELETE}
+                <Trash2 className="w-5 h-5" />
               </button>
             </div>
+          </div>
+
+          {/* عرض التفاصيل */}
+          <div className="flex items-center gap-2 flex-wrap mb-2">
+            {isCustom && (
+              <span className="inline-block text-xs bg-gradient-to-r from-[#5A5E4D]/10 to-[#4A4E3D]/10 text-[#5A5E4D] px-2 sm:px-3 py-1 sm:py-1.5 rounded-full font-medium border border-[#5A5E4D]/20">
+                {CART_LABELS.CUSTOM_BOUQUET}
+              </span>
+            )}
+            {hasDetails && (
+              <button
+                onClick={() => onToggleExpand(itemId)}
+                className="text-[18px] text-[#727272] hover:bg-[#5A5E4D]/10 hover:text-[#4b5244] flex items-center gap-1 cursor-pointer px-2 py-1 rounded-lg transition-all duration-200 text-center"
+                style={fontStyle}
+                aria-label={isExpanded ? "إخفاء التفاصيل" : "عرض التفاصيل"}
+                aria-expanded={isExpanded}
+              >
+                {isExpanded ? (
+                  <>
+                    <span className="font-medium">{CART_LABELS.HIDE_DETAILS}</span>
+                    <ChevronUp size={14} />
+                  </>
+                ) : (
+                  <>
+                    <span className="font-medium">{CART_LABELS.SHOW_DETAILS}</span>
+                    <ChevronDown size={14} />
+                  </>
+                )}
+              </button>
+            )}
           </div>
 
           {/* التفاصيل - باقة مخصصة أو عادية */}
           {isCustom && item.customData ? (
             <CustomBouquetDetails customData={item.customData} isExpanded={isExpanded} />
           ) : (
-            <div
-              className={`transition-all duration-300 ${
-                isExpanded ? "mt-3 space-y-4 opacity-100" : "h-0 overflow-hidden opacity-0"
-              }`}
-            >
-              {isExpanded && (
-                <>
-                  <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-gray-700">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-gray-800">{CART_LABELS.SIZE}:</span>
-                      <span className="inline-flex items-center px-2.5 py-1 text-xs font-semibold text-[#5A5E4D]">
-                        {item.size && CART_SIZES[item.size as keyof typeof CART_SIZES]
-                          ? CART_SIZES[item.size as keyof typeof CART_SIZES]
-                          : item.size}
-                      </span>
-                    </div>
-                    {item.style && (
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold text-gray-800">{CART_LABELS.WRAPPING}:</span>
-                        <span className="inline-flex items-center px-2.5 py-1 text-xs font-semibold text-gray-700">
-                          {item.style}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  {item.color && (
-                    <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-700">
-                      <span className="font-semibold text-gray-800">{CART_LABELS.COLOR}:</span>
-                      <span className="inline-flex items-center gap-2 text-xs font-semibold text-gray-700">
-                        <span
-                          className="inline-block h-3 w-3 rounded-full border border-gray-200"
-                          style={{
-                            backgroundColor: item.color,
-                          }}
-                        />
-                        <span>{item.colorLabel || item.colorValue || item.color}</span>
-                      </span>
-                    </div>
-                  )}
-
-                  {hasAddons && (
-                    <div className="space-y-2">
-                      <span className="text-[11px] font-semibold uppercase tracking-wide text-gray-500">
-                        إضافات المنتج
-                      </span>
-                      <div className="flex flex-col gap-2">
-                        {item.addCard && (
-                          <div className="flex flex-col gap-1 rounded-lg bg-gray-50 px-3 py-2 text-xs text-gray-700">
-                            <div className="flex items-center justify-between gap-4">
-                              <span className="text-xs font-semibold text-[#5A5E4D]">
-                                {CART_LABELS.GREETING_CARD}
-                              </span>
-                              <div className="flex items-center gap-1">
-                                <span className="text-sm font-bold text-[#5A5E4D]">
-                                  +{cardAddonPrice.toFixed(2)}
-                                </span>
-                                <span className="text-xs text-[#5A5E4D]">
-                                  {APP_CONFIG.CURRENCY}
-                                </span>
-                              </div>
-                            </div>
-                            <span className="text-xs text-gray-600">
-                              {item.cardMessage && item.cardMessage.trim().length > 0
-                                ? item.cardMessage
-                                : CART_LABELS.NO_MESSAGE}
-                            </span>
-                          </div>
-                        )}
-                        {item.addChocolate && (
-                          <div className="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-700">
-                            <span>إضافة شوكولاتة</span>
-                            <div className="flex items-center gap-1">
-                              <span className="text-sm font-bold text-[#5A5E4D]">
-                                +{chocolateAddonPrice.toFixed(2)}
-                              </span>
-                              <span className="text-xs text-[#5A5E4D]">
-                                {APP_CONFIG.CURRENCY}
-                              </span>
-                            </div>
-                          </div>
-                        )}
-                        {item.giftWrap && (
-                          <div className="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-700">
-                            <span>تغليف هدية</span>
-                            <div className="flex items-center gap-1">
-                              <span className="text-sm font-bold text-[#5A5E4D]">
-                                +{giftWrapAddonPrice.toFixed(2)}
-                              </span>
-                              <span className="text-xs text-[#5A5E4D]">
-                                {APP_CONFIG.CURRENCY}
-                              </span>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
+            <CartItemDetails item={item} isExpanded={isExpanded} />
           )}
 
           {/* السعر وعداد الكمية */}
-          <div className="mt-3 border-t pt-3 border-gray-200">
-            <div className="flex justify-between items-center mb-2">
-              <div className="text-xs sm:text-sm font-medium text-gray-600">
-                {CART_LABELS.PRICE}
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">
-                  {itemPrice.toFixed(2)}
-                </span>
-                <span className="text-sm sm:text-base text-[#5A5E4D]">
-                  {APP_CONFIG.CURRENCY}
-                </span>
-              </div>
-            </div>
-
-            {/* عداد الكمية */}
-            <div className="flex justify-between items-center bg-linear-to-r from-gray-50 to-gray-100 rounded-lg sm:rounded-xl p-1.5 sm:p-3 mb-2.5">
-              <span className="text-xs sm:text-sm font-semibold text-gray-700">
-                {CART_LABELS.QUANTITY}
-              </span>
-              <QuantitySelector
-                itemId={itemId}
-                initialQuantity={item.quantity || 1}
-                productData={item}
-                onQuantityChange={onUpdateQuantity}
-              />
-            </div>
-
-            {/* إجمالي السعر للكمية */}
-            <div className="flex justify-between items-center bg-linear-to-r from-[#5A5E4D]/5 to-[#4A4E3D]/5 rounded-lg sm:rounded-xl p-1.5 sm:p-3">
-              <span className="font-bold text-sm sm:text-base text-gray-800">
-                {CART_LABELS.TOTAL_PRICE}:
-              </span>
-              <div className="flex items-center gap-1.5">
-                <span className="text-xl sm:text-2xl font-bold" style={{ color: COLORS.PRIMARY }}>
-                  {itemTotal.toFixed(2)}
-                </span>
-                <span className="text-sm sm:text-base text-[#5A5E4D]">
-                  {APP_CONFIG.CURRENCY}
-                </span>
-              </div>
-            </div>
-          </div>
+          <CartItemPricing item={item} onUpdateQuantity={onUpdateQuantity} />
         </div>
       </div>
+
+      {/* بوب أب تأكيد الحذف */}
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmDelete}
+        itemTitle={item.title}
+      />
     </div>
   );
 }
+
+export default memo(CartItem, (prevProps, nextProps) => {
+  // Custom comparison function for better performance
+  return (
+    prevProps.item.id === nextProps.item.id &&
+    prevProps.item.quantity === nextProps.item.quantity &&
+    prevProps.isSelected === nextProps.isSelected &&
+    prevProps.isExpanded === nextProps.isExpanded
+  );
+});

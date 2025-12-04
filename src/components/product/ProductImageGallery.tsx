@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface ProductImageGalleryProps {
@@ -13,51 +16,70 @@ export default function ProductImageGallery({
   selectedImage,
   onImageSelect,
 }: ProductImageGalleryProps) {
+  const [displayImage, setDisplayImage] = useState(selectedImage);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    if (selectedImage !== displayImage) {
+      setIsTransitioning(true);
+      // تأخير بسيط لبدء الانتقال
+      const startTimer = setTimeout(() => {
+        setDisplayImage(selectedImage);
+        // الانتقال يبدأ بعد تغيير الصورة
+        setTimeout(() => {
+          setIsTransitioning(false);
+        }, 50);
+      }, 50);
+      return () => clearTimeout(startTimer);
+    }
+  }, [selectedImage, displayImage]);
+
   return (
-    <div className="flex gap-3">
-      {/* Thumbnails على الجانب */}
-      <div className="flex flex-col gap-3 w-24">
+    <div className="flex flex-col gap-3">
+      {/* الصورة الرئيسية */}
+      <div className="w-full h-[408px] md:h-[560px] lg:h-[450px] rounded-lg overflow-hidden bg-gray-100 shadow-md relative">
+        <Image
+          src={images[displayImage]}
+          alt={`${title} - صورة مفصلة`}
+          fill
+          className={`object-cover transition-opacity duration-700 ease-out ${
+            isTransitioning ? "opacity-0" : "opacity-100"
+          }`}
+          quality={100}
+          priority={displayImage === 0}
+          loading={displayImage === 0 ? undefined : "lazy"}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 60vw"
+          placeholder="blur"
+          blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQwOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4="
+        />
+      </div>
+
+      {/* Thumbnails أسفل الصورة الرئيسية */}
+      <div className="flex gap-3 w-full">
         {images.map((image, index) => (
           <button
             key={index}
             onClick={() => onImageSelect(index)}
-            className={`h-24 w-24 rounded-lg overflow-hidden border-2 transition-all bg-gray-100 ${
+            className={`flex-1 h-28 md:h-32 lg:h-28 rounded-lg overflow-hidden border-2 transition-all duration-500 ease-out bg-gray-100 relative ${
               selectedImage === index
-                ? "border-[#5A5E4D] ring-2 ring-[#5A5E4D]/30"
-                : "border-gray-200 hover:border-[#5A5E4D]/50"
+                ? "border-[#5A5E4D] ring-2 ring-[#5A5E4D]/30 scale-[1.02]"
+                : "border-gray-200 hover:border-[#5A5E4D]/50 hover:scale-[1.01]"
             }`}
             aria-label={`عرض الصورة ${index + 1}`}
           >
             <Image
               src={image}
               alt={`${title} - صورة ${index + 1}`}
-              width={96}
-              height={96}
+              fill
               className="object-cover"
+              quality={90}
               loading="lazy"
+              sizes="(max-width: 768px) 25vw, 20vw"
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"
             />
           </button>
         ))}
-      </div>
-
-      {/* الصورة الرئيسية */}
-      <div
-        className="flex-1 rounded-lg overflow-hidden bg-gray-100 shadow-md relative"
-        style={{ height: "408px" }}
-      >
-        <Image
-          src={images[selectedImage]}
-          alt={`${title} - صورة مفصلة`}
-          fill
-          className="object-cover"
-          priority={selectedImage === 0}
-          loading={selectedImage === 0 ? undefined : "lazy"}
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 60vw"
-          placeholder="blur"
-          blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQwOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4="
-        />
       </div>
     </div>
   );

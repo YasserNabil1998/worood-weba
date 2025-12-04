@@ -1,25 +1,19 @@
 import Link from "next/link";
-import Image from "next/image";
-import { ASSETS } from "@/src/assets";
 import { Instagram, Twitter, Facebook, MessageCircle } from "lucide-react";
+import { fontStyle } from "@/src/lib/styles";
+import { COLORS } from "@/src/constants";
 
 const Footer = () => {
   return (
-    <footer className="text-white" style={{ backgroundColor: "#0F2433" }}>
+    <footer className="text-white" style={{ backgroundColor: COLORS.PRIMARY_DARK }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-6">
           {/* About Us */}
           <div className="sm:col-span-2 md:col-span-1">
-            <h3
-              className="text-base md:text-lg font-semibold mb-3"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h3 className="text-base md:text-lg font-semibold mb-3" style={fontStyle}>
               زهور الشمس
             </h3>
-            <p
-              className="text-gray-300 leading-relaxed text-sm"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="text-gray-300 leading-relaxed text-sm" style={fontStyle}>
               أجمل الباقات لأجمل المناسبات. تقدم خدمات تنسيق الزهور لجميع المناسبات بأعلى جودة وأفضل
               الأسعار.
             </p>
@@ -27,13 +21,10 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3
-              className="text-base md:text-lg font-semibold mb-3"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h3 className="text-base md:text-lg font-semibold mb-3" style={fontStyle}>
               روابط سريعة
             </h3>
-            <ul className="space-y-2 text-sm" style={{ fontFamily: "var(--font-almarai)" }}>
+            <ul className="space-y-2 text-sm" style={fontStyle}>
               <li>
                 <Link href="/bouquets" className="text-gray-300 hover:text-white transition-colors">
                   الباقات الجاهزة
@@ -54,10 +45,7 @@ const Footer = () => {
 
           {/* Contact Us */}
           <div>
-            <h3
-              className="text-base md:text-lg font-semibold mb-3"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <h3 className="text-base md:text-lg font-semibold mb-3" style={fontStyle}>
               تواصل معنا
             </h3>
             <div className="flex items-center gap-3 sm:gap-4 mb-3">
@@ -90,7 +78,7 @@ const Footer = () => {
                 <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
               </a>
             </div>
-            <div className="space-y-1 text-sm" style={{ fontFamily: "var(--font-almarai)" }}>
+            <div className="space-y-1 text-sm" style={fontStyle}>
               <p className="text-gray-300">+966 12 345 6789</p>
               <p className="text-gray-300">info@shamsflowers.com</p>
             </div>
@@ -99,36 +87,7 @@ const Footer = () => {
 
         <div className="mt-4 pt-4 sm:pt-6 border-t border-white/10">
           <div className="text-center">
-            <div className="flex items-center justify-center gap-2 sm:gap-3 opacity-90">
-              <Image
-                src={ASSETS.payment.mada}
-                alt="Mada"
-                width={60}
-                height={40}
-                className="h-8 sm:h-10 w-auto object-contain"
-                loading="lazy"
-              />
-              <Image
-                src={ASSETS.payment.visa}
-                alt="Visa"
-                width={60}
-                height={40}
-                className="h-8 sm:h-10 w-auto object-contain"
-                loading="lazy"
-              />
-              <Image
-                src={ASSETS.payment.applePay}
-                alt="Apple Pay"
-                width={60}
-                height={40}
-                className="h-8 sm:h-10 w-auto object-contain"
-                loading="lazy"
-              />
-            </div>
-            <p
-              className="mt-3 text-gray-300 text-xs sm:text-sm"
-              style={{ fontFamily: "var(--font-almarai)" }}
-            >
+            <p className="text-gray-300 text-xs sm:text-sm" style={fontStyle}>
               جميع الحقوق محفوظة زهور الشمس © 2025
             </p>
           </div>

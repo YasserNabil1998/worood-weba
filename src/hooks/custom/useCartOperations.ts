@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS, NAVIGATION_DELAY } from "@/src/constants";
+import { STORAGE_KEYS, NAVIGATION_DELAY, CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/src/constants";
 import { CartItem } from "@/src/@types/cart/CartItem.type";
 import { generateProductKey } from "@/src/lib/cartUtils";
 import {
@@ -10,6 +10,7 @@ import {
   type CustomBouquetInput,
   type BouquetDataSources,
 } from "@/src/lib/customBouquetBuilders";
+import { logError } from "@/src/lib/logger";
 import {
   Flower,
   BouquetSize,
@@ -96,7 +97,7 @@ function buildCartItem(
     subtotal,
     vat,
     quantity: 1,
-    image: input.bouquetImage,
+    image: input.bouquetImage || CUSTOM_BOUQUET_PREVIEW_IMAGE,
     isCustom: true,
     customData,
   };
@@ -154,17 +155,18 @@ function handleAddMode(
   };
 }
 
-function saveAndNavigate(cart: CartItem[]): ReturnType<typeof setTimeout> {
+function saveAndNavigate(cart: CartItem[], router: ReturnType<typeof useRouter>): ReturnType<typeof setTimeout> {
   storage.set(STORAGE_KEYS.CART, cart);
   window.dispatchEvent(new Event("cartUpdated"));
 
   return setTimeout(() => {
-    window.location.href = "/cart";
+    router.push("/cart");
   }, NAVIGATION_DELAY.CART_REDIRECT);
 }
 
 export function useCartOperations(props: UseCartOperationsProps) {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const dataSources = useMemo<BouquetDataSources>(
@@ -291,12 +293,12 @@ export function useCartOperations(props: UseCartOperationsProps) {
         message = addResult.message;
       }
 
-      timeoutRef.current = saveAndNavigate(updatedCart);
+      timeoutRef.current = saveAndNavigate(updatedCart, router);
 
       props.showNotification(message);
       props.saveToHistory();
     } catch (error) {
-      console.error("Error adding to cart:", error);
+      logError("Error adding to cart", error, { totalFlowersCount: props.totalFlowersCount });
       props.showNotification("حدث خطأ أثناء إضافة الباقة إلى السلة");
       props.setIsAddingToCart(false);
     }

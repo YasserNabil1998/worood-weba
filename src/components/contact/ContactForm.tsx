@@ -1,35 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ChevronDown,
-  Loader2,
-  User,
-  Mail,
-  Phone,
-  FileText,
-  MessageSquare,
-  Send,
-  CheckCircle2,
-  AlertCircle,
-} from "lucide-react";
+import { ChevronDown, ChevronUp, Loader2, Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { ContactFormProps } from "@/src/@types/contact/index.type";
 import { contactSchema, ContactFormData } from "@/src/validations/schemas/contactSchema";
 import {
-  INPUT_HEIGHT,
-  TEXTAREA_ROWS,
   FORM_SUCCESS_TIMEOUT,
   MESSAGES,
-  BORDER_COLORS,
-  BACKGROUND_COLORS,
 } from "@/src/constants/contact";
 import { cn } from "@/src/lib/utils";
+import { logError } from "@/src/lib/logger";
+import { fontStyle } from "@/src/lib/styles";
 
 export default function ContactForm({ data, onSubmit }: ContactFormProps) {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isSubjectDropdownOpen, setIsSubjectDropdownOpen] = useState(false);
+  const subjectDropdownRef = useRef<HTMLDivElement>(null);
 
   // Initialize React Hook Form with Zod validation
   const {
@@ -37,6 +26,8 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    setValue,
+    watch,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -47,6 +38,25 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
       message: "",
     },
   });
+
+  const selectedSubject = watch("subject");
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        subjectDropdownRef.current &&
+        !subjectDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsSubjectDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Handle form submission
   const onSubmitForm = async (formData: ContactFormData) => {
@@ -62,60 +72,63 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
         setIsSuccess(false);
       }, FORM_SUCCESS_TIMEOUT);
     } catch (error) {
-      console.error("Form submission error:", error);
+      logError("Form submission error", error, { formData: data });
       setIsError(true);
     }
   };
 
   // Get input classes based on error state
   const getInputClasses = (hasError: boolean, isTextarea = false) => {
-    const baseClasses = `w-full rounded-xl border-2 pr-11 pl-4 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/20 transition-all duration-200 bg-gray-50 focus:bg-white`;
-    const heightClass = isTextarea ? "py-3" : "h-12";
-    const borderClass = hasError ? "border-red-300" : "border-gray-200 hover:border-gray-300";
-    const focusBorderClass = hasError ? "focus:border-red-500" : "focus:border-[#5A5E4D]";
+    const baseClasses = `w-full rounded-[10px] border pr-3 pl-3 sm:pr-4 sm:pl-4 text-right focus:outline-none transition-all duration-200 text-[16px] sm:text-[18px] lg:text-[20px]`;
+    const heightClass = isTextarea
+      ? "h-[150px] sm:h-[170px] lg:h-[197px] pt-3 sm:pt-4"
+      : "h-[48px] sm:h-[50px] lg:h-[51px]";
+    const borderClass = hasError ? "border-red-300" : "border-[#dad3d3]";
+    const bgClass = "bg-[#fbfbfb] focus:bg-white";
+    const textColor = "text-black placeholder:text-[#9ea2a9]";
 
-    return cn(baseClasses, heightClass, borderClass, focusBorderClass);
+    return cn(baseClasses, heightClass, borderClass, bgClass, textColor);
   };
 
   return (
-    <div className="lg:col-span-2 bg-white rounded-2xl border-2 border-gray-100 shadow-lg p-8 order-1 lg:order-1">
-      <div className="text-center mb-8">
-        <h3 className="text-2xl md:text-3xl font-bold text-[#2D3319] mb-2">{data.title}</h3>
-        <p className="text-gray-600 text-sm">نحن هنا لمساعدتك، املأ النموذج وسنتواصل معك قريباً</p>
+    <div className="bg-white rounded-[20px] min-h-[726px] p-4 sm:p-6 md:p-8 lg:p-12 order-1 lg:order-1" style={fontStyle}>
+      <div className="text-right mb-6 sm:mb-8">
+        <h3 className="text-[18px] sm:text-[19px] lg:text-[20px] font-bold text-black mb-2" style={fontStyle}>
+          {data.title}
+        </h3>
       </div>
 
       {/* Status messages */}
       {isSuccess && (
         <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl text-green-700 text-sm flex items-center gap-3 animate-fade-in">
-          <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+          <CheckCircle2 className="w-5 h-5 shrink-0" />
           <span className="font-medium">{MESSAGES.FORM_SUCCESS}</span>
         </div>
       )}
 
       {isError && (
         <div className="mb-6 p-4 bg-gradient-to-r from-red-50 to-rose-50 border-2 border-red-200 rounded-xl text-red-700 text-sm flex items-center gap-3 animate-fade-in">
-          <AlertCircle className="w-5 h-5 flex-shrink-0" />
+          <AlertCircle className="w-5 h-5 shrink-0" />
           <span className="font-medium">{MESSAGES.FORM_ERROR}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmitForm)} className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <form
+        onSubmit={handleSubmit(onSubmitForm)}
+        className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5"
+      >
         {/* Name field */}
         <div>
-          <label className="block text-sm font-semibold text-gray-800 mb-2">
+          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
             {data.fields.name.label}
           </label>
-          <div className="relative">
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-              <User size={20} />
-            </div>
-            <input
-              type="text"
-              placeholder="أدخل اسمك الكامل"
-              className={getInputClasses(!!errors.name)}
-              {...register("name")}
-            />
-          </div>
+          <input
+            type="text"
+            placeholder="أدخل الاسم كامل "
+            className={getInputClasses(!!errors.name)}
+            style={fontStyle}
+            {...register("name")}
+          />
           {errors.name && (
             <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
               <span>•</span> {errors.name.message}
@@ -125,20 +138,16 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
 
         {/* Email field */}
         <div>
-          <label className="block text-sm font-semibold text-gray-800 mb-2">
+          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
             {data.fields.email.label}
           </label>
-          <div className="relative">
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-              <Mail size={20} />
-            </div>
-            <input
-              type="email"
-              placeholder="أدخل بريدك الإلكتروني"
-              className={getInputClasses(!!errors.email)}
-              {...register("email")}
-            />
-          </div>
+          <input
+            type="email"
+            placeholder="أدخل بريدك الإلكتروني "
+            className={getInputClasses(!!errors.email)}
+            style={fontStyle}
+            {...register("email")}
+          />
           {errors.email && (
             <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
               <span>•</span> {errors.email.message}
@@ -148,20 +157,16 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
 
         {/* Phone field */}
         <div>
-          <label className="block text-sm font-semibold text-gray-800 mb-2">
+          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
             {data.fields.phone.label}
           </label>
-          <div className="relative">
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-              <Phone size={20} />
-            </div>
-            <input
-              type="tel"
-              placeholder="أدخل رقم هاتفك"
-              className={getInputClasses(!!errors.phone)}
-              {...register("phone")}
-            />
-          </div>
+          <input
+            type="tel"
+            placeholder="أدخل رقم هاتفك "
+            className={getInputClasses(!!errors.phone)}
+            style={fontStyle}
+            {...register("phone")}
+          />
           {errors.phone && (
             <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
               <span>•</span> {errors.phone.message}
@@ -171,34 +176,59 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
 
         {/* Subject field */}
         <div className="min-w-0">
-          <label className="block text-sm font-semibold text-gray-800 mb-2">
+          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
             {data.fields.subject.label}
           </label>
-          <div className="relative">
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 z-10">
-              <FileText size={20} />
-            </div>
-            <select
+          <div className="relative" ref={subjectDropdownRef}>
+            <button
+              type="button"
+              onClick={() => setIsSubjectDropdownOpen(!isSubjectDropdownOpen)}
               className={cn(
                 getInputClasses(!!errors.subject),
-                "appearance-none text-sm md:text-base cursor-pointer"
+                "appearance-none cursor-pointer pr-12 flex items-center justify-between text-right"
               )}
               style={{
+                ...fontStyle,
                 direction: "rtl",
-                maxWidth: "100%",
+                backgroundColor: "#f3f4f6",
               }}
-              {...register("subject")}
             >
-              {data.fields.subject.options.map((option: string) => (
-                <option key={option} value={option} style={{ direction: "rtl" }}>
-                  {option}
-                </option>
-              ))}
-            </select>
-            <ChevronDown
-              size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
-            />
+              <span className="flex-1 text-right">
+                {selectedSubject || data.fields.subject.options[0]}
+              </span>
+              {isSubjectDropdownOpen ? (
+                <ChevronUp
+                  size={22}
+                  className="absolute left-2 sm:left-3 lg:left-4 top-1/2 -translate-y-1/2 text-[#5c5a57] pointer-events-none w-5 h-5 sm:w-[22px] sm:h-[22px]"
+                />
+              ) : (
+                <ChevronDown
+                  size={22}
+                  className="absolute left-2 sm:left-3 lg:left-4 top-1/2 -translate-y-1/2 text-[#5c5a57] pointer-events-none w-5 h-5 sm:w-[22px] sm:h-[22px]"
+                />
+              )}
+            </button>
+            <input type="hidden" {...register("subject")} value={selectedSubject} />
+            {isSubjectDropdownOpen && (
+              <div className="absolute z-50 w-full mt-1 bg-white border border-[#dad3d3] rounded-[10px] shadow-lg max-h-[200px] overflow-y-auto">
+                {data.fields.subject.options.map((option: string) => (
+                  <div
+                    key={option}
+                    onClick={() => {
+                      setValue("subject", option);
+                      setIsSubjectDropdownOpen(false);
+                    }}
+                    className={cn(
+                      "px-4 py-3 text-[16px] sm:text-[18px] lg:text-[20px] text-right cursor-pointer hover:bg-[#f3f4f6] transition-colors",
+                      selectedSubject === option ? "bg-[#f3f4f6] font-semibold" : ""
+                    )}
+                    style={fontStyle}
+                  >
+                    {option}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           {errors.subject && (
             <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
@@ -209,20 +239,16 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
 
         {/* Message field */}
         <div className="md:col-span-2">
-          <label className="block text-sm font-semibold text-gray-800 mb-2">
+          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
             {data.fields.message.label}
           </label>
-          <div className="relative">
-            <div className="absolute right-3 top-3 text-gray-400">
-              <MessageSquare size={20} />
-            </div>
-            <textarea
-              rows={TEXTAREA_ROWS}
-              className={cn(getInputClasses(!!errors.message, true), "resize-none pr-11")}
-              placeholder={data.fields.message.placeholder}
-              {...register("message")}
-            />
-          </div>
+          <textarea
+            rows={8}
+            className={cn(getInputClasses(!!errors.message, true), "resize-none")}
+            placeholder="اكتب رسالتك هنا...."
+            style={fontStyle}
+            {...register("message")}
+          />
           {errors.message && (
             <p className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
               <span>•</span> {errors.message.message}
@@ -236,11 +262,10 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
             type="submit"
             disabled={isSubmitting}
             className={cn(
-              "w-full h-14 rounded-xl text-white font-bold text-base transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-xl",
-              isSubmitting
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[#5A5E4D] hover:bg-[#4A4E3D] hover:scale-[1.02] active:scale-[0.98]"
+              "w-full h-[50px] sm:h-[55px] lg:h-[60px] rounded-[10px] text-white font-bold text-[16px] sm:text-[18px] lg:text-[20px] transition-all duration-300 flex items-center justify-center gap-2",
+              isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-[#5f664f] hover:bg-[#4A4E3D]"
             )}
+            style={fontStyle}
           >
             {isSubmitting ? (
               <>

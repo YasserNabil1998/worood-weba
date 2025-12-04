@@ -1,72 +1,72 @@
 [
   {
     "id": 1,
-    "title": "باقة النجاح",
-    "price": 400,
-    "image": "/images/bouquets/DIV-237.png",
+    "title": "باقة الورد الأصفر الفاخر",
+    "price": 350,
+    "image": "/assets/home/most-requested-packages/Luxury-yellow-rose-bouquet.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 2,
-    "title": "باقة السعادة",
-    "price": 320,
-    "image": "/images/bouquets/IMG-196.png",
+    "title": "باقة البنفسج الراقية",
+    "price": 350,
+    "image": "/assets/home/most-requested-packages/Elegant-Violet-Bouquet.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 3,
-    "title": "باقة الفرح",
-    "price": 280,
-    "image": "/images/bouquets/IMG-210.png",
+    "title": "باقة الخوخ الزهري",
+    "price": 350,
+    "image": "/assets/home/most-requested-packages/Pink-Peach-Bouquet.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 4,
-    "title": "باقة اللمسة الذهبية",
-    "price": 450,
-    "image": "/images/bouquets/IMG-224.png",
+    "title": "باقة التوليب البرتقالي",
+    "price": 350,
+    "image": "/assets/home/most-requested-packages/Orange-Tulip-Bouquet.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 5,
-    "title": "باقة الورد الأحمر الفاخرة",
+    "title": "باقة الورد الأبيض",
     "price": 550,
-    "image": "/images/Products/Products-1.jpg",
+    "image": "/assets/ready-packages-page1/باقة الورد الأبيض.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 6,
-    "title": "مزهرية الكمال الوردي",
+    "title": "باقة الورد الزهري",
     "price": 665,
-    "image": "/images/Products/Products-6.jpg",
+    "image": "/assets/ready-packages-page1/باقة الورد الزهري.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 7,
-    "title": "مزهرية الزهور المميزة",
+    "title": "باقة الحب الأبدي",
     "price": 720,
-    "image": "/images/Products/Products-2.jpg",
+    "image": "/assets/ready-packages-page1/باقة الحب الأبدي.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"
   },
   {
     "id": 8,
-    "title": "فازة حوري الجمال الدافئ",
+    "title": "باقة الود الأبدي",
     "price": 429,
-    "image": "/images/Products/Products-3.jpg",
+    "image": "/assets/ready-packages-page1/باقة الود الأبدي.png",
     "currency": "ر.س",
     "badge": "الأكثر مبيعاً",
     "category": "الأكثر مبيعاً"

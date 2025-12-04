@@ -1,7 +1,8 @@
 "use client";
 
-import { Mail } from "lucide-react";
 import { useState } from "react";
+import { fontStyle } from "@/src/lib/styles";
+import { TIMEOUTS, NOTIFICATION_DURATION } from "@/src/constants";
 
 const NewsletterSection = () => {
   const [email, setEmail] = useState("");
@@ -42,7 +43,7 @@ const NewsletterSection = () => {
         const next = Math.min(100, p + Math.random() * 20 + 10);
         return next;
       });
-    }, 250);
+    }, TIMEOUTS.NEWSLETTER_PROGRESS_INTERVAL);
 
     setTimeout(() => {
       clearInterval(interval);
@@ -50,43 +51,35 @@ const NewsletterSection = () => {
       setIsLoading(false);
       setIsSuccess(true);
       setEmail("");
-      setTimeout(() => setIsSuccess(false), 3000);
-    }, 1600);
+      setTimeout(() => setIsSuccess(false), TIMEOUTS.SUCCESS_MESSAGE_HIDE);
+    }, TIMEOUTS.NEWSLETTER_COMPLETE);
   };
 
   return (
-    <section className="py-12">
-      <div className="max-w-5xl min-w-[80vw] mx-auto px-4 sm:px-6 lg:px-8 bg-[#EEF0EA] rounded-xl">
-        <div className="relative overflow-hidden rounded-xl  py-6 px-4 sm:px-8 text-center">
-          <h2
-            className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-800 mb-2"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
-            اشترك في نشرتنا البريدية
-          </h2>
-          <p
-            className="text-base sm:text-lg md:text-xl text-gray-600 mb-5"
-            style={{ fontFamily: "var(--font-almarai)" }}
-          >
-            احصل على آخر العروض والتخفيضات مباشرة إلى بريدك الإلكتروني
-          </p>
-          <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
-            <div className="flex items-center gap-3 flex-row-reverse">
-              <button
-                type="submit"
-                aria-label="اشتراك في النشرة"
-                className={`px-5 md:px-6 h-10 md:h-11 rounded-md text-white font-semibold shrink-0 transition-all ${
-                  isLoading ? "opacity-80 cursor-not-allowed" : "hover:opacity-95"
-                }`}
-                style={{
-                  backgroundColor: "#5A5E4D",
-                  fontFamily: "var(--font-almarai)",
-                }}
-                disabled={isLoading}
+    <section className="py-12 bg-background">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Container - matching bouquets section width */}
+        <div className="relative">
+          {/* Matching image design: bg-[#B5BAAA], rounded box, centered */}
+          <div className="bg-[#B5BAAA] rounded-[16px] p-8">
+            <div className="text-center max-w-4xl mx-auto">
+              {/* Title - centered, bold, dark gray */}
+              <h2
+                className="text-[22px] sm:text-[24px] font-bold text-gray-800 mb-4"
+                style={fontStyle}
               >
-                {isLoading ? "... جارٍ" : "اشتراك"}
-              </button>
-              <div className="relative flex-1">
+                اشترك في نشرتنا البريدية
+              </h2>
+              {/* Description - centered, lighter gray */}
+              <p className="text-[14px] sm:text-[16px] text-gray-600 mb-6" style={fontStyle}>
+                احصل على آخر العروض والتخفيضات مباشرة إلى بريدك الإلكتروني
+              </p>
+              {/* Form - horizontal row with input and button */}
+              <form
+                onSubmit={handleSubmit}
+                className="flex items-center justify-center gap-2 flex-wrap"
+              >
+                {/* Email Input - white background, rounded corners */}
                 <input
                   type="email"
                   value={email}
@@ -95,69 +88,57 @@ const NewsletterSection = () => {
                     if (error) setError("");
                   }}
                   placeholder="أدخل بريدك الإلكتروني"
-                  className={`w-full h-10 md:h-11 pr-4 pl-11 rounded-md border bg-white text-right placeholder-gray-400 focus:outline-none focus:ring-2 shadow-sm transition-all duration-200 ${
-                    error
-                      ? "border-red-300 focus:ring-red-300/30 bg-red-50/50"
-                      : "border-gray-300 focus:ring-[#5A5E4D]/30"
+                  className={`flex-1 min-w-[200px] max-w-md h-[48px] pr-4 pl-4 rounded-[4px] border border-gray-300 bg-white text-right placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 text-[14px] sm:text-[16px] ${
+                    error ? "border-red-300 bg-red-50/50" : ""
                   }`}
+                  style={{
+                    fontFamily: "var(--font-almarai)",
+                  }}
                 />
-                <span
-                  className={`pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 transition-colors duration-200 ${
-                    error ? "text-red-400" : "text-gray-400"
+                {/* Subscribe Button - darker green/gray, rounded corners */}
+                <button
+                  type="submit"
+                  aria-label="اشتراك في النشرة"
+                  className={`bg-[#6B7565] h-[48px] px-6 rounded-[4px] text-white font-normal text-[14px] sm:text-[16px] shrink-0 transition-all hover:opacity-90 ${
+                    isLoading ? "opacity-80 cursor-not-allowed" : ""
                   }`}
+                  style={{
+                    fontFamily: "var(--font-almarai)",
+                  }}
+                  disabled={isLoading}
                 >
-                  <Mail className="w-4 h-4" />
-                </span>
-              </div>
-            </div>
-          </form>
+                  {isLoading ? "... جارٍ" : "اشتراك"}
+                </button>
+              </form>
 
-          {/* شريط تقدم عند الإرسال */}
-          <div className="mt-4 h-1 rounded bg-white/50 overflow-hidden">
-            <div
-              className="h-full bg-[#5A5E4D] transition-all duration-200"
-              style={{
-                width: `${isLoading ? progress : isSuccess ? 100 : 0}%`,
-              }}
-            />
+              {/* رسائل الحالة - simplified */}
+              {error && (
+                <div className="mt-4 text-center">
+                  <p
+                    className="text-sm text-red-700"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                  >
+                    {error}
+                  </p>
+                </div>
+              )}
+
+              {isSuccess && (
+                <div className="mt-4 text-center">
+                  <p
+                    className="text-sm text-green-700"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                  >
+                    تم الاشتراك بنجاح! شكرًا لانضمامك.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
-
-          {/* رسائل الحالة */}
-          {error && (
-            <div className="mt-4 flex items-center justify-center">
-              <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-4 py-3 max-w-md">
-                <div className="flex-shrink-0">
-                  <Mail className="w-5 h-5 text-red-500" />
-                </div>
-                <p
-                  className="text-sm text-red-700 text-right"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
-                  {error}
-                </p>
-              </div>
-            </div>
-          )}
-
-          {isSuccess && (
-            <div className="mt-4 flex items-center justify-center">
-              <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-lg px-4 py-3 max-w-md">
-                <div className="flex-shrink-0">
-                  <Mail className="w-5 h-5 text-green-500" />
-                </div>
-                <p
-                  className="text-sm text-green-700 text-right"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
-                  تم الاشتراك بنجاح! شكرًا لانضمامك.
-                </p>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </section>

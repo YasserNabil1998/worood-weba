@@ -1,21 +1,9 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
-import bouquetsData from "./bouquets.json";
 import cardSuggestionsData from "./card-suggestions.json";
-import {
-  Flower,
-  BouquetSize,
-  BouquetStyle,
-  Color,
-  Occasion,
-  DeliveryTime,
-  PaymentMethod,
-  Config,
-  Vase,
-} from "@/src/@types/custom/index.type";
 
 // Hooks
 import { useCustomBouquetState } from "@/src/hooks/custom/useCustomBouquetState";
@@ -23,124 +11,68 @@ import { usePriceCalculations } from "@/src/hooks/custom/usePriceCalculations";
 import { useFlowerManagement } from "@/src/hooks/custom/useFlowerManagement";
 import { useHistoryOperations } from "@/src/hooks/custom/useHistoryOperations";
 import { useCartOperations } from "@/src/hooks/custom/useCartOperations";
+import { useCustomBuilderData } from "@/src/hooks/custom/useCustomBuilderData";
+import { useDesignFromUrl } from "@/src/hooks/custom/useDesignFromUrl";
 
 // Components
 import NotificationToast from "@/src/components/custom/NotificationToast";
 import StepIndicator from "@/src/components/custom/StepIndicator";
-import BouquetPreview from "@/src/components/custom/BouquetPreview";
-import FlowerSelectionStep from "@/src/components/custom/steps/FlowerSelectionStep";
-import SizeAndPackagingStep from "@/src/components/custom/steps/SizeAndPackagingStep";
-import CustomizationStep from "@/src/components/custom/steps/CustomizationStep";
-import DeliveryStep from "@/src/components/custom/steps/DeliveryStep";
+import CustomBuilderHeader from "@/src/components/custom/CustomBuilderHeader";
+import CustomBuilderNavigation from "@/src/components/custom/CustomBuilderNavigation";
+import CustomBuilderSteps from "@/src/components/custom/CustomBuilderSteps";
 import DataLoader from "@/src/components/DataLoader";
+import AOSWrapper from "@/src/components/common/AOSWrapper";
+import { UI_TEXTS } from "@/src/constants";
+
+const BouquetPreview = lazy(() => import("@/src/components/custom/BouquetPreview"));
 
 function CustomBuilderContent() {
   const searchParams = useSearchParams();
-
-  // Dynamic Data States
-  const [flowers, setFlowers] = useState<Flower[]>([]);
-  const [bouquetSizes, setBouquetSizes] = useState<BouquetSize[]>([]);
-  const [bouquetStyles, setBouquetStyles] = useState<BouquetStyle[]>([]);
-  const [vases, setVases] = useState<Vase[]>([]);
-  const [colors, setColors] = useState<Color[]>([]);
-  const [occasions, setOccasions] = useState<Occasion[]>([]);
-  const [deliveryTimes, setDeliveryTimes] = useState<DeliveryTime[]>([]);
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
-  const [config, setConfig] = useState<Config>({
-    vatRate: 0.15,
-    cardPrice: 15,
-  });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  // Custom hooks for state management
   const state = useCustomBouquetState();
 
-  // Load data - can be replaced with API call
+  // Load data
+  const {
+    flowers,
+    bouquetSizes,
+    bouquetStyles,
+    vases,
+    colors,
+    occasions,
+    deliveryTimes,
+    paymentMethods,
+    config,
+    isLoading,
+  } = useCustomBuilderData();
+
+  // Set default occasion when data loads
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        setIsLoading(true);
-        setFlowers(bouquetsData.flowers);
-        setBouquetSizes(bouquetsData.bouquetSizes);
-        setBouquetStyles(bouquetsData.bouquetStyles);
-        setVases(bouquetsData.vases);
-        setColors(bouquetsData.colors);
-        setOccasions(bouquetsData.occasions);
-        setDeliveryTimes(bouquetsData.deliveryTimes);
-        setPaymentMethods(bouquetsData.paymentMethods);
-        setConfig(bouquetsData.config);
-
-        if (bouquetsData.occasions.length > 0) {
-          state.setOccasion(bouquetsData.occasions[0].name);
-        }
-
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error loading bouquet data:", error);
-        setIsLoading(false);
-      }
-    };
-
-    loadData();
-  }, []);
-
-  // Load shared design from URL
-  useEffect(() => {
-    const designParam = searchParams.get("design");
-    if (designParam) {
-      try {
-        const design = JSON.parse(decodeURIComponent(designParam));
-        state.setSelectedFlowers(design.flowers || {});
-        state.setSelectedColors(design.colors || {});
-        state.setSize(design.size || "medium");
-        state.setStyle(design.style || "classic");
-        state.setOccasion(design.occasion || "عيد ميلاد");
-        state.setCardMessage(design.cardMessage || "");
-        state.setIncludeCard(design.includeCard || false);
-        state.setNotes(design.notes || "");
-
-        // Load packaging data
-        if (design.packagingType) {
-          state.setPackagingType(design.packagingType);
-        }
-        if (design.selectedVase) {
-          state.setSelectedVase(design.selectedVase);
-        }
-
-        // Load delivery data
-        if (design.deliveryDate) {
-          state.setDeliveryDate(design.deliveryDate);
-        }
-        if (design.deliveryTime) {
-          state.setDeliveryTime(design.deliveryTime);
-        }
-        if (design.city) {
-          state.setCity(design.city);
-        }
-        if (design.district) {
-          state.setDistrict(design.district);
-        }
-        if (design.street) {
-          state.setStreet(design.street);
-        }
-        if (design.landmark) {
-          state.setLandmark(design.landmark);
-        }
-        if (design.phone) {
-          state.setPhone(design.phone);
-        }
-        if (design.payMethod) {
-          state.setPayMethod(design.payMethod);
-        }
-
-        if (design.image) {
-          state.setBouquetImage(design.image);
-        }
-      } catch (e) {
-        console.error("Failed to parse design data:", e);
-      }
+    if (occasions.length > 0 && !state.occasion) {
+      state.setOccasion(occasions[0].name);
     }
-  }, [searchParams]);
+  }, [occasions, state]);
+
+  // Load design from URL
+  useDesignFromUrl({
+    setSelectedFlowers: state.setSelectedFlowers,
+    setSelectedColors: state.setSelectedColors,
+    setSize: state.setSize,
+    setStyle: state.setStyle,
+    setOccasion: state.setOccasion,
+    setCardMessage: state.setCardMessage,
+    setIncludeCard: state.setIncludeCard,
+    setNotes: state.setNotes,
+    setPackagingType: state.setPackagingType,
+    setSelectedVase: state.setSelectedVase,
+    setDeliveryDate: state.setDeliveryDate,
+    setDeliveryTime: state.setDeliveryTime,
+    setCity: state.setCity,
+    setDistrict: state.setDistrict,
+    setStreet: state.setStreet,
+    setLandmark: state.setLandmark,
+    setPhone: state.setPhone,
+    setPayMethod: state.setPayMethod,
+    setBouquetImage: state.setBouquetImage,
+  });
 
   // Helper functions
   const getStyleLabel = (s: "classic" | "premium" | "gift" | "eco") =>
@@ -262,6 +194,21 @@ function CustomBuilderContent() {
     ? "جاري تحديث الباقة في السلة..."
     : "جاري إضافة الباقة إلى السلة...";
 
+  const handlePreviousStep = () => {
+    if (state.step === 2) state.setStep(1);
+    else if (state.step === 3) state.setStep(2);
+    else if (state.step === 4) state.setStep(3);
+  };
+
+  const handleNextStep = () => {
+    if (state.step === 2) {
+      flowerManagement.completeFlowersForSize();
+      state.setStep(3);
+    } else if (state.step === 3) {
+      state.setStep(4);
+    }
+  };
+
   return (
     <DataLoader isLoading={state.isAddingToCart} loadingText={loadingText}>
       <div className="min-h-screen" dir="rtl">
@@ -271,152 +218,137 @@ function CustomBuilderContent() {
         />
 
         <main>
-          {/* Page Title Section */}
-          <section className="pt-8 pb-4">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-right">
-              <h1 className="text-[36px] font-bold leading-[40px] text-[#2D3319] mb-2 tracking-[0px]">
-                تنسيق باقة خاص
-              </h1>
-              <p className="text-[16px] font-normal leading-[24px] text-[#5A5E4D] tracking-[0px]">
-                صمّم باقتك الخاصة بالزهور التي تفضّلها
-              </p>
-            </div>
-          </section>
+          <AOSWrapper animation="fade-down" delay={0} duration={800}>
+            <CustomBuilderHeader />
+          </AOSWrapper>
 
-          {/* Content Section */}
           <section className="py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-                {/* Left - selector */}
                 <div className="order-2 lg:order-2 lg:col-span-2">
-                  <div className="bg-white rounded-lg border border-gray-200 p-3 sm:p-5 mb-4">
-                    <StepIndicator currentStep={state.step} onStepChange={state.setStep} />
-
-                    {/* Section title */}
-                    <div className="flex items-center justify-between mb-2">
-                      <h3
-                        className="text-sm font-semibold text-gray-800"
-                        style={{
-                          fontFamily: "var(--font-almarai)",
-                        }}
-                      >
-                        {state.step === 1 && "اختر الزهور"}
-                        {state.step === 2 && "اختيار الحجم والتغليف"}
-                        {state.step === 3 && "التخصيص"}
-                        {state.step === 4 && "التوصيل"}
-                      </h3>
+                  <AOSWrapper animation="fade-up" delay={100} duration={800}>
+                    <div className="mb-4">
+                      <StepIndicator currentStep={state.step} onStepChange={state.setStep} />
                     </div>
+                  </AOSWrapper>
 
-                    {/* Step content */}
-                    {state.step === 1 && (
-                      <FlowerSelectionStep
-                        flowers={flowers}
-                        selectedFlowers={state.selectedFlowers}
-                        totalFlowersCount={prices.totalFlowersCount}
-                        searchQuery={state.searchQuery}
-                        onSearchChange={state.setSearchQuery}
-                        onInc={flowerManagement.inc}
-                        onDec={flowerManagement.dec}
-                        qty={flowerManagement.qty}
-                        onNextStep={() => state.setStep(2)}
-                      />
-                    )}
-
-                    {state.step === 2 && (
-                      <SizeAndPackagingStep
-                        selectedFlowers={state.selectedFlowers}
-                        flowers={flowers}
-                        colors={colors}
-                        selectedColors={state.selectedColors}
-                        expandedFlower={state.expandedFlower}
-                        onToggleFlowerExpansion={toggleFlowerExpansion}
-                        onSetFlowerColor={flowerManagement.setFlowerColor}
-                        bouquetSizes={bouquetSizes}
-                        size={state.size}
-                        totalFlowersCount={prices.totalFlowersCount}
-                        customFlowerCount={state.customFlowerCount}
-                        onCustomFlowerCountChange={state.setCustomFlowerCount}
-                        onSizeChange={flowerManagement.handleSizeChange}
-                        packagingType={state.packagingType}
-                        onPackagingTypeChange={state.setPackagingType}
-                        bouquetStyles={bouquetStyles}
-                        style={state.style}
-                        onStyleChange={state.setStyle}
-                        vases={vases}
-                        selectedVase={state.selectedVase}
-                        onVaseChange={state.setSelectedVase}
-                        onPrevStep={() => state.setStep(1)}
-                        onNextStep={() => {
-                          flowerManagement.completeFlowersForSize();
-                          state.setStep(3);
-                        }}
-                      />
-                    )}
-
-                    {state.step === 3 && (
-                      <CustomizationStep
-                        occasions={occasions}
-                        occasion={state.occasion}
-                        onOccasionChange={state.setOccasion}
-                        includeCard={state.includeCard}
-                        onIncludeCardChange={state.setIncludeCard}
-                        cardMessage={state.cardMessage}
-                        onCardMessageChange={state.setCardMessage}
-                        showSuggestions={state.showSuggestions}
-                        onShowSuggestionsToggle={() =>
-                          state.setShowSuggestions(!state.showSuggestions)
+                  <AOSWrapper animation="fade-up" delay={150} duration={800}>
+                    <CustomBuilderSteps
+                      currentStep={state.step}
+                      flowers={flowers}
+                      selectedFlowers={state.selectedFlowers}
+                      totalFlowersCount={prices.totalFlowersCount}
+                      searchQuery={state.searchQuery}
+                      onSearchChange={state.setSearchQuery}
+                      onInc={(flowerId: string | number) => flowerManagement.inc(typeof flowerId === 'string' ? Number(flowerId) : flowerId)}
+                      onDec={(flowerId: string | number) => flowerManagement.dec(typeof flowerId === 'string' ? Number(flowerId) : flowerId)}
+                      qty={(flowerId: string | number) => flowerManagement.qty(typeof flowerId === 'string' ? Number(flowerId) : flowerId)}
+                      onNextStep={() => state.setStep(2)}
+                      colors={colors}
+                      selectedColors={Object.fromEntries(
+                        Object.entries(state.selectedColors).map(([key, value]) => [
+                          key,
+                          Array.isArray(value) ? value.join(',') : String(value)
+                        ])
+                      ) as Record<string, string>}
+                      expandedFlower={state.expandedFlower}
+                      onToggleFlowerExpansion={toggleFlowerExpansion}
+                      onSetFlowerColor={(flowerId: string, colorId: string) => flowerManagement.setFlowerColor(flowerId, Number(colorId))}
+                      bouquetSizes={bouquetSizes}
+                      size={state.size}
+                      customFlowerCount={state.customFlowerCount}
+                      onCustomFlowerCountChange={state.setCustomFlowerCount}
+                      onSizeChange={(newSize: string) => {
+                        if (["small", "medium", "large", "custom"].includes(newSize)) {
+                          flowerManagement.handleSizeChange(newSize as "small" | "medium" | "large" | "custom");
                         }
-                        cardSuggestions={cardSuggestionsData.cardSuggestions}
-                        notes={state.notes}
-                        onNotesChange={state.setNotes}
-                        config={config}
-                        onPrevStep={() => state.setStep(2)}
-                        onNextStep={() => state.setStep(4)}
-                      />
-                    )}
+                      }}
+                      packagingType={state.packagingType}
+                      onPackagingTypeChange={(type: string) => {
+                        if (["paper", "vase"].includes(type)) {
+                          state.setPackagingType(type as "paper" | "vase");
+                        }
+                      }}
+                      bouquetStyles={bouquetStyles}
+                      style={state.style}
+                      onStyleChange={(style: string) => {
+                        if (["classic", "premium", "gift", "eco"].includes(style)) {
+                          state.setStyle(style as "classic" | "premium" | "gift" | "eco");
+                        }
+                      }}
+                      vases={vases}
+                      selectedVase={state.selectedVase}
+                      onVaseChange={state.setSelectedVase}
+                      occasions={occasions}
+                      occasion={state.occasion}
+                      onOccasionChange={state.setOccasion}
+                      includeCard={state.includeCard}
+                      onIncludeCardChange={state.setIncludeCard}
+                      cardMessage={state.cardMessage}
+                      onCardMessageChange={state.setCardMessage}
+                      showSuggestions={state.showSuggestions}
+                      onShowSuggestionsToggle={() => state.setShowSuggestions(!state.showSuggestions)}
+                      cardSuggestions={cardSuggestionsData.cardSuggestions}
+                      notes={state.notes}
+                      onNotesChange={state.setNotes}
+                      config={config}
+                      deliveryType={state.deliveryType}
+                      onDeliveryTypeChange={(type: string) => {
+                        if (["today", "scheduled"].includes(type)) {
+                          state.setDeliveryType(type as "today" | "scheduled");
+                        }
+                      }}
+                      deliveryTimes={deliveryTimes}
+                      deliveryTime={state.deliveryTime}
+                      onDeliveryTimeChange={state.setDeliveryTime}
+                      deliveryDate={state.deliveryDate}
+                      onDeliveryDateChange={state.setDeliveryDate}
+                      isAddingToCart={state.isAddingToCart}
+                      onAddToCart={cartOps.addToCart}
+                    />
+                  </AOSWrapper>
 
-                    {state.step === 4 && (
-                      <DeliveryStep
-                        deliveryType={state.deliveryType}
-                        onDeliveryTypeChange={state.setDeliveryType}
-                        deliveryTimes={deliveryTimes}
-                        deliveryTime={state.deliveryTime}
-                        onDeliveryTimeChange={state.setDeliveryTime}
-                        deliveryDate={state.deliveryDate}
-                        onDeliveryDateChange={state.setDeliveryDate}
-                        isAddingToCart={state.isAddingToCart}
-                        onPrevStep={() => state.setStep(3)}
-                        onAddToCart={cartOps.addToCart}
-                      />
-                    )}
-                  </div>
+                  <AOSWrapper animation="fade-up" delay={200} duration={800}>
+                    <CustomBuilderNavigation
+                      currentStep={state.step}
+                      isAddingToCart={state.isAddingToCart}
+                      isEditMode={isEditMode}
+                      onPreviousStep={handlePreviousStep}
+                      onNextStep={handleNextStep}
+                      onAddToCart={cartOps.addToCart}
+                    />
+                  </AOSWrapper>
                 </div>
 
-                <BouquetPreview
-                  bouquetImage={state.bouquetImage}
-                  total={prices.total}
-                  totalFlowersCount={prices.totalFlowersCount}
-                  packagingType={state.packagingType}
-                  style={state.style}
-                  selectedVase={state.selectedVase}
-                  stylePrice={prices.stylePrice}
-                  vasePrice={prices.vasePrice}
-                  flowersPrice={prices.flowersPrice}
-                  includeCard={state.includeCard}
-                  cardPrice={prices.cardPrice}
-                  vat={prices.vat}
-                  vases={vases}
-                  size={state.size}
-                  customFlowerCount={state.customFlowerCount}
-                  selectedFlowers={state.selectedFlowers}
-                  flowers={flowers}
-                  selectedColors={state.selectedColors}
-                  colors={colors}
-                  onSaveToFavorites={historyOps.saveToFavorites}
-                  onShareDesign={historyOps.shareDesign}
-                  getStyleLabel={getStyleLabel}
-                  getVaseName={getVaseName}
-                />
+                <AOSWrapper animation="fade-left" delay={100} duration={800}>
+                  <Suspense fallback={<div className="text-center py-8">جاري تحميل المعاينة...</div>}>
+                    <BouquetPreview
+                    bouquetImage={state.bouquetImage}
+                    total={prices.total}
+                    totalFlowersCount={prices.totalFlowersCount}
+                    packagingType={state.packagingType}
+                    style={state.style}
+                    selectedVase={state.selectedVase}
+                    stylePrice={prices.stylePrice}
+                    vasePrice={prices.vasePrice}
+                    flowersPrice={prices.flowersPrice}
+                    includeCard={state.includeCard}
+                    cardPrice={prices.cardPrice}
+                    vat={prices.vat}
+                    vases={vases}
+                    size={state.size}
+                    customFlowerCount={state.customFlowerCount}
+                    selectedFlowers={state.selectedFlowers}
+                    flowers={flowers}
+                    selectedColors={state.selectedColors}
+                    colors={colors}
+                    onSaveToFavorites={historyOps.saveToFavorites}
+                    onShareDesign={historyOps.shareDesign}
+                    getStyleLabel={getStyleLabel}
+                      getVaseName={getVaseName}
+                    />
+                  </Suspense>
+                </AOSWrapper>
               </div>
             </div>
           </section>
@@ -430,7 +362,7 @@ export default function CustomBuilderPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center">جاري التحميل...</div>
+        <div className="min-h-screen flex items-center justify-center">{UI_TEXTS.LOADING}</div>
       }
     >
       <CustomBuilderContent />

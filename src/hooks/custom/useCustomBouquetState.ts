@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { PackagingType } from "@/src/@types/custom/index.type";
+import { CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/src/constants";
 
 export function useCustomBouquetState() {
   // Selected flowers and colors
@@ -34,7 +35,7 @@ export function useCustomBouquetState() {
   const [payMethod, setPayMethod] = useState<string>("mada");
 
   // UI state
-  const [bouquetImage, setBouquetImage] = useState<string>("/images/bouquets/IMG-224.png");
+  const [bouquetImage, setBouquetImage] = useState<string>(CUSTOM_BOUQUET_PREVIEW_IMAGE);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
   const isUpdatingFlowersRef = useRef(false);

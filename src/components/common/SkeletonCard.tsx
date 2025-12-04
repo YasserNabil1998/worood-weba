@@ -1,3 +1,5 @@
+import { UI_TEXTS } from "@/src/constants";
+
 /**
  * Skeleton Card Component
  * مكون عام لعرض placeholder أثناء التحميل
@@ -12,7 +14,7 @@ export default function SkeletonCard({ className = "" }: SkeletonCardProps) {
     <div
       className={`bg-white rounded-xl shadow-md overflow-hidden animate-pulse ${className}`}
       role="status"
-      aria-label="جاري التحميل..."
+      aria-label={UI_TEXTS.LOADING}
     >
       {/* Image placeholder */}
       <div className="h-80 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-shimmer" />

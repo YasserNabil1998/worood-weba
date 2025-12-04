@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { CheckCircle2, XCircle, AlertCircle, Info, X } from "lucide-react";
 import { COLORS } from "@/src/constants";
+import { fontStyle } from "@/src/lib/styles";
 
 interface Notification {
   id: string;
@@ -99,7 +100,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
                 hover:shadow-xl transition-shadow
                 relative overflow-hidden
               `}
-              style={{ fontFamily: "var(--font-almarai)" }}
+              style={fontStyle}
               role="alert"
             >
               {/* Icon */}

@@ -11,13 +11,53 @@
 }
 
 :root {
-  --background: linear-gradient(180deg, #f1f4e8 0%, #e6ead7 35%, #dce2cc 65%, #d3dac4 100%);
-  --foreground: #171717;
+  /* الألوان الأساسية - يتم استخدامها من COLORS constants */
+  --background: #fbfaf2; /* COLORS.BACKGROUND */
+  --foreground: #171717; /* COLORS.FOREGROUND */
+  --primary: #5a5e4d; /* COLORS.PRIMARY */
+  --primary-dark: #4a4e3d; /* COLORS.PRIMARY_DARK */
+
+  /* نظام موحد لأحجام الخطوط الريسبونسيف */
+  /* Mobile (base) → Tablet (md: 768px) → Desktop (lg: 1024px) */
+  --font-size-xs: 10px; /* Mobile */
+  --font-size-sm: 12px; /* Mobile */
+  --font-size-base: 14px; /* Mobile */
+  --font-size-lg: 16px; /* Mobile */
+  --font-size-xl: 18px; /* Mobile */
+  --font-size-2xl: 20px; /* Mobile */
+  --font-size-3xl: 24px; /* Mobile */
+  --font-size-4xl: 28px; /* Mobile */
+}
+
+@media (min-width: 768px) {
+  :root {
+    --font-size-xs: 11px; /* Tablet */
+    --font-size-sm: 13px; /* Tablet */
+    --font-size-base: 15px; /* Tablet */
+    --font-size-lg: 18px; /* Tablet */
+    --font-size-xl: 20px; /* Tablet */
+    --font-size-2xl: 24px; /* Tablet */
+    --font-size-3xl: 28px; /* Tablet */
+    --font-size-4xl: 32px; /* Tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --font-size-xs: 12px; /* Desktop */
+    --font-size-sm: 14px; /* Desktop */
+    --font-size-base: 16px; /* Desktop */
+    --font-size-lg: 20px; /* Desktop */
+    --font-size-xl: 24px; /* Desktop */
+    --font-size-2xl: 28px; /* Desktop */
+    --font-size-3xl: 32px; /* Desktop */
+    --font-size-4xl: 36px; /* Desktop */
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: linear-gradient(180deg, #f1f4e8 0%, #e6ead7 35%, #dce2cc 65%, #d3dac4 100%);
+    --background: #fbfaf2;
     --foreground: #171717;
   }
 }
@@ -27,6 +67,12 @@ body {
   color: var(--foreground);
   font-family: "Fedra Sans Arabic AR", sans-serif;
   padding-top: 80px; /* Space for fixed header on desktop */
+  overflow-x: hidden; /* منع السكرول الأفقي */
+}
+
+/* Global button cursor pointer */
+button {
+  cursor: pointer;
 }
 
 @media (max-width: 1023px) {
@@ -37,6 +83,36 @@ body {
 
 * {
   font-family: "Fedra Sans Arabic AR", sans-serif;
+  box-sizing: border-box;
+}
+
+/* منع السكرول الأفقي في جميع العناصر */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* التأكد من أن العناصر الرئيسية لا تسبب سكرول أفقي */
+#__next,
+#root {
+  overflow-x: hidden;
+}
+
+/* التأكد من أن الصور والعناصر لا تسبب سكرول أفقي */
+img,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* استثناء للشعار في Header - السماح بالحجم المحدد */
+header a[href="/"] img,
+header .flex.items-center img[alt="زهور الشمس"],
+header img[alt="زهور الشمس"] {
+  max-width: none !important;
+  width: auto !important;
 }
 
 /* Custom styles for Arabic text */
@@ -65,6 +141,7 @@ body {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden; /* منع السكرول الأفقي */
 }
 
 /* Custom scrollbar */
@@ -73,16 +150,44 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #f1f1f1; /* COLORS.SCROLLBAR_TRACK */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: #c1c1c1; /* COLORS.SCROLLBAR_THUMB */
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  background: #a8a8a8; /* COLORS.SCROLLBAR_THUMB_HOVER */
+}
+
+/* Custom scrollbar for order items - positioned on the right */
+.custom-scrollbar {
+  direction: ltr;
+}
+
+.custom-scrollbar > * {
+  direction: rtl;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f8f9fa; /* COLORS.CUSTOM_SCROLLBAR_TRACK */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1; /* COLORS.CUSTOM_SCROLLBAR_THUMB */
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; /* COLORS.CUSTOM_SCROLLBAR_THUMB_HOVER */
 }
 
 /* Notification animation */
@@ -167,12 +272,65 @@ html {
   transform: translateY(-8px);
 }
 
+/* Feature Icon Animations */
 .feature-icon-wrapper {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: iconFloat 3s ease-in-out infinite;
 }
 
 .feature-card:hover .feature-icon-wrapper {
-  transform: scale(1.1) rotate(5deg);
+  transform: scale(1.05) rotate(5deg);
+  animation: iconPulse 1.5s ease-in-out infinite;
+}
+
+.feature-icon-inner {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: visible;
+}
+
+.feature-card:hover .feature-icon-inner::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  /* COLORS.GRADIENT_START و COLORS.GRADIENT_END */
+  background: linear-gradient(135deg, rgba(90, 94, 77, 0.1), rgba(90, 94, 77, 0.05));
+  opacity: 1;
+  animation: iconGlow 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes iconFloat {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes iconPulse {
+  0%,
+  100% {
+    transform: scale(1.05) rotate(5deg);
+  }
+  50% {
+    transform: scale(1.08) rotate(3deg);
+  }
+}
+
+@keyframes iconGlow {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
 }
 
 /* Hide scrollbar but keep functionality */
@@ -204,17 +362,17 @@ select option {
 }
 
 .order-items-scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #f1f1f1; /* COLORS.SCROLLBAR_TRACK */
   border-radius: 10px;
 }
 
 .order-items-scrollbar::-webkit-scrollbar-thumb {
-  background: #5a5e4d;
+  background: #5a5e4d; /* COLORS.PRIMARY */
   border-radius: 10px;
 }
 
 .order-items-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #6b6f5e;
+  background: #6b6f5e; /* COLORS.PRIMARY_HOVER */
 }
 
 /* Skeleton Loading Animation */
@@ -229,4 +387,305 @@ select option {
 
 .animate-shimmer {
   animation: shimmer 2s infinite linear;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Featured Bouquets Smooth Transition Animation */
+@keyframes fadeInSlide {
+  from {
+    opacity: 0.7;
+    transform: translateX(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeInSlide {
+  animation: fadeInSlide 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* نظام موحد لأحجام الخطوط الريسبونسيف - Utility Classes */
+.text-responsive-xs {
+  font-size: var(--font-size-xs);
+}
+
+.text-responsive-sm {
+  font-size: var(--font-size-sm);
+}
+
+.text-responsive-base {
+  font-size: var(--font-size-base);
+}
+
+.text-responsive-lg {
+  font-size: var(--font-size-lg);
+}
+
+.text-responsive-xl {
+  font-size: var(--font-size-xl);
+}
+
+.text-responsive-2xl {
+  font-size: var(--font-size-2xl);
+}
+
+.text-responsive-3xl {
+  font-size: var(--font-size-3xl);
+}
+
+.text-responsive-4xl {
+  font-size: var(--font-size-4xl);
+}
+
+/* Scroll Animation Classes - أنيميشن التمرير (مشابه لـ Elementor/WOW.js) */
+/* Fade Up Animation - الأنيميشن الأساسي (مشابه لـ fadeInUp) */
+.scroll-animate-fadeUp-hidden {
+  opacity: 0;
+  transform: translateY(80px) scale(0.95);
+  transition:
+    opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, transform;
+}
+
+.scroll-animate-fadeUp-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Fade In Animation (مشابه لـ fadeIn) */
+.scroll-animate-fadeIn-hidden {
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity;
+}
+
+.scroll-animate-fadeIn-visible {
+  opacity: 1;
+}
+
+/* Slide Left Animation - للعناصر من اليمين (مشابه لـ fadeInLeft) */
+.scroll-animate-slideLeft-hidden {
+  opacity: 0;
+  transform: translateX(100px) scale(0.95);
+  transition:
+    opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, transform;
+}
+
+.scroll-animate-slideLeft-visible {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+/* Slide Right Animation - للعناصر من اليسار (مشابه لـ fadeInRight) */
+.scroll-animate-slideRight-hidden {
+  opacity: 0;
+  transform: translateX(-100px) scale(0.95);
+  transition:
+    opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, transform;
+}
+
+.scroll-animate-slideRight-visible {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+/* Scale In Animation (مشابه لـ zoomIn) */
+.scroll-animate-scaleIn-hidden {
+  opacity: 0;
+  transform: scale(0.8);
+  transition:
+    opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, transform;
+}
+
+.scroll-animate-scaleIn-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Fade Up Stagger - للعناصر المتعددة مع تأخير (مشابه لـ Elementor/WOW.js) */
+.scroll-animate-fadeUpStagger-hidden {
+  opacity: 0;
+  transform: translateY(60px) scale(0.96);
+  transition:
+    opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, transform;
+}
+
+.scroll-animate-fadeUpStagger-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* تحسين الأداء - استخدام GPU acceleration */
+.scroll-animate-fadeUp-hidden,
+.scroll-animate-fadeUp-visible,
+.scroll-animate-fadeIn-hidden,
+.scroll-animate-fadeIn-visible,
+.scroll-animate-slideLeft-hidden,
+.scroll-animate-slideLeft-visible,
+.scroll-animate-slideRight-hidden,
+.scroll-animate-slideRight-visible,
+.scroll-animate-scaleIn-hidden,
+.scroll-animate-scaleIn-visible,
+.scroll-animate-fadeUpStagger-hidden,
+.scroll-animate-fadeUpStagger-visible {
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+/* تحسينات AOS - أنيميشن أكثر عصرية */
+[data-aos] {
+  pointer-events: none;
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+[data-aos].aos-animate {
+  pointer-events: auto;
+}
+
+/* تحسينات إضافية للأنيميشن العصرية */
+[data-aos="fade-up"],
+[data-aos="fade-down"],
+[data-aos="fade-left"],
+[data-aos="fade-right"],
+[data-aos="zoom-in"],
+[data-aos="zoom-out"],
+[data-aos="flip-up"],
+[data-aos="flip-down"] {
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* تحسين خاص لكاردات الباقات - أنيميشن أكثر سلاسة */
+[data-aos="fade-up"] .grid > [data-aos] {
+  transition:
+    opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Falling Flowers Animation - أنيميشن الورود المتساقطة */
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.85;
+  }
+  25% {
+    transform: translateY(-8px) rotate(4deg) scale(1.02);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(-4px) rotate(-2deg) scale(0.98);
+    opacity: 0.85;
+  }
+  75% {
+    transform: translateY(-12px) rotate(3deg) scale(1.01);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.85;
+  }
+}
+
+@keyframes gentleGlow {
+  0%,
+  100% {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12)) drop-shadow(0 0 12px rgba(139, 69, 19, 0.15));
+  }
+  50% {
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15)) drop-shadow(0 0 16px rgba(139, 69, 19, 0.2));
+  }
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-fall {
+  animation: fall linear infinite;
+}
+
+/* Sticky sidebar for bouquets page */
+@media (min-width: 1024px) {
+  .sticky-sidebar {
+    position: -webkit-sticky !important; /* Safari */
+    position: sticky !important;
+    top: 6rem !important;
+    align-self: flex-start !important;
+    z-index: 10;
+    height: fit-content;
+    max-height: calc(100vh - 7rem);
+  }
+}
+
+/* منع AOS من التأثير على العناصر التي تحتوي على data-aos="none" */
+[data-aos="none"] * {
+  transform: none !important;
+  opacity: 1 !important;
+  will-change: auto !important;
+}
+
+/* التأكد من أن sticky يعمل حتى مع وجود AOS */
+aside[data-aos="none"],
+div[data-aos="none"] {
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* منع AOS من إضافة transform على الـ parent containers التي تحتوي على sticky elements */
+.grid:has([data-aos="none"]),
+section:has([data-aos="none"]) {
+  transform: none !important;
+}
+
+/* CSS rules قوية لضمان عمل sticky - تجاوز أي transform من AOS */
+.lg\:sticky[data-aos="none"] {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  transform: none !important;
+  will-change: auto !important;
 }

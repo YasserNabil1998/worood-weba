@@ -1,4 +1,5 @@
 import { Flower, Color } from "@/src/@types/custom/index.type";
+import { fontStyle } from "@/src/lib/styles";
 
 interface FlowerColorSelectorProps {
   selectedFlowers: Record<number, number>;
@@ -27,10 +28,7 @@ export default function FlowerColorSelector({
 
   return (
     <div>
-      <div
-        className="mb-3 text-sm font-semibold text-gray-800"
-        style={{ fontFamily: "var(--font-almarai)" }}
-      >
+      <div className="mb-3 text-sm font-semibold text-gray-800" style={fontStyle}>
         اختر لون كل زهرة
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 items-start">
@@ -91,49 +89,45 @@ export default function FlowerColorSelector({
                 </div>
               </button>
 
-              {/* Colors Section - Collapsible */}
+              {/* Colors Section - Dropdown */}
               {availableColors.length > 0 && (
                 <div
                   className={`transition-all duration-200 overflow-hidden ${
-                    isExpanded ? "max-h-32 opacity-100" : "max-h-0 opacity-0"
+                    isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                   }`}
                 >
                   <div className="px-3 pb-3 border-t border-gray-100">
-                    <div className="flex items-center gap-2 flex-wrap pt-2">
+                    <div className="pt-2 space-y-0.5">
                       {availableColors.map((colorId) => {
                         const color = colors.find((c) => c.id === colorId);
                         if (!color) return null;
+                        const isSelected = selectedColorIds.includes(colorId);
 
                         return (
                           <button
                             key={colorId}
                             onClick={() => onSetFlowerColor(flowerId, colorId)}
-                            className={`relative w-6 h-6 rounded-full border-2 transition-all hover:scale-110 ${
-                              selectedColorIds.includes(colorId)
-                                ? "border-[#5A5E4D] ring-1 ring-[#5A5E4D]"
-                                : "border-gray-300 hover:border-gray-400"
+                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md transition-all text-right ${
+                              isSelected
+                                ? "bg-gray-100"
+                                : "hover:bg-gray-50"
                             }`}
-                            style={{
-                              backgroundColor: color.color,
-                            }}
-                            title={color.name}
                           >
-                            {selectedColorIds.includes(colorId) && (
-                              <span className="absolute inset-0 flex items-center justify-center text-white text-xs font-bold">
-                                ✓
-                              </span>
-                            )}
+                            {/* Color Swatch - على اليسار */}
+                            <div
+                              className="w-5 h-5 rounded border border-gray-300 flex-shrink-0"
+                              style={{
+                                backgroundColor: color.color,
+                              }}
+                            />
+                            {/* Color Name - على اليمين */}
+                            <span className="flex-1 text-sm font-normal text-gray-900" style={fontStyle}>
+                              {color.name}
+                            </span>
                           </button>
                         );
                       })}
                     </div>
-                    {selectedColorIds.length > 0 && (
-                      <p className="mt-2 text-xs text-green-600 flex items-center gap-1">
-                        <span>✓</span>
-                        تم اختيار
-                        {selectedColorIds.length > 1 ? " الألوان" : " اللون"}
-                      </p>
-                    )}
                   </div>
                 </div>
               )}

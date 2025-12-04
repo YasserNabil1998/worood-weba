@@ -4,9 +4,11 @@ import type { JSX } from "react";
 
 import { useNotification } from "../providers/notification-provider";
 import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
+import { STORAGE_KEYS, UI_TEXTS } from "@/src/constants";
 import type { CartItem } from "@/src/@types/cart/CartItem.type";
 import { addProductToCart } from "@/src/lib/cartUtils";
+import { logError } from "../lib/logger";
+import { fontStyle } from "@/src/lib/styles";
 
 interface AddToCartButtonProps {
   productId: number | string;
@@ -28,7 +30,7 @@ export default function AddToCartButton({
       const normalizedProductId = typeof productId === "number" ? productId : Number(productId);
 
       if (Number.isNaN(normalizedProductId)) {
-        console.error("معرف المنتج غير صالح:", productId);
+        logError("معرف المنتج غير صالح", new Error("Invalid product ID"), { productId });
         showNotification("تعذر إضافة المنتج بسبب معرف غير صالح", "error");
         return;
       }
@@ -56,7 +58,7 @@ export default function AddToCartButton({
       const message = isNew ? "تم إضافة المنتج إلى السلة" : "تم زيادة كمية المنتج في السلة";
       showNotification(message, "success");
     } catch (error) {
-      console.error("خطأ في إضافة المنتج للسلة:", error);
+      logError("خطأ في إضافة المنتج للسلة", error, { productId, productName, productPrice });
       showNotification("حدث خطأ في إضافة المنتج للسلة", "error");
     }
   };
@@ -65,9 +67,9 @@ export default function AddToCartButton({
     <button
       onClick={handleAddToCart}
       className="flex-1 bg-[#5A5E4D] text-white py-4 px-6 rounded-lg font-semibold hover:bg-[#4A4E3D] transition-colors"
-      style={{ fontFamily: "var(--font-almarai)" }}
+      style={fontStyle}
     >
-      أضف إلى السلة
+      {UI_TEXTS.ADD_TO_CART}
     </button>
   );
 }

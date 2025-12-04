@@ -19,6 +19,7 @@ export interface Assets {
     mada: string;
     visa: string;
     applePay: string;
+    cod: string;
   };
   icons: {
     occasions: {
@@ -48,15 +49,16 @@ export interface Assets {
 export const ASSETS: Assets = {
   // الشعارات - Logos
   logos: {
-    main: "/Logo-shams.svg",
-    alternate: "/Logo-shams.svg",
+    main: "/assets/Logo.svg",
+    alternate: "/assets/Logo.svg",
   },
 
   // أيقونات طرق الدفع - Payment Methods
   payment: {
-    mada: "/images/payment/mada.svg",
-    visa: "/images/payment/visa.svg",
-    applePay: "/images/payment/applePay.svg",
+    mada: "/assets/card-outline.svg",
+    visa: "/assets/card-outline.svg",
+    applePay: "/assets/apple-pay.svg",
+    cod: "/assets/cash-on-delivery.svg",
   },
 
   // أيقونات المناسبات - Occasion Icons (using Lucide icons)

@@ -14,6 +14,7 @@ import {
   ProductActions,
   ColorSelector,
 } from "@/src/components/product";
+import AOSWrapper from "@/src/components/common/AOSWrapper";
 import { useProductDetails } from "@/src/hooks/useProductDetails";
 import { PRODUCT_DATA } from "@/src/constants/productData";
 import { generateProductSchema, generateBreadcrumbSchema } from "@/src/lib/structuredData";
@@ -92,85 +93,98 @@ export default function ProductDetailPage() {
         ) : (
           <main className="max-w-7xl mx-auto px-4 py-8 lg:py-12">
             {/* Breadcrumb */}
-            <nav className="flex items-center gap-2 text-sm mb-8">
-              <Link href="/" className="text-gray-500 hover:text-[#5A5E4D] transition-colors">
-                الرئيسية
-              </Link>
-              <span className="text-gray-400">/</span>
-              <Link
-                href="/bouquets"
-                className="text-gray-500 hover:text-[#5A5E4D] transition-colors"
-              >
-                الباقات
-              </Link>
-              <span className="text-gray-400">/</span>
-              <span className="text-[#5A5E4D] font-medium">{product.title}</span>
-            </nav>
+            <AOSWrapper animation="fade-in" delay={50} duration={800}>
+              <nav className="flex items-center gap-2 text-sm mb-8">
+                <Link href="/" className="text-gray-500 hover:text-[#5A5E4D] transition-colors">
+                  الرئيسية
+                </Link>
+                <span className="text-gray-400">/</span>
+                <Link
+                  href="/bouquets"
+                  className="text-gray-500 hover:text-[#5A5E4D] transition-colors"
+                >
+                  الباقات
+                </Link>
+                <span className="text-gray-400">/</span>
+                <span className="text-[#5A5E4D] font-medium">{product.title}</span>
+              </nav>
+            </AOSWrapper>
 
             {/* Product Content */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
               {/* Product Images */}
-              <ProductImageGallery
-                images={product.images}
-                title={product.title}
-                selectedImage={selectedImage}
-                onImageSelect={setSelectedImage}
-              />
+              <AOSWrapper animation="fade-left" delay={100} duration={800}>
+                <ProductImageGallery
+                  images={product.images}
+                  title={product.title}
+                  selectedImage={selectedImage}
+                  onImageSelect={setSelectedImage}
+                />
+              </AOSWrapper>
 
               {/* Product Info */}
-              <div className="space-y-4">
-                {/* Title & Price */}
-                <ProductInfo
-                  productId={product.id.toString()}
-                  title={product.title}
-                  price={product.price}
-                  currency={product.currency}
-                  description={product.description}
-                />
-
-                <div className="border-t border-gray-200 pt-4">
-                  {/* Size Selection */}
-                  <SizeSelector
-                    sizes={[...PRODUCT_DATA.sizes]}
-                    selectedSize={options.selectedSize}
-                    onSizeChange={(size) => updateOption("selectedSize", size)}
+              <AOSWrapper animation="fade-right" delay={150} duration={800}>
+                <div className="space-y-4">
+                  {/* Title & Price */}
+                  <ProductInfo
+                    productId={product.id.toString()}
+                    title={product.title}
+                    price={product.price}
                     currency={product.currency}
+                    description={product.description}
+                    product={{
+                      id: product.id,
+                      title: product.title,
+                      price: product.price,
+                      currency: product.currency,
+                      image: product.image,
+                    }}
                   />
 
-                  {/* Color Selection */}
-                  <ColorSelector
-                    colors={PRODUCT_DATA.colors}
-                    selectedColor={options.color}
-                    onColorChange={(color) => updateOption("color", color)}
-                  />
+                  <div className="border-t border-gray-200 pt-4">
+                    {/* Size Selection */}
+                    <SizeSelector
+                      sizes={[...PRODUCT_DATA.sizes]}
+                      selectedSize={options.selectedSize}
+                      onSizeChange={(size) => updateOption("selectedSize", size)}
+                      currency={product.currency}
+                    />
 
-                  {/* Addons */}
-                  <ProductAddons
-                    cardAddon={PRODUCT_DATA.addons.card}
-                    chocolateAddon={PRODUCT_DATA.addons.chocolate}
-                    giftWrapAddon={PRODUCT_DATA.addons.giftWrap}
-                    currency={product.currency}
-                    addCard={options.addCard}
-                    addChocolate={options.addChocolate}
-                    giftWrap={options.giftWrap}
-                    cardMessage={options.cardMessage}
-                    onCardToggle={(checked) => updateOption("addCard", checked)}
-                    onChocolateToggle={(checked) => updateOption("addChocolate", checked)}
-                    onGiftWrapToggle={(checked) => updateOption("giftWrap", checked)}
-                    onCardMessageChange={(message) => updateOption("cardMessage", message)}
-                  />
+                    {/* Color Selection */}
+                    <ColorSelector
+                      colors={PRODUCT_DATA.colors}
+                      selectedColor={options.color}
+                      onColorChange={(color) => updateOption("color", color)}
+                    />
 
-                  {/* Quantity & Add to Cart */}
-                  <ProductActions
-                    quantity={options.quantity}
-                    totalPrice={getTotalPrice()}
-                    currency={product.currency}
-                    onQuantityChange={(quantity) => updateOption("quantity", quantity)}
-                    onAddToCart={handleAddToCart}
-                    isEditMode={isEditMode}
-                  />
+                    {/* Addons */}
+                    <ProductAddons
+                      cardAddon={PRODUCT_DATA.addons.card}
+                      chocolateAddon={PRODUCT_DATA.addons.chocolate}
+                      giftWrapAddon={PRODUCT_DATA.addons.giftWrap}
+                      currency={product.currency}
+                      addCard={options.addCard}
+                      addChocolate={options.addChocolate}
+                      giftWrap={options.giftWrap}
+                      cardMessage={options.cardMessage}
+                      onCardToggle={(checked) => updateOption("addCard", checked)}
+                      onChocolateToggle={(checked) => updateOption("addChocolate", checked)}
+                      onGiftWrapToggle={(checked) => updateOption("giftWrap", checked)}
+                      onCardMessageChange={(message) => updateOption("cardMessage", message)}
+                    />
+
+                    {/* Quantity & Add to Cart */}
+                    <ProductActions
+                      quantity={options.quantity}
+                      totalPrice={getTotalPrice()}
+                      currency={product.currency}
+                      onQuantityChange={(quantity) => updateOption("quantity", quantity)}
+                      onAddToCart={handleAddToCart}
+                      isEditMode={isEditMode}
+                    />
+                  </div>
                 </div>
-              </div>
+              </AOSWrapper>
             </div>
           </main>
         )}
