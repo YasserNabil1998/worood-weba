@@ -41,7 +41,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbfaf2]" dir="rtl">
+    <div className="min-h-screen bg-background" dir="rtl">
       <main>
         {/* Page Title Section */}
         <section className="pt-8 pb-4">

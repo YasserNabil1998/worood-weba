@@ -10,6 +10,7 @@ import ToggleButton from "@/src/components/ToggleButton";
 import Sidebar from "@/src/components/Sidebar";
 import { fontStyle } from "@/src/lib/styles";
 import { TIMEOUTS } from "@/src/constants";
+import AOSWrapper from "@/src/components/common/AOSWrapper";
 
 // FilterSection was removed as it was unused
 
@@ -34,14 +35,10 @@ function useBouquetListing(
     if (type !== "all") {
       if (type === "vases") {
         // Filter items that contain "مزهرية" in the title
-        filteredItems = filteredItems.filter((item) => 
-          item.title.includes("مزهرية")
-        );
+        filteredItems = filteredItems.filter((item) => item.title.includes("مزهرية"));
       } else if (type === "bouquets") {
         // Filter items that don't contain "مزهرية" in the title
-        filteredItems = filteredItems.filter((item) => 
-          !item.title.includes("مزهرية")
-        );
+        filteredItems = filteredItems.filter((item) => !item.title.includes("مزهرية"));
       }
     }
 
@@ -142,7 +139,7 @@ export default function BouquetsListingClient({
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   }, [page]);
 
@@ -169,7 +166,7 @@ export default function BouquetsListingClient({
   return (
     <div className="space-y-6" dir="rtl">
       <ToggleButton isFiltersOpen={isFiltersOpen} setIsFiltersOpen={setIsFiltersOpen} />
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:items-start" style={{ transform: 'none' }}>
         <Sidebar
           isFiltersOpen={isFiltersOpen}
           setIsFiltersOpen={setIsFiltersOpen}
@@ -189,18 +186,23 @@ export default function BouquetsListingClient({
         <div className="lg:col-span-3 space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end gap-4">
             <div className="flex items-center gap-4 w-full sm:w-auto">
-              <span className="text-[18px] font-medium text-[#4d4d4d] whitespace-nowrap" style={fontStyle}>
+              <span
+                className="text-[18px] font-medium text-[#4d4d4d] whitespace-nowrap"
+                style={fontStyle}
+              >
                 الترتيب حسب
               </span>
               <div className="relative w-full sm:w-[195px]">
                 <button
                   type="button"
                   onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-                  onBlur={() => setTimeout(() => setIsSortDropdownOpen(false), TIMEOUTS.DROPDOWN_CLOSE_DELAY)}
+                  onBlur={() =>
+                    setTimeout(() => setIsSortDropdownOpen(false), TIMEOUTS.DROPDOWN_CLOSE_DELAY)
+                  }
                   className="w-full h-[45px] rounded-[10px] border border-[#c6c5c5] bg-white px-4 py-2.5 text-right text-[18px] text-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 cursor-pointer flex items-center justify-between"
-                  style={{ 
+                  style={{
                     paddingLeft: "2.5rem",
-                    fontFamily: "var(--font-almarai)"
+                    fontFamily: "var(--font-almarai)",
                   }}
                 >
                   <span>
@@ -217,9 +219,9 @@ export default function BouquetsListingClient({
                 </button>
 
                 {isSortDropdownOpen && (
-                  <div 
+                  <div
                     className="absolute z-50 w-full mt-1 bg-white border border-[#c6c5c5] rounded-[10px] shadow-lg max-h-[200px] overflow-y-auto"
-                    style={{ direction: 'ltr' }}
+                    style={{ direction: "ltr" }}
                   >
                     {[
                       { value: "popular", label: "الأكثر طلبا" },
@@ -305,9 +307,25 @@ export default function BouquetsListingClient({
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
-              {current.map((i) => (
-                <ProductCard key={i.id} item={i} />
-              ))}
+              {current.map((i, index) => {
+                // أنيميشن متدرج جميل: fade-up مع تأخير متدرج سلس
+                // كل كاردة تظهر بعد الأخرى بشكل متدرج
+                const delay = Math.min(index * 60, 300); // تأخير أقصاه 300ms
+
+                return (
+                  <AOSWrapper
+                    key={i.id}
+                    animation="fade-up"
+                    delay={delay}
+                    duration={600}
+                    offset={80}
+                  >
+                    <div className="h-full">
+                      <ProductCard item={i} />
+                    </div>
+                  </AOSWrapper>
+                );
+              })}
             </div>
           )}
           {sorted.length > 0 && (

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ROUTES } from "@/src/constants/routes";
 import { ArrowLeft } from "lucide-react";
+import { UI_TEXTS } from "@/src/constants";
 
 const OccasionsSection = () => {
   const occasions = [
@@ -53,7 +54,7 @@ const OccasionsSection = () => {
             href="/bouquets"
             className="text-primary hover:underline text-sm font-semibold cursor-pointer"
           >
-            عرض الكل <ArrowLeft className="w-4 h-4 inline mr-1" />
+            {UI_TEXTS.VIEW_ALL} <ArrowLeft className="w-4 h-4 inline mr-1" />
           </Link>
         </div>
 

@@ -56,81 +56,87 @@ const NewsletterSection = () => {
   };
 
   return (
-    <section className="py-12 bg-[#fbfaf2]">
+    <section className="py-12 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Container - matching bouquets section width */}
         <div className="relative">
           {/* Matching image design: bg-[#B5BAAA], rounded box, centered */}
           <div className="bg-[#B5BAAA] rounded-[16px] p-8">
             <div className="text-center max-w-4xl mx-auto">
-            {/* Title - centered, bold, dark gray */}
-            <h2 className="text-[22px] sm:text-[24px] font-bold text-gray-800 mb-4" style={fontStyle}>
-              اشترك في نشرتنا البريدية
-            </h2>
-            {/* Description - centered, lighter gray */}
-            <p className="text-[14px] sm:text-[16px] text-gray-600 mb-6" style={fontStyle}>
-              احصل على آخر العروض والتخفيضات مباشرة إلى بريدك الإلكتروني
-            </p>
-            {/* Form - horizontal row with input and button */}
-            <form onSubmit={handleSubmit} className="flex items-center justify-center gap-2 flex-wrap">
-              {/* Email Input - white background, rounded corners */}
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (error) setError("");
-                }}
-                placeholder="أدخل بريدك الإلكتروني"
-                className={`flex-1 min-w-[200px] max-w-md h-[48px] pr-4 pl-4 rounded-[4px] border border-gray-300 bg-white text-right placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 text-[14px] sm:text-[16px] ${
-                  error ? "border-red-300 bg-red-50/50" : ""
-                }`}
-                style={{
-                  fontFamily: "var(--font-almarai)",
-                }}
-              />
-              {/* Subscribe Button - darker green/gray, rounded corners */}
-              <button
-                type="submit"
-                aria-label="اشتراك في النشرة"
-                className={`bg-[#6B7565] h-[48px] px-6 rounded-[4px] text-white font-normal text-[14px] sm:text-[16px] shrink-0 transition-all hover:opacity-90 ${
-                  isLoading ? "opacity-80 cursor-not-allowed" : ""
-                }`}
-                style={{
-                  fontFamily: "var(--font-almarai)",
-                }}
-                disabled={isLoading}
+              {/* Title - centered, bold, dark gray */}
+              <h2
+                className="text-[22px] sm:text-[24px] font-bold text-gray-800 mb-4"
+                style={fontStyle}
               >
-                {isLoading ? "... جارٍ" : "اشتراك"}
-              </button>
-            </form>
-
-            {/* رسائل الحالة - simplified */}
-            {error && (
-              <div className="mt-4 text-center">
-                <p
-                  className="text-sm text-red-700"
+                اشترك في نشرتنا البريدية
+              </h2>
+              {/* Description - centered, lighter gray */}
+              <p className="text-[14px] sm:text-[16px] text-gray-600 mb-6" style={fontStyle}>
+                احصل على آخر العروض والتخفيضات مباشرة إلى بريدك الإلكتروني
+              </p>
+              {/* Form - horizontal row with input and button */}
+              <form
+                onSubmit={handleSubmit}
+                className="flex items-center justify-center gap-2 flex-wrap"
+              >
+                {/* Email Input - white background, rounded corners */}
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (error) setError("");
+                  }}
+                  placeholder="أدخل بريدك الإلكتروني"
+                  className={`flex-1 min-w-[200px] max-w-md h-[48px] pr-4 pl-4 rounded-[4px] border border-gray-300 bg-white text-right placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 text-[14px] sm:text-[16px] ${
+                    error ? "border-red-300 bg-red-50/50" : ""
+                  }`}
                   style={{
                     fontFamily: "var(--font-almarai)",
                   }}
-                >
-                  {error}
-                </p>
-              </div>
-            )}
-
-            {isSuccess && (
-              <div className="mt-4 text-center">
-                <p
-                  className="text-sm text-green-700"
+                />
+                {/* Subscribe Button - darker green/gray, rounded corners */}
+                <button
+                  type="submit"
+                  aria-label="اشتراك في النشرة"
+                  className={`bg-[#6B7565] h-[48px] px-6 rounded-[4px] text-white font-normal text-[14px] sm:text-[16px] shrink-0 transition-all hover:opacity-90 ${
+                    isLoading ? "opacity-80 cursor-not-allowed" : ""
+                  }`}
                   style={{
                     fontFamily: "var(--font-almarai)",
                   }}
+                  disabled={isLoading}
                 >
-                  تم الاشتراك بنجاح! شكرًا لانضمامك.
-                </p>
-              </div>
-            )}
+                  {isLoading ? "... جارٍ" : "اشتراك"}
+                </button>
+              </form>
+
+              {/* رسائل الحالة - simplified */}
+              {error && (
+                <div className="mt-4 text-center">
+                  <p
+                    className="text-sm text-red-700"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                  >
+                    {error}
+                  </p>
+                </div>
+              )}
+
+              {isSuccess && (
+                <div className="mt-4 text-center">
+                  <p
+                    className="text-sm text-green-700"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                  >
+                    تم الاشتراك بنجاح! شكرًا لانضمامك.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -6,10 +6,12 @@ import Link from "next/link";
 import { Heart, X, ShoppingCart, Trash2, Sparkles, Pencil } from "lucide-react";
 
 import FavoriteProductCard from "@/src/components/FavoriteProductCard";
+import AOSWrapper from "@/src/components/common/AOSWrapper";
 import { CustomBouquet } from "@/src/@types/favorites/CustomBouquet.type";
 import { useFavorites } from "@/src/hooks/useFavorites";
 import { useCustomBouquetFavorites } from "@/src/hooks/useCustomBouquetFavorites";
 import { fontStyle } from "@/src/lib/styles";
+import { UI_TEXTS } from "@/src/constants";
 
 export default function FavoritesPage() {
   const { favorites, loading: favoritesLoading } = useFavorites();
@@ -48,7 +50,7 @@ export default function FavoritesPage() {
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#5A5E4D] mx-auto"></div>
             <p className="mt-6 text-gray-600 text-lg" style={fontStyle}>
-              جاري التحميل...
+              {UI_TEXTS.LOADING}
             </p>
           </div>
         </div>
@@ -57,88 +59,109 @@ export default function FavoritesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fbfaf2]" dir="rtl">
+    <div className="min-h-screen bg-background" dir="rtl">
       <main className="py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
-          <div className="mb-4">
-            <nav className="flex items-center gap-2 text-[18px] text-[#a0a0a0] justify-start" style={fontStyle}>
-              <Link href="/" className="hover:text-[#5A5E4D] transition-colors">
-                الرئيسية
-              </Link>
-              <span> / </span>
-              <span className="text-[#5A5E4D]">المفضلة</span>
-            </nav>
-          </div>
+          <AOSWrapper animation="fade-in" delay={50} duration={800}>
+            <div className="mb-4">
+              <nav className="flex items-center gap-2 text-[18px] text-[#a0a0a0] justify-start" style={fontStyle}>
+                <Link href="/" className="hover:text-[#5A5E4D] transition-colors">
+                  الرئيسية
+                </Link>
+                <span> / </span>
+                <span className="text-[#5A5E4D]">المفضلة</span>
+              </nav>
+            </div>
+          </AOSWrapper>
 
           {/* Page Title */}
-          <div className="mb-8 md:mb-12 flex justify-start">
-            <h1 className="text-[32px] font-bold leading-[40px] text-[rgba(0,0,0,0.72)]" style={fontStyle}>
-              المنتجات التي أضفتها إلى قائمة المفضلة
-            </h1>
-          </div>
+          <AOSWrapper animation="fade-up" delay={100} duration={800}>
+            <div className="mb-8 md:mb-12 flex justify-start">
+              <h1 className="text-[32px] font-bold leading-[40px] text-[rgba(0,0,0,0.72)]" style={fontStyle}>
+                المنتجات التي أضفتها إلى قائمة المفضلة
+              </h1>
+            </div>
+          </AOSWrapper>
 
           {favorites.length === 0 && customBouquets.length === 0 ? (
-            <div className="text-center py-20 md:py-28">
-              <div className="max-w-md mx-auto">
-                <div className="relative mb-8">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-32 h-32 bg-gradient-to-br from-pink-100 to-purple-100 rounded-full blur-2xl opacity-50 animate-pulse"></div>
+            <AOSWrapper animation="fade-up" delay={150} duration={800}>
+              <div className="text-center py-20 md:py-28">
+                <div className="max-w-md mx-auto">
+                  <div className="relative mb-8">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-32 h-32 bg-gradient-to-br from-pink-100 to-purple-100 rounded-full blur-2xl opacity-50 animate-pulse"></div>
+                    </div>
+                    <Heart className="w-28 h-28 md:w-32 md:h-32 mx-auto text-gray-300 relative z-10 animate-pulse" />
                   </div>
-                  <Heart className="w-28 h-28 md:w-32 md:h-32 mx-auto text-gray-300 relative z-10 animate-pulse" />
+                  <h2
+                    className="text-2xl md:text-3xl font-bold text-gray-800 mb-4"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                  >
+                    لا توجد منتجات في المفضلة
+                  </h2>
+                  <p
+                    className="text-gray-600 mb-8 text-[15px] md:text-[16px] leading-relaxed"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                  >
+                    ابدأ بإضافة المنتجات المفضلة لديك لتسهيل الوصول إليها لاحقاً
+                  </p>
+                  <Link
+                    href="/bouquets"
+                    className="inline-flex items-center gap-2 bg-[#5f664f] hover:bg-[#4A4E3D] text-white px-8 py-3.5 rounded-[10px] font-bold text-[22px] transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95"
+                    style={{
+                      fontFamily: "var(--font-almarai)",
+                    }}
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    تصفح الباقات
+                  </Link>
                 </div>
-                <h2
-                  className="text-2xl md:text-3xl font-bold text-gray-800 mb-4"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
-                  لا توجد منتجات في المفضلة
-                </h2>
-                <p
-                  className="text-gray-600 mb-8 text-[15px] md:text-[16px] leading-relaxed"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
-                  ابدأ بإضافة المنتجات المفضلة لديك لتسهيل الوصول إليها لاحقاً
-                </p>
-                <Link
-                  href="/bouquets"
-                  className="inline-flex items-center gap-2 bg-[#5f664f] hover:bg-[#4A4E3D] text-white px-8 py-3.5 rounded-[10px] font-bold text-[22px] transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
-                >
-                  <Sparkles className="w-4 h-4" />
-                  تصفح الباقات
-                </Link>
               </div>
-            </div>
+            </AOSWrapper>
           ) : (
             <>
               {/* المنتجات العادية */}
               {favorites.length > 0 && (
-                <div className="mb-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {favorites.map((item) => (
-                      <FavoriteProductCard key={item.id} item={item} />
-                    ))}
+                <AOSWrapper animation="fade-up" delay={100} duration={800}>
+                  <div className="mb-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {favorites.map((item, index) => (
+                        <AOSWrapper
+                          key={item.id}
+                          animation="fade-up"
+                          delay={index * 50}
+                          duration={600}
+                        >
+                          <FavoriteProductCard item={item} />
+                        </AOSWrapper>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                </AOSWrapper>
               )}
 
               {/* التصاميم المخصصة */}
               {customBouquets.length > 0 && (
-                <div className="mb-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {customBouquets.map((bouquet) => (
-                      <div
-                        key={bouquet.id}
-                        className="bg-white border border-[#eae9e9] rounded-[20px] h-[149px] flex overflow-hidden relative cursor-pointer w-full"
-                        dir="rtl"
-                        onClick={() => openPreview(bouquet)}
-                      >
+                <AOSWrapper animation="fade-up" delay={150} duration={800}>
+                  <div className="mb-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {customBouquets.map((bouquet, index) => (
+                        <AOSWrapper
+                          key={bouquet.id}
+                          animation="fade-up"
+                          delay={index * 50}
+                          duration={600}
+                        >
+                          <div
+                            className="bg-white border border-[#eae9e9] rounded-[20px] h-[149px] flex overflow-hidden relative cursor-pointer w-full"
+                            dir="rtl"
+                            onClick={() => openPreview(bouquet)}
+                          >
                         {/* Image Section */}
                         <div className="relative w-[140px] h-full shrink-0">
                           <Image
@@ -205,11 +228,11 @@ export default function FavoritesPage() {
                                   addCustomBouquetToCart(bouquet);
                                 }}
                                 className="bg-[#5f664f] rounded-[4px] w-[44px] h-[37px] flex items-center justify-center hover:bg-[#4a4e3d] transition-all duration-300 cursor-pointer shrink-0"
-                                aria-label="أضف إلى السلة"
+                                aria-label={UI_TEXTS.ADD_TO_CART}
                               >
                                 <Image
                                   src="/assets/add-to-cart-icon.svg"
-                                  alt="أضف إلى السلة"
+                                  alt={UI_TEXTS.ADD_TO_CART}
                                   width={27}
                                   height={27}
                                   className="object-contain"
@@ -218,15 +241,18 @@ export default function FavoritesPage() {
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                          </div>
+                        </AOSWrapper>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                </AOSWrapper>
               )}
 
               {/* Browse Packages Button */}
               {(favorites.length > 0 || customBouquets.length > 0) && (
-                <div className="flex justify-center mt-8">
+                <AOSWrapper animation="fade-up" delay={200} duration={800}>
+                  <div className="flex justify-center mt-8">
                   <Link
                     href="/bouquets"
                     className="bg-[#5f664f] h-[70px] rounded-[10px] px-8 flex items-center justify-center hover:bg-[#4A4E3D] transition-all duration-300"
@@ -238,7 +264,8 @@ export default function FavoritesPage() {
                       تصفح الباقات
                     </span>
                   </Link>
-                </div>
+                  </div>
+                </AOSWrapper>
               )}
             </>
           )}
@@ -455,7 +482,7 @@ export default function FavoritesPage() {
                   }}
                 >
                   <ShoppingCart className="w-4 h-4" />
-                  أضف إلى السلة
+                  {UI_TEXTS.ADD_TO_CART}
                 </button>
                 <div className="flex gap-3">
                   <button

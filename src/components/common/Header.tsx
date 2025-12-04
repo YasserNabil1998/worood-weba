@@ -101,6 +101,7 @@ const Header = () => {
               width={200}
               height={48}
               className="h-12 w-auto object-contain"
+              style={{ maxWidth: '200px', height: '48px', width: 'auto' }}
               priority
             />
           </Link>
@@ -156,6 +157,7 @@ const Header = () => {
               width={200}
               height={48}
               className="h-12 w-auto object-contain"
+              style={{ maxWidth: '200px', height: '48px', width: 'auto' }}
               priority
             />
           </Link>
@@ -191,6 +193,7 @@ const Header = () => {
               width={200}
               height={40}
               className="h-10 w-auto object-contain mx-auto"
+              style={{ maxWidth: '200px', height: '40px', width: 'auto' }}
               priority
             />
           </Link>

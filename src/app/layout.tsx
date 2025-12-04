@@ -7,6 +7,8 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import ErrorBoundary from "../components/common/ErrorBoundary";
 import SplashScreen from "../components/SplashScreen";
+import FallingFlowers from "../components/common/FallingFlowers";
+import AOSProvider from "../components/common/AOSProvider";
 import { generateOrganizationSchema, generateWebsiteSchema } from "../lib/structuredData";
 import { generateHomeMetadata } from "../lib/seo/generateMetadata";
 
@@ -53,6 +55,8 @@ export default function RootLayout({
         suppressHydrationWarning
       >
       <SplashScreen />
+        <AOSProvider />
+        <FallingFlowers count={12} speed={0.8} opacity={0.7} />
         <ErrorBoundary>
           <Providers>
             <Header />

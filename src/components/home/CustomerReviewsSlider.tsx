@@ -7,7 +7,8 @@ import { getAllReviews } from "@/src/actions/reviews-manager";
 import { Star } from "lucide-react";
 import { logError } from "@/src/lib/logger";
 import { fontStyle } from "@/src/lib/styles";
-import { INTERVALS } from "@/src/constants";
+import { INTERVALS, UI_TEXTS } from "@/src/constants";
+import AOSWrapper from "@/src/components/common/AOSWrapper";
 
 type CustomerReviewsSliderProps = {
   reviews?: ReviewItem[];
@@ -90,7 +91,7 @@ const CustomerReviewsSlider = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="text-gray-600" style={fontStyle}>
-              جاري التحميل...
+              {UI_TEXTS.LOADING}
             </div>
           </div>
         </div>
@@ -107,7 +108,7 @@ const CustomerReviewsSlider = ({
               آراء عملائنا
             </h2>
             <p className="text-gray-600" style={fontStyle}>
-              لا توجد تقييمات متاحة حالياً
+              {UI_TEXTS.NO_REVIEWS_AVAILABLE}
             </p>
           </div>
         </div>
@@ -141,14 +142,19 @@ const CustomerReviewsSlider = ({
             {visibleReviews.map((review, idx) => {
               const isCenter = visibleCount === 1 ? true : idx === centerIndex;
               return (
-                <div
+                <AOSWrapper
                   key={review.id}
-                  className={`bg-white rounded-[12px] p-6 pb-12 h-[160px] flex flex-col transition-all duration-300 ease-out shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1),0px_4px_6px_-1px_rgba(0,0,0,0.1)] ${
-                    isCenter
-                      ? "scale-105 md:scale-110 z-10 shadow-xl translate-y-0"
-                      : "scale-95 opacity-90 shadow-lg translate-y-1 sm:translate-y-2"
-                  }`}
+                  animation="fade-up"
+                  delay={idx * 100}
+                  duration={600}
                 >
+                  <div
+                    className={`bg-white rounded-[12px] p-6 pb-12 h-[160px] flex flex-col transition-all duration-300 ease-out shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1),0px_4px_6px_-1px_rgba(0,0,0,0.1)] ${
+                      isCenter
+                        ? "scale-105 md:scale-110 z-10 shadow-xl translate-y-0"
+                        : "scale-95 opacity-90 shadow-lg translate-y-1 sm:translate-y-2"
+                    }`}
+                  >
                   <div className="flex items-center justify-start mb-4 flex-shrink-0 gap-4">
                     {/* Avatar - matching Figma: 48px circle, bg-[rgba(227,230,216,0.9)] */}
                     <div className="w-12 h-12 bg-[rgba(227,230,216,0.9)] rounded-full flex items-center justify-center flex-shrink-0">
@@ -203,6 +209,7 @@ const CustomerReviewsSlider = ({
                     </p>
                   </div>
                 </div>
+                </AOSWrapper>
               );
             })}
           </div>

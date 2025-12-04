@@ -8,6 +8,7 @@ import { QuickAddModal } from "@/src/components/product";
 import { useFavorites } from "@/src/hooks/useFavorites";
 import { useNotification } from "@/src/providers/notification-provider";
 import { fontStyle } from "@/src/lib/styles";
+import { UI_TEXTS } from "@/src/constants";
 
 interface FavoriteProductCardProps {
   item: BouquetItem;
@@ -88,11 +89,11 @@ export default function FavoriteProductCard({ item }: FavoriteProductCardProps) 
             <button
               onClick={openQuickAdd}
               className="bg-[#5f664f] rounded-[4px] w-[44px] h-[37px] flex items-center justify-center hover:bg-[#4a4e3d] transition-all duration-300 cursor-pointer shrink-0"
-              aria-label="أضف إلى السلة"
+              aria-label={UI_TEXTS.ADD_TO_CART}
             >
               <Image
                 src="/assets/add-to-cart-icon.svg"
-                alt="أضف إلى السلة"
+                alt={UI_TEXTS.ADD_TO_CART}
                 width={27}
                 height={27}
                 className="object-contain"

@@ -8,7 +8,7 @@ import { defaultBouquets } from "../content/featured-bouquets";
 import { Heart, ArrowLeft, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useNotification } from "../providers/notification-provider";
 import { useFavorites } from "../hooks/useFavorites";
-import { APP_CONFIG } from "../constants";
+import { APP_CONFIG, UI_TEXTS } from "../constants";
 import { BEST_SELLER_BADGE } from "../constants/bouquets";
 import { QuickAddModal } from "./product";
 import { logError } from "../lib/logger";
@@ -174,7 +174,10 @@ const FeaturedBouquets = ({
           showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
         }
       } catch (error) {
-        logError("خطأ في تبديل المفضلة", error, { bouquetId: getBouquetId(bouquet), bouquetTitle: bouquet.title });
+        logError("خطأ في تبديل المفضلة", error, {
+          bouquetId: getBouquetId(bouquet),
+          bouquetTitle: bouquet.title,
+        });
         showNotification("حدث خطأ في تحديث المفضلة", "error");
       }
     },
@@ -201,10 +204,16 @@ const FeaturedBouquets = ({
             <div className="text-right">
               {/* Title - matching Figma: 30px, Almarai Bold */}
               <div className="text-right">
-                <h2 className="text-[28px] sm:text-[30px] font-bold text-black mb-2" style={fontStyle}>
+                <h2
+                  className="text-[28px] sm:text-[30px] font-bold text-black mb-2"
+                  style={fontStyle}
+                >
                   الباقات الأكثر طلباً
                 </h2>
-                <p className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black" style={fontStyle}>
+                <p
+                  className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
+                  style={fontStyle}
+                >
                   الباقات الأكثر طلباً من عملائنا الكرام
                 </p>
               </div>
@@ -214,7 +223,7 @@ const FeaturedBouquets = ({
               className="text-[#5a5e4d] hover:underline text-[16px] font-normal cursor-pointer flex items-center gap-2"
               style={fontStyle}
             >
-              <span>عرض الكل</span>
+              <span>{UI_TEXTS.VIEW_ALL}</span>
               <ArrowLeft className="w-4 h-4" />
             </Link>
           </div>
@@ -222,7 +231,7 @@ const FeaturedBouquets = ({
           <div className="relative">
             {isLoading ? (
               <div className="col-span-full text-center text-gray-600" style={fontStyle}>
-                جاري التحميل...
+                {UI_TEXTS.LOADING}
               </div>
             ) : totalItems > 0 ? (
               <>
@@ -325,11 +334,11 @@ const FeaturedBouquets = ({
                                   openQuickAdd(bouquet);
                                 }}
                                 className="bg-[#5f664f] rounded-[4px] w-[44px] h-[37px] flex items-center justify-center hover:bg-[#4a4e3d] transition-all duration-300 cursor-pointer shrink-0"
-                                aria-label="أضف إلى السلة"
+                                aria-label={UI_TEXTS.ADD_TO_CART}
                               >
                                 <Image
                                   src="/assets/add-to-cart-icon.svg"
-                                  alt="أضف إلى السلة"
+                                  alt={UI_TEXTS.ADD_TO_CART}
                                   width={27}
                                   height={27}
                                   className="object-contain"
@@ -366,7 +375,7 @@ const FeaturedBouquets = ({
               </>
             ) : (
               <div className="col-span-full text-center text-gray-600 py-8" style={fontStyle}>
-                لا توجد باقات متاحة حالياً
+                {UI_TEXTS.NO_ITEMS_AVAILABLE}
               </div>
             )}
           </div>

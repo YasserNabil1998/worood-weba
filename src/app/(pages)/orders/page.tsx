@@ -4,6 +4,7 @@ import { useState } from "react";
 import RatingPopup from "@/src/components/RatingPopup";
 import type { ReviewItem } from "@/types";
 import { addReview } from "@/src/actions/reviews-manager";
+import AOSWrapper from "@/src/components/common/AOSWrapper";
 import { useOrders } from "@/src/hooks/useOrders";
 import { Order } from "@/src/@types/orders/order.type";
 import OrdersPageHeader from "@/src/components/orders/OrdersPageHeader";
@@ -56,18 +57,32 @@ export default function OrdersPage() {
       <div className="container mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
         <div className="max-w-5xl mx-auto">
           {/* Page Header */}
-          <OrdersPageHeader totalOrders={orders.length} />
+          <AOSWrapper animation="fade-in" delay={50} duration={800}>
+            <OrdersPageHeader totalOrders={orders.length} />
+          </AOSWrapper>
 
           {/* Filter Section */}
-          <OrderStatusFilter selectedStatus={selectedStatus} onStatusChange={setSelectedStatus} />
+          <AOSWrapper animation="fade-in" delay={50} duration={800}>
+            <OrderStatusFilter selectedStatus={selectedStatus} onStatusChange={setSelectedStatus} />
+          </AOSWrapper>
 
           {/* Orders List */}
           {filteredOrders.length === 0 ? (
-            <EmptyOrders selectedStatus={selectedStatus} />
+            <AOSWrapper animation="fade-in" delay={100} duration={800}>
+              <EmptyOrders selectedStatus={selectedStatus} />
+            </AOSWrapper>
           ) : (
             <div className="space-y-3 sm:space-y-4">
-              {filteredOrders.map((order: Order) => (
-                <OrderCard key={order.id} order={order} onRateOrder={openRatingPopup} />
+              {filteredOrders.map((order: Order, index: number) => (
+                <AOSWrapper
+                  key={order.id}
+                  animation="fade-in"
+                  delay={index * 20}
+                  duration={800}
+                  offset={30}
+                >
+                  <OrderCard order={order} onRateOrder={openRatingPopup} />
+                </AOSWrapper>
               ))}
             </div>
           )}

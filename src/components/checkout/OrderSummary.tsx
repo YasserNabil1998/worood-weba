@@ -17,7 +17,7 @@ export default function OrderSummary({
   isSubmitting,
 }: OrderSummaryProps) {
   return (
-    <aside className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 h-fit lg:sticky lg:top-24">
+    <aside className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 h-fit lg:sticky lg:top-24 lg:self-start lg:z-10" data-aos="none">
       <h2 className="text-lg font-semibold mb-6 text-gray-800" style={fontStyle}>
         ملخص الطلب
       </h2>

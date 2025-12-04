@@ -4,7 +4,7 @@ import type { JSX } from "react";
 
 import { useNotification } from "../providers/notification-provider";
 import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
+import { STORAGE_KEYS, UI_TEXTS } from "@/src/constants";
 import type { CartItem } from "@/src/@types/cart/CartItem.type";
 import { addProductToCart } from "@/src/lib/cartUtils";
 import { logError } from "../lib/logger";
@@ -69,7 +69,7 @@ export default function AddToCartButton({
       className="flex-1 bg-[#5A5E4D] text-white py-4 px-6 rounded-lg font-semibold hover:bg-[#4A4E3D] transition-colors"
       style={fontStyle}
     >
-      أضف إلى السلة
+      {UI_TEXTS.ADD_TO_CART}
     </button>
   );
 }

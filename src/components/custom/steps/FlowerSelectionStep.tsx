@@ -9,9 +9,9 @@ interface FlowerSelectionStepProps {
   totalFlowersCount: number;
   searchQuery: string;
   onSearchChange: (query: string) => void;
-  onInc: (id: number) => void;
-  onDec: (id: number) => void;
-  qty: (id: number) => number;
+  onInc: (id: number | string) => void;
+  onDec: (id: number | string) => void;
+  qty: (id: number | string) => number;
   onNextStep: () => void;
 }
 
@@ -72,7 +72,7 @@ export default function FlowerSelectionStep({
       {/* Flowers grid - matching Figma design */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 justify-items-center sm:justify-items-stretch">
         {currentPageFlowers.map((f) => {
-          const currentQty = qty(f.id);
+          const currentQty = qty(String(f.id));
           return (
             <div
               key={f.id}
@@ -98,7 +98,7 @@ export default function FlowerSelectionStep({
                 </div>
                 {currentQty === 0 ? (
                   <button
-                    onClick={() => onInc(f.id)}
+                    onClick={() => onInc(String(f.id))}
                     className="w-[45px] h-[40px] rounded-[4px] bg-[#5f664f] flex items-center justify-center cursor-pointer hover:bg-[#4b5244] transition-colors self-end"
                   >
                     <svg
@@ -121,14 +121,14 @@ export default function FlowerSelectionStep({
                 ) : (
                   <div className="flex items-center gap-2 self-end">
                     <button
-                      onClick={() => onDec(f.id)}
+                      onClick={() => onDec(String(f.id))}
                       className="w-8 h-8 rounded bg-gray-300 text-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-400"
                     >
                       -
                     </button>
                     <span className="text-sm font-semibold min-w-[2rem] text-center">{currentQty}</span>
                     <button
-                      onClick={() => onInc(f.id)}
+                      onClick={() => onInc(String(f.id))}
                       className="w-8 h-8 rounded bg-[#5A5E4D] text-white flex items-center justify-center cursor-pointer hover:bg-[#4b5244]"
                     >
                       +

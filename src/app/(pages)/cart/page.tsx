@@ -103,7 +103,7 @@ export default function CartPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#fbfaf2]" dir="rtl">
+    <div className="min-h-screen bg-background" dir="rtl">
       <main>
         {/* Page Title Section */}
         <section className="pt-8 pb-4">
@@ -120,9 +120,9 @@ export default function CartPage() {
         {/* Content Section */}
         <section className="py-8">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:items-start" style={{ transform: 'none' }}>
               {/* Summary Sidebar */}
-              <div className="lg:sticky lg:top-24 h-fit">
+              <div className="lg:sticky lg:top-24 lg:self-start lg:z-10 lg:h-fit" data-aos="none">
                 {/* Action Buttons */}
                 {!isEmpty && (
                   <div className="flex items-center gap-2 sm:gap-4 flex-wrap mb-4">

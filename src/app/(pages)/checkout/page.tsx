@@ -5,6 +5,7 @@ import AddressForm from "@/src/components/checkout/AddressForm";
 import PaymentMethodSelector from "@/src/components/checkout/PaymentMethodSelector";
 import OrderSummary from "@/src/components/checkout/OrderSummary";
 import { fontStyle } from "@/src/lib/styles";
+import { UI_TEXTS } from "@/src/constants";
 
 export default function CheckoutPage() {
   const {
@@ -25,7 +26,7 @@ export default function CheckoutPage() {
       <div className="min-h-screen flex items-center justify-center" dir="rtl">
         <div className="text-center animate-fadeIn">
           <div className="w-16 h-16 border-4 border-[#5A5E4D] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-600 text-lg font-medium">جاري التحميل...</p>
+          <p className="text-gray-600 text-lg font-medium">{UI_TEXTS.LOADING}</p>
         </div>
       </div>
     );
@@ -48,7 +49,7 @@ export default function CheckoutPage() {
             متابعة الدفع
           </h1>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 animate-fadeIn">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 lg:items-start animate-fadeIn" style={{ transform: 'none' }}>
             {/* ملخص الطلب */}
             <OrderSummary
               items={items}

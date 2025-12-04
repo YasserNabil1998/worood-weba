@@ -10,7 +10,7 @@ import { BouquetItem } from "@/src/@types/bouquets/index.type";
 import { ROUTES } from "@/src/constants/routes";
 import { logError } from "@/src/lib/logger";
 import { fontStyle } from "@/src/lib/styles";
-import { INTERVALS, TIMEOUTS } from "@/src/constants";
+import { INTERVALS, TIMEOUTS, UI_TEXTS } from "@/src/constants";
 
 interface Product {
   id: number;
@@ -203,7 +203,7 @@ const ProductsSlider = () => {
             className="text-[#5a5e4d] hover:underline text-[16px] font-normal cursor-pointer flex items-center gap-2"
             style={fontStyle}
           >
-            <span>عرض الكل</span>
+            <span>{UI_TEXTS.VIEW_ALL}</span>
             <ArrowLeft className="w-4 h-4" />
           </Link>
         </div>
@@ -314,11 +314,11 @@ const ProductsSlider = () => {
                               // يمكن إضافة وظيفة إضافة للسلة هنا
                             }}
                             className="bg-[#5f664f] rounded-[4px] w-[44px] h-[37px] flex items-center justify-center hover:bg-[#4a4e3d] transition-all duration-300 cursor-pointer shrink-0"
-                            aria-label="أضف إلى السلة"
+                            aria-label={UI_TEXTS.ADD_TO_CART}
                           >
                             <Image
                               src="/assets/add-to-cart-icon.svg"
-                              alt="أضف إلى السلة"
+                              alt={UI_TEXTS.ADD_TO_CART}
                               width={27}
                               height={27}
                               className="object-contain"
@@ -353,7 +353,7 @@ const ProductsSlider = () => {
             </>
           ) : (
             <div className="text-center text-gray-600 py-8" style={fontStyle}>
-              لا توجد منتجات متاحة حالياً
+              {UI_TEXTS.NO_PRODUCTS_AVAILABLE}
             </div>
           )}
         </div>

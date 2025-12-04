@@ -8,9 +8,9 @@ export const localFeatures: FeatureItem[] = [
       <Image
         src="/assets/home/why-choose-us/ribbon-icon.svg"
         alt="تغليف فاخر"
-        width={77}
-        height={77}
-        className="w-[73px] h-[73px] md:w-[77px] md:h-[77px]"
+        width={65}
+        height={65}
+        className="w-[60px] h-[60px] md:w-[65px] md:h-[65px]"
       />
     ),
     title: "تغليف فاخر",
@@ -22,9 +22,9 @@ export const localFeatures: FeatureItem[] = [
       <Image
         src="/assets/home/why-choose-us/guarantee-icon.svg"
         alt="ضمان الجودة"
-        width={79}
-        height={79}
-        className="w-[75px] h-[75px] md:w-[79px] md:h-[79px]"
+        width={67}
+        height={67}
+        className="w-[63px] h-[63px] md:w-[67px] md:h-[67px]"
       />
     ),
     title: "ضمان الجودة",
@@ -36,9 +36,9 @@ export const localFeatures: FeatureItem[] = [
       <Image
         src="/assets/home/why-choose-us/delivery-icon.svg"
         alt="توصيل فوري"
-        width={81}
-        height={81}
-        className="w-[77px] h-[77px] md:w-[81px] md:h-[81px]"
+        width={69}
+        height={69}
+        className="w-[65px] h-[65px] md:w-[69px] md:h-[69px]"
       />
     ),
     title: "توصيل فوري",

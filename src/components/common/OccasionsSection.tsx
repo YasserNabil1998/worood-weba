@@ -8,6 +8,9 @@ import { defaultOccasions } from "@/src/content/occasions";
 import { ROUTES } from "@/src/constants/routes";
 import { ArrowLeft } from "lucide-react";
 import { fontStyle } from "@/src/lib/styles";
+import { UI_TEXTS } from "@/src/constants";
+import AOSWrapper from "./AOSWrapper";
+
 
 type OccasionsSectionProps = {
   occasions?: OccasionWithHref[];
@@ -76,7 +79,7 @@ const OccasionsSection = ({
             className="text-[#5a5e4d] hover:text-[#4a4e3d] text-[20px] font-normal cursor-pointer flex items-center gap-2 transition-colors"
             style={fontStyle}
           >
-            <span>عرض الكل</span>
+            <span>{UI_TEXTS.VIEW_ALL}</span>
             <ArrowLeft className="w-4 h-4" />
           </Link>
         </div>
@@ -85,46 +88,55 @@ const OccasionsSection = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {isLoading && (
             <div className="col-span-full text-center text-gray-600 flex items-center justify-center h-[283px]" style={fontStyle}>
-              جاري التحميل...
+              {UI_TEXTS.LOADING}
             </div>
           )}
 
           {/* 4 occasion cards - matching Figma design */}
           {occasionsData.map((occasion, index) => {
             const href = `${ROUTES.BOUQUETS}?occasion=${occasion.occasionKey}&openFilter=occasion`;
-            
+
             return (
-              <Link key={index} href={href} className="group cursor-pointer">
-                {/* Card - matching Figma: bg-neutral-100, border #e0dede, rounded-[20px], 260px width, 283px height */}
-                <div className="bg-neutral-100 border border-[#e0dede] rounded-[20px] h-[283px] p-6 flex flex-col items-center justify-start text-center hover:shadow-lg transition-all duration-300">
-                  {/* Image - matching Figma design with appropriate sizes */}
-                  <div
-                    className="flex items-center justify-center shrink-0 mb-4"
-                    style={{ minHeight: "120px", maxHeight: "120px" }}
-                  >
-                    <Image
-                      src={occasion.image}
-                      alt={occasion.title}
-                      width={occasion.imageSize}
-                      height={occasion.imageSize}
-                      className="object-contain"
-                    />
-                  </div>
+              <AOSWrapper
+                key={index}
+                animation="zoom-in"
+                delay={index * 100}
+                duration={800}
+              >
+                <div className="h-full">
+                  <Link href={href} className="group cursor-pointer block h-full">
+                    {/* Card - matching Figma: bg-neutral-100, border #e0dede, rounded-[20px], 260px width, 283px height */}
+                    <div className="bg-neutral-100 border border-[#e0dede] rounded-[20px] h-[283px] p-6 flex flex-col items-center justify-start text-center hover:shadow-lg transition-all duration-300">
+                    {/* Image - matching Figma design with appropriate sizes */}
+                    <div
+                      className="flex items-center justify-center shrink-0 mb-4"
+                      style={{ minHeight: "120px", maxHeight: "120px" }}
+                    >
+                      <Image
+                        src={occasion.image}
+                        alt={occasion.title}
+                        width={occasion.imageSize}
+                        height={occasion.imageSize}
+                        className="object-contain"
+                      />
+                    </div>
 
-                  {/* Title and Description - Fixed position below image */}
-                  <div className="w-full">
-                  {/* Title - matching Figma: 20px, Almarai Bold, black */}
-                  <h3 className="text-[20px] font-bold text-black mb-2" style={fontStyle}>
-                    {occasion.title}
-                  </h3>
+                    {/* Title and Description - Fixed position below image */}
+                    <div className="w-full">
+                      {/* Title - matching Figma: 20px, Almarai Bold, black */}
+                      <h3 className="text-[20px] font-bold text-black mb-2" style={fontStyle}>
+                        {occasion.title}
+                      </h3>
 
-                  {/* Description - matching Figma: 16px, Almarai Bold, #5c5a57 */}
-                  <p className="text-[16px] font-bold text-[#5c5a57] text-center leading-relaxed" style={fontStyle}>
-                    {occasion.description}
-                  </p>
+                      {/* Description - matching Figma: 16px, Almarai Bold, #5c5a57 */}
+                      <p className="text-[16px] font-bold text-[#5c5a57] text-center leading-relaxed" style={fontStyle}>
+                        {occasion.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </div>
+            </AOSWrapper>
             );
           })}
         </div>

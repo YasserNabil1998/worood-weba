@@ -4,6 +4,7 @@ import React from "react";
 import { Loader2 } from "lucide-react";
 import { SkeletonGrid } from "@/src/components/common/SkeletonCard";
 import { fontStyle } from "@/src/lib/styles";
+import { UI_TEXTS } from "@/src/constants";
 
 interface DataLoaderProps {
   isLoading: boolean;
@@ -19,7 +20,7 @@ interface DataLoaderProps {
 
 const DataLoader = ({
   isLoading,
-  loadingText = "جاري التحميل...",
+  loadingText = UI_TEXTS.LOADING,
   children,
   skeleton = false,
   skeletonCount = 6,

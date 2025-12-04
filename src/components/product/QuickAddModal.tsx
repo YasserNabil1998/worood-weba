@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
 import type { BouquetItem } from "@/src/@types/bouquets/index.type";
@@ -47,6 +48,12 @@ type QuickAddModalProps = {
 const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
   const { showNotification } = useNotification();
   const [options, setOptions] = useState<ProductOptions>(createDefaultOptions);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -83,9 +90,7 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
   const currency = bouquet?.currency || APP_CONFIG.CURRENCY;
 
   const sizeExtras = useMemo(() => {
-    return (
-      PRODUCT_DATA.sizes.find((size) => size.value === options.selectedSize)?.price ?? 0
-    );
+    return PRODUCT_DATA.sizes.find((size) => size.value === options.selectedSize)?.price ?? 0;
   }, [options.selectedSize]);
 
   const addonsExtras = useMemo(() => {
@@ -104,8 +109,7 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
 
   const selectedColorOption = useMemo(() => {
     return (
-      PRODUCT_DATA.colors.find((color) => color.value === options.color) ||
-      PRODUCT_DATA.colors[0]
+      PRODUCT_DATA.colors.find((color) => color.value === options.color) || PRODUCT_DATA.colors[0]
     );
   }, [options.color]);
 
@@ -179,7 +183,10 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
       showNotification(message, "success");
       onClose();
     } catch (error) {
-      logError("خطأ في إضافة المنتج للسلة", error, { bouquetId: bouquet.id, bouquetTitle: bouquet.title });
+      logError("خطأ في إضافة المنتج للسلة", error, {
+        bouquetId: bouquet.id,
+        bouquetTitle: bouquet.title,
+      });
       showNotification("حدث خطأ أثناء إضافة المنتج للسلة", "error");
     }
   }, [
@@ -198,12 +205,12 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
     totalPrice,
   ]);
 
-  if (!isOpen || !bouquet) {
+  if (!isOpen || !bouquet || !mounted) {
     return null;
   }
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center">
+  const modalContent = (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
         onClick={onClose}
@@ -273,7 +280,8 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 };
 
 export default QuickAddModal;
-

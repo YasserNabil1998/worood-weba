@@ -89,6 +89,12 @@ export default function Sidebar({
   openTypeFilter = false,
 }: SidebarProps) {
   const [openSection, setOpenSection] = useState<string | null>("type");
+  const [isMounted, setIsMounted] = useState(false);
+
+  // تجنب hydration mismatch
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Open occasion filter section when openOccasionFilter is true
   useEffect(() => {
@@ -115,15 +121,15 @@ export default function Sidebar({
 
   return (
     <aside
-      className={`lg:col-span-1 transition-all duration-300 ${
-        isFiltersOpen ? "block lg:block" : "hidden lg:block"
-      } lg:sticky lg:top-28 lg:self-start`}
+      data-aos="none"
+      className={`lg:col-span-1 lg:sticky lg:top-24 lg:self-start lg:z-10 lg:h-fit ${
+        isMounted && isFiltersOpen ? "block lg:block" : "hidden lg:block"
+      }`}
+      suppressHydrationWarning
     >
       <div
-        className={`bg-white border border-[#e6e6e6] rounded-[20px] transition-all duration-300 ${
-          isFiltersOpen
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-2 lg:opacity-100 lg:translate-y-0"
+        className={`bg-white border border-[#e6e6e6] rounded-[20px] transition-opacity duration-300 ${
+          isFiltersOpen ? "opacity-100" : "opacity-0 translate-y-2 lg:opacity-100 lg:translate-y-0"
         } lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto`}
         style={{ direction: "ltr" }}
       >

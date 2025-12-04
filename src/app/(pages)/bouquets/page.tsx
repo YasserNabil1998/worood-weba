@@ -5,6 +5,7 @@ import BouquetsListingClient from "@/src/components/BouquetsListingClient";
 import { fetchBouquets } from "@/src/lib/api/bouquets";
 import { generateProductsMetadata } from "@/src/lib/seo/generateMetadata";
 import { generateBreadcrumbSchema } from "@/src/lib/structuredData";
+import { UI_TEXTS } from "@/src/constants";
 
 export const metadata: Metadata = generateProductsMetadata();
 
@@ -17,7 +18,7 @@ const breadcrumbSchema = generateBreadcrumbSchema([
 export default async function BouquetsPage() {
   const items = await fetchBouquets();
   return (
-    <div className="min-h-screen bg-[#fbfaf2]" dir="rtl">
+    <div className="min-h-screen bg-background" dir="rtl">
       {/* Breadcrumb Schema for SEO */}
       <Script
         id="breadcrumb-schema"
@@ -41,7 +42,7 @@ export default async function BouquetsPage() {
         <section id="bouquets-section" className="pt-6 pb-12">
           <div className="max-w-[1448px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Listing (sidebar + grid handled inside the client component) */}
-            <Suspense fallback={<div className="text-center py-8">جاري التحميل...</div>}>
+            <Suspense fallback={<div className="text-center py-8">{UI_TEXTS.LOADING}</div>}>
               <BouquetsListingClient items={items} />
             </Suspense>
           </div>
