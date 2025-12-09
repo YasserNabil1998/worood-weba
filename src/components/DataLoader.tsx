@@ -2,9 +2,9 @@
 
 import React from "react";
 import { Loader2 } from "lucide-react";
-import { SkeletonGrid } from "@/src/components/common/SkeletonCard";
-import { fontStyle } from "@/src/lib/styles";
-import { UI_TEXTS } from "@/src/constants";
+import { SkeletonGrid } from "@/components/common/SkeletonCard";
+import { fontStyle } from "@/lib/styles";
+import { UI_TEXTS } from "@/constants";
 
 interface DataLoaderProps {
   isLoading: boolean;

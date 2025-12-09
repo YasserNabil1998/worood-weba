@@ -3,12 +3,12 @@
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import { Heart } from "lucide-react";
-import { BouquetItem } from "@/src/@types/bouquets/index.type";
-import { QuickAddModal } from "@/src/components/product";
-import { useFavorites } from "@/src/hooks/useFavorites";
-import { useNotification } from "@/src/providers/notification-provider";
-import { fontStyle } from "@/src/lib/styles";
-import { UI_TEXTS } from "@/src/constants";
+import { BouquetItem } from "@/@types/bouquets/index.type";
+import { QuickAddModal } from "@/components/product";
+import { useFavorites } from "@/hooks/useFavorites";
+import { useNotification } from "@/providers/notification-provider";
+import { fontStyle } from "@/lib/styles";
+import { UI_TEXTS } from "@/constants";
 
 interface FavoriteProductCardProps {
   item: BouquetItem;

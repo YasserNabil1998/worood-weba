@@ -1,5 +1,5 @@
-import FavoriteButton from "@/src/components/FavoriteButton";
-import { BouquetItem } from "@/src/@types/bouquets/index.type";
+import FavoriteButton from "@/components/FavoriteButton";
+import type { BouquetItem } from "@/types/bouquets";
 
 interface ProductInfoProps {
   productId: string;

@@ -5,8 +5,8 @@
 
 import { useRouter } from "next/navigation";
 import { ShoppingCart } from "lucide-react";
-import { CART_MESSAGES, CART_ROUTES } from "@/src/constants/cart";
-import { fontStyle } from "@/src/lib/styles";
+import { CART_MESSAGES, CART_ROUTES } from "@/constants/cart";
+import { fontStyle } from "@/lib/styles";
 
 export default function EmptyCart() {
   const router = useRouter();

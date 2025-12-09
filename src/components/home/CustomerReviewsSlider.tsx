@@ -3,12 +3,12 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import type { ReviewItem } from "@/types";
-import { getAllReviews } from "@/src/actions/reviews-manager";
+import { getAllReviews } from "@/actions/reviews-manager";
 import { Star } from "lucide-react";
-import { logError } from "@/src/lib/logger";
-import { fontStyle } from "@/src/lib/styles";
-import { INTERVALS, UI_TEXTS } from "@/src/constants";
-import AOSWrapper from "@/src/components/common/AOSWrapper";
+import { logError } from "@/lib/logger";
+import { fontStyle } from "@/lib/styles";
+import { INTERVALS, UI_TEXTS } from "@/constants";
+import AOSWrapper from "@/components/common/AOSWrapper";
 
 type CustomerReviewsSliderProps = {
   reviews?: ReviewItem[];

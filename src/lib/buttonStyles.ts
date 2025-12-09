@@ -1,4 +1,4 @@
-import { COLORS, SIZES } from "@/src/constants";
+import { COLORS, SIZES } from "@/constants";
 
 /**
  * Utility functions for common button styles
@@ -44,4 +44,3 @@ export const getButtonInlineStyles = {
   delete: () => ({ backgroundColor: COLORS.DANGER }),
   deleteHover: () => ({ backgroundColor: COLORS.DANGER_HOVER }),
 };
-

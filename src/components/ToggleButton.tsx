@@ -1,7 +1,7 @@
 "use client";
 
 import { Filter } from "lucide-react";
-import { fontStyle } from "@/src/lib/styles";
+import { fontStyle } from "@/lib/styles";
 
 type ToggleButtonProps = {
   isFiltersOpen: boolean;

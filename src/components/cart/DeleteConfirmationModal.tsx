@@ -7,7 +7,7 @@
 
 import { memo, useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { fontStyle } from "@/src/lib/styles";
+import { fontStyle } from "@/lib/styles";
 
 interface DeleteConfirmationModalProps {
   isOpen: boolean;

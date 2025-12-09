@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Order } from "@/src/@types/orders/order.type";
+import type { Order } from "@/types/orders";
 import OrderCardHeader from "./OrderCardHeader";
 import OrderItemsList from "./OrderItemsList";
 import OrderDetailsPanel from "./OrderDetailsPanel";
 import OrderActionButtons from "./OrderActionButtons";
-import { almaraiFont } from "@/src/lib/ordersHelpers";
+import { almaraiFont } from "@/lib/ordersHelpers";
 import { ChevronDown, ChevronUp, Package } from "lucide-react";
 
 interface OrderCardProps {
@@ -23,7 +23,7 @@ export default function OrderCard({ order, onRateOrder }: OrderCardProps) {
       <div className="p-3 sm:p-4 md:p-6">
         {/* عنوان المنتجات */}
         <div className="flex items-center gap-2 mb-2 sm:mb-3">
-          <div className="bg-gradient-to-br from-[#5A5E4D] to-[#6B6F5E] p-1.5 sm:p-2 rounded-lg">
+          <div className="bg-linear-to-br from-[#5A5E4D] to-[#6B6F5E] p-1.5 sm:p-2 rounded-lg">
             <Package className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
           </div>
           <h4 className="text-base sm:text-lg font-bold text-gray-800" style={almaraiFont}>

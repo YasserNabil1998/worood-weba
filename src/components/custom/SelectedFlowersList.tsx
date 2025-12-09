@@ -1,4 +1,4 @@
-import { Flower } from "@/src/@types/custom/index.type";
+import { Flower } from "@/@types/custom/index.type";
 
 interface SelectedFlowersListProps {
   selectedFlowers: Record<number, number>;

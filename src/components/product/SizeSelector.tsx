@@ -1,4 +1,4 @@
-import { Size } from "@/src/@types/product/Product.type";
+import type { Size } from "@/types/product";
 
 interface SizeSelectorProps {
   sizes: Size[];

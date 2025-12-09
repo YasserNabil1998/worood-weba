@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { OrderItem } from "@/src/@types/orders/order.type";
-import { almaraiFont } from "@/src/lib/ordersHelpers";
+import { OrderItem } from "@/@types/orders/order.type";
+import { almaraiFont } from "@/lib/ordersHelpers";
 
 interface OrderItemsListProps {
   items: OrderItem[];
@@ -18,8 +18,11 @@ export default function OrderItemsList({ items }: OrderItemsListProps) {
         dir="rtl"
       >
         {items.map((item) => (
-          <div key={item.id} className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 border-b-2 border-gray-200">
-            <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0">
+          <div
+            key={item.id}
+            className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 border-b-2 border-gray-200"
+          >
+            <div className="relative w-12 h-12 sm:w-14 sm:h-14 shrink-0">
               <Image
                 src={item.image}
                 alt={item.name}
@@ -31,7 +34,10 @@ export default function OrderItemsList({ items }: OrderItemsListProps) {
             </div>
 
             <div className="flex-1 min-w-0">
-              <h5 className="font-semibold text-gray-800 text-xs sm:text-sm truncate" style={almaraiFont}>
+              <h5
+                className="font-semibold text-gray-800 text-xs sm:text-sm truncate"
+                style={almaraiFont}
+              >
                 {item.name}
               </h5>
 

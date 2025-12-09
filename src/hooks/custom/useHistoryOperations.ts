@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { Flower, DesignHistoryItem } from "@/src/@types/custom/index.type";
-import { CustomBouquet } from "@/src/@types/favorites/CustomBouquet.type";
-import { storage } from "@/src/lib/utils";
+import type { Flower, DesignHistoryItem } from "@/types/custom";
+import type { CustomBouquet } from "@/types/favorites";
+import { storage } from "@/lib/utils";
 
 interface UseHistoryOperationsProps {
   selectedFlowers: Record<number, number>;

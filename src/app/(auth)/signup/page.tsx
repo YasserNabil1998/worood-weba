@@ -4,8 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
-import { fontStyle } from "@/src/lib/styles";
-import { TIMEOUTS } from "@/src/constants";
+import { fontStyle } from "@/lib/styles";
+import { TIMEOUTS } from "@/constants";
 
 export default function SignupPage() {
   const [form, setForm] = useState({

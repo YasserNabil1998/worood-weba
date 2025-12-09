@@ -4,13 +4,13 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon, Heart, ArrowLeft } from "lucide-react";
-import { useFavorites } from "@/src/hooks/useFavorites";
-import { useNotification } from "@/src/providers/notification-provider";
-import { BouquetItem } from "@/src/@types/bouquets/index.type";
-import { ROUTES } from "@/src/constants/routes";
-import { logError } from "@/src/lib/logger";
-import { fontStyle } from "@/src/lib/styles";
-import { INTERVALS, TIMEOUTS, UI_TEXTS } from "@/src/constants";
+import { useFavorites } from "@/hooks/useFavorites";
+import { useNotification } from "@/providers/notification-provider";
+import { BouquetItem } from "@/@types/bouquets/index.type";
+import { ROUTES } from "@/constants/routes";
+import { logError } from "@/lib/logger";
+import { fontStyle } from "@/lib/styles";
+import { INTERVALS, TIMEOUTS, UI_TEXTS } from "@/constants";
 
 interface Product {
   id: number;

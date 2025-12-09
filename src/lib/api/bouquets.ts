@@ -1,4 +1,4 @@
-import { BouquetItem } from "@/src/@types/bouquets/index.type";
+import type { BouquetItem } from "@/types/bouquets";
 import {
   BOUQUET_CONSTANTS,
   OCCASIONS,
@@ -6,11 +6,11 @@ import {
   BEST_SELLER_BADGE,
   BOUQUET_IMAGES,
   COLORS,
-} from "@/src/constants/bouquets";
-import { defaultBouquets } from "@/src/content/featured-bouquets";
-import { logError } from "@/src/lib/logger";
-import { retryOperation, handleAndLogError } from "@/src/lib/errors";
-import { ErrorCode } from "@/src/lib/errors/errorTypes";
+} from "@/constants/bouquets";
+import { defaultBouquets } from "@/content/featured-bouquets";
+import { logError } from "@/lib/logger";
+import { retryOperation, handleAndLogError } from "@/lib/errors";
+import { ErrorCode } from "@/lib/errors/errorTypes";
 
 // External API response type
 interface ExternalProduct {

@@ -1,14 +1,14 @@
-import {
+import type {
   Flower,
   BouquetSize,
   BouquetStyle,
   Vase,
   Occasion,
   DeliveryTime,
-  PaymentMethod,
+  CustomPaymentMethod,
   Config,
-} from "@/src/@types/custom/index.type";
-import { CustomBouquetData } from "@/src/@types/cart/CartItem.type";
+  CustomBouquetData,
+} from "@/types/custom";
 
 export interface BouquetDetails {
   size: BouquetSize | undefined;
@@ -50,7 +50,7 @@ export interface BouquetDataSources {
   vases: Vase[];
   occasions: Occasion[];
   deliveryTimes: DeliveryTime[];
-  paymentMethods: PaymentMethod[];
+  paymentMethods: CustomPaymentMethod[];
   config: Config;
 }
 
@@ -137,7 +137,7 @@ export function buildDeliveryInfo(
   phone: string,
   payMethod: string,
   deliveryTimes: DeliveryTime[],
-  paymentMethods: PaymentMethod[]
+  paymentMethods: CustomPaymentMethod[]
 ): CustomBouquetData["deliveryInfo"] {
   return {
     date: deliveryDate,

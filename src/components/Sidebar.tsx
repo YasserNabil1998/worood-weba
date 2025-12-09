@@ -2,8 +2,8 @@
 
 import { useId, useState, useEffect } from "react";
 import { X, ChevronDown } from "lucide-react";
-import { PRICE_RANGES, OCCASIONS, COLORS, TYPES } from "@/src/constants/bouquets";
-import { fontStyle } from "@/src/lib/styles";
+import { PRICE_RANGES, OCCASIONS, COLORS, TYPES } from "@/constants/bouquets";
+import { fontStyle } from "@/lib/styles";
 
 type SidebarProps = {
   isFiltersOpen: boolean;

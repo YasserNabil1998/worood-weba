@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import RatingPopup from "@/src/components/RatingPopup";
+import RatingPopup from "@/components/RatingPopup";
 import type { ReviewItem } from "@/types";
-import { addReview } from "@/src/actions/reviews-manager";
-import AOSWrapper from "@/src/components/common/AOSWrapper";
-import { useOrders } from "@/src/hooks/useOrders";
-import { Order } from "@/src/@types/orders/order.type";
-import OrdersPageHeader from "@/src/components/orders/OrdersPageHeader";
-import OrderStatusFilter from "@/src/components/orders/OrderStatusFilter";
-import EmptyOrders from "@/src/components/orders/EmptyOrders";
-import OrderCard from "@/src/components/orders/OrderCard";
+import { addReview } from "@/actions/reviews-manager";
+import AOSWrapper from "@/components/common/AOSWrapper";
+import { useOrders } from "@/hooks/useOrders";
+import type { Order } from "@/types/orders";
+import OrdersPageHeader from "@/components/orders/OrdersPageHeader";
+import OrderStatusFilter from "@/components/orders/OrderStatusFilter";
+import EmptyOrders from "@/components/orders/EmptyOrders";
+import OrderCard from "@/components/orders/OrderCard";
 
 export default function OrdersPage() {
   const { orders, filteredOrders, selectedStatus, setSelectedStatus } = useOrders();

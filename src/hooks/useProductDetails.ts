@@ -2,17 +2,17 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Product } from "@/src/@types/product/Product.type";
-import { PRODUCT_DATA } from "@/src/constants/productData";
-import { addProductToCart, generateProductKey } from "@/src/lib/cartUtils";
-import { useNotification } from "@/src/providers/notification-provider";
+import type { Product } from "@/types/product";
+import { PRODUCT_DATA } from "@/constants/productData";
+import { addProductToCart, generateProductKey } from "@/lib/utils/cart";
+import { useNotification } from "@/providers/notification-provider";
 import { useDataLoading } from "./useDataLoading";
-import { CartItem } from "@/src/@types/cart/CartItem.type";
-import { STORAGE_KEYS } from "@/src/constants";
-import { storage } from "@/src/lib/utils";
-import { CART_ROUTES } from "@/src/constants/cart";
-import { handleAndLogError } from "@/src/lib/errors";
-import { ErrorCode } from "@/src/lib/errors/errorTypes";
+import type { CartItem } from "@/types/cart";
+import { STORAGE_KEYS } from "@/constants";
+import { storage } from "@/lib/utils";
+import { CART_ROUTES } from "@/constants/cart";
+import { handleAndLogError } from "@/lib/errors";
+import { ErrorCode } from "@/lib/errors/errorTypes";
 
 interface ProductOptions {
   selectedSize: string;

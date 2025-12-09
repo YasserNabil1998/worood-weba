@@ -3,12 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useMemo } from "react";
-import { OccasionWithHref } from "@/src/@types/home/index.type";
-import { defaultOccasions } from "@/src/content/occasions";
-import { ROUTES } from "@/src/constants/routes";
+import { OccasionWithHref } from "@/@types/home/index.type";
+import { defaultOccasions } from "@/content/occasions";
+import { ROUTES } from "@/constants/routes";
 import { ArrowLeft } from "lucide-react";
-import { fontStyle } from "@/src/lib/styles";
-import { UI_TEXTS } from "@/src/constants";
+import { fontStyle } from "@/lib/styles";
+import { UI_TEXTS } from "@/constants";
 import AOSWrapper from "./AOSWrapper";
 
 

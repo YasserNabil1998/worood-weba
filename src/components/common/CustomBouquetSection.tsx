@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import AOSWrapper from "./AOSWrapper";
-import { ROUTES } from "@/src/constants/routes";
+import { ROUTES } from "@/constants/routes";
 
 type CustomBouquetSectionProps = {
   title?: string;

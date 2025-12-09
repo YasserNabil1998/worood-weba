@@ -1,4 +1,4 @@
-import type { Size, ColorOption } from "@/src/@types/product/Product.type";
+import type { Size, ColorOption } from "@/types/product";
 
 interface ProductDataType {
   bouquetImages: string[];

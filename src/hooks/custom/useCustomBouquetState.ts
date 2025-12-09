@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
-import { PackagingType } from "@/src/@types/custom/index.type";
-import { CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/src/constants";
+import type { PackagingType } from "@/types/custom";
+import { CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/constants";
 
 export function useCustomBouquetState() {
   // Selected flowers and colors

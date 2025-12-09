@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { Heart } from "lucide-react";
 import Script from "next/script";
 
-import DataLoader from "@/src/components/DataLoader";
+import DataLoader from "@/components/shared/DataLoader";
 import {
   ProductImageGallery,
   ProductInfo,
@@ -13,11 +13,11 @@ import {
   ProductAddons,
   ProductActions,
   ColorSelector,
-} from "@/src/components/product";
-import AOSWrapper from "@/src/components/common/AOSWrapper";
-import { useProductDetails } from "@/src/hooks/useProductDetails";
-import { PRODUCT_DATA } from "@/src/constants/productData";
-import { generateProductSchema, generateBreadcrumbSchema } from "@/src/lib/structuredData";
+} from "@/components/product";
+import AOSWrapper from "@/components/common/AOSWrapper";
+import { useProductDetails } from "@/hooks/useProductDetails";
+import { PRODUCT_DATA } from "@/constants/productData";
+import { generateProductSchema, generateBreadcrumbSchema } from "@/lib/structuredData";
 
 export default function ProductDetailPage() {
   const params = useParams();

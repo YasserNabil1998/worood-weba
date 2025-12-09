@@ -1,9 +1,9 @@
 "use client";
 
 import type { FeatureItem } from "@/types";
-import { localFeatures } from "@/src/content/features";
+import { localFeatures } from "@/content/features";
 import { useEffect, useRef, useState } from "react";
-import { fontStyle } from "@/src/lib/styles";
+import { fontStyle } from "@/lib/styles";
 import AOSWrapper from "./common/AOSWrapper";
 
 type FeaturesSectionProps = {

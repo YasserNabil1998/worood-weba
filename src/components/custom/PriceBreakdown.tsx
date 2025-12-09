@@ -1,5 +1,5 @@
-import { Vase, PackagingType } from "@/src/@types/custom/index.type";
-import { APP_CONFIG } from "@/src/constants";
+import { Vase, PackagingType } from "@/@types/custom/index.type";
+import { APP_CONFIG } from "@/constants";
 
 interface PriceBreakdownProps {
   totalFlowersCount: number;

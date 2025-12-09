@@ -3,9 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { ROUTES } from "@/src/constants/routes";
+import { ROUTES } from "@/constants/routes";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { INTERVALS } from "@/src/constants";
+import { INTERVALS } from "@/constants";
 
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);

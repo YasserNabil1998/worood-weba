@@ -1,12 +1,12 @@
 import { useMemo } from "react";
-import {
+import type {
   Flower,
   BouquetSize,
   BouquetStyle,
   Vase,
   Config,
   PackagingType,
-} from "@/src/@types/custom/index.type";
+} from "@/types/custom";
 
 interface UsePriceCalculationsProps {
   selectedFlowers: Record<number, number>;

@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import Script from "next/script";
 import type { Metadata } from "next";
-import BouquetsListingClient from "@/src/components/BouquetsListingClient";
-import { fetchBouquets } from "@/src/lib/api/bouquets";
-import { generateProductsMetadata } from "@/src/lib/seo/generateMetadata";
-import { generateBreadcrumbSchema } from "@/src/lib/structuredData";
-import { UI_TEXTS } from "@/src/constants";
+import BouquetsListingClient from "@/components/BouquetsListingClient";
+import { fetchBouquets } from "@/lib/api/bouquets";
+import { generateProductsMetadata } from "@/lib/seo/generateMetadata";
+import { generateBreadcrumbSchema } from "@/lib/structuredData";
+import { UI_TEXTS } from "@/constants";
 
 export const metadata: Metadata = generateProductsMetadata();
 

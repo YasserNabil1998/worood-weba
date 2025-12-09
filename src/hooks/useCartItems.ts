@@ -5,18 +5,18 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CartItem } from "@/src/@types/cart/CartItem.type";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
+import type { CartItem } from "@/types/cart";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS } from "@/constants";
 import {
   updateCartItemQuantity,
   removeCartItem,
   createCustomBouquetEditData,
   getItemId,
-} from "@/src/lib/cartHelpers";
-import { handleAndLogError } from "@/src/lib/errors";
-import { ErrorCode } from "@/src/lib/errors/errorTypes";
-import { CART_ROUTES } from "@/src/constants/cart";
+} from "@/lib/cartHelpers";
+import { handleAndLogError } from "@/lib/errors";
+import { ErrorCode } from "@/lib/errors/errorTypes";
+import { CART_ROUTES } from "@/constants/cart";
 
 interface UseCartItemsReturn {
   items: CartItem[];
@@ -118,48 +118,51 @@ export function useCartItems(): UseCartItemsReturn {
   );
 
   // تعديل باقة مخصصة
-  const editItem = useCallback((item: CartItem) => {
-    try {
-      if (item.isCustom && item.customData) {
-        storage.set(STORAGE_KEYS.EDIT_ITEM_ID, item.id.toString());
+  const editItem = useCallback(
+    (item: CartItem) => {
+      try {
+        if (item.isCustom && item.customData) {
+          storage.set(STORAGE_KEYS.EDIT_ITEM_ID, item.id.toString());
 
-        const editData = createCustomBouquetEditData(item);
-        const encodedData = encodeURIComponent(JSON.stringify(editData));
-        router.push(`${CART_ROUTES.CUSTOM}?design=${encodedData}&edit=true`);
-        return;
+          const editData = createCustomBouquetEditData(item);
+          const encodedData = encodeURIComponent(JSON.stringify(editData));
+          router.push(`${CART_ROUTES.CUSTOM}?design=${encodedData}&edit=true`);
+          return;
+        }
+
+        const itemIdentifier = (item.uniqueKey || item.id)?.toString();
+        if (!itemIdentifier) {
+          throw new Error("Item identifier is missing");
+        }
+
+        storage.set(STORAGE_KEYS.EDIT_ITEM_ID, itemIdentifier);
+        storage.set(STORAGE_KEYS.EDIT_ITEM_DATA, {
+          id: item.id,
+          uniqueKey: item.uniqueKey,
+          size: item.size,
+          color: item.color,
+          colorValue: item.colorValue,
+          colorHex: item.color,
+          colorLabel: item.colorLabel,
+          addCard: item.addCard ?? false,
+          cardMessage: item.cardMessage ?? "",
+          addChocolate: item.addChocolate ?? false,
+          giftWrap: item.giftWrap ?? false,
+          quantity: item.quantity ?? 1,
+        });
+
+        router.push(`${CART_ROUTES.PRODUCT}/${item.id}?edit=true`);
+      } catch (err) {
+        const error = err instanceof Error ? err : new Error("Failed to edit item");
+        setError(error);
+        handleAndLogError(err, "Error editing item", ErrorCode.CART_ITEM_NOT_FOUND, {
+          itemId: item.id,
+          itemTitle: item.title,
+        });
       }
-
-      const itemIdentifier = (item.uniqueKey || item.id)?.toString();
-      if (!itemIdentifier) {
-        throw new Error("Item identifier is missing");
-      }
-
-      storage.set(STORAGE_KEYS.EDIT_ITEM_ID, itemIdentifier);
-      storage.set(STORAGE_KEYS.EDIT_ITEM_DATA, {
-        id: item.id,
-        uniqueKey: item.uniqueKey,
-        size: item.size,
-        color: item.color,
-        colorValue: item.colorValue,
-        colorHex: item.color,
-        colorLabel: item.colorLabel,
-        addCard: item.addCard ?? false,
-        cardMessage: item.cardMessage ?? "",
-        addChocolate: item.addChocolate ?? false,
-        giftWrap: item.giftWrap ?? false,
-        quantity: item.quantity ?? 1,
-      });
-
-      router.push(`${CART_ROUTES.PRODUCT}/${item.id}?edit=true`);
-    } catch (err) {
-      const error = err instanceof Error ? err : new Error("Failed to edit item");
-      setError(error);
-      handleAndLogError(err, "Error editing item", ErrorCode.CART_ITEM_NOT_FOUND, {
-        itemId: item.id,
-        itemTitle: item.title,
-      });
-    }
-  }, [router]);
+    },
+    [router]
+  );
 
   // إعادة تحميل السلة
   const refreshCart = useCallback(() => {

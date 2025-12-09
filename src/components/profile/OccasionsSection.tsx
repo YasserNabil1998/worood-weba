@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, ChevronUp, Edit, Calendar, ChevronRight, ChevronLeft } from "lucide-react";
-import { formatDateToArabic } from "@/src/lib/utils";
-import { ARABIC_MONTHS } from "@/src/constants";
+import { formatDateToArabic } from "@/lib/utils";
+import { ARABIC_MONTHS } from "@/constants";
 
 interface Occasion {
   id: string;

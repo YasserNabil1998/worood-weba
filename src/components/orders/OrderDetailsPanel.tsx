@@ -1,5 +1,5 @@
-import { Order } from "@/src/@types/orders/order.type";
-import { almaraiFont } from "@/src/lib/ordersHelpers";
+import { Order } from "@/@types/orders/order.type";
+import { almaraiFont } from "@/lib/ordersHelpers";
 import {
   MapPin,
   CreditCard,

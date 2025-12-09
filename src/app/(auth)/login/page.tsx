@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import isValidEmail from "@/src/validations/isValidEmail";
+import isValidEmail from "@/validations/isValidEmail";
 import Link from "next/link";
 import Image from "next/image";
-import { fontStyle } from "@/src/lib/styles";
+import { fontStyle } from "@/lib/styles";
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });

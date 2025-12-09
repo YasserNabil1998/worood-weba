@@ -1,21 +1,21 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { useNotification } from "@/src/providers/notification-provider";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS, APP_CONFIG } from "@/src/constants";
-import { CartItem } from "@/src/@types/cart/CartItem.type";
-import { Order } from "@/src/@types/orders/order.type";
-import {
+import { useNotification } from "@/providers/notification-provider";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS, APP_CONFIG } from "@/constants";
+import type { CartItem } from "@/types/cart";
+import type { Order } from "@/types/orders";
+import type {
   Address,
   CheckoutFormData,
   CheckoutFormErrors,
   CheckoutTotals,
-} from "@/src/@types/checkout/CheckoutForm.type";
-import { validateCheckoutForm, isFormValid } from "@/src/validations/checkoutValidation";
-import { createOrderFromCheckoutItems } from "@/src/lib/ordersHelpers";
-import { handleAndLogError } from "@/src/lib/errors";
-import { ErrorCode } from "@/src/lib/errors/errorTypes";
-import { getItemPrice } from "@/src/lib/cartHelpers";
+} from "@/types/checkout";
+import { validateCheckoutForm, isFormValid } from "@/validations/checkoutValidation";
+import { createOrderFromCheckoutItems } from "@/lib/ordersHelpers";
+import { handleAndLogError } from "@/lib/errors";
+import { ErrorCode } from "@/lib/errors/errorTypes";
+import { getItemPrice } from "@/lib/cartHelpers";
 
 export function useCheckout() {
   const [items, setItems] = useState<CartItem[]>([]);

@@ -3,7 +3,7 @@
 import React, { Component, ReactNode } from "react";
 import { AlertTriangle, RefreshCcw, Home } from "lucide-react";
 import Link from "next/link";
-import { logError } from "@/src/lib/logger";
+import { logError } from "@/lib/logger";
 
 interface Props {
   children: ReactNode;

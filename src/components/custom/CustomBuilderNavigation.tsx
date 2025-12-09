@@ -1,9 +1,9 @@
 "use client";
 
 import { ChevronRight, ChevronLeft, Loader2 } from "lucide-react";
-import { fontStyle } from "@/src/lib/styles";
-import { UI_TEXTS } from "@/src/constants";
-import { getButtonStyles, getButtonInlineStyles } from "@/src/lib/buttonStyles";
+import { fontStyle } from "@/lib/styles";
+import { UI_TEXTS } from "@/constants";
+import { getButtonStyles, getButtonInlineStyles } from "@/lib/buttonStyles";
 
 interface CustomBuilderNavigationProps {
   currentStep: number;

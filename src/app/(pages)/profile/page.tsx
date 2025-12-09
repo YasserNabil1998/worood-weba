@@ -1,15 +1,15 @@
 "use client";
 
 import profileData from "./profile-data.json";
-import { UserData } from "@/src/@types/profile/UserData.type";
-import { useProfile } from "@/src/hooks/useProfile";
-import ProfileHeader from "@/src/components/profile/ProfileHeader";
-import ProfileDetailsForm from "@/src/components/profile/ProfileDetailsForm";
-import OccasionsSection from "@/src/components/profile/OccasionsSection";
-import SupportSection from "@/src/components/profile/SupportSection";
-import OrdersSection from "@/src/components/profile/OrdersSection";
-import FavoritesSection from "@/src/components/profile/FavoritesSection";
-import { logDebug } from "@/src/lib/logger";
+import type { UserData } from "@/types/profile";
+import { useProfile } from "@/hooks/useProfile";
+import ProfileHeader from "@/components/profile/ProfileHeader";
+import ProfileDetailsForm from "@/components/profile/ProfileDetailsForm";
+import OccasionsSection from "@/components/profile/OccasionsSection";
+import SupportSection from "@/components/profile/SupportSection";
+import OrdersSection from "@/components/profile/OrdersSection";
+import FavoritesSection from "@/components/profile/FavoritesSection";
+import { logDebug } from "@/lib/logger";
 
 const initialUserData: UserData = profileData.userData;
 const occasions = profileData.occasions || [];

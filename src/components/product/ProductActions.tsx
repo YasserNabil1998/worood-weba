@@ -1,5 +1,5 @@
 import { ShoppingCart } from "lucide-react";
-import { UI_TEXTS } from "@/src/constants";
+import { UI_TEXTS } from "@/constants";
 
 interface ProductActionsProps {
   quantity: number;

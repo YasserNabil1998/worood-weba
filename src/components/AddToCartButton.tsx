@@ -3,12 +3,12 @@
 import type { JSX } from "react";
 
 import { useNotification } from "../providers/notification-provider";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS, UI_TEXTS } from "@/src/constants";
-import type { CartItem } from "@/src/@types/cart/CartItem.type";
-import { addProductToCart } from "@/src/lib/cartUtils";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS, UI_TEXTS } from "@/constants";
+import type { CartItem } from "@/@types/cart/CartItem.type";
+import { addProductToCart } from "@/lib/cartUtils";
 import { logError } from "../lib/logger";
-import { fontStyle } from "@/src/lib/styles";
+import { fontStyle } from "@/lib/styles";
 
 interface AddToCartButtonProps {
   productId: number | string;

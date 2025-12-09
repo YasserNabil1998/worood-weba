@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { logError } from "@/src/lib/logger";
-import { PackagingType } from "@/src/@types/custom/index.type";
+import { logError } from "@/lib/logger";
+import type { PackagingType } from "@/types/custom";
 
 interface UseDesignFromUrlProps {
   setSelectedFlowers: (flowers: Record<string, number>) => void;
@@ -60,10 +60,12 @@ export function useDesignFromUrl({
         Object.keys(colors).forEach((flowerId) => {
           const colorValue = colors[flowerId];
           // If colorValue is a string, convert to number array, otherwise use as is
-          if (typeof colorValue === 'string') {
+          if (typeof colorValue === "string") {
             convertedColors[flowerId] = [parseInt(colorValue, 10) || 0];
           } else if (Array.isArray(colorValue)) {
-            convertedColors[flowerId] = colorValue.map((c: any) => typeof c === 'string' ? parseInt(c, 10) || 0 : c);
+            convertedColors[flowerId] = colorValue.map((c: any) =>
+              typeof c === "string" ? parseInt(c, 10) || 0 : c
+            );
           } else {
             convertedColors[flowerId] = [colorValue || 0];
           }
@@ -151,4 +153,3 @@ export function useDesignFromUrl({
     setBouquetImage,
   ]);
 }
-

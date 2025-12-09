@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { fontStyle } from "@/src/lib/styles";
-import { TIMEOUTS } from "@/src/constants";
+import { fontStyle } from "@/lib/styles";
+import { TIMEOUTS } from "@/constants";
 
 export default function VerifyPage() {
   const [phone, setPhone] = useState("");

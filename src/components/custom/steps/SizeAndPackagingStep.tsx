@@ -5,10 +5,10 @@ import {
   Vase,
   Color,
   PackagingType,
-} from "@/src/@types/custom/index.type";
+} from "@/@types/custom/index.type";
 import FlowerColorSelector from "../FlowerColorSelector";
 import { Lightbulb, ChevronRight, ChevronLeft } from "lucide-react";
-import { fontStyle } from "@/src/lib/styles";
+import { fontStyle } from "@/lib/styles";
 
 interface SizeAndPackagingStepProps {
   selectedFlowers: Record<number, number>;

@@ -1,4 +1,4 @@
-import { almaraiFont } from "@/src/lib/ordersHelpers";
+import { almaraiFont } from "@/lib/ordersHelpers";
 import { ShoppingBag, TrendingUp } from "lucide-react";
 
 interface OrdersPageHeaderProps {

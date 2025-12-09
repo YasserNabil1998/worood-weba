@@ -1,8 +1,8 @@
 "use client";
 
-import { useNavigationLoading } from "@/src/hooks/useNavigationLoading";
-import DataLoader from "@/src/components/DataLoader";
-import { UI_TEXTS } from "@/src/constants";
+import { useNavigationLoading } from "@/hooks/useNavigationLoading";
+import DataLoader from "@/components/shared/DataLoader";
+import { UI_TEXTS } from "@/constants";
 
 interface NavigationWrapperProps {
   children: React.ReactNode;

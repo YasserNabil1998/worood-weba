@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
-import { CustomBouquet } from "@/src/@types/favorites/CustomBouquet.type";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS } from "@/constants";
+import type { CustomBouquet } from "@/types/favorites";
 import { useCart } from "./useCart";
-import { useNotification } from "@/src/providers/notification-provider";
-import { CART_ROUTES } from "@/src/constants/cart";
-import { logError } from "@/src/lib/logger";
+import { useNotification } from "@/providers/notification-provider";
+import { CART_ROUTES } from "@/constants/cart";
+import { logError } from "@/lib/logger";
 
 export function useCustomBouquetFavorites() {
   const router = useRouter();
@@ -130,7 +130,9 @@ export function useCustomBouquetFavorites() {
 
         // الانتقال إلى صفحة التنسيق الخاص مع البيانات
         const encodedData = encodeURIComponent(JSON.stringify(editData));
-        router.push(`${CART_ROUTES.CUSTOM}?design=${encodedData}&editFromFavorites=true&favoriteId=${bouquet.id}`);
+        router.push(
+          `${CART_ROUTES.CUSTOM}?design=${encodedData}&editFromFavorites=true&favoriteId=${bouquet.id}`
+        );
       } catch (error) {
         logError("خطأ في تعديل الباقة", error, { bouquetId: bouquet.id });
         showNotification("حدث خطأ في تعديل الباقة", "error");

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { MessageSquare, ChevronDown, ChevronUp, ChevronRight, ChevronLeft } from "lucide-react";
-import { Occasion, Config } from "@/src/@types/custom/index.type";
+import { Occasion, Config } from "@/@types/custom/index.type";
 import CardSuggestions from "../CardSuggestions";
-import { fontStyle } from "@/src/lib/styles";
-import { TIMEOUTS } from "@/src/constants";
+import { fontStyle } from "@/lib/styles";
+import { TIMEOUTS } from "@/constants";
 
 interface CustomizationStepProps {
   occasions: Occasion[];

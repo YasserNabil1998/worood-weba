@@ -2,8 +2,8 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import { CheckCircle2, XCircle, AlertCircle, Info, X } from "lucide-react";
-import { COLORS } from "@/src/constants";
-import { fontStyle } from "@/src/lib/styles";
+import { COLORS } from "@/constants";
+import { fontStyle } from "@/lib/styles";
 
 interface Notification {
   id: string;
@@ -104,7 +104,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
               role="alert"
             >
               {/* Icon */}
-              <div className="flex-shrink-0 mt-0.5">{config.icon}</div>
+              <div className="shrink-0 mt-0.5">{config.icon}</div>
 
               {/* Message */}
               <span className="flex-1 text-sm font-medium leading-relaxed">
@@ -114,7 +114,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
               {/* Close Button */}
               <button
                 onClick={() => removeNotification(notification.id)}
-                className="flex-shrink-0 hover:opacity-70 transition-opacity text-white"
+                className="shrink-0 hover:opacity-70 transition-opacity text-white"
                 aria-label="إغلاق الإشعار"
               >
                 <X className="w-4 h-4" />

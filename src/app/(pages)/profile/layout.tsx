@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
-import { generateProfileMetadata } from "@/src/lib/seo/generateMetadata";
+import { generateProfileMetadata } from "@/lib/seo/generateMetadata";
 
 export const metadata: Metadata = generateProfileMetadata();
 
-export default function ProfileLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ProfileLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
-

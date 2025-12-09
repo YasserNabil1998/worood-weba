@@ -1,11 +1,7 @@
-import {
-  CartItem,
-  CartTotals,
-  CustomBouquetData,
-  hasUniqueKey,
-  isCustomBouquet,
-} from "@/src/@types/cart/CartItem.type";
-import { APP_CONFIG } from "@/src/constants";
+import type { CartItem, CartTotals } from "@/types/cart";
+import type { CustomBouquetData } from "@/types/custom";
+import { hasUniqueKey, isCustomBouquet } from "@/types/cart";
+import { APP_CONFIG } from "@/constants";
 
 export function getItemId(item: CartItem): string | number {
   return hasUniqueKey(item) ? item.uniqueKey : item.id;

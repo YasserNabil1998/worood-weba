@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { ContactFAQProps } from "@/src/@types/contact/index.type";
-import { generateId } from "@/src/lib/utils";
-import { cn } from "@/src/lib/utils";
-import { fontStyle } from "@/src/lib/styles";
+import { ContactFAQProps } from "@/@types/contact/index.type";
+import { generateId } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { fontStyle } from "@/lib/styles";
 
 export default function ContactFAQ({ data }: ContactFAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(1); // فتح السؤال الثاني افتراضياً كما في التصميم

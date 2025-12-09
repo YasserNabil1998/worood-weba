@@ -1,4 +1,4 @@
-import { CartItem } from "@/src/@types/cart/CartItem.type";
+import type { CartItem } from "@/types/cart";
 
 export type ProductInput = Partial<CartItem> & {
   id: number | string;

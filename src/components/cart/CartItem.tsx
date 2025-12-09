@@ -3,17 +3,17 @@
 import { useState, memo } from "react";
 import Image from "next/image";
 import { ChevronUp, ChevronDown, Pencil, Trash2 } from "lucide-react";
-import { CartItem as CartItemType } from "@/src/@types/cart/CartItem.type";
-import { isCustomBouquet } from "@/src/@types/cart/CartItem.type";
+import type { CartItem as CartItemType } from "@/types/cart";
+import { isCustomBouquet } from "@/types/cart";
 import CustomBouquetDetails from "./CustomBouquetDetails";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import CartItemDetails from "./CartItemDetails";
 import CartItemPricing from "./CartItemPricing";
-import { getItemId } from "@/src/lib/cartHelpers";
-import { CART_LABELS } from "@/src/constants/cart";
-import { COLORS, CUSTOM_BOUQUET_PREVIEW_IMAGE, SIZES } from "@/src/constants";
-import { fontStyle } from "@/src/lib/styles";
-import { getButtonStyles, getButtonInlineStyles } from "@/src/lib/buttonStyles";
+import { getItemId } from "@/lib/cartHelpers";
+import { CART_LABELS } from "@/constants/cart";
+import { COLORS, CUSTOM_BOUQUET_PREVIEW_IMAGE, SIZES } from "@/constants";
+import { fontStyle } from "@/lib/styles";
+import { getButtonStyles, getButtonInlineStyles } from "@/lib/buttonStyles";
 
 interface CartItemProps {
   item: CartItemType;

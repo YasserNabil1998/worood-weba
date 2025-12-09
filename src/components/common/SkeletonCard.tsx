@@ -1,4 +1,4 @@
-import { UI_TEXTS } from "@/src/constants";
+import { UI_TEXTS } from "@/constants";
 
 /**
  * Skeleton Card Component

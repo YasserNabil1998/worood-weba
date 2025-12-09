@@ -1,4 +1,4 @@
-import { FlowerWithQuantity } from "@/src/@types/custom/index.type";
+import type { FlowerWithQuantity } from "@/types/custom";
 
 export interface CustomBouquet {
   id: number;

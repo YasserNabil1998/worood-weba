@@ -3,14 +3,14 @@
 import { Suspense, lazy } from "react";
 import Script from "next/script";
 import contactData from "./contact-data.json";
-import { ContactData, ContactFormData } from "@/src/@types/contact/index.type";
-import AOSWrapper from "@/src/components/common/AOSWrapper";
-import { generateFAQSchema, generateBreadcrumbSchema } from "@/src/lib/structuredData";
-import { TIMEOUTS } from "@/src/constants";
+import type { ContactData, ContactFormData } from "@/types/contact";
+import AOSWrapper from "@/components/common/AOSWrapper";
+import { generateFAQSchema, generateBreadcrumbSchema } from "@/lib/structuredData";
+import { TIMEOUTS } from "@/constants";
 
-const ContactForm = lazy(() => import("@/src/components/contact/ContactForm"));
-const ContactInfo = lazy(() => import("@/src/components/contact/ContactInfo"));
-const ContactFAQ = lazy(() => import("@/src/components/contact/ContactFAQ"));
+const ContactForm = lazy(() => import("@/components/contact/ContactForm"));
+const ContactInfo = lazy(() => import("@/components/contact/ContactInfo"));
+const ContactFAQ = lazy(() => import("@/components/contact/ContactFAQ"));
 
 export default function ContactPage() {
   const typedContactData = contactData as ContactData;
@@ -76,7 +76,11 @@ export default function ContactPage() {
                 {/* نموذج التواصل - سيظهر على اليمين في الديسكتوب */}
                 <AOSWrapper animation="fade-right" delay={200} duration={800}>
                   <div className="w-full lg:w-[964px] lg:shrink-0">
-                    <Suspense fallback={<div className="bg-white rounded-[20px] p-8 animate-pulse h-[400px]" />}>
+                    <Suspense
+                      fallback={
+                        <div className="bg-white rounded-[20px] p-8 animate-pulse h-[400px]" />
+                      }
+                    >
                       <ContactForm data={typedContactData.form} onSubmit={handleFormSubmit} />
                     </Suspense>
                   </div>
@@ -84,7 +88,11 @@ export default function ContactPage() {
                 {/* معلومات التواصل - سيظهر على اليسار في الديسكتوب */}
                 <AOSWrapper animation="fade-left" delay={250} duration={800}>
                   <div className="w-full lg:w-[311px] lg:shrink-0">
-                    <Suspense fallback={<div className="bg-white rounded-[20px] p-6 animate-pulse h-[300px]" />}>
+                    <Suspense
+                      fallback={
+                        <div className="bg-white rounded-[20px] p-6 animate-pulse h-[300px]" />
+                      }
+                    >
                       <ContactInfo
                         data={typedContactData.contactInfo}
                         socialMedia={typedContactData.socialMedia}

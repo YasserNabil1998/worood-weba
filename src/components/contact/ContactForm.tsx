@@ -4,15 +4,15 @@ import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronDown, ChevronUp, Loader2, Send, CheckCircle2, AlertCircle } from "lucide-react";
-import { ContactFormProps } from "@/src/@types/contact/index.type";
-import { contactSchema, ContactFormData } from "@/src/validations/schemas/contactSchema";
+import { ContactFormProps } from "@/@types/contact/index.type";
+import { contactSchema, ContactFormData } from "@/validations/schemas/contactSchema";
 import {
   FORM_SUCCESS_TIMEOUT,
   MESSAGES,
-} from "@/src/constants/contact";
-import { cn } from "@/src/lib/utils";
-import { logError } from "@/src/lib/logger";
-import { fontStyle } from "@/src/lib/styles";
+} from "@/constants/contact";
+import { cn } from "@/lib/utils";
+import { logError } from "@/lib/logger";
+import { fontStyle } from "@/lib/styles";
 
 export default function ContactForm({ data, onSubmit }: ContactFormProps) {
   const [isSuccess, setIsSuccess] = useState(false);

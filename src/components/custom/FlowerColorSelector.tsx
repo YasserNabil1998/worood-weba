@@ -1,5 +1,5 @@
-import { Flower, Color } from "@/src/@types/custom/index.type";
-import { fontStyle } from "@/src/lib/styles";
+import { Flower, Color } from "@/@types/custom/index.type";
+import { fontStyle } from "@/lib/styles";
 
 interface FlowerColorSelectorProps {
   selectedFlowers: Record<number, number>;

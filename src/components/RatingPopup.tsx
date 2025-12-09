@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useNotification } from "@/src/providers/notification-provider";
+import { useNotification } from "@/providers/notification-provider";
 import type { ReviewItem } from "@/types";
 import { Star, X } from "lucide-react";
-import { fontStyle } from "@/src/lib/styles";
-import { TIMEOUTS } from "@/src/constants";
+import { fontStyle } from "@/lib/styles";
+import { TIMEOUTS } from "@/constants";
 
 type RatingPopupProps = {
   isOpen: boolean;

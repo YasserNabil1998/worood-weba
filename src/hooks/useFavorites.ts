@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
-import { BouquetItem } from "@/src/@types/bouquets/index.type";
-import { logError } from "@/src/lib/logger";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS } from "@/constants";
+import type { BouquetItem } from "@/types/bouquets";
+import { logError } from "@/lib/logger";
 
 export function useFavorites() {
   const [favorites, setFavorites] = useState<BouquetItem[]>([]);

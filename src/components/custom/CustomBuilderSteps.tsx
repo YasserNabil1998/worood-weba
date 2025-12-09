@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, lazy } from "react";
-import { UI_TEXTS } from "@/src/constants";
+import { UI_TEXTS } from "@/constants";
 import {
   Flower,
   BouquetSize,
@@ -12,12 +12,12 @@ import {
   Config,
   Vase,
   PackagingType,
-} from "@/src/@types/custom/index.type";
+} from "@/@types/custom/index.type";
 
-const FlowerSelectionStep = lazy(() => import("@/src/components/custom/steps/FlowerSelectionStep"));
-const SizeAndPackagingStep = lazy(() => import("@/src/components/custom/steps/SizeAndPackagingStep"));
-const CustomizationStep = lazy(() => import("@/src/components/custom/steps/CustomizationStep"));
-const DeliveryStep = lazy(() => import("@/src/components/custom/steps/DeliveryStep"));
+const FlowerSelectionStep = lazy(() => import("@/components/custom/steps/FlowerSelectionStep"));
+const SizeAndPackagingStep = lazy(() => import("@/components/custom/steps/SizeAndPackagingStep"));
+const CustomizationStep = lazy(() => import("@/components/custom/steps/CustomizationStep"));
+const DeliveryStep = lazy(() => import("@/components/custom/steps/DeliveryStep"));
 
 interface CustomBuilderStepsProps {
   currentStep: number;

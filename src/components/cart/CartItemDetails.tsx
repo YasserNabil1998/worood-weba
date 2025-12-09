@@ -1,7 +1,7 @@
 "use client";
 
-import { CartItem as CartItemType } from "@/src/@types/cart/CartItem.type";
-import { CART_LABELS, CART_SIZES } from "@/src/constants/cart";
+import { CartItem as CartItemType } from "@/@types/cart/CartItem.type";
+import { CART_LABELS, CART_SIZES } from "@/constants/cart";
 import CartItemAddons from "./CartItemAddons";
 
 interface CartItemDetailsProps {

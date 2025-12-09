@@ -1,11 +1,11 @@
 "use client";
 
-import { CartItem as CartItemType } from "@/src/@types/cart/CartItem.type";
-import QuantitySelector from "@/src/components/QuantitySelector";
-import { CART_LABELS } from "@/src/constants/cart";
-import { APP_CONFIG } from "@/src/constants";
-import { getItemId, getItemPrice, getItemTotal } from "@/src/lib/cartHelpers";
-import { fontStyle } from "@/src/lib/styles";
+import { CartItem as CartItemType } from "@/@types/cart/CartItem.type";
+import QuantitySelector from "@/components/QuantitySelector";
+import { CART_LABELS } from "@/constants/cart";
+import { APP_CONFIG } from "@/constants";
+import { getItemId, getItemPrice, getItemTotal } from "@/lib/cartHelpers";
+import { fontStyle } from "@/lib/styles";
 
 interface CartItemPricingProps {
   item: CartItemType;

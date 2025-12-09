@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import isValidEmail from "@/src/validations/isValidEmail";
+import isValidEmail from "@/validations/isValidEmail";
 import Link from "next/link";
 import Image from "next/image";
-import { fontStyle } from "@/src/lib/styles";
+import { fontStyle } from "@/lib/styles";
 
 export default function ForgotPasswordPage() {
   const [form, setForm] = useState({ email: "" });
@@ -77,8 +77,7 @@ export default function ForgotPasswordPage() {
               <p className="text-sm text-gray-600" style={fontStyle}>
                 تم إرسال رابط إعادة تعيين كلمة المرور إلى:
               </p>
-              <p className="text-sm font-medium text-[#5A5E4D] mt-1" style={fontStyle}
-              >
+              <p className="text-sm font-medium text-[#5A5E4D] mt-1" style={fontStyle}>
                 {form.email}
               </p>
             </div>

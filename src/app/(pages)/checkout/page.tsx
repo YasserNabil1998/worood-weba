@@ -1,11 +1,11 @@
 "use client";
 
-import { useCheckout } from "@/src/hooks/useCheckout";
-import AddressForm from "@/src/components/checkout/AddressForm";
-import PaymentMethodSelector from "@/src/components/checkout/PaymentMethodSelector";
-import OrderSummary from "@/src/components/checkout/OrderSummary";
-import { fontStyle } from "@/src/lib/styles";
-import { UI_TEXTS } from "@/src/constants";
+import { useCheckout } from "@/hooks/useCheckout";
+import AddressForm from "@/components/checkout/AddressForm";
+import PaymentMethodSelector from "@/components/checkout/PaymentMethodSelector";
+import OrderSummary from "@/components/checkout/OrderSummary";
+import { fontStyle } from "@/lib/styles";
+import { UI_TEXTS } from "@/constants";
 
 export default function CheckoutPage() {
   const {
@@ -49,7 +49,10 @@ export default function CheckoutPage() {
             متابعة الدفع
           </h1>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 lg:items-start animate-fadeIn" style={{ transform: 'none' }}>
+          <div
+            className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 lg:items-start animate-fadeIn"
+            style={{ transform: "none" }}
+          >
             {/* ملخص الطلب */}
             <OrderSummary
               items={items}

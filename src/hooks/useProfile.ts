@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useNotification } from "@/src/providers/notification-provider";
-import { UserData } from "@/src/@types/profile/UserData.type";
-import isValidEmail from "@/src/validations/isValidEmail";
-import isValidSaudiPhone from "@/src/validations/isValidSaudiPhone";
-import { normalizeSaudiPhone } from "@/src/validations/isValidSaudiPhone";
-import { TIMEOUTS } from "@/src/constants";
+import { useNotification } from "@/providers/notification-provider";
+import type { UserData } from "@/types/profile";
+import isValidEmail from "@/validations/isValidEmail";
+import isValidSaudiPhone from "@/validations/isValidSaudiPhone";
+import { normalizeSaudiPhone } from "@/validations/isValidSaudiPhone";
+import { TIMEOUTS } from "@/constants";
 
 export function useProfile(initialData: UserData) {
   const [userData, setUserData] = useState<UserData>(initialData);

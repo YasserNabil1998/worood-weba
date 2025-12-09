@@ -3,12 +3,12 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useNotification } from "@/src/providers/notification-provider";
-import { ASSETS } from "@/src/assets";
-import { useCart } from "@/src/hooks/useCart";
-import { usePageSearch } from "@/src/hooks/usePageSearch";
-import { storage } from "@/src/lib/utils";
-import { NAVIGATION_LINKS } from "@/src/constants/routes";
+import { useNotification } from "@/providers/notification-provider";
+import { ASSETS } from "@/assets";
+import { useCart } from "@/hooks/useCart";
+import { usePageSearch } from "@/hooks/usePageSearch";
+import { storage } from "@/lib/utils";
+import { NAVIGATION_LINKS } from "@/constants/routes";
 import { Menu } from "lucide-react";
 import HeaderActions from "./HeaderActions";
 import SearchModal from "./SearchModal";
@@ -66,7 +66,6 @@ const Header = () => {
     return false;
   };
 
-
   const scrollToResult = (element: HTMLElement) => {
     element.scrollIntoView({ behavior: "smooth", block: "center" });
 
@@ -101,7 +100,7 @@ const Header = () => {
               width={200}
               height={48}
               className="h-12 w-auto object-contain"
-              style={{ maxWidth: '200px', height: '48px', width: 'auto' }}
+              style={{ maxWidth: "200px", height: "48px", width: "auto" }}
               priority
             />
           </Link>
@@ -157,7 +156,7 @@ const Header = () => {
               width={200}
               height={48}
               className="h-12 w-auto object-contain"
-              style={{ maxWidth: '200px', height: '48px', width: 'auto' }}
+              style={{ maxWidth: "200px", height: "48px", width: "auto" }}
               priority
             />
           </Link>
@@ -193,7 +192,7 @@ const Header = () => {
               width={200}
               height={40}
               className="h-10 w-auto object-contain mx-auto"
-              style={{ maxWidth: '200px', height: '40px', width: 'auto' }}
+              style={{ maxWidth: "200px", height: "40px", width: "auto" }}
               priority
             />
           </Link>

@@ -4,15 +4,15 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
-import type { BouquetItem } from "@/src/@types/bouquets/index.type";
-import type { CartItem } from "@/src/@types/cart/CartItem.type";
-import { PRODUCT_DATA } from "@/src/constants/productData";
-import { APP_CONFIG, STORAGE_KEYS } from "@/src/constants";
-import { addProductToCart } from "@/src/lib/cartUtils";
-import { storage } from "@/src/lib/utils";
-import { useNotification } from "@/src/providers/notification-provider";
-import { logError } from "@/src/lib/logger";
-import { fontStyle } from "@/src/lib/styles";
+import type { BouquetItem } from "@/types/bouquets";
+import type { CartItem } from "@/types/cart";
+import { PRODUCT_DATA } from "@/constants/productData";
+import { APP_CONFIG, STORAGE_KEYS } from "@/constants";
+import { addProductToCart } from "@/lib/utils/cart";
+import { storage } from "@/lib/utils";
+import { useNotification } from "@/providers/notification-provider";
+import { logError } from "@/lib/logger";
+import { fontStyle } from "@/lib/styles";
 
 import SizeSelector from "./SizeSelector";
 import ColorSelector from "./ColorSelector";
@@ -210,7 +210,7 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
   }
 
   const modalContent = (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
         onClick={onClose}

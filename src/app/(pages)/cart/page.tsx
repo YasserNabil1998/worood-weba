@@ -1,21 +1,16 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useCartItems } from "@/src/hooks/useCartItems";
-import { useCartSelection } from "@/src/hooks/useCartSelection";
-import {
-  calculateCartTotals,
-  getUnselectedCount,
-  isCartEmpty,
-  getItemId,
-} from "@/src/lib/cartHelpers";
+import { useCartItems } from "@/hooks/useCartItems";
+import { useCartSelection } from "@/hooks/useCartSelection";
+import { calculateCartTotals, getUnselectedCount, isCartEmpty, getItemId } from "@/lib/cartHelpers";
 import { AlertTriangle } from "lucide-react";
-import CartItem from "@/src/components/cart/CartItem";
-import CartSummary from "@/src/components/cart/CartSummary";
-import EmptyCart from "@/src/components/cart/EmptyCart";
-import { CART_MESSAGES } from "@/src/constants/cart";
-import { COLORS } from "@/src/constants";
-import { fontStyle } from "@/src/lib/styles";
+import CartItem from "@/components/cart/CartItem";
+import CartSummary from "@/components/cart/CartSummary";
+import EmptyCart from "@/components/cart/EmptyCart";
+import { CART_MESSAGES } from "@/constants/cart";
+import { COLORS } from "@/constants";
+import { fontStyle } from "@/lib/styles";
 
 export default function CartPage() {
   const [expandedItems, setExpandedItems] = useState<Set<string | number>>(new Set());
@@ -120,7 +115,10 @@ export default function CartPage() {
         {/* Content Section */}
         <section className="py-8">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:items-start" style={{ transform: 'none' }}>
+            <div
+              className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:items-start"
+              style={{ transform: "none" }}
+            >
               {/* Summary Sidebar */}
               <div className="lg:sticky lg:top-24 lg:self-start lg:z-10 lg:h-fit" data-aos="none">
                 {/* Action Buttons */}
@@ -168,9 +166,9 @@ export default function CartPage() {
                   <>
                     {/* Warning Messages */}
                     {unselectedCount > 0 && hasSelection && (
-                      <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-300 rounded-lg sm:rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-yellow-800 shadow-sm">
+                      <div className="bg-linear-to-r from-yellow-50 to-orange-50 border border-yellow-300 rounded-lg sm:rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-yellow-800 shadow-sm">
                         <div className="flex items-center gap-2">
-                          <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                          <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
                           <span className="font-medium">
                             {CART_MESSAGES.PARTIAL_SELECTION_WARNING.replace(
                               "{count}",
@@ -181,9 +179,9 @@ export default function CartPage() {
                       </div>
                     )}
                     {!hasSelection && (
-                      <div className="bg-gradient-to-r from-red-50 to-pink-50 border border-red-300 rounded-lg sm:rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-red-800 shadow-sm">
+                      <div className="bg-linear-to-r from-red-50 to-pink-50 border border-red-300 rounded-lg sm:rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-red-800 shadow-sm">
                         <div className="flex items-center gap-2">
-                          <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                          <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
                           <span className="font-medium">{CART_MESSAGES.NO_SELECTION_WARNING}</span>
                         </div>
                       </div>

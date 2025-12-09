@@ -1,7 +1,7 @@
-import { CartItem } from "@/src/@types/cart/CartItem.type";
-import { CheckoutTotals } from "@/src/@types/checkout/CheckoutForm.type";
-import { APP_CONFIG, COLORS } from "@/src/constants";
-import { fontStyle } from "@/src/lib/styles";
+import { CartItem } from "@/@types/cart/CartItem.type";
+import { CheckoutTotals } from "@/@types/checkout/CheckoutForm.type";
+import { APP_CONFIG, COLORS } from "@/constants";
+import { fontStyle } from "@/lib/styles";
 
 interface OrderSummaryProps {
   items: CartItem[];

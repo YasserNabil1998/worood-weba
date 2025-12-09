@@ -1,4 +1,4 @@
-import { fontStyle } from "@/src/lib/styles";
+import { fontStyle } from "@/lib/styles";
 
 interface StepIndicatorProps {
   currentStep: 1 | 2 | 3 | 4;

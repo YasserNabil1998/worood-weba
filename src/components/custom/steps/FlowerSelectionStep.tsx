@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
-import { Flower } from "@/src/@types/custom/index.type";
+import { Flower } from "@/@types/custom/index.type";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { fontStyle } from "@/src/lib/styles";
+import { fontStyle } from "@/lib/styles";
 
 interface FlowerSelectionStepProps {
   flowers: Flower[];

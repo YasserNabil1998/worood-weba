@@ -1,15 +1,15 @@
 import Script from "next/script";
-import HeroSection from "@/src/components/home/HeroSection";
-import OccasionsSection from "@/src/components/common/OccasionsSection";
-import FeaturedBouquets from "@/src/components/FeaturedBouquets";
-import ProductsSlider from "@/src/components/home/ProductsSlider";
-import CustomBouquetSection from "@/src/components/common/CustomBouquetSection";
-import FeaturesSection from "@/src/components/FeaturesSection";
-import CustomerReviewsSlider from "@/src/components/home/CustomerReviewsSlider";
-import NewsletterSection from "@/src/components/NewsletterSection";
-import AOSWrapper from "@/src/components/common/AOSWrapper";
-import { fetchBouquets } from "@/src/lib/api/bouquets";
-import { generateBreadcrumbSchema } from "@/src/lib/structuredData";
+import HeroSection from "@/components/home/HeroSection";
+import OccasionsSection from "@/components/common/OccasionsSection";
+import FeaturedBouquets from "@/components/FeaturedBouquets";
+import ProductsSlider from "@/components/home/ProductsSlider";
+import CustomBouquetSection from "@/components/common/CustomBouquetSection";
+import FeaturesSection from "@/components/FeaturesSection";
+import CustomerReviewsSlider from "@/components/home/CustomerReviewsSlider";
+import NewsletterSection from "@/components/NewsletterSection";
+import AOSWrapper from "@/components/common/AOSWrapper";
+import { fetchBouquets } from "@/lib/api/bouquets";
+import { generateBreadcrumbSchema } from "@/lib/structuredData";
 
 // Generate Breadcrumb Schema for home page
 const breadcrumbSchema = generateBreadcrumbSchema([

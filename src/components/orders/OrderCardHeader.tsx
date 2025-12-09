@@ -1,5 +1,5 @@
-import { Order } from "@/src/@types/orders/order.type";
-import { almaraiFont } from "@/src/lib/ordersHelpers";
+import { Order } from "@/@types/orders/order.type";
+import { almaraiFont } from "@/lib/ordersHelpers";
 import OrderStatusTracker from "./OrderStatusTracker";
 
 interface OrderCardHeaderProps {
@@ -18,21 +18,13 @@ export default function OrderCardHeader({ order }: OrderCardHeaderProps) {
           >
             طلب {order.orderNumber}
           </h3>
-          <p
-            className="text-xs sm:text-sm text-gray-600"
-            style={almaraiFont}
-            dir="rtl"
-          >
+          <p className="text-xs sm:text-sm text-gray-600" style={almaraiFont} dir="rtl">
             {order.date}
           </p>
         </div>
         <div className="text-left flex flex-col items-start sm:items-end gap-2 w-full sm:w-auto">
           <OrderStatusTracker status={order.status} />
-          <p
-            className="text-base sm:text-lg font-bold text-gray-800"
-            style={almaraiFont}
-            dir="rtl"
-          >
+          <p className="text-base sm:text-lg font-bold text-gray-800" style={almaraiFont} dir="rtl">
             {order.totalAmount} ر.س
           </p>
         </div>
@@ -40,4 +32,3 @@ export default function OrderCardHeader({ order }: OrderCardHeaderProps) {
     </div>
   );
 }
-

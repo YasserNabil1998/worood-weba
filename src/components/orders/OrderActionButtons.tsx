@@ -1,6 +1,6 @@
-import { Order } from "@/src/@types/orders/order.type";
-import { almaraiFont } from "@/src/lib/ordersHelpers";
-import { useNotification } from "@/src/providers/notification-provider";
+import { Order } from "@/@types/orders/order.type";
+import { almaraiFont } from "@/lib/ordersHelpers";
+import { useNotification } from "@/providers/notification-provider";
 import { RefreshCw, Truck as TruckIcon, Star } from "lucide-react";
 
 interface OrderActionButtonsProps {
@@ -14,7 +14,7 @@ export default function OrderActionButtons({ order, onRateOrder }: OrderActionBu
   return (
     <div className="mt-2 flex flex-col sm:flex-row gap-2 sm:gap-2.5">
       <button
-        className="flex-1 bg-gradient-to-r from-[#5A5E4D] to-[#6B6F5E] text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl hover:shadow-lg transition-all duration-300 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 sm:gap-2 transform hover:scale-105"
+        className="flex-1 bg-linear-to-r from-[#5A5E4D] to-[#6B6F5E] text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl hover:shadow-lg transition-all duration-300 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 sm:gap-2 transform hover:scale-105"
         style={almaraiFont}
         onClick={() => showNotification("تم إرسال الطلب مرة أخرى!", "success")}
       >
@@ -24,7 +24,7 @@ export default function OrderActionButtons({ order, onRateOrder }: OrderActionBu
 
       {order.status === "في الطريق" && (
         <button
-          className="flex-1 bg-gradient-to-r from-[#5A5E4D] to-[#6B6F5E] text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl hover:shadow-lg transition-all duration-300 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 sm:gap-2 transform hover:scale-105"
+          className="flex-1 bg-linear-to-r from-[#5A5E4D] to-[#6B6F5E] text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl hover:shadow-lg transition-all duration-300 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 sm:gap-2 transform hover:scale-105"
           style={almaraiFont}
           onClick={() => showNotification("تتبع الطلب قريباً!", "info")}
         >
@@ -46,4 +46,3 @@ export default function OrderActionButtons({ order, onRateOrder }: OrderActionBu
     </div>
   );
 }
-

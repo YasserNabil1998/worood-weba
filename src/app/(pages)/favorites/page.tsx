@@ -5,13 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Heart, X, ShoppingCart, Trash2, Sparkles, Pencil } from "lucide-react";
 
-import FavoriteProductCard from "@/src/components/FavoriteProductCard";
-import AOSWrapper from "@/src/components/common/AOSWrapper";
-import { CustomBouquet } from "@/src/@types/favorites/CustomBouquet.type";
-import { useFavorites } from "@/src/hooks/useFavorites";
-import { useCustomBouquetFavorites } from "@/src/hooks/useCustomBouquetFavorites";
-import { fontStyle } from "@/src/lib/styles";
-import { UI_TEXTS } from "@/src/constants";
+import FavoriteProductCard from "@/components/FavoriteProductCard";
+import AOSWrapper from "@/components/common/AOSWrapper";
+import { CustomBouquet } from "@/@types/favorites/CustomBouquet.type";
+import { useFavorites } from "@/hooks/useFavorites";
+import { useCustomBouquetFavorites } from "@/hooks/useCustomBouquetFavorites";
+import { fontStyle } from "@/lib/styles";
+import { UI_TEXTS } from "@/constants";
 
 export default function FavoritesPage() {
   const { favorites, loading: favoritesLoading } = useFavorites();
@@ -90,7 +90,7 @@ export default function FavoritesPage() {
                 <div className="max-w-md mx-auto">
                   <div className="relative mb-8">
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-32 h-32 bg-gradient-to-br from-pink-100 to-purple-100 rounded-full blur-2xl opacity-50 animate-pulse"></div>
+                      <div className="w-32 h-32 bg-linear-to-br from-pink-100 to-purple-100 rounded-full blur-2xl opacity-50 animate-pulse"></div>
                     </div>
                     <Heart className="w-28 h-28 md:w-32 md:h-32 mx-auto text-gray-300 relative z-10 animate-pulse" />
                   </div>
@@ -284,7 +284,7 @@ export default function FavoritesPage() {
             dir="rtl"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-[#5A5E4D] to-[#4A4E3D] px-6 py-4 sticky top-0 z-10 flex items-center justify-between border-b border-[#5A5E4D]/20">
+            <div className="bg-linear-to-r from-[#5A5E4D] to-[#4A4E3D] px-6 py-4 sticky top-0 z-10 flex items-center justify-between border-b border-[#5A5E4D]/20">
               <h2
                 className="text-lg md:text-xl font-bold text-white flex items-center gap-2"
                 style={{
@@ -320,7 +320,7 @@ export default function FavoritesPage() {
                 {/* Details */}
                 <div className="space-y-4">
                   {/* السعر */}
-                  <div className="bg-gradient-to-br from-[#5A5E4D] to-[#4A4E3D] text-white p-5 rounded-xl text-center shadow-lg">
+                  <div className="bg-linear-to-br from-[#5A5E4D] to-[#4A4E3D] text-white p-5 rounded-xl text-center shadow-lg">
                     <p
                       className="text-sm mb-1 opacity-90"
                       style={{
@@ -427,7 +427,7 @@ export default function FavoritesPage() {
 
                   {/* البطاقة والملاحظات */}
                   {selectedBouquet.cardMessage && (
-                    <div className="bg-gradient-to-br from-pink-50 to-pink-100/50 p-4 rounded-xl border border-pink-200/50">
+                    <div className="bg-linear-to-br from-pink-50 to-pink-100/50 p-4 rounded-xl border border-pink-200/50">
                       <h5
                         className="font-bold text-sm text-gray-800 mb-2 flex items-center gap-2"
                         style={{
@@ -449,7 +449,7 @@ export default function FavoritesPage() {
                   )}
 
                   {selectedBouquet.notes && (
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 p-4 rounded-xl border border-blue-200/50">
+                    <div className="bg-linear-to-br from-blue-50 to-blue-100/50 p-4 rounded-xl border border-blue-200/50">
                       <h5
                         className="font-bold text-sm text-gray-800 mb-2 flex items-center gap-2"
                         style={{

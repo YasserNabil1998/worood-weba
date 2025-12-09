@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { fontStyle } from "@/src/lib/styles";
-import { TIMEOUTS, NOTIFICATION_DURATION } from "@/src/constants";
+import { fontStyle } from "@/lib/styles";
+import { TIMEOUTS, NOTIFICATION_DURATION } from "@/constants";
 
 const NewsletterSection = () => {
   const [email, setEmail] = useState("");

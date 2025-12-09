@@ -5,12 +5,12 @@
 
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
-import { CartTotals } from "@/src/@types/cart/CartItem.type";
-import { CartItem } from "@/src/@types/cart/CartItem.type";
-import { CART_MESSAGES, CART_ROUTES } from "@/src/constants/cart";
-import { APP_CONFIG, STORAGE_KEYS } from "@/src/constants";
-import { storage } from "@/src/lib/utils";
-import { fontStyle } from "@/src/lib/styles";
+import { CartTotals } from "@/@types/cart/CartItem.type";
+import { CartItem } from "@/@types/cart/CartItem.type";
+import { CART_MESSAGES, CART_ROUTES } from "@/constants/cart";
+import { APP_CONFIG, STORAGE_KEYS } from "@/constants";
+import { storage } from "@/lib/utils";
+import { fontStyle } from "@/lib/styles";
 
 interface CartSummaryProps {
   totals: CartTotals;

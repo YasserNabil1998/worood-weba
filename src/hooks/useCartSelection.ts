@@ -4,10 +4,10 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-import { CartItem } from "@/src/@types/cart/CartItem.type";
-import { removeSelectedItems, getItemId } from "@/src/lib/cartHelpers";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
+import type { CartItem } from "@/types/cart";
+import { removeSelectedItems, getItemId } from "@/lib/cartHelpers";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS } from "@/constants";
 
 interface UseCartSelectionReturn {
   selectedItems: Set<string | number>;

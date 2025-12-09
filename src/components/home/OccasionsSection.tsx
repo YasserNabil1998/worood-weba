@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ROUTES } from "@/src/constants/routes";
+import { ROUTES } from "@/constants/routes";
 import { ArrowLeft } from "lucide-react";
-import { UI_TEXTS } from "@/src/constants";
+import { UI_TEXTS } from "@/constants";
 
 const OccasionsSection = () => {
   const occasions = [

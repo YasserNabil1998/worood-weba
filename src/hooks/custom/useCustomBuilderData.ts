@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import bouquetsData from "@/src/app/(pages)/custom/bouquets.json";
-import {
+import bouquetsData from "@/app/(pages)/custom/bouquets.json";
+import type {
   Flower,
   BouquetSize,
   BouquetStyle,
   Color,
   Occasion,
   DeliveryTime,
-  PaymentMethod,
+  CustomPaymentMethod,
   Config,
   Vase,
-} from "@/src/@types/custom/index.type";
-import { logError } from "@/src/lib/logger";
+} from "@/types/custom";
+import { logError } from "@/lib/logger";
 
 export function useCustomBuilderData() {
   const searchParams = useSearchParams();
@@ -23,7 +23,7 @@ export function useCustomBuilderData() {
   const [colors, setColors] = useState<Color[]>([]);
   const [occasions, setOccasions] = useState<Occasion[]>([]);
   const [deliveryTimes, setDeliveryTimes] = useState<DeliveryTime[]>([]);
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<CustomPaymentMethod[]>([]);
   const [config, setConfig] = useState<Config>({
     vatRate: 0.15,
     cardPrice: 15,
@@ -66,4 +66,3 @@ export function useCustomBuilderData() {
     isLoading,
   };
 }
-

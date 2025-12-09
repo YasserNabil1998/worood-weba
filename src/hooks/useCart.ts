@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
-import { addProductToCart } from "@/src/lib/cartUtils";
-import { removeCartItem, updateCartItemQuantity } from "@/src/lib/cartHelpers";
-import { CartItem } from "@/src/@types/cart/CartItem.type";
-import { logError } from "@/src/lib/logger";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS } from "@/constants";
+import { addProductToCart } from "@/lib/utils/cart";
+import { removeCartItem, updateCartItemQuantity } from "@/lib/utils/cart";
+import type { CartItem } from "@/types/cart";
+import { logError } from "@/lib/logger";
 
 export function useCart() {
   const [items, setItems] = useState<CartItem[]>([]);

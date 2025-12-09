@@ -1,17 +1,11 @@
-import { Order, OrderItem } from "@/src/@types/orders/order.type";
+import type { Order, OrderItem } from "@/types/orders";
 import { Package, Truck, CheckCircle, Clock, X } from "lucide-react";
-import { ReactElement } from "react";
-import { CartItem } from "@/src/@types/cart/CartItem.type";
-import {
-  Address,
-  CheckoutFormData,
-  CheckoutTotals,
-  PaymentMethod,
-} from "@/src/@types/checkout/CheckoutForm.type";
-import { PAYMENT_METHOD_LABELS } from "@/src/constants";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
-import { getArabicDate } from "@/src/lib/utils";
+import type { ReactElement } from "react";
+import type { CartItem } from "@/types/cart";
+import type { Address, CheckoutFormData, CheckoutTotals, PaymentMethod } from "@/types/checkout";
+import { PAYMENT_METHOD_LABELS } from "@/constants";
+import { storage, getArabicDate } from "@/lib/utils";
+import { STORAGE_KEYS } from "@/constants";
 
 /**
  * دمج الطلبات المحفوظة مع الطلبات التجريبية
@@ -96,17 +90,17 @@ export const almaraiFont = {
  */
 export function formatDeliveryAddress(address: Address): string {
   const parts: string[] = [];
-  
+
   // إضافة اسم المستلم إذا كان موجوداً
   if (address.recipientName?.trim()) {
     parts.push(`اسم المستلم: ${address.recipientName}`);
   }
-  
+
   // إضافة العنوان (street) - الحقل الرئيسي في التصميم الجديد
   if (address.street?.trim()) {
     parts.push(address.street);
   }
-  
+
   // إضافة الحقول القديمة إذا كانت موجودة (للتوافق مع البيانات القديمة)
   if (address.city?.trim()) {
     parts.push(address.city);
@@ -117,7 +111,7 @@ export function formatDeliveryAddress(address: Address): string {
   if (address.landmark?.trim()) {
     parts.push(`معلم بارز: ${address.landmark}`);
   }
-  
+
   return parts.length > 0 ? parts.join("، ") : "لم يتم تحديد العنوان";
 }
 
@@ -136,7 +130,9 @@ export function generateOrderNumber(): string {
  */
 export function generateTrackingNumber(): string {
   const timestamp = Date.now().toString().slice(-9);
-  const random = Math.floor(Math.random() * 1000).toString().padStart(3, "0");
+  const random = Math.floor(Math.random() * 1000)
+    .toString()
+    .padStart(3, "0");
   return `TRK-${timestamp}${random}`;
 }
 

@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import { Order } from "@/src/@types/orders/order.type";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS } from "@/src/constants";
-import { mergeOrders, sortOrders, filterOrdersByStatus } from "@/src/lib/ordersHelpers";
-import ordersData from "@/src/app/(pages)/orders/orders-data.json";
+import type { Order } from "@/types/orders";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS } from "@/constants";
+import { mergeOrders, sortOrders, filterOrdersByStatus } from "@/lib/ordersHelpers";
+import ordersData from "@/app/(pages)/orders/orders-data.json";
 
 /**
  * Hook لإدارة الطلبات وحالاتها

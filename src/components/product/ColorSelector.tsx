@@ -1,4 +1,4 @@
-import type { ColorOption } from "@/src/@types/product/Product.type";
+import type { ColorOption } from "@/@types/product/Product.type";
 
 interface ColorSelectorProps {
   colors: ColorOption[];

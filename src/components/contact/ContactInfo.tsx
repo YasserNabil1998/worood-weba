@@ -1,8 +1,8 @@
 "use client";
 
-import { ContactInfoProps } from "@/src/@types/contact/index.type";
-import { SocialMedia } from "@/src/@types/contact/index.type";
-import { fontStyle } from "@/src/lib/styles";
+import { ContactInfoProps } from "@/@types/contact/index.type";
+import { SocialMedia } from "@/@types/contact/index.type";
+import { fontStyle } from "@/lib/styles";
 
 // WhatsApp SVG Icon Component
 const WhatsAppIcon = () => (

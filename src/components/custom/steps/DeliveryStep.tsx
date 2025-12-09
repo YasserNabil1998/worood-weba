@@ -1,10 +1,10 @@
 import { useSearchParams } from "next/navigation";
-import { DeliveryTime } from "@/src/@types/custom/index.type";
+import { DeliveryTime } from "@/@types/custom/index.type";
 import { Loader2, ChevronRight, ChevronLeft, Calendar, Clock } from "lucide-react";
-import { formatDateToArabic, formatTimeToArabic, formatTimeToHTML } from "@/src/lib/utils";
-import { ARABIC_MONTHS } from "@/src/constants";
+import { formatDateToArabic, formatTimeToArabic, formatTimeToHTML } from "@/lib/utils";
+import { ARABIC_MONTHS } from "@/constants";
 import { useRef, useState, useEffect } from "react";
-import { fontStyle } from "@/src/lib/styles";
+import { fontStyle } from "@/lib/styles";
 
 interface DeliveryStepProps {
   deliveryType: "today" | "scheduled";

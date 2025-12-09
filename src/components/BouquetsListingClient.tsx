@@ -2,15 +2,15 @@
 
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import ProductCard from "@/src/components/ProductCard";
+import ProductCard from "@/components/ProductCard";
 import { Heart, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from "lucide-react";
-import { BouquetItem } from "@/src/@types/bouquets/index.type";
-import { PRICE_RANGES } from "@/src/constants/bouquets";
-import ToggleButton from "@/src/components/ToggleButton";
-import Sidebar from "@/src/components/Sidebar";
-import { fontStyle } from "@/src/lib/styles";
-import { TIMEOUTS } from "@/src/constants";
-import AOSWrapper from "@/src/components/common/AOSWrapper";
+import { BouquetItem } from "@/@types/bouquets/index.type";
+import { PRICE_RANGES } from "@/constants/bouquets";
+import ToggleButton from "@/components/ToggleButton";
+import Sidebar from "@/components/Sidebar";
+import { fontStyle } from "@/lib/styles";
+import { TIMEOUTS } from "@/constants";
+import AOSWrapper from "@/components/common/AOSWrapper";
 
 // FilterSection was removed as it was unused
 

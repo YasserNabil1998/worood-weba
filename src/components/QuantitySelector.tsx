@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useCart } from "@/src/hooks/useCart";
-import { generateProductKey, ProductInput } from "@/src/lib/cartUtils";
-import { CartItem } from "@/src/@types/cart/CartItem.type";
+import { useCart } from "@/hooks/useCart";
+import { generateProductKey, ProductInput } from "@/lib/cartUtils";
+import { CartItem } from "@/@types/cart/CartItem.type";
 import { Minus, Plus } from "lucide-react";
-import { fontStyle } from "@/src/lib/styles";
+import { fontStyle } from "@/lib/styles";
 
 interface QuantitySelectorProps {
   itemId: string | number;

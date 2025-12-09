@@ -1,27 +1,27 @@
 import { useCallback, useMemo, useRef, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { storage } from "@/src/lib/utils";
-import { STORAGE_KEYS, NAVIGATION_DELAY, CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/src/constants";
-import { CartItem } from "@/src/@types/cart/CartItem.type";
-import { generateProductKey } from "@/src/lib/cartUtils";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS, NAVIGATION_DELAY, CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/constants";
+import type { CartItem } from "@/types/cart";
+import { generateProductKey } from "@/lib/utils/cart";
 import {
   buildCustomData,
   validateAndNormalizePrices,
   type CustomBouquetInput,
   type BouquetDataSources,
-} from "@/src/lib/customBouquetBuilders";
-import { logError } from "@/src/lib/logger";
-import {
+} from "@/lib/customBouquetBuilders";
+import { logError } from "@/lib/logger";
+import type {
   Flower,
   BouquetSize,
   BouquetStyle,
   Vase,
   Occasion,
   DeliveryTime,
-  PaymentMethod,
+  CustomPaymentMethod,
   Config,
   PackagingType,
-} from "@/src/@types/custom/index.type";
+} from "@/types/custom";
 
 interface UseCartOperationsProps {
   selectedFlowers: Record<number, number>;
@@ -57,7 +57,7 @@ interface UseCartOperationsProps {
   vases: Vase[];
   occasions: Occasion[];
   deliveryTimes: DeliveryTime[];
-  paymentMethods: PaymentMethod[];
+  paymentMethods: CustomPaymentMethod[];
   config: Config;
 }
 
@@ -155,7 +155,10 @@ function handleAddMode(
   };
 }
 
-function saveAndNavigate(cart: CartItem[], router: ReturnType<typeof useRouter>): ReturnType<typeof setTimeout> {
+function saveAndNavigate(
+  cart: CartItem[],
+  router: ReturnType<typeof useRouter>
+): ReturnType<typeof setTimeout> {
   storage.set(STORAGE_KEYS.CART, cart);
   window.dispatchEvent(new Event("cartUpdated"));
 

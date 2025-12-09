@@ -3,7 +3,7 @@
 import { useNotification } from "../providers/notification-provider";
 import { useFavorites } from "../hooks/useFavorites";
 import { Heart } from "lucide-react";
-import { BouquetItem } from "@/src/@types/bouquets/index.type";
+import { BouquetItem } from "@/@types/bouquets/index.type";
 import { logError } from "../lib/logger";
 
 interface FavoriteButtonProps {

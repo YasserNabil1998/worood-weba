@@ -1,5 +1,5 @@
-import { VALIDATION_MESSAGES } from "@/src/constants";
-import { Address, CheckoutFormErrors } from "@/src/@types/checkout/CheckoutForm.type";
+import { VALIDATION_MESSAGES } from "@/constants";
+import type { Address, CheckoutFormErrors } from "@/types/checkout";
 
 export const validateAddress = (address: Address): Partial<Address> => {
   const errors: Partial<Address> = {};

@@ -1,6 +1,6 @@
 import type { ReviewItem } from "@/types";
-import { storage } from "@/src/lib/utils";
-import { logError } from "@/src/lib/logger";
+import { storage } from "@/lib/utils";
+import { logError } from "@/lib/logger";
 
 const REVIEWS_STORAGE_KEY = "customer_reviews";
 
