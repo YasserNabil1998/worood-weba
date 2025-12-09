@@ -4,7 +4,7 @@
  */
 
 import { Heart } from "lucide-react";
-import { CustomBouquetData } from "@/@types/cart/CartItem.type";
+import { CustomBouquetData } from "@/types/custom";
 import { CART_LABELS } from "@/constants/cart";
 import bouquetsData from "@/app/(pages)/custom/bouquets.json";
 

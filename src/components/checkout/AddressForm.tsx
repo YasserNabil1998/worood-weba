@@ -1,4 +1,4 @@
-import { Address, CheckoutFormErrors } from "@/@types/checkout/CheckoutForm.type";
+import { Address, CheckoutFormErrors } from "@/types/checkout";
 import { fontStyle } from "@/lib/styles";
 
 interface AddressFormProps {

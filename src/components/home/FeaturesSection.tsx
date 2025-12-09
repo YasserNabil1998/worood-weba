@@ -4,7 +4,7 @@ import type { FeatureItem } from "@/types";
 import { localFeatures } from "@/content/features";
 import { useEffect, useRef, useState } from "react";
 import { fontStyle } from "@/lib/styles";
-import AOSWrapper from "./common/AOSWrapper";
+import AOSWrapper from "@/components/common/AOSWrapper";
 
 type FeaturesSectionProps = {
   features?: FeatureItem[];

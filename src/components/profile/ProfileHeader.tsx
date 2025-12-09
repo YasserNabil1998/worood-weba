@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Edit } from "lucide-react";
-import { UserData } from "@/@types/profile/UserData.type";
+import { UserData } from "@/types/profile";
 
 interface ProfileHeaderProps {
   userData: UserData;

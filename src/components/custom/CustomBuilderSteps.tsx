@@ -12,7 +12,7 @@ import {
   Config,
   Vase,
   PackagingType,
-} from "@/@types/custom/index.type";
+} from "@/types/custom";
 
 const FlowerSelectionStep = lazy(() => import("@/components/custom/steps/FlowerSelectionStep"));
 const SizeAndPackagingStep = lazy(() => import("@/components/custom/steps/SizeAndPackagingStep"));

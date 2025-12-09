@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Heart, X, ShoppingCart, Trash2, Sparkles, Pencil } from "lucide-react";
 
-import FavoriteProductCard from "@/components/FavoriteProductCard";
+import FavoriteProductCard from "@/components/product/FavoriteProductCard";
 import AOSWrapper from "@/components/common/AOSWrapper";
-import { CustomBouquet } from "@/@types/favorites/CustomBouquet.type";
+import { CustomBouquet } from "@/types/favorites";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useCustomBouquetFavorites } from "@/hooks/useCustomBouquetFavorites";
 import { fontStyle } from "@/lib/styles";

@@ -5,8 +5,8 @@
 
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
-import { CartTotals } from "@/@types/cart/CartItem.type";
-import { CartItem } from "@/@types/cart/CartItem.type";
+import { CartTotals } from "@/types/cart";
+import { CartItem } from "@/types/cart";
 import { CART_MESSAGES, CART_ROUTES } from "@/constants/cart";
 import { APP_CONFIG, STORAGE_KEYS } from "@/constants";
 import { storage } from "@/lib/utils";

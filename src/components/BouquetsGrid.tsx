@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, memo } from "react";
-import ProductCard from "@/components/ProductCard";
+import ProductCard from "@/components/product/ProductCard";
 
 export type BouquetCardItem = {
   id: number;

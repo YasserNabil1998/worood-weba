@@ -1,10 +1,10 @@
 "use client";
 
-import { useNotification } from "../providers/notification-provider";
-import { useFavorites } from "../hooks/useFavorites";
+import { useNotification } from "@/providers/notification-provider";
+import { useFavorites } from "@/hooks/useFavorites";
 import { Heart } from "lucide-react";
-import { BouquetItem } from "@/@types/bouquets/index.type";
-import { logError } from "../lib/logger";
+import { BouquetItem } from "@/types/bouquets";
+import { logError } from "@/lib/logger";
 
 interface FavoriteButtonProps {
   productId: string;

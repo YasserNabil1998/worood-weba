@@ -1,5 +1,5 @@
 import { CreditCard, Smartphone, DollarSign } from "lucide-react";
-import { PaymentMethod, PaymentMethodOption } from "@/@types/checkout/CheckoutForm.type";
+import { PaymentMethod, PaymentMethodOption } from "@/types/checkout";
 import { PAYMENT_METHODS, PAYMENT_METHOD_LABELS } from "@/constants";
 import { fontStyle } from "@/lib/styles";
 

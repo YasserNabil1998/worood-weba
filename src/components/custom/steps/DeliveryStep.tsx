@@ -1,5 +1,5 @@
 import { useSearchParams } from "next/navigation";
-import { DeliveryTime } from "@/@types/custom/index.type";
+import { DeliveryTime } from "@/types/custom";
 import { Loader2, ChevronRight, ChevronLeft, Calendar, Clock } from "lucide-react";
 import { formatDateToArabic, formatTimeToArabic, formatTimeToHTML } from "@/lib/utils";
 import { ARABIC_MONTHS } from "@/constants";

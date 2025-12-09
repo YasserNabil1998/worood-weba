@@ -3,15 +3,15 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import type { BouquetItem } from "@/@types/bouquets/index.type";
-import { defaultBouquets } from "../content/featured-bouquets";
+import type { BouquetItem } from "@/types/bouquets";
+import { defaultBouquets } from "@/content/featured-bouquets";
 import { Heart, ArrowLeft, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { useNotification } from "../providers/notification-provider";
-import { useFavorites } from "../hooks/useFavorites";
-import { APP_CONFIG, UI_TEXTS } from "../constants";
-import { BEST_SELLER_BADGE } from "../constants/bouquets";
-import { QuickAddModal } from "./product";
-import { logError } from "../lib/logger";
+import { useNotification } from "@/providers/notification-provider";
+import { useFavorites } from "@/hooks/useFavorites";
+import { APP_CONFIG, UI_TEXTS } from "@/constants";
+import { BEST_SELLER_BADGE } from "@/constants/bouquets";
+import { QuickAddModal } from "@/components/product";
+import { logError } from "@/lib/logger";
 import { fontStyle } from "@/lib/styles";
 import { TIMEOUTS } from "@/constants";
 

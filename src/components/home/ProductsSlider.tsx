@@ -6,7 +6,7 @@ import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon, Heart, ArrowLeft } from "lucide-react";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useNotification } from "@/providers/notification-provider";
-import { BouquetItem } from "@/@types/bouquets/index.type";
+import { BouquetItem } from "@/types/bouquets";
 import { ROUTES } from "@/constants/routes";
 import { logError } from "@/lib/logger";
 import { fontStyle } from "@/lib/styles";

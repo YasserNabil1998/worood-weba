@@ -2,12 +2,12 @@
 
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import ProductCard from "@/components/ProductCard";
+import ProductCard from "@/components/product/ProductCard";
 import { Heart, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from "lucide-react";
-import { BouquetItem } from "@/@types/bouquets/index.type";
+import { BouquetItem } from "@/types/bouquets";
 import { PRICE_RANGES } from "@/constants/bouquets";
-import ToggleButton from "@/components/ToggleButton";
-import Sidebar from "@/components/Sidebar";
+import ToggleButton from "@/components/shared/ToggleButton";
+import Sidebar from "@/components/layout/Sidebar";
 import { fontStyle } from "@/lib/styles";
 import { TIMEOUTS } from "@/constants";
 import AOSWrapper from "@/components/common/AOSWrapper";

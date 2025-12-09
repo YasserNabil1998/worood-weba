@@ -1,4 +1,4 @@
-import { OccasionWithHref } from "../@types/home/index.type";
+import { OccasionWithHref } from "@/types/home";
 import ASSETS from "../assets";
 
 export const defaultOccasions: OccasionWithHref[] = [

@@ -5,3 +5,8 @@ export { default as ColorSelector } from "./ColorSelector";
 export { default as ProductAddons } from "./ProductAddons";
 export { default as ProductActions } from "./ProductActions";
 export { default as QuickAddModal } from "./QuickAddModal";
+export { default as AddToCartButton } from "./AddToCartButton";
+export { default as FavoriteButton } from "./FavoriteButton";
+export { default as ProductCard } from "./ProductCard";
+export { default as QuantitySelector } from "./QuantitySelector";
+export { default as RatingPopup } from "./RatingPopup";

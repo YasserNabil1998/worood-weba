@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import { Heart } from "lucide-react";
-import { BouquetItem } from "@/@types/bouquets/index.type";
+import { BouquetItem } from "@/types/bouquets";
 import { QuickAddModal } from "@/components/product";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useNotification } from "@/providers/notification-provider";

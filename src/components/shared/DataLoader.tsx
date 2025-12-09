@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Loader2 } from "lucide-react";
-import { SkeletonGrid } from "@/components/shared/common/SkeletonCard";
+import { SkeletonGrid } from "@/components/common/SkeletonCard";
 import { fontStyle } from "@/lib/styles";
 import { UI_TEXTS } from "@/constants";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import RatingPopup from "@/components/RatingPopup";
+import RatingPopup from "@/components/product/RatingPopup";
 import type { ReviewItem } from "@/types";
 import { addReview } from "@/actions/reviews-manager";
 import AOSWrapper from "@/components/common/AOSWrapper";

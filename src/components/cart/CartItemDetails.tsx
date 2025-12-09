@@ -1,6 +1,6 @@
 "use client";
 
-import { CartItem as CartItemType } from "@/@types/cart/CartItem.type";
+import { CartItem as CartItemType } from "@/types/cart";
 import { CART_LABELS, CART_SIZES } from "@/constants/cart";
 import CartItemAddons from "./CartItemAddons";
 

@@ -1,4 +1,4 @@
-import { Flower, Color } from "@/@types/custom/index.type";
+import { Flower, Color } from "@/types/custom";
 import { fontStyle } from "@/lib/styles";
 
 interface FlowerColorSelectorProps {

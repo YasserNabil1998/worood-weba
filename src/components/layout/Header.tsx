@@ -10,8 +10,8 @@ import { usePageSearch } from "@/hooks/usePageSearch";
 import { storage } from "@/lib/utils";
 import { NAVIGATION_LINKS } from "@/constants/routes";
 import { Menu } from "lucide-react";
-import HeaderActions from "../shared/common/HeaderActions";
-import SearchModal from "../shared/common/SearchModal";
+import HeaderActions from "@/components/common/HeaderActions";
+import SearchModal from "@/components/common/SearchModal";
 
 const SCROLL_THRESHOLD = 10;
 const SCROLL_HIDE_THRESHOLD = 100;

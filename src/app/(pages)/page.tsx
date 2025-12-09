@@ -1,12 +1,12 @@
 import Script from "next/script";
 import HeroSection from "@/components/home/HeroSection";
 import OccasionsSection from "@/components/common/OccasionsSection";
-import FeaturedBouquets from "@/components/FeaturedBouquets";
+import FeaturedBouquets from "@/components/home/FeaturedBouquets";
 import ProductsSlider from "@/components/home/ProductsSlider";
 import CustomBouquetSection from "@/components/common/CustomBouquetSection";
-import FeaturesSection from "@/components/FeaturesSection";
+import FeaturesSection from "@/components/home/FeaturesSection";
 import CustomerReviewsSlider from "@/components/home/CustomerReviewsSlider";
-import NewsletterSection from "@/components/NewsletterSection";
+import NewsletterSection from "@/components/home/NewsletterSection";
 import AOSWrapper from "@/components/common/AOSWrapper";
 import { fetchBouquets } from "@/lib/api/bouquets";
 import { generateBreadcrumbSchema } from "@/lib/structuredData";

@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronDown, ChevronUp, Loader2, Send, CheckCircle2, AlertCircle } from "lucide-react";
-import { ContactFormProps } from "@/@types/contact/index.type";
+import { ContactFormProps } from "@/types/contact";
 import { contactSchema, ContactFormData } from "@/validations/schemas/contactSchema";
 import {
   FORM_SUCCESS_TIMEOUT,

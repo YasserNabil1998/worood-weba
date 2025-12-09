@@ -5,7 +5,7 @@ import {
   Vase,
   Color,
   PackagingType,
-} from "@/@types/custom/index.type";
+} from "@/types/custom";
 import FlowerColorSelector from "../FlowerColorSelector";
 import { Lightbulb, ChevronRight, ChevronLeft } from "lucide-react";
 import { fontStyle } from "@/lib/styles";

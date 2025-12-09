@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useMemo } from "react";
-import { OccasionWithHref } from "@/@types/home/index.type";
+import { OccasionWithHref } from "@/types/home";
 import { defaultOccasions } from "@/content/occasions";
 import { ROUTES } from "@/constants/routes";
 import { ArrowLeft } from "lucide-react";

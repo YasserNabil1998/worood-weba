@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ContactHeroProps } from "@/@types/contact/index.type";
+import { ContactHeroProps } from "@/types/contact";
 import { renderMultilineText } from "@/lib/textUtils";
 import { HERO_HEIGHT } from "@/constants/contact";
 

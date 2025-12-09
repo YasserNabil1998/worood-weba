@@ -1,6 +1,6 @@
 "use client";
 
-import { UserData } from "@/@types/profile/UserData.type";
+import { UserData } from "@/types/profile";
 
 interface ProfileDetailsFormProps {
   userData: UserData;

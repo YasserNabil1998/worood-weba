@@ -1,5 +1,5 @@
-import { CartItem } from "@/@types/cart/CartItem.type";
-import { CheckoutTotals } from "@/@types/checkout/CheckoutForm.type";
+import { CartItem } from "@/types/cart";
+import { CheckoutTotals } from "@/types/checkout";
 import { APP_CONFIG, COLORS } from "@/constants";
 import { fontStyle } from "@/lib/styles";
 

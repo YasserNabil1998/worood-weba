@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { OrderItem } from "@/@types/orders/order.type";
+import { OrderItem } from "@/types/orders";
 import { almaraiFont } from "@/lib/ordersHelpers";
 
 interface OrderItemsListProps {

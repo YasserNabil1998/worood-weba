@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { ContactFAQProps } from "@/@types/contact/index.type";
+import { ContactFAQProps } from "@/types/contact";
 import { generateId } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { fontStyle } from "@/lib/styles";

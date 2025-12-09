@@ -2,12 +2,12 @@
 
 import type { JSX } from "react";
 
-import { useNotification } from "../providers/notification-provider";
+import { useNotification } from "@/providers/notification-provider";
 import { storage } from "@/lib/utils";
 import { STORAGE_KEYS, UI_TEXTS } from "@/constants";
-import type { CartItem } from "@/@types/cart/CartItem.type";
+import type { CartItem } from "@/types/cart";
 import { addProductToCart } from "@/lib/cartUtils";
-import { logError } from "../lib/logger";
+import { logError } from "@/lib/logger";
 import { fontStyle } from "@/lib/styles";
 
 interface AddToCartButtonProps {

@@ -1,4 +1,4 @@
-import { Flower, Color, Vase, PackagingType } from "@/@types/custom/index.type";
+import { Flower, Color, Vase, PackagingType } from "@/types/custom";
 import PriceBreakdown from "./PriceBreakdown";
 import { Heart, ExternalLink } from "lucide-react";
 import { fontStyle } from "@/lib/styles";

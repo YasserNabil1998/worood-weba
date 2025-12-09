@@ -1,4 +1,4 @@
-import { Vase, PackagingType } from "@/@types/custom/index.type";
+import { Vase, PackagingType } from "@/types/custom";
 import { APP_CONFIG } from "@/constants";
 
 interface PriceBreakdownProps {

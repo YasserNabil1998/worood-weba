@@ -7,8 +7,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ErrorBoundary from "@/components/shared/ErrorBoundary";
 import SplashScreen from "@/components/shared/SplashScreen";
-import FallingFlowers from "@/components/shared/common/FallingFlowers";
-import AOSProvider from "@/components/shared/common/AOSProvider";
+import FallingFlowers from "@/components/common/FallingFlowers";
+import AOSProvider from "@/components/common/AOSProvider";
 import { generateOrganizationSchema, generateWebsiteSchema } from "@/lib/structuredData";
 import { generateHomeMetadata } from "@/lib/seo/generateMetadata";
 

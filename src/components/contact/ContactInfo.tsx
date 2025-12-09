@@ -1,7 +1,7 @@
 "use client";
 
-import { ContactInfoProps } from "@/@types/contact/index.type";
-import { SocialMedia } from "@/@types/contact/index.type";
+import { ContactInfoProps } from "@/types/contact";
+import { SocialMedia } from "@/types/contact";
 import { fontStyle } from "@/lib/styles";
 
 // WhatsApp SVG Icon Component

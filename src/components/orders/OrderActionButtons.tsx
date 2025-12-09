@@ -1,4 +1,4 @@
-import { Order } from "@/@types/orders/order.type";
+import { Order } from "@/types/orders";
 import { almaraiFont } from "@/lib/ordersHelpers";
 import { useNotification } from "@/providers/notification-provider";
 import { RefreshCw, Truck as TruckIcon, Star } from "lucide-react";

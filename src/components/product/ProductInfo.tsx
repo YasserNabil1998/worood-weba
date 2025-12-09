@@ -1,4 +1,4 @@
-import FavoriteButton from "@/components/FavoriteButton";
+import FavoriteButton from "@/components/product/FavoriteButton";
 import type { BouquetItem } from "@/types/bouquets";
 
 interface ProductInfoProps {
