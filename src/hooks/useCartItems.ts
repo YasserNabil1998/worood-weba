@@ -13,7 +13,7 @@ import {
   removeCartItem,
   createCustomBouquetEditData,
   getItemId,
-} from "@/lib/cartHelpers";
+} from "@/lib/utils/cart";
 import { handleAndLogError } from "@/lib/errors";
 import { ErrorCode } from "@/lib/errors/errorTypes";
 import { CART_ROUTES } from "@/constants/cart";

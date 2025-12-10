@@ -12,10 +12,10 @@ import type {
   CheckoutTotals,
 } from "@/types/checkout";
 import { validateCheckoutForm, isFormValid } from "@/validations/checkoutValidation";
-import { createOrderFromCheckoutItems } from "@/lib/ordersHelpers";
+import { createOrderFromCheckoutItems } from "@/lib/utils/orders";
 import { handleAndLogError } from "@/lib/errors";
 import { ErrorCode } from "@/lib/errors/errorTypes";
-import { getItemPrice } from "@/lib/cartHelpers";
+import { getItemPrice } from "@/lib/utils/cart";
 
 export function useCheckout() {
   const [items, setItems] = useState<CartItem[]>([]);

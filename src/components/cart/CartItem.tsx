@@ -9,7 +9,7 @@ import CustomBouquetDetails from "./CustomBouquetDetails";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import CartItemDetails from "./CartItemDetails";
 import CartItemPricing from "./CartItemPricing";
-import { getItemId } from "@/lib/cartHelpers";
+import { getItemId } from "@/lib/utils/cart";
 import { CART_LABELS } from "@/constants/cart";
 import { COLORS, CUSTOM_BOUQUET_PREVIEW_IMAGE, SIZES } from "@/constants";
 import { fontStyle } from "@/lib/styles";

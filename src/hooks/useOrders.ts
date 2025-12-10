@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import type { Order } from "@/types/orders";
 import { storage } from "@/lib/utils";
 import { STORAGE_KEYS } from "@/constants";
-import { mergeOrders, sortOrders, filterOrdersByStatus } from "@/lib/ordersHelpers";
+import { mergeOrders, sortOrders, filterOrdersByStatus } from "@/lib/utils/orders";
 import ordersData from "@/app/(pages)/orders/orders-data.json";
 
 /**

@@ -74,7 +74,13 @@ function DeleteConfirmationModal({
         {/* نص السؤال */}
         <div className="text-start mb-6">
           <p className="text-[20px] font-bold text-black leading-normal" style={fontStyle}>
-            هل أنت متأكد أنك تريد حذف الباقة ؟
+            {itemTitle && itemTitle.includes("عنصر محدد")
+              ? `هل أنت متأكد أنك تريد حذف ${itemTitle} من السلة؟`
+              : itemTitle && itemTitle === "العنصر المحدد"
+              ? "هل أنت متأكد أنك تريد حذف العنصر المحدد من السلة؟"
+              : itemTitle
+              ? `هل أنت متأكد أنك تريد حذف ${itemTitle}؟`
+              : "هل أنت متأكد أنك تريد حذف الباقة؟"}
           </p>
         </div>
 

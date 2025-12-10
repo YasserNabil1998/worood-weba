@@ -1,5 +1,5 @@
 import { Order } from "@/types/orders";
-import { almaraiFont } from "@/lib/ordersHelpers";
+import { almaraiFont } from "@/lib/utils/orders";
 
 interface OrderStatusTrackerProps {
   status: Order["status"];

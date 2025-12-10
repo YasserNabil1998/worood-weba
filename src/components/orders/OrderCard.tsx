@@ -6,7 +6,7 @@ import OrderCardHeader from "./OrderCardHeader";
 import OrderItemsList from "./OrderItemsList";
 import OrderDetailsPanel from "./OrderDetailsPanel";
 import OrderActionButtons from "./OrderActionButtons";
-import { almaraiFont } from "@/lib/ordersHelpers";
+import { almaraiFont } from "@/lib/utils/orders";
 import { ChevronDown, ChevronUp, Package } from "lucide-react";
 
 interface OrderCardProps {

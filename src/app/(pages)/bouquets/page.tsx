@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Script from "next/script";
 import type { Metadata } from "next";
-import BouquetsListingClient from "@/components/BouquetsListingClient";
+import BouquetsListingClient from "@/components/bouquets/BouquetsListingClient";
 import { fetchBouquets } from "@/lib/api/bouquets";
 import { generateProductsMetadata } from "@/lib/seo/generateMetadata";
 import { generateBreadcrumbSchema } from "@/lib/structuredData";

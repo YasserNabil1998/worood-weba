@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import type { CartItem } from "@/types/cart";
-import { removeSelectedItems, getItemId } from "@/lib/cartHelpers";
+import { removeSelectedItems, getItemId } from "@/lib/utils/cart";
 import { storage } from "@/lib/utils";
 import { STORAGE_KEYS } from "@/constants";
 

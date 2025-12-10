@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useCart } from "@/hooks/useCart";
-import { generateProductKey, ProductInput } from "@/lib/cartUtils";
+import { generateProductKey, ProductInput } from "@/lib/utils/cart";
 import { CartItem } from "@/types/cart";
 import { Minus, Plus } from "lucide-react";
 import { fontStyle } from "@/lib/styles";

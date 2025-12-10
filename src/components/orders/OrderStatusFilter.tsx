@@ -1,4 +1,4 @@
-import { almaraiFont, ORDER_STATUS_OPTIONS } from "@/lib/ordersHelpers";
+import { almaraiFont, ORDER_STATUS_OPTIONS } from "@/lib/utils/orders";
 import { Filter } from "lucide-react";
 
 interface OrderStatusFilterProps {

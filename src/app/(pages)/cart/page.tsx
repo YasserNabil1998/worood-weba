@@ -3,17 +3,19 @@
 import { useMemo, useState } from "react";
 import { useCartItems } from "@/hooks/useCartItems";
 import { useCartSelection } from "@/hooks/useCartSelection";
-import { calculateCartTotals, getUnselectedCount, isCartEmpty, getItemId } from "@/lib/cartHelpers";
+import { calculateCartTotals, getUnselectedCount, isCartEmpty, getItemId } from "@/lib/utils/cart";
 import { AlertTriangle } from "lucide-react";
 import CartItem from "@/components/cart/CartItem";
 import CartSummary from "@/components/cart/CartSummary";
 import EmptyCart from "@/components/cart/EmptyCart";
+import DeleteConfirmationModal from "@/components/cart/DeleteConfirmationModal";
 import { CART_MESSAGES } from "@/constants/cart";
 import { COLORS } from "@/constants";
 import { fontStyle } from "@/lib/styles";
 
 export default function CartPage() {
   const [expandedItems, setExpandedItems] = useState<Set<string | number>>(new Set());
+  const [showDeleteSelectedModal, setShowDeleteSelectedModal] = useState(false);
 
   // استخدام الـ hooks المخصصة
   const { items, isLoading, error, updateItemQuantity, removeItem, editItem } = useCartItems();
@@ -45,9 +47,22 @@ export default function CartPage() {
     });
   };
 
-  // حذف العناصر المحددة
+  // فتح popup تأكيد حذف المحدد
   const handleRemoveSelected = () => {
+    if (selectedItems.size > 0) {
+      setShowDeleteSelectedModal(true);
+    }
+  };
+
+  // تأكيد حذف العناصر المحددة
+  const handleConfirmDeleteSelected = () => {
     removeSelected(items);
+    setShowDeleteSelectedModal(false);
+  };
+
+  // إلغاء حذف العناصر المحددة
+  const handleCancelDeleteSelected = () => {
+    setShowDeleteSelectedModal(false);
   };
 
   // حساب عدد العناصر غير المحددة
@@ -211,6 +226,20 @@ export default function CartPage() {
           </div>
         </section>
       </main>
+
+      {/* Popup تأكيد حذف العناصر المحددة */}
+      <DeleteConfirmationModal
+        isOpen={showDeleteSelectedModal}
+        onClose={handleCancelDeleteSelected}
+        onConfirm={handleConfirmDeleteSelected}
+        itemTitle={
+          selectedItems.size > 1
+            ? `${selectedItems.size} عنصر محدد`
+            : selectedItems.size === 1
+            ? "العنصر المحدد"
+            : undefined
+        }
+      />
     </div>
   );
 }

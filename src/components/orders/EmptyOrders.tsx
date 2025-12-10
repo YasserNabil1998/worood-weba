@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Package, ShoppingBag, Sparkles } from "lucide-react";
-import { almaraiFont } from "@/lib/ordersHelpers";
+import { almaraiFont } from "@/lib/utils/orders";
 
 interface EmptyOrdersProps {
   selectedStatus: string;

@@ -6,7 +6,7 @@ import { useNotification } from "@/providers/notification-provider";
 import { storage } from "@/lib/utils";
 import { STORAGE_KEYS, UI_TEXTS } from "@/constants";
 import type { CartItem } from "@/types/cart";
-import { addProductToCart } from "@/lib/cartUtils";
+import { addProductToCart } from "@/lib/utils/cart";
 import { logError } from "@/lib/logger";
 import { fontStyle } from "@/lib/styles";
 

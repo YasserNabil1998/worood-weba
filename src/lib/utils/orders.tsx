@@ -7,6 +7,7 @@ import type { Order, OrderItem } from '@/types/orders';
 import type { CartItem } from '@/types/cart';
 import type { Address, CheckoutFormData, CheckoutTotals, PaymentMethod } from '@/types/checkout';
 import { Package, Truck, CheckCircle, Clock, X } from "lucide-react";
+import type { ReactElement } from "react";
 import { PAYMENT_METHOD_LABELS } from '@/constants';
 import { storage, getArabicDate } from '@/lib/utils';
 import { STORAGE_KEYS } from '@/constants';
@@ -65,6 +66,26 @@ export function getStatusIconComponent(status: string): typeof Clock | typeof Pa
       return CheckCircle;
     case "ملغي":
       return X;
+    default:
+      return null;
+  }
+}
+
+/**
+ * الحصول على أيقونة الحالة المناسبة (React Element)
+ */
+export function getStatusIcon(status: string): ReactElement | null {
+  switch (status) {
+    case "قيد التجهيز":
+      return <Clock className="w-5 h-5" />;
+    case "تم التجهيز":
+      return <Package className="w-5 h-5" />;
+    case "في الطريق":
+      return <Truck className="w-5 h-5" />;
+    case "تم التسليم":
+      return <CheckCircle className="w-5 h-5" />;
+    case "ملغي":
+      return <X className="w-5 h-5" />;
     default:
       return null;
   }

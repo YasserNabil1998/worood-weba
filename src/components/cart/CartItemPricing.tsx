@@ -4,7 +4,7 @@ import { CartItem as CartItemType } from "@/types/cart";
 import QuantitySelector from "@/components/product/QuantitySelector";
 import { CART_LABELS } from "@/constants/cart";
 import { APP_CONFIG } from "@/constants";
-import { getItemId, getItemPrice, getItemTotal } from "@/lib/cartHelpers";
+import { getItemId, getItemPrice, getItemTotal } from "@/lib/utils/cart";
 import { fontStyle } from "@/lib/styles";
 
 interface CartItemPricingProps {

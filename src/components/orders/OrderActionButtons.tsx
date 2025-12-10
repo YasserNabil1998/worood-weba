@@ -1,5 +1,5 @@
 import { Order } from "@/types/orders";
-import { almaraiFont } from "@/lib/ordersHelpers";
+import { almaraiFont } from "@/lib/utils/orders";
 import { useNotification } from "@/providers/notification-provider";
 import { RefreshCw, Truck as TruckIcon, Star } from "lucide-react";
 
