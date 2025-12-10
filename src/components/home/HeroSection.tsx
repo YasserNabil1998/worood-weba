@@ -133,7 +133,7 @@ export default function HeroSection() {
     <section className="relative">
       <div className="w-full">
         <div
-          className="relative overflow-hidden h-[400px] sm:h-[500px] md:h-[566px]"
+          className="relative overflow-hidden h-[400px] sm:h-[500px] md:h-[566px] rounded-b-[24px] sm:rounded-b-[32px]"
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
@@ -143,7 +143,7 @@ export default function HeroSection() {
             <div
               key={index}
               className={`absolute inset-0 transition-all duration-[1200ms] sm:duration-700 ease-in-out ${
-                index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+                index === currentSlide ? "opacity-100 z-[15]" : "opacity-0 z-0 pointer-events-none"
               }`}
             >
               {/* Background Image */}
@@ -164,7 +164,7 @@ export default function HeroSection() {
               <div className="absolute inset-0 bg-[rgba(35,35,35,0.4)]"></div>
 
               {/* Content */}
-              <div className="relative z-10 h-full flex items-center">
+              <div className="relative z-[20] h-full flex items-center">
                 <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
                   <div
                     className={`ml-auto max-w-full sm:max-w-[500px] md:max-w-[576px] text-right px-4 sm:px-6 md:px-8 transition-all duration-[1200ms] sm:duration-700 ease-out ${
@@ -235,8 +235,11 @@ export default function HeroSection() {
             </div>
           ))}
 
+          {/* Blur Layer - Fixed and covers entire hero, not affected by slide animations */}
+          <div className="absolute inset-0 backdrop-blur-[1px] z-[5] pointer-events-none"></div>
+
           {/* Dots Navigation - matching Figma style */}
-          <div className="absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex gap-2 items-center">
+          <div className="absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 z-[25] flex gap-2 items-center">
             {slides.map((_, index) => (
               <button
                 key={index}
@@ -254,14 +257,14 @@ export default function HeroSection() {
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            className="hidden sm:block absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2.5 sm:p-3 rounded-full transition-all duration-300 active:bg-white/40"
+            className="hidden sm:block absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-[25] bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2.5 sm:p-3 rounded-full transition-all duration-300 active:bg-white/40"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
           <button
             onClick={nextSlide}
-            className="hidden sm:block absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2.5 sm:p-3 rounded-full transition-all duration-300 active:bg-white/40"
+            className="hidden sm:block absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-[25] bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2.5 sm:p-3 rounded-full transition-all duration-300 active:bg-white/40"
             aria-label="Next slide"
           >
             <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
