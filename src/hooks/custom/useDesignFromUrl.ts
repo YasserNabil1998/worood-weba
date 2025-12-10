@@ -3,6 +3,8 @@ import { useSearchParams } from "next/navigation";
 import { logError } from "@/lib/logger";
 import type { PackagingType } from "@/types/custom";
 
+type ColorValue = string | number;
+
 interface UseDesignFromUrlProps {
   setSelectedFlowers: (flowers: Record<string, number>) => void;
   setSelectedColors: (colors: { [flowerId: string]: number[] }) => void;
@@ -63,7 +65,7 @@ export function useDesignFromUrl({
           if (typeof colorValue === "string") {
             convertedColors[flowerId] = [parseInt(colorValue, 10) || 0];
           } else if (Array.isArray(colorValue)) {
-            convertedColors[flowerId] = colorValue.map((c: any) =>
+            convertedColors[flowerId] = colorValue.map((c: ColorValue) =>
               typeof c === "string" ? parseInt(c, 10) || 0 : c
             );
           } else {
