@@ -4,6 +4,7 @@ import { storage } from "@/lib/utils";
 import { STORAGE_KEYS, NAVIGATION_DELAY, CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/constants";
 import type { CartItem } from "@/types/cart";
 import { generateProductKey } from "@/lib/utils/cart";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 import {
   buildCustomData,
   validateAndNormalizePrices,
@@ -170,6 +171,7 @@ function saveAndNavigate(
 export function useCartOperations(props: UseCartOperationsProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { requireAuth } = useRequireAuth();
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const dataSources = useMemo<BouquetDataSources>(
@@ -276,6 +278,12 @@ export function useCartOperations(props: UseCartOperationsProps) {
         uniqueKey: generateProductKey(tempItemForKey),
       };
 
+      // التحقق من تسجيل الدخول قبل إضافة الباقة للسلة
+      if (!requireAuth("addCustomBouquetToCart", itemWithKey, "يجب تسجيل الدخول لإضافة الباقة إلى السلة")) {
+        props.setIsAddingToCart(false);
+        return;
+      }
+
       const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
       const safeCart = Array.isArray(cart) ? cart : [];
 
@@ -311,9 +319,11 @@ export function useCartOperations(props: UseCartOperationsProps) {
     props.setIsAddingToCart,
     props.showNotification,
     props.saveToHistory,
+    requireAuth,
     inputData,
     dataSources,
     searchParams,
+    router,
   ]);
 
   useEffect(() => {

@@ -2,6 +2,7 @@
 
 import { useNotification } from "@/providers/notification-provider";
 import { useFavorites } from "@/hooks/useFavorites";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { Heart } from "lucide-react";
 import { BouquetItem } from "@/types/bouquets";
 import { logError } from "@/lib/logger";
@@ -13,6 +14,7 @@ interface FavoriteButtonProps {
 
 export default function FavoriteButton({ productId, product }: FavoriteButtonProps) {
   const { showNotification } = useNotification();
+  const { requireAuth } = useRequireAuth();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
   
   const productIdNum = typeof productId === "string" ? Number(productId) : productId;
@@ -29,6 +31,12 @@ export default function FavoriteButton({ productId, product }: FavoriteButtonPro
             ...product,
             id: productIdNum,
           };
+          
+          // التحقق من تسجيل الدخول قبل إضافة للمفضلة
+          if (!requireAuth("addToFavorites", favoriteItem, "يجب تسجيل الدخول لإضافة المنتج إلى المفضلة")) {
+            return;
+          }
+          
           addToFavorites(favoriteItem);
           showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
         } else {

@@ -1,13 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { fontStyle } from "@/lib/styles";
-import { TIMEOUTS } from "@/constants";
+import { useAuth } from "@/providers/auth-provider";
+import { useNotification } from "@/providers/notification-provider";
+import { getPendingAction } from "@/utils/pendingActions";
+import { executePendingAction } from "@/utils/pendingActionsExecutor";
+import { useCart } from "@/hooks/useCart";
+import { useFavorites } from "@/hooks/useFavorites";
+import { useCustomBouquetFavorites } from "@/hooks/useCustomBouquetFavorites";
 
 export default function SignupPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { signup, isAuthenticated } = useAuth();
+  const { showNotification } = useNotification();
+  const { addItem: addToCart } = useCart();
+  const { addToFavorites } = useFavorites();
+  const { addToCart: addCustomBouquetToCart, addToFavorites: addCustomBouquetToFavorites } =
+    useCustomBouquetFavorites();
+
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
@@ -19,6 +37,14 @@ export default function SignupPage() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+
+  // إذا كان المستخدم مسجل دخول بالفعل، توجيهه
+  useEffect(() => {
+    if (isAuthenticated) {
+      const returnPath = searchParams.get("return") || "/";
+      router.push(returnPath);
+    }
+  }, [isAuthenticated, router, searchParams]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -49,11 +75,48 @@ export default function SignupPage() {
     // - أو أي خدمة خرائط أخرى
   };
 
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
-    setTimeout(() => setSubmitting(false), TIMEOUTS.FORM_SUBMIT_RESET_LONG);
+
+    try {
+      const result = await signup({
+        fullName: form.fullName,
+        email: form.email,
+        phone: form.phone,
+        password: form.password,
+      });
+
+      if (result.success) {
+        showNotification("تم إنشاء الحساب بنجاح! ✓", "success");
+
+        // تنفيذ الإجراء المعلق إن وجد
+        const pendingAction = getPendingAction();
+        if (pendingAction) {
+          await executePendingAction(pendingAction, {
+            addToCart,
+            addToFavorites,
+            addCustomBouquetToCart,
+            addCustomBouquetToFavorites,
+            showNotification,
+          });
+        }
+
+        // التوجيه للصفحة السابقة أو الصفحة الرئيسية
+        const returnPath = pendingAction?.returnPath || searchParams.get("return") || "/";
+        setTimeout(() => {
+          router.push(returnPath);
+        }, 500);
+      } else {
+        showNotification(result.error || "فشل إنشاء الحساب", "error");
+        setSubmitting(false);
+      }
+    } catch {
+      showNotification("حدث خطأ أثناء إنشاء الحساب", "error");
+      setSubmitting(false);
+    }
   };
 
   return (

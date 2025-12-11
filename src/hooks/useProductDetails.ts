@@ -6,6 +6,7 @@ import type { Product } from "@/types/product";
 import { PRODUCT_DATA } from "@/constants/productData";
 import { addProductToCart, generateProductKey } from "@/lib/utils/cart";
 import { useNotification } from "@/providers/notification-provider";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { useDataLoading } from "./useDataLoading";
 import type { CartItem } from "@/types/cart";
 import { STORAGE_KEYS } from "@/constants";
@@ -44,6 +45,7 @@ export function useProductDetails(productId: string) {
   const [selectedImage, setSelectedImage] = useState(0);
   const { isLoading, withLoading } = useDataLoading();
   const { showNotification } = useNotification();
+  const { requireAuth } = useRequireAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -185,6 +187,11 @@ export function useProductDetails(productId: string) {
           giftWrap: options.giftWrap,
           total: lineTotal,
         };
+
+        // التحقق من تسجيل الدخول قبل إضافة المنتج للسلة
+        if (!requireAuth("addToCart", baseCartItem, "يجب تسجيل الدخول لإضافة المنتج إلى السلة")) {
+          return;
+        }
 
         if (isEditMode && editingKey) {
           const targetIndex = safeCart.findIndex((item) => {

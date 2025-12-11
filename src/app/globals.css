@@ -624,6 +624,15 @@ select option {
   }
 }
 
+@keyframes shrink {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
 @keyframes fall {
   0% {
     transform: translateY(-100vh) rotate(0deg);

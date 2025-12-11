@@ -7,6 +7,7 @@ import { STORAGE_KEYS } from "@/constants";
 import type { CustomBouquet } from "@/types/favorites";
 import { useCart } from "./useCart";
 import { useNotification } from "@/providers/notification-provider";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { CART_ROUTES } from "@/constants/cart";
 import { logError } from "@/lib/logger";
 
@@ -16,6 +17,7 @@ export function useCustomBouquetFavorites() {
   const [loading, setLoading] = useState(true);
   const { addItem } = useCart();
   const { showNotification } = useNotification();
+  const { requireAuth } = useRequireAuth();
 
   // تحميل التصاميم المخصصة
   const loadCustomBouquets = useCallback(() => {
@@ -41,18 +43,32 @@ export function useCustomBouquetFavorites() {
     return () => window.removeEventListener("favoritesUpdated", handleUpdate);
   }, [loadCustomBouquets]);
 
-  const addToFavorites = useCallback((bouquet: CustomBouquet) => {
-    const current = storage.get<CustomBouquet[]>(STORAGE_KEYS.BOUQUET_FAVORITES, []);
-    const exists = current.some((b) => b.id === bouquet.id);
+  const addToFavorites = useCallback(
+    (bouquet: CustomBouquet) => {
+      // التحقق من تسجيل الدخول قبل إضافة للمفضلة
+      if (
+        !requireAuth(
+          "addCustomBouquetToFavorites",
+          bouquet,
+          "يجب تسجيل الدخول لإضافة الباقة إلى المفضلة"
+        )
+      ) {
+        return false;
+      }
 
-    if (!exists) {
-      const updated = [...current, bouquet];
-      storage.set(STORAGE_KEYS.BOUQUET_FAVORITES, updated);
-      window.dispatchEvent(new CustomEvent("favoritesUpdated"));
-      return true;
-    }
-    return false;
-  }, []);
+      const current = storage.get<CustomBouquet[]>(STORAGE_KEYS.BOUQUET_FAVORITES, []);
+      const exists = current.some((b) => b.id === bouquet.id);
+
+      if (!exists) {
+        const updated = [...current, bouquet];
+        storage.set(STORAGE_KEYS.BOUQUET_FAVORITES, updated);
+        window.dispatchEvent(new CustomEvent("favoritesUpdated"));
+        return true;
+      }
+      return false;
+    },
+    [requireAuth]
+  );
 
   const removeFromFavorites = useCallback((id: number) => {
     const current = storage.get<CustomBouquet[]>(STORAGE_KEYS.BOUQUET_FAVORITES, []);
@@ -82,6 +98,17 @@ export function useCustomBouquetFavorites() {
           quantity: 1,
         };
 
+        // التحقق من تسجيل الدخول قبل إضافة للسلة
+        if (
+          !requireAuth(
+            "addCustomBouquetToCart",
+            cartItem,
+            "يجب تسجيل الدخول لإضافة الباقة إلى السلة"
+          )
+        ) {
+          return false;
+        }
+
         addItem(cartItem);
         showNotification("تم إضافة الباقة إلى السلة!", "success");
         return true;
@@ -91,7 +118,7 @@ export function useCustomBouquetFavorites() {
         return false;
       }
     },
-    [addItem, showNotification]
+    [addItem, showNotification, requireAuth]
   );
 
   const isFavorite = useCallback(

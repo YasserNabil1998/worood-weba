@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon, Heart, ArrowLeft } from "lucide-react";
 import { useFavorites } from "@/hooks/useFavorites";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { useNotification } from "@/providers/notification-provider";
 import { BouquetItem } from "@/types/bouquets";
 import { ROUTES } from "@/constants/routes";
@@ -25,6 +26,7 @@ const ProductsSlider = () => {
   const [visibleCount, setVisibleCount] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
+  const { requireAuth } = useRequireAuth();
   const { showNotification } = useNotification();
 
   const products: Product[] = [
@@ -172,6 +174,12 @@ const ProductsSlider = () => {
             price: product.price,
             currency: product.currency,
           };
+          
+          // التحقق من تسجيل الدخول قبل إضافة للمفضلة
+          if (!requireAuth("addToFavorites", favoriteItem, "يجب تسجيل الدخول لإضافة المنتج إلى المفضلة")) {
+            return;
+          }
+          
           addToFavorites(favoriteItem);
           showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
         }
@@ -180,7 +188,7 @@ const ProductsSlider = () => {
         showNotification("حدث خطأ في تحديث المفضلة", "error");
       }
     },
-    [isFavorite, addToFavorites, removeFromFavorites, showNotification]
+    [isFavorite, addToFavorites, removeFromFavorites, requireAuth, showNotification]
   );
 
   return (

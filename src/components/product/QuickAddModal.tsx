@@ -11,6 +11,7 @@ import { APP_CONFIG, STORAGE_KEYS } from "@/constants";
 import { addProductToCart } from "@/lib/utils/cart";
 import { storage } from "@/lib/utils";
 import { useNotification } from "@/providers/notification-provider";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { logError } from "@/lib/logger";
 import { fontStyle } from "@/lib/styles";
 
@@ -47,6 +48,7 @@ type QuickAddModalProps = {
 
 const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
   const { showNotification } = useNotification();
+  const { requireAuth } = useRequireAuth();
   const [options, setOptions] = useState<ProductOptions>(createDefaultOptions);
   const [mounted, setMounted] = useState(false);
 
@@ -174,6 +176,11 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
         giftWrap: options.giftWrap,
       };
 
+      // التحقق من تسجيل الدخول قبل إضافة المنتج للسلة
+      if (!requireAuth("addToCart", productToAdd, "يجب تسجيل الدخول لإضافة المنتج إلى السلة")) {
+        return;
+      }
+
       const { cart: updatedCart, isNew } = addProductToCart(safeCart, productToAdd);
 
       storage.set(STORAGE_KEYS.CART, updatedCart);
@@ -198,6 +205,7 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
     options.giftWrap,
     options.quantity,
     options.selectedSize,
+    requireAuth,
     selectedColorOption?.hex,
     selectedColorOption?.label,
     selectedColorOption?.value,

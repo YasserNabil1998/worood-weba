@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useNotification } from "@/providers/notification-provider";
+import { useAuth } from "@/providers/auth-provider";
 import { ASSETS } from "@/config/assets";
 import { useCart } from "@/hooks/useCart";
 import { usePageSearch } from "@/hooks/usePageSearch";
@@ -20,6 +21,7 @@ const Header = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { showNotification } = useNotification();
+  const { logout: authLogout } = useAuth();
   const { totalItems } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -49,7 +51,7 @@ const Header = () => {
   }, [lastScrollY]);
 
   const handleLogout = () => {
-    // مسح بيانات المستخدم من localStorage
+    authLogout();
     storage.remove("user");
     storage.remove("authToken");
 

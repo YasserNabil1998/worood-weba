@@ -26,6 +26,7 @@ export const STORAGE_KEYS = {
   EDIT_ITEM_DATA: "editItemData",
   ORDERS: "orders",
   CHECKOUT_ITEMS: "checkoutItems",
+  PENDING_ACTION: "pendingAction",
 } as const;
 
 // الألوان

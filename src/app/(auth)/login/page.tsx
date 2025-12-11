@@ -1,15 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 import isValidEmail from "@/validations/isValidEmail";
 import Link from "next/link";
 import Image from "next/image";
 import { fontStyle } from "@/lib/styles";
+import { useAuth } from "@/providers/auth-provider";
+import { useNotification } from "@/providers/notification-provider";
+import { getPendingAction } from "@/utils/pendingActions";
+import { executePendingAction } from "@/utils/pendingActionsExecutor";
+import { useCart } from "@/hooks/useCart";
+import { useFavorites } from "@/hooks/useFavorites";
+import { useCustomBouquetFavorites } from "@/hooks/useCustomBouquetFavorites";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { login, isAuthenticated } = useAuth();
+  const { showNotification } = useNotification();
+  const { addItem: addToCart } = useCart();
+  const { addToFavorites } = useFavorites();
+  const { addToCart: addCustomBouquetToCart, addToFavorites: addCustomBouquetToFavorites } =
+    useCustomBouquetFavorites();
+
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+
+  // إذا كان المستخدم مسجل دخول بالفعل، توجيهه
+  useEffect(() => {
+    if (isAuthenticated) {
+      const returnPath = searchParams.get("return") || "/";
+      router.push(returnPath);
+    }
+  }, [isAuthenticated, router, searchParams]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,21 +62,43 @@ export default function LoginPage() {
     return Object.keys(err).length === 0;
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
 
-    // Mock API call - سيتم استبدالها بالـ API الحقيقي لاحقاً
-    setTimeout(() => {
-      setSubmitting(false);
-      // Placeholder: In production, replace with actual API authentication
-      // Example: const response = await fetch('/api/auth/login', { method: 'POST', body: JSON.stringify(form) });
-      // if (response.ok) window.location.href = '/profile';
+    try {
+      const result = await login(form.email, form.password);
 
-      // Temporary redirect - سيتم تحديثها لاحقاً
-      alert("تم تسجيل الدخول بنجاح! (سيتم الربط بالـ API لاحقاً)");
-    }, 600);
+      if (result.success) {
+        showNotification("تم تسجيل الدخول بنجاح! ✓", "success");
+
+        // تنفيذ الإجراء المعلق إن وجد
+        const pendingAction = getPendingAction();
+        if (pendingAction) {
+          await executePendingAction(pendingAction, {
+            addToCart,
+            addToFavorites,
+            addCustomBouquetToCart,
+            addCustomBouquetToFavorites,
+            showNotification,
+          });
+        }
+
+        // التوجيه للصفحة السابقة أو الصفحة الرئيسية
+        const returnPath = pendingAction?.returnPath || searchParams.get("return") || "/";
+        setTimeout(() => {
+          router.push(returnPath);
+        }, 500);
+      } else {
+        showNotification(result.error || "فشل تسجيل الدخول", "error");
+        setSubmitting(false);
+      }
+    } catch {
+      showNotification("حدث خطأ أثناء تسجيل الدخول", "error");
+      setSubmitting(false);
+    }
   };
 
   return (

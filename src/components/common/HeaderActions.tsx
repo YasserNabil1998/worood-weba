@@ -1,6 +1,11 @@
+"use client";
+
 import { Search } from "lucide-react";
+import Link from "next/link";
 import CartIcon from "./CartIcon";
 import UserMenuButton from "./UserMenuButton";
+import { useAuth } from "@/providers/auth-provider";
+import { ROUTES } from "@/constants/routes";
 
 interface HeaderActionsProps {
   totalItems: number;
@@ -17,6 +22,8 @@ export default function HeaderActions({
   className = "",
   badgeClassName = "",
 }: HeaderActionsProps) {
+  const { isAuthenticated } = useAuth();
+
   return (
     <>
       <button
@@ -27,16 +34,38 @@ export default function HeaderActions({
         <Search className="w-6 h-6" />
       </button>
 
-      <CartIcon
-        totalItems={totalItems}
-        className={`flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D] transition-all ${className}`}
-        badgeClassName={badgeClassName}
-      />
+      {isAuthenticated ? (
+        <>
+          <CartIcon
+            totalItems={totalItems}
+            className={`flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D] transition-all ${className}`}
+            badgeClassName={badgeClassName}
+          />
 
-      <UserMenuButton
-        onLogout={onLogout}
-        buttonClassName={`flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D] transition-all ${className}`}
-      />
+          <UserMenuButton
+            onLogout={onLogout}
+            buttonClassName={`flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D] transition-all ${className}`}
+          />
+        </>
+      ) : (
+        <>
+          <Link
+            href={ROUTES.LOGIN}
+            className={`flex items-center gap-2 text-gray-700 hover:text-[#5A5E4D] transition-all ${className}`}
+            aria-label="تسجيل الدخول"
+          >
+            <span className="text-sm font-medium">تسجيل الدخول</span>
+          </Link>
+
+          <Link
+            href={ROUTES.SIGNUP}
+            className={`flex items-center gap-2 bg-[#5A5E4D] text-white px-4 py-2 rounded-md hover:bg-[#4A4E3D] transition-all ${className}`}
+            aria-label="إنشاء حساب"
+          >
+            <span className="text-sm font-medium">إنشاء حساب</span>
+          </Link>
+        </>
+      )}
     </>
   );
 }

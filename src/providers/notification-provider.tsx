@@ -43,7 +43,8 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
     type: "success" | "error" | "warning" | "info",
     duration: number = 3000
   ) => {
-    const id = Date.now().toString();
+    // توليد id فريد باستخدام timestamp + رقم عشوائي
+    const id = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
     const newNotification: Notification = {
       id,
       message,
@@ -122,29 +123,20 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
 
               {/* Progress Bar */}
               {notification.duration && (
-                <div
-                  className={`absolute bottom-0 left-0 h-1 ${config.progressBg} transition-all`}
-                  style={{
-                    animation: `shrink ${notification.duration}ms linear`,
-                  }}
-                />
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20 overflow-hidden">
+                  <div
+                    className={`h-full ${config.progressBg}`}
+                    style={{
+                      width: "100%",
+                      animation: `shrink ${notification.duration}ms linear forwards`,
+                    }}
+                  />
+                </div>
               )}
             </div>
           );
         })}
       </div>
-
-      {/* Progress Bar Animation */}
-      <style jsx>{`
-        @keyframes shrink {
-          from {
-            width: 100%;
-          }
-          to {
-            width: 0%;
-          }
-        }
-      `}</style>
     </NotificationContext.Provider>
   );
 };

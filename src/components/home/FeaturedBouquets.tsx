@@ -8,6 +8,7 @@ import { defaultBouquets } from "@/content/featured-bouquets";
 import { Heart, ArrowLeft, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useNotification } from "@/providers/notification-provider";
 import { useFavorites } from "@/hooks/useFavorites";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { APP_CONFIG, UI_TEXTS } from "@/constants";
 import { BEST_SELLER_BADGE } from "@/constants/bouquets";
 import { QuickAddModal } from "@/components/product";
@@ -53,6 +54,7 @@ const FeaturedBouquets = ({
   const [selectedBouquet, setSelectedBouquet] = useState<BouquetItem | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { showNotification } = useNotification();
+  const { requireAuth } = useRequireAuth();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
 
   const combinedBouquets = useMemo(() => {
@@ -170,6 +172,12 @@ const FeaturedBouquets = ({
             ...bouquet,
             id: bouquetId,
           };
+          
+          // التحقق من تسجيل الدخول قبل إضافة للمفضلة
+          if (!requireAuth("addToFavorites", favoriteItem, "يجب تسجيل الدخول لإضافة المنتج إلى المفضلة")) {
+            return;
+          }
+          
           addToFavorites(favoriteItem);
           showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
         }
@@ -181,7 +189,7 @@ const FeaturedBouquets = ({
         showNotification("حدث خطأ في تحديث المفضلة", "error");
       }
     },
-    [isFavorite, addToFavorites, removeFromFavorites, showNotification]
+    [isFavorite, addToFavorites, removeFromFavorites, requireAuth, showNotification]
   );
 
   const openQuickAdd = useCallback((bouquet: BouquetItem) => {

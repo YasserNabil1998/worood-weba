@@ -7,6 +7,7 @@ import { Heart } from "lucide-react";
 import { BouquetItem } from "@/types/bouquets";
 import { useNotification } from "@/providers/notification-provider";
 import { useFavorites } from "@/hooks/useFavorites";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { QuickAddModal } from "@/components/product";
 import { logError } from "@/lib/logger";
 import { fontStyle } from "@/lib/styles";
@@ -17,6 +18,7 @@ export type ProductItem = BouquetItem;
 
 function ProductCard({ item }: { item: BouquetItem }) {
   const { showNotification } = useNotification();
+  const { requireAuth } = useRequireAuth();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
   const [isQuickAddOpen, setQuickAddOpen] = useState(false);
 
@@ -34,6 +36,12 @@ function ProductCard({ item }: { item: BouquetItem }) {
           ...item,
           id: itemId,
         };
+        
+        // التحقق من تسجيل الدخول قبل إضافة للمفضلة
+        if (!requireAuth("addToFavorites", favoriteItem, "يجب تسجيل الدخول لإضافة المنتج إلى المفضلة")) {
+          return;
+        }
+        
         addToFavorites(favoriteItem);
         showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
       }
@@ -41,7 +49,7 @@ function ProductCard({ item }: { item: BouquetItem }) {
       logError("خطأ في تبديل المفضلة", error, { itemId, itemTitle: item.title });
       showNotification("حدث خطأ في تحديث المفضلة", "error");
     }
-  }, [itemId, item, isFavorite, addToFavorites, removeFromFavorites, showNotification]);
+  }, [itemId, item, isFavorite, addToFavorites, removeFromFavorites, requireAuth, showNotification]);
 
   const openQuickAdd = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
