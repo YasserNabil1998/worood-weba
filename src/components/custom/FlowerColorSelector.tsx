@@ -57,13 +57,13 @@ export default function FlowerColorSelector({
                   <h4 className="font-medium text-gray-900 text-sm">{flower?.name}</h4>
                   <p className="text-xs text-gray-500">{quantity} زهرة</p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 justify-end">
                   {selectedColorIds.length > 0 && (
-                    <div className="flex gap-1">
+                    <div className="flex flex-wrap gap-1 max-w-[80px] justify-end">
                       {selectedColorIds.map((colorId) => (
                         <div
                           key={colorId}
-                          className="w-4 h-4 rounded-full border border-gray-300"
+                          className="w-4 h-4 rounded-full border border-gray-300 flex-shrink-0"
                           style={{
                             backgroundColor: colors.find((c) => c.id === colorId)?.color,
                           }}
@@ -72,7 +72,7 @@ export default function FlowerColorSelector({
                     </div>
                   )}
                   <svg
-                    className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
+                    className={`w-4 h-4 text-gray-400 transition-transform duration-200 flex-shrink-0 ${
                       isExpanded ? "rotate-180" : ""
                     }`}
                     fill="none"

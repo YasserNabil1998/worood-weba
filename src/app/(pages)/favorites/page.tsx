@@ -330,7 +330,7 @@ export default function FavoritesPage() {
                       السعر الإجمالي
                     </p>
                     <div
-                      className="flex items-center justify-center gap-2 text-3xl font-bold text-[#5A5E4D]"
+                      className="flex items-center justify-center gap-2 text-3xl font-bold text-white"
                       style={{
                         fontFamily: "var(--font-almarai)",
                       }}
@@ -466,6 +466,32 @@ export default function FavoritesPage() {
                         }}
                       >
                         {selectedBouquet.notes}
+                      </p>
+                    </div>
+                  )}
+
+                  {(selectedBouquet.deliveryDate || selectedBouquet.deliveryTime) && (
+                    <div className="bg-linear-to-br from-green-50 to-green-100/50 p-4 rounded-xl border border-green-200/50">
+                      <h5
+                        className="font-bold text-sm text-gray-800 mb-2 flex items-center gap-2"
+                        style={{
+                          fontFamily: "var(--font-almarai)",
+                        }}
+                      >
+                        <Sparkles className="w-4 h-4 text-green-500" />
+                        موعد التوصيل
+                      </h5>
+                      <p
+                        className="text-gray-700 text-sm leading-relaxed"
+                        style={{
+                          fontFamily: "var(--font-almarai)",
+                        }}
+                      >
+                        {selectedBouquet.deliveryDate && <span>{selectedBouquet.deliveryDate}</span>}
+                        {selectedBouquet.deliveryDate && selectedBouquet.deliveryTime && (
+                          <span className="mx-1">•</span>
+                        )}
+                        {selectedBouquet.deliveryTime && <span>{selectedBouquet.deliveryTime}</span>}
                       </p>
                     </div>
                   )}

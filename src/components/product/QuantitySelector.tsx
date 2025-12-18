@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useCart } from "@/hooks/useCart";
+import { useCartStore } from "@/stores";
 import { generateProductKey, ProductInput } from "@/lib/utils/cart";
 import { CartItem } from "@/types/cart";
 import { Minus, Plus } from "lucide-react";
@@ -24,7 +24,7 @@ export default function QuantitySelector({
   maxQuantity,
   onQuantityChange,
 }: QuantitySelectorProps) {
-  const { updateQuantity } = useCart();
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
   const [quantity, setQuantity] = useState(initialQuantity);
   const [inputValue, setInputValue] = useState(initialQuantity.toString());
 
@@ -120,7 +120,10 @@ export default function QuantitySelector({
       >
         <div className="w-[14px] h-[2px] bg-[#5a5e4d]"></div>
       </button>
-      <span className="text-responsive-xl font-bold text-black mx-2 min-w-[20px] text-center" style={fontStyle}>
+      <span
+        className="text-responsive-xl font-bold text-black mx-2 min-w-[20px] text-center"
+        style={fontStyle}
+      >
         {quantity}
       </span>
       <button

@@ -7,6 +7,7 @@ import cardSuggestionsData from "./card-suggestions.json";
 
 // Hooks
 import { useCustomBouquetState } from "@/hooks/custom/useCustomBouquetState";
+import { useCustomBouquetFavorites } from "@/hooks/useCustomBouquetFavorites";
 import { usePriceCalculations } from "@/hooks/custom/usePriceCalculations";
 import { useFlowerManagement } from "@/hooks/custom/useFlowerManagement";
 import { useHistoryOperations } from "@/hooks/custom/useHistoryOperations";
@@ -30,6 +31,9 @@ function CustomBuilderContent() {
   const searchParams = useSearchParams();
   const state = useCustomBouquetState();
 
+  // Favorites for الباقات المخصصة
+  const { addToFavorites: addCustomBouquetToFavorites } = useCustomBouquetFavorites();
+
   // Load data
   const {
     flowers,
@@ -43,6 +47,11 @@ function CustomBuilderContent() {
     config,
     isLoading,
   } = useCustomBuilderData();
+
+  // تأكد من إطفاء حالة التحميل عند الدخول لصفحة تنسيق خاص
+  useEffect(() => {
+    state.setIsAddingToCart(false);
+  }, []);
 
   // Set default occasion when data loads
   useEffect(() => {
@@ -139,6 +148,7 @@ function CustomBuilderContent() {
     cardMessage: state.cardMessage,
     includeCard: state.includeCard,
     notes: state.notes,
+    deliveryType: state.deliveryType,
     deliveryDate: state.deliveryDate,
     deliveryTime: state.deliveryTime,
     city: state.city,
@@ -364,7 +374,37 @@ function CustomBuilderContent() {
                       flowers={flowers}
                       selectedColors={state.selectedColors}
                       colors={colors}
-                      onSaveToFavorites={historyOps.saveToFavorites}
+                      cardMessage={state.cardMessage}
+                      notes={state.notes}
+                      deliveryDate={state.deliveryDate}
+                      deliveryTime={state.deliveryTime}
+                      onSaveToFavorites={() =>
+                        addCustomBouquetToFavorites({
+                          id: Date.now(),
+                          flowers:
+                            Object.entries(state.selectedFlowers)
+                              .filter(([_, qty]) => qty > 0)
+                              .map(([id, quantity]) => {
+                                const flower = flowers.find((f) => f.id === Number(id));
+                                return {
+                                  id: Number(id),
+                                  flower: flower!,
+                                  quantity,
+                                };
+                              }),
+                          colors: Object.values(state.selectedColors).flat().map(String),
+                          size: state.size,
+                          style: state.style,
+                          occasion: state.occasion,
+                          cardMessage: state.cardMessage,
+                          notes: state.notes,
+                          deliveryDate: state.deliveryDate,
+                          deliveryTime: state.deliveryTime,
+                          total: prices.total,
+                          image: state.bouquetImage,
+                          createdAt: new Date().toISOString(),
+                        })
+                      }
                       onShareDesign={historyOps.shareDesign}
                       getStyleLabel={getStyleLabel}
                       getVaseName={getVaseName}

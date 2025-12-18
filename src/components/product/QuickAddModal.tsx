@@ -5,15 +5,13 @@ import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
 import type { BouquetItem } from "@/types/bouquets";
-import type { CartItem } from "@/types/cart";
 import { PRODUCT_DATA } from "@/constants/productData";
-import { APP_CONFIG, STORAGE_KEYS } from "@/constants";
-import { addProductToCart } from "@/lib/utils/cart";
-import { storage } from "@/lib/utils";
+import { APP_CONFIG } from "@/constants";
 import { useNotification } from "@/providers/notification-provider";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { logError } from "@/lib/logger";
 import { fontStyle } from "@/lib/styles";
+import { useCartStore } from "@/stores";
 
 import SizeSelector from "./SizeSelector";
 import ColorSelector from "./ColorSelector";
@@ -49,6 +47,7 @@ type QuickAddModalProps = {
 const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
   const { showNotification } = useNotification();
   const { requireAuth } = useRequireAuth();
+  const addItem = useCartStore((state) => state.addItem);
   const [options, setOptions] = useState<ProductOptions>(createDefaultOptions);
   const [mounted, setMounted] = useState(false);
 
@@ -151,9 +150,6 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
     if (!bouquet) return;
 
     try {
-      const currentCart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
-      const safeCart = Array.isArray(currentCart) ? currentCart : [];
-
       const lineTotal = totalPrice;
       const colorHex = selectedColorOption?.hex || "#E27281";
       const colorLabel = selectedColorOption?.label || "";
@@ -181,15 +177,12 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
         return;
       }
 
-      const { cart: updatedCart, isNew } = addProductToCart(safeCart, productToAdd);
+      addItem(productToAdd);
 
-      storage.set(STORAGE_KEYS.CART, updatedCart);
-      window.dispatchEvent(new CustomEvent("cartUpdated"));
-
-      const message = isNew ? "تم إضافة المنتج إلى السلة ✓" : "تم تحديث الكمية في السلة";
-      showNotification(message, "success");
+      showNotification("تم إضافة المنتج إلى السلة ✓", "success");
       onClose();
     } catch (error) {
+      if (!bouquet) return;
       logError("خطأ في إضافة المنتج للسلة", error, {
         bouquetId: bouquet.id,
         bouquetTitle: bouquet.title,
@@ -211,6 +204,7 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
     selectedColorOption?.value,
     showNotification,
     totalPrice,
+    addItem,
   ]);
 
   if (!isOpen || !bouquet || !mounted) {

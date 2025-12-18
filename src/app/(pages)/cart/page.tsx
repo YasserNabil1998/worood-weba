@@ -1,9 +1,20 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useCartItems } from "@/hooks/useCartItems";
-import { useCartSelection } from "@/hooks/useCartSelection";
-import { calculateCartTotals, getUnselectedCount, isCartEmpty, getItemId } from "@/lib/utils/cart";
+import { useMemo, useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useCartStore } from "@/stores";
+import {
+  calculateCartTotals,
+  getUnselectedCount,
+  isCartEmpty,
+  getItemId,
+  createCustomBouquetEditData,
+} from "@/lib/utils/cart";
+import { storage } from "@/lib/utils";
+import { STORAGE_KEYS } from "@/constants";
+import { CART_ROUTES } from "@/constants/cart";
+import { handleAndLogError } from "@/lib/errors";
+import { ErrorCode } from "@/lib/errors/errorTypes";
 import { AlertTriangle } from "lucide-react";
 import CartItem from "@/components/cart/CartItem";
 import CartSummary from "@/components/cart/CartSummary";
@@ -12,22 +23,93 @@ import DeleteConfirmationModal from "@/components/cart/DeleteConfirmationModal";
 import { CART_MESSAGES } from "@/constants/cart";
 import { COLORS } from "@/constants";
 import { fontStyle } from "@/lib/styles";
+import type { CartItem as CartItemType } from "@/types/cart";
 
 export default function CartPage() {
+  const router = useRouter();
   const [expandedItems, setExpandedItems] = useState<Set<string | number>>(new Set());
   const [showDeleteSelectedModal, setShowDeleteSelectedModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-  // استخدام الـ hooks المخصصة
-  const { items, isLoading, error, updateItemQuantity, removeItem, editItem } = useCartItems();
+  // استخدام Cart Store
+  const items = useCartStore((state) => state.items);
+  const selectedItems = useCartStore((state) => state.selectedItems);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const removeItem = useCartStore((state) => state.removeItem);
+  const toggleSelectItem = useCartStore((state) => state.toggleSelectItem);
+  const toggleSelectAll = useCartStore((state) => state.toggleSelectAll);
+  const removeSelected = useCartStore((state) => state.removeSelected);
+  const isAllSelected = useCartStore((state) => state.isAllSelected);
+  const hasSelection = useCartStore((state) => state.hasSelection);
 
-  const {
-    selectedItems,
-    toggleSelectItem,
-    toggleSelectAll,
-    removeSelected,
-    isAllSelected,
-    hasSelection,
-  } = useCartSelection(items);
+  // تحميل السلة عند التحميل الأولي
+  useEffect(() => {
+    try {
+      setIsLoading(false);
+      setError(null);
+    } catch (err) {
+      const error = err instanceof Error ? err : new Error("Failed to load cart");
+      setError(error);
+      handleAndLogError(err, "Error loading cart", ErrorCode.CART_LOAD_ERROR);
+      setIsLoading(false);
+    }
+  }, []);
+
+  // تحديد جميع العناصر افتراضياً عند التحميل (مثل useCartSelection)
+  useEffect(() => {
+    if (items.length > 0 && selectedItems.size === 0) {
+      // Use toggleSelectAll to select all items when cart loads
+      toggleSelectAll();
+    }
+  }, [items.length, toggleSelectAll]); // Only run when items length changes
+
+  // دالة تعديل عنصر (تحتاج router)
+  const editItem = useCallback(
+    (item: CartItemType) => {
+      try {
+        if (item.isCustom && item.customData) {
+          storage.set(STORAGE_KEYS.EDIT_ITEM_ID, item.id.toString());
+
+          const editData = createCustomBouquetEditData(item);
+          const encodedData = encodeURIComponent(JSON.stringify(editData));
+          router.push(`${CART_ROUTES.CUSTOM}?design=${encodedData}&edit=true`);
+          return;
+        }
+
+        const itemIdentifier = (item.uniqueKey || item.id)?.toString();
+        if (!itemIdentifier) {
+          throw new Error("Item identifier is missing");
+        }
+
+        storage.set(STORAGE_KEYS.EDIT_ITEM_ID, itemIdentifier);
+        storage.set(STORAGE_KEYS.EDIT_ITEM_DATA, {
+          id: item.id,
+          uniqueKey: item.uniqueKey,
+          size: item.size,
+          color: item.color,
+          colorValue: item.colorValue,
+          colorHex: item.color,
+          colorLabel: item.colorLabel,
+          addCard: item.addCard ?? false,
+          cardMessage: item.cardMessage ?? "",
+          addChocolate: item.addChocolate ?? false,
+          giftWrap: item.giftWrap ?? false,
+          quantity: item.quantity ?? 1,
+        });
+
+        router.push(`${CART_ROUTES.PRODUCT}/${item.id}?edit=true`);
+      } catch (err) {
+        const error = err instanceof Error ? err : new Error("Failed to edit item");
+        setError(error);
+        handleAndLogError(err, "Error editing item", ErrorCode.CART_ITEM_NOT_FOUND, {
+          itemId: item.id,
+          itemTitle: item.title,
+        });
+      }
+    },
+    [router]
+  );
 
   // حساب الإجماليات باستخدام useMemo للأداء
   const totals = useMemo(() => {
@@ -56,7 +138,7 @@ export default function CartPage() {
 
   // تأكيد حذف العناصر المحددة
   const handleConfirmDeleteSelected = () => {
-    removeSelected(items);
+    removeSelected();
     setShowDeleteSelectedModal(false);
   };
 
@@ -106,7 +188,7 @@ export default function CartPage() {
   }
 
   const isEmpty = isCartEmpty(items);
-  const allSelected = isAllSelected(items);
+  const allSelected = isAllSelected();
   const selectedItemsList = items.filter((item) => {
     const itemId = getItemId(item);
     return selectedItems.has(itemId);
@@ -140,7 +222,7 @@ export default function CartPage() {
                 {!isEmpty && (
                   <div className="flex items-center gap-2 sm:gap-4 flex-wrap mb-4">
                     <button
-                      onClick={() => toggleSelectAll(items)}
+                      onClick={() => toggleSelectAll()}
                       className="text-sm hover:bg-white hover:shadow-md flex items-center gap-2 cursor-pointer bg-white rounded-lg px-4 py-2 transition-all duration-200 border border-gray-200"
                       style={{ ...fontStyle, color: COLORS.PRIMARY }}
                     >
@@ -213,7 +295,7 @@ export default function CartPage() {
                           isExpanded={expandedItems.has(itemId)}
                           onToggleSelect={toggleSelectItem}
                           onToggleExpand={toggleDetails}
-                          onUpdateQuantity={updateItemQuantity}
+                          onUpdateQuantity={updateQuantity}
                           onRemove={removeItem}
                           onEdit={editItem}
                         />
@@ -236,8 +318,8 @@ export default function CartPage() {
           selectedItems.size > 1
             ? `${selectedItems.size} عنصر محدد`
             : selectedItems.size === 1
-            ? "العنصر المحدد"
-            : undefined
+              ? "العنصر المحدد"
+              : undefined
         }
       />
     </div>

@@ -154,6 +154,32 @@ export default function CustomBouquetDetails({
           </div>
         </div>
       )}
+
+      {/* الملاحظات */}
+      {customData.notes && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm">
+          <div className="text-xs sm:text-sm font-bold text-blue-800 mb-1">ملاحظات الطلب</div>
+          <div className="text-xs sm:text-sm text-gray-700 whitespace-pre-line">{customData.notes}</div>
+        </div>
+      )}
+
+      {/* معلومات التوصيل */}
+      {customData.deliveryInfo && (customData.deliveryInfo.date || customData.deliveryInfo.time) && (
+        <div className="bg-green-50 border border-green-200 rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm">
+          <div className="text-xs sm:text-sm font-bold text-green-800 mb-1">موعد التوصيل</div>
+          <div className="text-xs sm:text-sm text-gray-800 flex flex-col gap-1">
+            <span>
+              {customData.deliveryInfo.date && (
+                <>
+                  <span className="font-semibold">{customData.deliveryInfo.date}</span>
+                </>
+              )}
+              {customData.deliveryInfo.date && customData.deliveryInfo.time && " • "}
+              {customData.deliveryInfo.timeLabel || customData.deliveryInfo.time}
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -3,12 +3,11 @@
 import type { JSX } from "react";
 
 import { useNotification } from "@/providers/notification-provider";
-import { storage } from "@/lib/utils";
-import { STORAGE_KEYS, UI_TEXTS } from "@/constants";
+import { UI_TEXTS } from "@/constants";
 import type { CartItem } from "@/types/cart";
-import { addProductToCart } from "@/lib/utils/cart";
 import { logError } from "@/lib/logger";
 import { fontStyle } from "@/lib/styles";
+import { useCartStore } from "@/stores";
 
 interface AddToCartButtonProps {
   productId: number | string;
@@ -24,6 +23,7 @@ export default function AddToCartButton({
   productImage,
 }: AddToCartButtonProps): JSX.Element {
   const { showNotification } = useNotification();
+  const addItem = useCartStore((state) => state.addItem);
 
   const handleAddToCart = () => {
     try {
@@ -35,9 +35,7 @@ export default function AddToCartButton({
         return;
       }
 
-      const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
-
-      const productToAdd = {
+      const productToAdd: CartItem = {
         id: normalizedProductId,
         title: productName,
         price: productPrice,
@@ -50,13 +48,9 @@ export default function AddToCartButton({
         giftWrap: false,
       };
 
-      const { cart: updatedCart, isNew } = addProductToCart(cart, productToAdd);
+      addItem(productToAdd);
 
-      storage.set(STORAGE_KEYS.CART, updatedCart);
-      window.dispatchEvent(new CustomEvent("cartUpdated"));
-
-      const message = isNew ? "تم إضافة المنتج إلى السلة" : "تم زيادة كمية المنتج في السلة";
-      showNotification(message, "success");
+      showNotification("تم إضافة المنتج إلى السلة", "success");
     } catch (error) {
       logError("خطأ في إضافة المنتج للسلة", error, { productId, productName, productPrice });
       showNotification("حدث خطأ في إضافة المنتج للسلة", "error");

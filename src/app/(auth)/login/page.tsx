@@ -12,7 +12,7 @@ import { useAuth } from "@/providers/auth-provider";
 import { useNotification } from "@/providers/notification-provider";
 import { getPendingAction } from "@/utils/pendingActions";
 import { executePendingAction } from "@/utils/pendingActionsExecutor";
-import { useCart } from "@/hooks/useCart";
+import { useCartStore } from "@/stores";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useCustomBouquetFavorites } from "@/hooks/useCustomBouquetFavorites";
 
@@ -21,7 +21,7 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const { login, isAuthenticated } = useAuth();
   const { showNotification } = useNotification();
-  const { addItem: addToCart } = useCart();
+  const addToCart = useCartStore((state) => state.addItem);
   const { addToFavorites } = useFavorites();
   const { addToCart: addCustomBouquetToCart, addToFavorites: addCustomBouquetToFavorites } =
     useCustomBouquetFavorites();
@@ -61,7 +61,6 @@ export default function LoginPage() {
     setErrors(err);
     return Object.keys(err).length === 0;
   };
-
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

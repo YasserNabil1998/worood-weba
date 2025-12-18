@@ -16,6 +16,7 @@ import { createOrderFromCheckoutItems } from "@/lib/utils/orders";
 import { handleAndLogError } from "@/lib/errors";
 import { ErrorCode } from "@/lib/errors/errorTypes";
 import { getItemPrice } from "@/lib/utils/cart";
+import { useCartStore } from "@/stores";
 
 export function useCheckout() {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -39,6 +40,8 @@ export function useCheckout() {
 
   const { showNotification } = useNotification();
   const router = useRouter();
+  const cartItems = useCartStore((state) => state.items);
+  const setCartItems = useCartStore((state) => state.setItems);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -136,16 +139,13 @@ export function useCheckout() {
       const updatedOrders = [newOrder, ...existingOrders];
       storage.set(STORAGE_KEYS.ORDERS, updatedOrders);
 
-      const fullCart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
       const itemIdsToRemove = items.map((item) => item.id);
-      const updatedCart = fullCart.filter(
+      const updatedCart = cartItems.filter(
         (cartItem: CartItem) => !itemIdsToRemove.includes(cartItem.id)
       );
-      storage.set(STORAGE_KEYS.CART, updatedCart);
+      setCartItems(updatedCart);
 
       storage.remove(STORAGE_KEYS.CHECKOUT_ITEMS);
-
-      window.dispatchEvent(new CustomEvent("cartUpdated"));
 
       showNotification("تم تأكيد الطلب بنجاح! شكراً لثقتكم بنا", "success", 4000);
 
@@ -161,7 +161,17 @@ export function useCheckout() {
     } finally {
       setIsSubmitting(false);
     }
-  }, [isSubmitting, validateForm, items, formData, totals, showNotification, router]);
+  }, [
+    isSubmitting,
+    validateForm,
+    items,
+    formData,
+    totals,
+    showNotification,
+    router,
+    cartItems,
+    setCartItems,
+  ]);
 
   return {
     // State

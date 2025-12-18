@@ -1,11 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { storage } from "@/lib/utils";
-import { STORAGE_KEYS } from "@/constants";
 import type { CustomBouquet } from "@/types/favorites";
-import { useCart } from "./useCart";
+import { useCartStore, useFavoritesStore } from "@/stores";
 import { useNotification } from "@/providers/notification-provider";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { CART_ROUTES } from "@/constants/cart";
@@ -13,35 +11,16 @@ import { logError } from "@/lib/logger";
 
 export function useCustomBouquetFavorites() {
   const router = useRouter();
-  const [customBouquets, setCustomBouquets] = useState<CustomBouquet[]>([]);
-  const [loading, setLoading] = useState(true);
-  const { addItem } = useCart();
+  // استخدام selectors منفصلة لتجنب إنشاء كائن جديد في كل رندر
+  const customBouquets = useFavoritesStore((state) => state.customBouquets);
+  const hydrated = useFavoritesStore((state) => state.hydrated);
+  const addCustomBouquet = useFavoritesStore((state) => state.addCustomBouquet);
+  const removeCustomBouquet = useFavoritesStore((state) => state.removeCustomBouquet);
+  const isCustomBouquetFavorite = useFavoritesStore((state) => state.isCustomBouquetFavorite);
+
+  const addItem = useCartStore((state) => state.addItem);
   const { showNotification } = useNotification();
   const { requireAuth } = useRequireAuth();
-
-  // تحميل التصاميم المخصصة
-  const loadCustomBouquets = useCallback(() => {
-    try {
-      const stored = storage.get<CustomBouquet[]>(STORAGE_KEYS.BOUQUET_FAVORITES, []);
-      setCustomBouquets(stored);
-    } catch (error) {
-      logError("خطأ في تحميل التصاميم المخصصة", error);
-      setCustomBouquets([]);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    loadCustomBouquets();
-  }, [loadCustomBouquets]);
-
-  // الاستماع للتحديثات
-  useEffect(() => {
-    const handleUpdate = () => loadCustomBouquets();
-    window.addEventListener("favoritesUpdated", handleUpdate);
-    return () => window.removeEventListener("favoritesUpdated", handleUpdate);
-  }, [loadCustomBouquets]);
 
   const addToFavorites = useCallback(
     (bouquet: CustomBouquet) => {
@@ -56,27 +35,28 @@ export function useCustomBouquetFavorites() {
         return false;
       }
 
-      const current = storage.get<CustomBouquet[]>(STORAGE_KEYS.BOUQUET_FAVORITES, []);
-      const exists = current.some((b) => b.id === bouquet.id);
+      const added = addCustomBouquet(bouquet);
 
-      if (!exists) {
-        const updated = [...current, bouquet];
-        storage.set(STORAGE_KEYS.BOUQUET_FAVORITES, updated);
-        window.dispatchEvent(new CustomEvent("favoritesUpdated"));
-        return true;
+      if (added) {
+        // تم الإضافة بنجاح
+        showNotification("تم حفظ التصميم في المفضلة بنجاح!", "success");
+      } else {
+        // التصميم موجود مسبقاً في المفضلة
+        showNotification("هذا التصميم موجود في المفضلة مسبقاً.", "info");
       }
-      return false;
+
+      return added;
     },
-    [requireAuth]
+    [requireAuth, addCustomBouquet, showNotification]
   );
 
-  const removeFromFavorites = useCallback((id: number) => {
-    const current = storage.get<CustomBouquet[]>(STORAGE_KEYS.BOUQUET_FAVORITES, []);
-    const updated = current.filter((b) => b.id !== id);
-
-    storage.set(STORAGE_KEYS.BOUQUET_FAVORITES, updated);
-    window.dispatchEvent(new CustomEvent("favoritesUpdated"));
-  }, []);
+  const removeFromFavorites = useCallback(
+    (id: number) => {
+      removeCustomBouquet(id);
+      showNotification("تم إزالة الباقة من المفضلة", "info");
+    },
+    [removeCustomBouquet, showNotification]
+  );
 
   const addToCart = useCallback(
     (bouquet: CustomBouquet) => {
@@ -123,15 +103,10 @@ export function useCustomBouquetFavorites() {
 
   const isFavorite = useCallback(
     (id: number): boolean => {
-      return customBouquets.some((b) => b.id === id);
+      return isCustomBouquetFavorite(id);
     },
-    [customBouquets]
+    [isCustomBouquetFavorite]
   );
-
-  const clearFavorites = useCallback(() => {
-    storage.set(STORAGE_KEYS.BOUQUET_FAVORITES, []);
-    window.dispatchEvent(new CustomEvent("favoritesUpdated"));
-  }, []);
 
   const editCustomBouquet = useCallback(
     (bouquet: CustomBouquet) => {
@@ -170,12 +145,11 @@ export function useCustomBouquetFavorites() {
 
   return {
     customBouquets,
-    loading,
+    loading: !hydrated,
     addToFavorites,
     removeFromFavorites,
     addToCart,
     isFavorite,
-    clearFavorites,
     editCustomBouquet,
   };
 }

@@ -22,13 +22,11 @@ export default function CartIcon({
     >
       <ShoppingCart className="w-6 h-6" fill="currentColor" />
       <span className="sr-only">السلة</span>
-      {totalItems > 0 && (
-        <span
-          className={`absolute -top-1 -right-1 bg-[#5A5E4D] text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold ${badgeClassName}`}
-        >
-          {totalItems}
-        </span>
-      )}
+      <span
+        className={`absolute -top-1 -right-1 bg-[#5A5E4D] text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold ${badgeClassName}`}
+      >
+        {totalItems}
+      </span>
     </Link>
   );
 }

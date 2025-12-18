@@ -52,24 +52,46 @@ export function useFlowerManagement({
   // Color selection handler
   const setFlowerColor = useCallback(
     (flowerId: string, colorId: number) => {
+      const numericId = Number(flowerId);
+      const qtyForFlower = selectedFlowers[numericId] ?? 0;
+
       setSelectedColors((prev) => {
         const current = prev[flowerId] || [];
+
+        // إذا كان اللون مختارًا بالفعل، قم بإزالته (إلغاء التحديد)
         if (current.includes(colorId)) {
-          // Remove color
           return {
             ...prev,
             [flowerId]: current.filter((c) => c !== colorId),
           };
-        } else {
-          // Add color
+        }
+
+        // إذا لم يتم اختيار أي كمية من هذه الزهرة، لا نسمح باختيار ألوان
+        if (qtyForFlower <= 0) {
+          return prev;
+        }
+
+        // إذا كانت الكمية 1 -> اسمح بلون واحد فقط (استبدل أي لون سابق بهذا اللون)
+        if (qtyForFlower === 1) {
           return {
             ...prev,
-            [flowerId]: [...current, colorId],
+            [flowerId]: [colorId],
           };
         }
+
+        // لا تسمح بعدد ألوان أكبر من عدد الزهور المختارة لنفس النوع
+        if (current.length >= qtyForFlower) {
+          return prev;
+        }
+
+        // إضافة لون جديد مع الحفاظ على الحدود
+        return {
+          ...prev,
+            [flowerId]: [...current, colorId],
+          };
       });
     },
-    [setSelectedColors]
+    [setSelectedColors, selectedFlowers]
   );
 
   // Complete flowers for size

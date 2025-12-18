@@ -4,6 +4,7 @@ import { storage } from "@/lib/utils";
 import { STORAGE_KEYS, NAVIGATION_DELAY, CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/constants";
 import type { CartItem } from "@/types/cart";
 import { generateProductKey } from "@/lib/utils/cart";
+import { useCartStore, useCustomBouquetBuilderStore } from "@/stores";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import {
   buildCustomData,
@@ -35,6 +36,7 @@ interface UseCartOperationsProps {
   cardMessage: string;
   includeCard: boolean;
   notes: string;
+  deliveryType: "today" | "scheduled";
   deliveryDate: string;
   deliveryTime: string;
   city: string;
@@ -64,7 +66,10 @@ interface UseCartOperationsProps {
 
 function validateInput(
   totalFlowersCount: number,
-  isAddingToCart: boolean
+  isAddingToCart: boolean,
+  deliveryType: "today" | "scheduled",
+  deliveryDate: string,
+  deliveryTime: string
 ): {
   isValid: boolean;
   message?: string;
@@ -75,6 +80,22 @@ function validateInput(
 
   if (totalFlowersCount === 0) {
     return { isValid: false, message: "يرجى اختيار الزهور أولاً" };
+  }
+
+  // التحقق من إدخال معلومات التوصيل حسب نوع التوصيل
+  if (deliveryType === "today") {
+    // توصيل اليوم: يشترط فقط وقت التوصيل
+    if (!deliveryTime) {
+      return { isValid: false, message: "يرجى اختيار وقت التوصيل" };
+    }
+  } else if (deliveryType === "scheduled") {
+    // حجز مسبق: يشترط وقت وتاريخ معًا
+    if (!deliveryTime || !deliveryDate) {
+      return {
+        isValid: false,
+        message: "يرجى اختيار وقت وتاريخ التوصيل للحجز المسبق",
+      };
+    }
   }
 
   return { isValid: true };
@@ -156,13 +177,8 @@ function handleAddMode(
   };
 }
 
-function saveAndNavigate(
-  cart: CartItem[],
-  router: ReturnType<typeof useRouter>
-): ReturnType<typeof setTimeout> {
-  storage.set(STORAGE_KEYS.CART, cart);
-  window.dispatchEvent(new Event("cartUpdated"));
-
+function saveAndNavigate(router: ReturnType<typeof useRouter>): ReturnType<typeof setTimeout> {
+  // Cart is already saved via useCartStore, no need to save again
   return setTimeout(() => {
     router.push("/cart");
   }, NAVIGATION_DELAY.CART_REDIRECT);
@@ -172,6 +188,9 @@ export function useCartOperations(props: UseCartOperationsProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { requireAuth } = useRequireAuth();
+  const items = useCartStore((state) => state.items);
+  const setItems = useCartStore((state) => state.setItems);
+  const resetBuilder = useCustomBouquetBuilderStore((state) => state.reset);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const dataSources = useMemo<BouquetDataSources>(
@@ -258,7 +277,13 @@ export function useCartOperations(props: UseCartOperationsProps) {
       timeoutRef.current = null;
     }
 
-    const validation = validateInput(props.totalFlowersCount, props.isAddingToCart);
+    const validation = validateInput(
+      props.totalFlowersCount,
+      props.isAddingToCart,
+      props.deliveryType,
+      props.deliveryDate,
+      props.deliveryTime
+    );
     if (!validation.isValid) {
       if (validation.message) {
         props.showNotification(validation.message);
@@ -279,13 +304,16 @@ export function useCartOperations(props: UseCartOperationsProps) {
       };
 
       // التحقق من تسجيل الدخول قبل إضافة الباقة للسلة
-      if (!requireAuth("addCustomBouquetToCart", itemWithKey, "يجب تسجيل الدخول لإضافة الباقة إلى السلة")) {
+      if (
+        !requireAuth(
+          "addCustomBouquetToCart",
+          itemWithKey,
+          "يجب تسجيل الدخول لإضافة الباقة إلى السلة"
+        )
+      ) {
         props.setIsAddingToCart(false);
         return;
       }
-
-      const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
-      const safeCart = Array.isArray(cart) ? cart : [];
 
       const editItemId = storage.get<string | null>(STORAGE_KEYS.EDIT_ITEM_ID, null);
       const isEditMode = searchParams.get("edit") === "true" && editItemId;
@@ -294,17 +322,22 @@ export function useCartOperations(props: UseCartOperationsProps) {
       let message: string;
 
       if (isEditMode) {
-        const editResult = handleEditMode(safeCart, itemWithKey, editItemId);
+        const editResult = handleEditMode(items, itemWithKey, editItemId);
         updatedCart = editResult.cart;
         message = editResult.message;
         storage.remove(STORAGE_KEYS.EDIT_ITEM_ID);
       } else {
-        const addResult = handleAddMode(safeCart, itemWithKey);
+        const addResult = handleAddMode(items, itemWithKey);
         updatedCart = addResult.cart;
         message = addResult.message;
       }
 
-      timeoutRef.current = saveAndNavigate(updatedCart, router);
+      setItems(updatedCart);
+
+      // تفريغ حالة البنّاء بعد الإضافة أو التعديل
+      resetBuilder();
+
+      timeoutRef.current = saveAndNavigate(router);
 
       props.showNotification(message);
       props.saveToHistory();
@@ -324,6 +357,9 @@ export function useCartOperations(props: UseCartOperationsProps) {
     dataSources,
     searchParams,
     router,
+    items,
+    setItems,
+    resetBuilder,
   ]);
 
   useEffect(() => {
@@ -331,6 +367,8 @@ export function useCartOperations(props: UseCartOperationsProps) {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
+      // إعادة ضبط حالة التحميل عند مغادرة الصفحة
+      props.setIsAddingToCart(false);
     };
   }, []);
 

@@ -331,7 +331,7 @@ export default function DeliveryStep({
 
                 {/* منتقي الوقت المخصص بتصميم ثلاثة أعمدة */}
                 {isTimePickerOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#e1dada] rounded-[10px] shadow-lg z-50 overflow-hidden">
+                  <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-[#e1dada] rounded-[10px] shadow-lg z-50 overflow-hidden">
                     {/* رأس المنتقي */}
                     <div className="p-4 border-b border-gray-200">
                       <div
@@ -454,7 +454,7 @@ export default function DeliveryStep({
 
                 {/* التقويم المخصص */}
                 {isDatePickerOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#e1dada] rounded-[10px] shadow-lg z-50 p-4">
+                  <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-[#e1dada] rounded-[10px] shadow-lg z-50 p-4">
                     {/* رأس التقويم */}
                     <div className="flex items-center justify-between mb-4">
                       <button
@@ -566,7 +566,7 @@ export default function DeliveryStep({
 
             {/* منتقي الوقت المخصص بتصميم ثلاثة أعمدة */}
             {isTimePickerOpen && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#e1dada] rounded-[10px] shadow-lg z-50 overflow-hidden">
+              <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-[#e1dada] rounded-[10px] shadow-lg z-50 overflow-hidden">
                 {/* رأس المنتقي */}
                 <div className="p-4 border-b border-gray-200">
                   <div

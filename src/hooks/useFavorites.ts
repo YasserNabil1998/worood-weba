@@ -1,78 +1,25 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { storage } from "@/lib/utils";
-import { STORAGE_KEYS } from "@/constants";
 import type { BouquetItem } from "@/types/bouquets";
-import { logError } from "@/lib/logger";
+import { useFavoritesStore } from "@/stores";
 
 export function useFavorites() {
-  const [favorites, setFavorites] = useState<BouquetItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  // استخدام selectors منفصلة لتجنب إنشاء كائن جديد في كل رندر
+  const bouquets = useFavoritesStore((state) => state.bouquets);
+  const hydrated = useFavoritesStore((state) => state.hydrated);
+  const addBouquet = useFavoritesStore((state) => state.addBouquet);
+  const removeBouquet = useFavoritesStore((state) => state.removeBouquet);
+  const isBouquetFavorite = useFavoritesStore((state) => state.isBouquetFavorite);
 
-  // تحميل المفضلة
-  const loadFavorites = useCallback(() => {
-    try {
-      const stored = storage.get<BouquetItem[]>(STORAGE_KEYS.FAVORITES, []);
-      setFavorites(stored);
-    } catch (error) {
-      logError("خطأ في تحميل المفضلة", error);
-      setFavorites([]);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    loadFavorites();
-  }, [loadFavorites]);
-
-  // الاستماع للتحديثات
-  useEffect(() => {
-    const handleUpdate = () => loadFavorites();
-    window.addEventListener("favoritesUpdated", handleUpdate);
-    return () => window.removeEventListener("favoritesUpdated", handleUpdate);
-  }, [loadFavorites]);
-
-  const addToFavorites = useCallback((item: BouquetItem) => {
-    const current = storage.get<BouquetItem[]>(STORAGE_KEYS.FAVORITES, []);
-    const exists = current.some((fav) => fav.id === item.id);
-
-    if (!exists) {
-      const updated = [...current, item];
-      storage.set(STORAGE_KEYS.FAVORITES, updated);
-      window.dispatchEvent(new CustomEvent("favoritesUpdated"));
-      return true;
-    }
-    return false;
-  }, []);
-
-  const removeFromFavorites = useCallback((id: number) => {
-    const current = storage.get<BouquetItem[]>(STORAGE_KEYS.FAVORITES, []);
-    const updated = current.filter((item) => item.id !== id);
-
-    storage.set(STORAGE_KEYS.FAVORITES, updated);
-    window.dispatchEvent(new CustomEvent("favoritesUpdated"));
-  }, []);
-
-  const isFavorite = useCallback(
-    (id: number): boolean => {
-      return favorites.some((item) => item.id === id);
-    },
-    [favorites]
-  );
-
-  const clearFavorites = useCallback(() => {
-    storage.set(STORAGE_KEYS.FAVORITES, []);
-    window.dispatchEvent(new CustomEvent("favoritesUpdated"));
-  }, []);
+  const addToFavorites = (item: BouquetItem) => addBouquet(item);
+  const removeFromFavorites = (id: number) => removeBouquet(id);
+  const isFavorite = (id: number) => isBouquetFavorite(id);
 
   return {
-    favorites,
-    loading,
+    favorites: bouquets,
+    loading: !hydrated,
     addToFavorites,
     removeFromFavorites,
     isFavorite,
-    clearFavorites,
   };
 }

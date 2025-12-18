@@ -14,6 +14,7 @@ import { storage } from "@/lib/utils";
 import { CART_ROUTES } from "@/constants/cart";
 import { handleAndLogError } from "@/lib/errors";
 import { ErrorCode } from "@/lib/errors/errorTypes";
+import { useCartStore } from "@/stores";
 
 interface ProductOptions {
   selectedSize: string;
@@ -48,6 +49,8 @@ export function useProductDetails(productId: string) {
   const { requireAuth } = useRequireAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const cartItems = useCartStore((state) => state.items);
+  const setCartItems = useCartStore((state) => state.setItems);
 
   // Product options state
   const [options, setOptions] = useState<ProductOptions>({
@@ -161,8 +164,7 @@ export function useProductDetails(productId: string) {
 
     if (typeof window !== "undefined") {
       try {
-        const cart = storage.get<CartItem[]>(STORAGE_KEYS.CART, []);
-        const safeCart = Array.isArray(cart) ? cart : [];
+        const safeCart = Array.isArray(cartItems) ? cartItems : [];
         const lineTotal = getTotalPrice();
         const selectedColorOption =
           PRODUCT_DATA.colors.find((color) => color.value === options.color) ||
@@ -254,10 +256,9 @@ export function useProductDetails(productId: string) {
               newCart[targetIndex] = updatedItem;
             }
 
-            storage.set(STORAGE_KEYS.CART, newCart);
+            setCartItems(newCart);
             storage.remove(STORAGE_KEYS.EDIT_ITEM_ID);
             storage.remove(STORAGE_KEYS.EDIT_ITEM_DATA);
-            window.dispatchEvent(new CustomEvent("cartUpdated"));
             showNotification("تم تحديث المنتج في السلة", "success");
             setIsEditMode(false);
             setEditingKey(null);
@@ -273,8 +274,7 @@ export function useProductDetails(productId: string) {
 
         const { cart: updatedCart, isNew } = addProductToCart(safeCart, baseCartItem);
 
-        storage.set(STORAGE_KEYS.CART, updatedCart);
-        window.dispatchEvent(new CustomEvent("cartUpdated"));
+        setCartItems(updatedCart);
 
         const message = isNew ? "تم إضافة المنتج إلى السلة" : "تم زيادة كمية المنتج في السلة";
         showNotification(message, "success");

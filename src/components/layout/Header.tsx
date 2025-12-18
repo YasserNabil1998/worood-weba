@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useNotification } from "@/providers/notification-provider";
 import { useAuth } from "@/providers/auth-provider";
 import { ASSETS } from "@/config/assets";
-import { useCart } from "@/hooks/useCart";
+import { useCartStore } from "@/stores";
 import { usePageSearch } from "@/hooks/usePageSearch";
 import { storage } from "@/lib/utils";
 import { NAVIGATION_LINKS } from "@/constants/routes";
@@ -22,7 +22,7 @@ const Header = () => {
   const router = useRouter();
   const { showNotification } = useNotification();
   const { logout: authLogout } = useAuth();
-  const { totalItems } = useCart();
+  const totalItems = useCartStore((state) => state.totalItems);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);

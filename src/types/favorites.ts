@@ -14,6 +14,8 @@ export interface CustomBouquet {
   occasion: string;
   cardMessage: string;
   notes: string;
+  deliveryDate?: string;
+  deliveryTime?: string;
   total: number;
   image: string;
   createdAt: string;

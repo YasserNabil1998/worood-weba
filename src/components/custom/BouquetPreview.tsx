@@ -23,6 +23,10 @@ interface BouquetPreviewProps {
   flowers: Flower[];
   selectedColors: { [flowerId: string]: number[] };
   colors: Color[];
+  cardMessage?: string;
+  notes?: string;
+  deliveryDate?: string;
+  deliveryTime?: string;
   onSaveToFavorites: () => void;
   onShareDesign: () => void;
   getStyleLabel: (style: "classic" | "premium" | "gift" | "eco") => string;
@@ -49,6 +53,10 @@ export default function BouquetPreview({
   flowers,
   selectedColors,
   colors,
+  cardMessage,
+  notes,
+  deliveryDate,
+  deliveryTime,
   onSaveToFavorites,
   onShareDesign,
   getStyleLabel,
@@ -219,6 +227,36 @@ export default function BouquetPreview({
               </span>
             </div>
           </div>
+
+          {/* بطاقة التهنئة / الملاحظات / موعد التوصيل */}
+          {(includeCard && cardMessage) || notes || deliveryTime || deliveryDate ? (
+            <div className="space-y-2 mb-3 sm:mb-4">
+              {includeCard && cardMessage && (
+                <div className="bg-pink-50 border border-pink-200 rounded-lg p-3">
+                  <div className="text-xs font-semibold text-pink-700 mb-1">محتوى بطاقة التهنئة</div>
+                  <p className="text-xs sm:text-sm text-gray-700 whitespace-pre-line">{cardMessage}</p>
+                </div>
+              )}
+
+              {notes && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                  <div className="text-xs font-semibold text-blue-700 mb-1">ملاحظات الطلب</div>
+                  <p className="text-xs sm:text-sm text-gray-700 whitespace-pre-line">{notes}</p>
+                </div>
+              )}
+
+              {(deliveryTime || deliveryDate) && (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center justify-between">
+                  <span className="text-xs font-semibold text-green-700">موعد التوصيل</span>
+                  <span className="text-xs sm:text-sm text-gray-800">
+                    {deliveryDate && <span>{deliveryDate}</span>}
+                    {deliveryDate && deliveryTime && <span className="mx-1">•</span>}
+                    {deliveryTime && <span>{deliveryTime}</span>}
+                  </span>
+                </div>
+              )}
+            </div>
+          ) : null}
 
           {/* Action Buttons */}
           <div className="grid grid-cols-1 gap-2 sm:gap-3">
