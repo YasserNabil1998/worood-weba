@@ -5,23 +5,24 @@ import { logError } from "@/lib/logger";
 
 export interface User {
   id: string;
-  email: string;
   name: string;
+  email: string;
   phone?: string;
+  address?: string;
+  gender?: "ذكر" | "أنثى";
 }
 
 export interface AuthState {
   user: User | null;
   isLoading: boolean;
-  login: (
-    email: string,
-    password: string
-  ) => Promise<{ success: boolean; error?: string }>;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signup: (userData: {
     fullName: string;
     email: string;
     phone: string;
     password: string;
+    address: string;
+    gender: "ذكر" | "أنثى";
   }) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
   initialize: () => void;
@@ -72,10 +73,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (error) {
       return {
         success: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : "حدث خطأ أثناء تسجيل الدخول",
+        error: error instanceof Error ? error.message : "حدث خطأ أثناء تسجيل الدخول",
       };
     }
   },
@@ -85,6 +83,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     email: string;
     phone: string;
     password: string;
+    address: string;
+    gender: "ذكر" | "أنثى";
   }): Promise<{ success: boolean; error?: string }> => {
     try {
       // محاكاة API call
@@ -96,6 +96,8 @@ export const useAuthStore = create<AuthState>((set) => ({
         email: userData.email,
         name: userData.fullName,
         phone: userData.phone,
+        address: userData.address,
+        gender: userData.gender,
       };
 
       // حفظ بيانات المستخدم
@@ -108,10 +110,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (error) {
       return {
         success: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : "حدث خطأ أثناء إنشاء الحساب",
+        error: error instanceof Error ? error.message : "حدث خطأ أثناء إنشاء الحساب",
       };
     }
   },
@@ -122,5 +121,3 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ user: null });
   },
 }));
-
-

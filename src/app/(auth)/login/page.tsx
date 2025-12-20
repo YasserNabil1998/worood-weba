@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const dynamic = "force-dynamic";
-import isValidEmail from "@/validations/isValidEmail";
 import Link from "next/link";
 import Image from "next/image";
 import { fontStyle } from "@/lib/styles";
@@ -15,6 +16,7 @@ import { executePendingAction } from "@/utils/pendingActionsExecutor";
 import { useCartStore } from "@/stores";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useCustomBouquetFavorites } from "@/hooks/useCustomBouquetFavorites";
+import { loginSchema, type LoginFormData } from "@/validations/schemas/loginSchema";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,9 +28,17 @@ export default function LoginPage() {
   const { addToCart: addCustomBouquetToCart, addToFavorites: addCustomBouquetToFavorites } =
     useCustomBouquetFavorites();
 
-  const [form, setForm] = useState({ email: "", password: "" });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitting, setSubmitting] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
   // إذا كان المستخدم مسجل دخول بالفعل، توجيهه
   useEffect(() => {
@@ -38,37 +48,9 @@ export default function LoginPage() {
     }
   }, [isAuthenticated, router, searchParams]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm((p) => ({ ...p, [name]: value }));
-  };
-
-  const validate = () => {
-    const err: Record<string, string> = {};
-
-    if (!form.email.trim()) {
-      err.email = "البريد الإلكتروني مطلوب";
-    } else if (!isValidEmail(form.email)) {
-      err.email = "الرجاء إدخال بريد إلكتروني صحيح";
-    }
-
-    if (!form.password.trim()) {
-      err.password = "كلمة المرور مطلوبة";
-    } else if (form.password.length < 6) {
-      err.password = "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
-    }
-
-    setErrors(err);
-    return Object.keys(err).length === 0;
-  };
-
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-    setSubmitting(true);
-
+  const onSubmit = async (data: LoginFormData) => {
     try {
-      const result = await login(form.email, form.password);
+      const result = await login(data.email, data.password);
 
       if (result.success) {
         showNotification("تم تسجيل الدخول بنجاح! ✓", "success");
@@ -92,11 +74,9 @@ export default function LoginPage() {
         }, 500);
       } else {
         showNotification(result.error || "فشل تسجيل الدخول", "error");
-        setSubmitting(false);
       }
     } catch {
       showNotification("حدث خطأ أثناء تسجيل الدخول", "error");
-      setSubmitting(false);
     }
   };
 
@@ -111,21 +91,19 @@ export default function LoginPage() {
         </p>
       </div>
       <div className="px-6 pb-6">
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block text-sm text-gray-700 mb-1" htmlFor="email">
               البريد الإلكتروني
             </label>
             <input
               id="email"
-              name="email"
               type="email"
-              value={form.email}
-              onChange={handleChange}
+              {...register("email")}
               className="w-full h-10 rounded-md border border-gray-300 bg-white px-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
               placeholder="example@mail.com"
             />
-            {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
+            {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
           </div>
 
           <div>
@@ -134,14 +112,14 @@ export default function LoginPage() {
             </label>
             <input
               id="password"
-              name="password"
               type="password"
-              value={form.password}
-              onChange={handleChange}
+              {...register("password")}
               className="w-full h-10 rounded-md border border-gray-300 bg-white px-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
               placeholder="********"
             />
-            {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password}</p>}
+            {errors.password && (
+              <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>
+            )}
           </div>
 
           <div className="text-right">
@@ -152,15 +130,15 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            disabled={submitting}
+            disabled={isSubmitting}
             className="w-full h-10 rounded-md text-white font-semibold transition-opacity"
             style={{
               backgroundColor: "#5A5E4D",
-              opacity: submitting ? 0.8 : 1,
+              opacity: isSubmitting ? 0.8 : 1,
               fontFamily: "var(--font-almarai)",
             }}
           >
-            {submitting ? "... جاري تسجيل الدخول" : "تسجيل الدخول"}
+            {isSubmitting ? "... جاري تسجيل الدخول" : "تسجيل الدخول"}
           </button>
           <div className="text-center text-xs text-gray-600">
             <Link href="/signup" className="hover:underline">

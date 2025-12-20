@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const dynamic = "force-dynamic";
 import Link from "next/link";
@@ -15,6 +17,7 @@ import { executePendingAction } from "@/utils/pendingActionsExecutor";
 import { useCartStore } from "@/stores";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useCustomBouquetFavorites } from "@/hooks/useCustomBouquetFavorites";
+import { signupSchema, type SignupFormData } from "@/validations/schemas/signupSchema";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -26,17 +29,22 @@ export default function SignupPage() {
   const { addToCart: addCustomBouquetToCart, addToFavorites: addCustomBouquetToFavorites } =
     useCustomBouquetFavorites();
 
-  const [form, setForm] = useState({
-    fullName: "",
-    phone: "",
-    email: "",
-    address: "",
-    password: "",
-    gender: "ذكر",
-    agree: false,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      fullName: "",
+      phone: "",
+      email: "",
+      address: "",
+      password: "",
+      gender: "ذكر",
+      agree: false,
+    },
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitting, setSubmitting] = useState(false);
 
   // إذا كان المستخدم مسجل دخول بالفعل، توجيهه
   useEffect(() => {
@@ -45,26 +53,6 @@ export default function SignupPage() {
       router.push(returnPath);
     }
   }, [isAuthenticated, router, searchParams]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setForm((p) => ({
-      ...p,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const validate = () => {
-    const err: Record<string, string> = {};
-    if (!form.fullName.trim()) err.fullName = "الاسم مطلوب";
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) err.email = "بريد غير صالح";
-    if (!/^\+?\d{8,15}$/.test(form.phone)) err.phone = "رقم غير صالح";
-    if (!form.address.trim()) err.address = "العنوان مطلوب";
-    if (form.password.length < 6) err.password = "كلمة المرور 6 أحرف على الأقل";
-    if (!form.agree) err.agree = "يجب الموافقة على الشروط";
-    setErrors(err);
-    return Object.keys(err).length === 0;
-  };
 
   const handleMapClick = () => {
     // محاكاة لفتح الخريطة
@@ -75,17 +63,15 @@ export default function SignupPage() {
     // - أو أي خدمة خرائط أخرى
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-    setSubmitting(true);
-
+  const onSubmit = async (data: SignupFormData) => {
     try {
       const result = await signup({
-        fullName: form.fullName,
-        email: form.email,
-        phone: form.phone,
-        password: form.password,
+        fullName: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        password: data.password,
+        address: data.address,
+        gender: data.gender,
       });
 
       if (result.success) {
@@ -110,11 +96,9 @@ export default function SignupPage() {
         }, 500);
       } else {
         showNotification(result.error || "فشل إنشاء الحساب", "error");
-        setSubmitting(false);
       }
     } catch {
       showNotification("حدث خطأ أثناء إنشاء الحساب", "error");
-      setSubmitting(false);
     }
   };
 
@@ -129,20 +113,20 @@ export default function SignupPage() {
         </p>
       </div>
       <div className="px-6 pb-6">
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block text-sm text-gray-700 mb-1" htmlFor="fullName">
               الاسم الكامل
             </label>
             <input
               id="fullName"
-              name="fullName"
-              value={form.fullName}
-              onChange={handleChange}
+              {...register("fullName")}
               className="w-full h-10 rounded-md border border-gray-300 bg-white px-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
               placeholder="اكتب اسمك"
             />
-            {errors.fullName && <p className="mt-1 text-xs text-red-600">{errors.fullName}</p>}
+            {errors.fullName && (
+              <p className="mt-1 text-xs text-red-600">{errors.fullName.message}</p>
+            )}
           </div>
           <div>
             <label className="block text-sm text-gray-700 mb-1" htmlFor="phone">
@@ -150,13 +134,11 @@ export default function SignupPage() {
             </label>
             <input
               id="phone"
-              name="phone"
-              value={form.phone}
-              onChange={handleChange}
+              {...register("phone")}
               className="w-full h-10 rounded-md border border-gray-300 bg-white px-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
               placeholder="مثال: 9665xxxxxxxx+"
             />
-            {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
+            {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone.message}</p>}
           </div>
           <div>
             <label className="block text-sm text-gray-700 mb-1" htmlFor="email">
@@ -164,14 +146,12 @@ export default function SignupPage() {
             </label>
             <input
               id="email"
-              name="email"
               type="email"
-              value={form.email}
-              onChange={handleChange}
+              {...register("email")}
               className="w-full h-10 rounded-md border border-gray-300 bg-white px-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
               placeholder="example@mail.com"
             />
-            {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
+            {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
           </div>
           <div>
             <label className="block text-sm text-gray-700 mb-1" htmlFor="password">
@@ -179,14 +159,14 @@ export default function SignupPage() {
             </label>
             <input
               id="password"
-              name="password"
               type="password"
-              value={form.password}
-              onChange={handleChange}
+              {...register("password")}
               className="w-full h-10 rounded-md border border-gray-300 bg-white px-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
               placeholder="••••••••"
             />
-            {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password}</p>}
+            {errors.password && (
+              <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>
+            )}
           </div>
           <div>
             <label className="block text-sm text-gray-700 mb-1" htmlFor="address">
@@ -195,10 +175,8 @@ export default function SignupPage() {
             <div className="relative">
               <input
                 id="address"
-                name="address"
                 type="text"
-                value={form.address}
-                onChange={handleChange}
+                {...register("address")}
                 className="w-full h-10 rounded-md border border-gray-300 bg-white pl-10 pr-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
                 placeholder="مثال: مكة، شارع الملك سعود"
               />
@@ -211,62 +189,50 @@ export default function SignupPage() {
                 <MapPin className="w-5 h-5 text-gray-600" />
               </button>
             </div>
-            {errors.address && <p className="mt-1 text-xs text-red-600">{errors.address}</p>}
+            {errors.address && (
+              <p className="mt-1 text-xs text-red-600">{errors.address.message}</p>
+            )}
           </div>
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <input
-                id="male"
-                name="gender"
-                type="radio"
-                value="ذكر"
-                checked={form.gender === "ذكر"}
-                onChange={handleChange}
-              />
+              <input id="male" type="radio" value="ذكر" {...register("gender")} />
               <label htmlFor="male" className="text-sm text-gray-700">
                 ذكر
               </label>
               <input
                 id="female"
-                name="gender"
                 type="radio"
                 value="أنثى"
                 className="ml-4"
-                checked={form.gender === "أنثى"}
-                onChange={handleChange}
+                {...register("gender")}
               />
               <label htmlFor="female" className="text-sm text-gray-700">
                 أنثى
               </label>
             </div>
           </div>
+          {errors.gender && <p className="-mt-2 text-xs text-red-600">{errors.gender.message}</p>}
 
           <div className="flex items-center gap-2">
-            <input
-              id="agree"
-              name="agree"
-              type="checkbox"
-              checked={form.agree}
-              onChange={handleChange}
-            />
+            <input id="agree" type="checkbox" {...register("agree")} />
             <label htmlFor="agree" className="text-sm text-gray-700">
               أوافق على الشروط والأحكام
             </label>
           </div>
-          {errors.agree && <p className="-mt-2 text-xs text-red-600">{errors.agree}</p>}
+          {errors.agree && <p className="-mt-2 text-xs text-red-600">{errors.agree.message}</p>}
 
           <button
             type="submit"
-            disabled={submitting}
+            disabled={isSubmitting}
             className="w-full h-10 rounded-md text-white font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed"
             style={{
               backgroundColor: "#5A5E4D",
-              opacity: submitting ? 0.8 : 1,
+              opacity: isSubmitting ? 0.8 : 1,
               fontFamily: "var(--font-almarai)",
             }}
           >
-            {submitting ? "... جاري الإنشاء" : "إنشاء حساب"}
+            {isSubmitting ? "... جاري الإنشاء" : "إنشاء حساب"}
           </button>
           <div className="text-center text-xs text-gray-600">
             <Link href="/login" className="hover:underline cursor-pointer">
