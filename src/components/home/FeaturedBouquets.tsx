@@ -15,19 +15,10 @@ import { QuickAddModal } from "@/components/product";
 import { logError } from "@/lib/logger";
 import { fontStyle } from "@/lib/styles";
 import { TIMEOUTS } from "@/constants";
-
-const normalizeText = (value?: string) => {
-  if (!value) return "";
-  return value
-    .replace(/\s+/g, "")
-    .replace(/[أإآ]/g, "ا")
-    .replace(/[ًٌٍَُِّْ]/g, "")
-    .toLowerCase();
-};
+import { useHomePageStore } from "@/stores";
 
 const getBouquetKey = (bouquet: BouquetItem) => {
-  const id = typeof bouquet.id === "number" ? bouquet.id : Number(bouquet.id);
-  return String(id);
+  return String(bouquet.id);
 };
 
 const getBouquetId = (bouquet: BouquetItem) =>
@@ -45,8 +36,8 @@ type FeaturedBouquetsProps = {
 };
 
 const FeaturedBouquets = ({
-  bouquets = defaultBouquets,
-  isLoading = false,
+  bouquets: propBouquets,
+  isLoading: propIsLoading,
 }: FeaturedBouquetsProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(1);
@@ -56,6 +47,18 @@ const FeaturedBouquets = ({
   const { showNotification } = useNotification();
   const { requireAuth } = useRequireAuth();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
+
+  const storeBouquets = useHomePageStore((state) => state.featuredBouquets);
+  const storeIsLoading = useHomePageStore((state) => state.isLoading);
+  const fetchHomePageData = useHomePageStore((state) => state.fetchHomePageData);
+
+  useEffect(() => {
+    fetchHomePageData();
+  }, [fetchHomePageData]);
+
+  // Use prop bouquets if provided, otherwise use store bouquets, fallback to default
+  const bouquets = propBouquets || (storeBouquets.length > 0 ? storeBouquets : defaultBouquets);
+  const isLoading = propIsLoading !== undefined ? propIsLoading : storeIsLoading;
 
   const combinedBouquets = useMemo(() => {
     const source = Array.isArray(bouquets) && bouquets.length > 0 ? bouquets : defaultBouquets;
@@ -70,11 +73,8 @@ const FeaturedBouquets = ({
   }, [bouquets]);
 
   const filteredBouquets = useMemo(() => {
-    const target = normalizeText(BEST_SELLER_BADGE);
     return combinedBouquets.filter((bouquet) => {
-      const category = normalizeText(bouquet.category);
-      const badge = normalizeText(bouquet.badge);
-      return category === target || badge === target;
+      return bouquet.category === BEST_SELLER_BADGE || bouquet.badge === BEST_SELLER_BADGE;
     });
   }, [combinedBouquets]);
 
@@ -172,12 +172,18 @@ const FeaturedBouquets = ({
             ...bouquet,
             id: bouquetId,
           };
-          
+
           // التحقق من تسجيل الدخول قبل إضافة للمفضلة
-          if (!requireAuth("addToFavorites", favoriteItem, "يجب تسجيل الدخول لإضافة المنتج إلى المفضلة")) {
+          if (
+            !requireAuth(
+              "addToFavorites",
+              favoriteItem,
+              "يجب تسجيل الدخول لإضافة المنتج إلى المفضلة"
+            )
+          ) {
             return;
           }
-          
+
           addToFavorites(favoriteItem);
           showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
         }

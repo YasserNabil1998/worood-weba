@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { OccasionWithHref } from "@/types/home";
 import { defaultOccasions } from "@/content/occasions";
 import { ROUTES } from "@/constants/routes";
@@ -10,7 +10,7 @@ import { ArrowLeft } from "lucide-react";
 import { fontStyle } from "@/lib/styles";
 import { UI_TEXTS } from "@/constants";
 import AOSWrapper from "./AOSWrapper";
-
+import { useHomePageStore } from "@/stores";
 
 type OccasionsSectionProps = {
   occasions?: OccasionWithHref[];
@@ -20,13 +20,19 @@ type OccasionsSectionProps = {
 };
 
 const OccasionsSection = ({
-  occasions = defaultOccasions,
-  isLoading = false,
+  occasions: propOccasions,
+  isLoading: propIsLoading,
   title = "المناسبات",
   description = "كل لحظة تستحق باقة مميزة",
 }: OccasionsSectionProps) => {
-  // Memoize occasions to prevent unnecessary re-renders
-  const memoizedOccasions = useMemo(() => occasions, [occasions]);
+  const storeIsLoading = useHomePageStore((state) => state.isLoading);
+  const fetchHomePageData = useHomePageStore((state) => state.fetchHomePageData);
+
+  useEffect(() => {
+    fetchHomePageData();
+  }, [fetchHomePageData]);
+
+  const isLoading = propIsLoading !== undefined ? propIsLoading : storeIsLoading;
 
   // Occasion data matching Figma design - ordered as in design: مولود جديد, نجاح, عيد ميلاد, خطوبة
   const occasionsData = [
@@ -70,7 +76,10 @@ const OccasionsSection = ({
               {title}
             </h2>
             {/* Description - matching سعادة في مزهرية section: 20px mobile, 23px tablet, 25px desktop */}
-            <p className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black" style={fontStyle}>
+            <p
+              className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
+              style={fontStyle}
+            >
               {description || "كل لحظة تستحق باقة مميزة"}
             </p>
           </div>
@@ -87,7 +96,10 @@ const OccasionsSection = ({
         {/* 4 horizontal cards - matching Figma design */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {isLoading && (
-            <div className="col-span-full text-center text-gray-600 flex items-center justify-center h-[283px]" style={fontStyle}>
+            <div
+              className="col-span-full text-center text-gray-600 flex items-center justify-center h-[283px]"
+              style={fontStyle}
+            >
               {UI_TEXTS.LOADING}
             </div>
           )}
@@ -97,46 +109,44 @@ const OccasionsSection = ({
             const href = `${ROUTES.BOUQUETS}?occasion=${occasion.occasionKey}&openFilter=occasion`;
 
             return (
-              <AOSWrapper
-                key={index}
-                animation="zoom-in"
-                delay={index * 100}
-                duration={800}
-              >
+              <AOSWrapper key={index} animation="zoom-in" delay={index * 100} duration={800}>
                 <div className="h-full">
                   <Link href={href} className="group cursor-pointer block h-full">
                     {/* Card - matching Figma: bg-neutral-100, border #e0dede, rounded-[20px], 260px width, 283px height */}
                     <div className="bg-neutral-100 border border-[#e0dede] rounded-[20px] h-[283px] p-6 flex flex-col items-center justify-start text-center hover:shadow-lg transition-all duration-300">
-                    {/* Image - matching Figma design with appropriate sizes */}
-                    <div
-                      className="flex items-center justify-center shrink-0 mb-4"
-                      style={{ minHeight: "120px", maxHeight: "120px" }}
-                    >
-                      <Image
-                        src={occasion.image}
-                        alt={occasion.title}
-                        width={occasion.imageSize}
-                        height={occasion.imageSize}
-                        className="object-contain"
-                      />
-                    </div>
+                      {/* Image - matching Figma design with appropriate sizes */}
+                      <div
+                        className="flex items-center justify-center shrink-0 mb-4"
+                        style={{ minHeight: "120px", maxHeight: "120px" }}
+                      >
+                        <Image
+                          src={occasion.image}
+                          alt={occasion.title}
+                          width={occasion.imageSize}
+                          height={occasion.imageSize}
+                          className="object-contain"
+                        />
+                      </div>
 
-                    {/* Title and Description - Fixed position below image */}
-                    <div className="w-full">
-                      {/* Title - matching Figma: 20px, Almarai Bold, black */}
-                      <h3 className="text-[20px] font-bold text-black mb-2" style={fontStyle}>
-                        {occasion.title}
-                      </h3>
+                      {/* Title and Description - Fixed position below image */}
+                      <div className="w-full">
+                        {/* Title - matching Figma: 20px, Almarai Bold, black */}
+                        <h3 className="text-[20px] font-bold text-black mb-2" style={fontStyle}>
+                          {occasion.title}
+                        </h3>
 
-                      {/* Description - matching Figma: 16px, Almarai Bold, #5c5a57 */}
-                      <p className="text-[16px] font-bold text-[#5c5a57] text-center leading-relaxed" style={fontStyle}>
-                        {occasion.description}
-                      </p>
+                        {/* Description - matching Figma: 16px, Almarai Bold, #5c5a57 */}
+                        <p
+                          className="text-[16px] font-bold text-[#5c5a57] text-center leading-relaxed"
+                          style={fontStyle}
+                        >
+                          {occasion.description}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </div>
-            </AOSWrapper>
+                  </Link>
+                </div>
+              </AOSWrapper>
             );
           })}
         </div>

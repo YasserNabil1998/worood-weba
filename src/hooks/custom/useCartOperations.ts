@@ -4,7 +4,7 @@ import { storage } from "@/lib/utils";
 import { STORAGE_KEYS, NAVIGATION_DELAY, CUSTOM_BOUQUET_PREVIEW_IMAGE } from "@/constants";
 import type { CartItem } from "@/types/cart";
 import { generateProductKey } from "@/lib/utils/cart";
-import { useCartStore, useCustomBouquetBuilderStore } from "@/stores";
+import { useCartStore, useCustomBouquetBuilderStore, useProductStore } from "@/stores";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import {
   buildCustomData,
@@ -39,12 +39,6 @@ interface UseCartOperationsProps {
   deliveryType: "today" | "scheduled";
   deliveryDate: string;
   deliveryTime: string;
-  city: string;
-  district: string;
-  street: string;
-  landmark: string;
-  phone: string;
-  payMethod: string;
   bouquetImage: string;
   totalFlowersCount: number;
   subtotal: number;
@@ -60,7 +54,6 @@ interface UseCartOperationsProps {
   vases: Vase[];
   occasions: Occasion[];
   deliveryTimes: DeliveryTime[];
-  paymentMethods: CustomPaymentMethod[];
   config: Config;
 }
 
@@ -201,7 +194,6 @@ export function useCartOperations(props: UseCartOperationsProps) {
       vases: props.vases,
       occasions: props.occasions,
       deliveryTimes: props.deliveryTimes,
-      paymentMethods: props.paymentMethods,
       config: props.config,
     }),
     [
@@ -211,7 +203,6 @@ export function useCartOperations(props: UseCartOperationsProps) {
       props.vases,
       props.occasions,
       props.deliveryTimes,
-      props.paymentMethods,
       props.config,
     ]
   );
@@ -230,12 +221,6 @@ export function useCartOperations(props: UseCartOperationsProps) {
       notes: props.notes,
       deliveryDate: props.deliveryDate,
       deliveryTime: props.deliveryTime,
-      city: props.city,
-      district: props.district,
-      street: props.street,
-      landmark: props.landmark,
-      phone: props.phone,
-      payMethod: props.payMethod,
       bouquetImage: props.bouquetImage,
       totalFlowersCount: props.totalFlowersCount,
       subtotal: props.subtotal,
@@ -255,12 +240,6 @@ export function useCartOperations(props: UseCartOperationsProps) {
       props.notes,
       props.deliveryDate,
       props.deliveryTime,
-      props.city,
-      props.district,
-      props.street,
-      props.landmark,
-      props.phone,
-      props.payMethod,
       props.bouquetImage,
       props.totalFlowersCount,
       props.subtotal,
@@ -315,7 +294,8 @@ export function useCartOperations(props: UseCartOperationsProps) {
         return;
       }
 
-      const editItemId = storage.get<string | null>(STORAGE_KEYS.EDIT_ITEM_ID, null);
+      const editItemId = useProductStore.getState().editItemId;
+      const clearEditItem = useProductStore.getState().clearEditItem;
       const isEditMode = searchParams.get("edit") === "true" && editItemId;
 
       let updatedCart: CartItem[];
@@ -325,7 +305,7 @@ export function useCartOperations(props: UseCartOperationsProps) {
         const editResult = handleEditMode(items, itemWithKey, editItemId);
         updatedCart = editResult.cart;
         message = editResult.message;
-        storage.remove(STORAGE_KEYS.EDIT_ITEM_ID);
+        clearEditItem();
       } else {
         const addResult = handleAddMode(items, itemWithKey);
         updatedCart = addResult.cart;

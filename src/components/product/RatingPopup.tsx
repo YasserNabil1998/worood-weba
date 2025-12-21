@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useNotification } from "@/providers/notification-provider";
 import type { ReviewItem } from "@/types";
 import { Star, X } from "lucide-react";
 import { fontStyle } from "@/lib/styles";
@@ -30,16 +29,18 @@ export default function RatingPopup({
   const [hoveredRating, setHoveredRating] = useState(0);
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { showNotification } = useNotification();
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
+    setError(null);
+
     if (rating === 0) {
-      showNotification("يرجى اختيار تقييم", "error");
+      setError("يرجى اختيار تقييم");
       return;
     }
 
     if (comment.trim().length < 10) {
-      showNotification("يرجى كتابة تعليق من 10 أحرف على الأقل", "error");
+      setError("يرجى كتابة تعليق من 10 أحرف على الأقل");
       return;
     }
 
@@ -64,9 +65,8 @@ export default function RatingPopup({
     // محاكاة إرسال البيانات
     await new Promise((resolve) => setTimeout(resolve, TIMEOUTS.API_SIMULATION));
 
-    onRatingSubmit(newReview);
     setIsSubmitting(false);
-    showNotification("تم إرسال تقييمك بنجاح!", "success");
+    onRatingSubmit(newReview);
 
     // إعادة تعيين النموذج
     setRating(0);
@@ -145,10 +145,7 @@ export default function RatingPopup({
                   className="w-12 h-12 rounded-full object-cover"
                 />
               ) : (
-                <span
-                  className="text-green-600 font-bold text-lg"
-                  style={fontStyle}
-                >
+                <span className="text-green-600 font-bold text-lg" style={fontStyle}>
                   {customerName.charAt(0)}
                 </span>
               )}
@@ -196,6 +193,15 @@ export default function RatingPopup({
               {comment.length} / 500 حرف
             </p>
           </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+              <p className="text-sm text-red-600" style={fontStyle}>
+                {error}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Footer */}

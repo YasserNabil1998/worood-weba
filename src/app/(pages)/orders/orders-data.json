@@ -25,6 +25,7 @@
         }
       ],
       "deliveryAddress": "الرياض، حي النخيل، شارع الملك فهد، مبنى رقم 123",
+      "phoneNumber": "0501234567",
       "paymentMethod": "فيزا",
       "trackingNumber": "TRK-789456123",
       "notes": "يرجى التسليم بعد الساعة 6 مساءً"
@@ -47,6 +48,7 @@
         }
       ],
       "deliveryAddress": "جدة، حي الروضة، شارع الأمير سلطان",
+      "phoneNumber": "0502345678",
       "paymentMethod": "ماستركارد",
       "trackingNumber": "TRK-456789123"
     },
@@ -68,6 +70,7 @@
         }
       ],
       "deliveryAddress": "الدمام، حي الفيصلية، شارع الملك عبدالعزيز",
+      "phoneNumber": "0503456789",
       "paymentMethod": "فيزا"
     },
     {
@@ -88,6 +91,7 @@
         }
       ],
       "deliveryAddress": "الرياض، حي العليا، شارع التحلية",
+      "phoneNumber": "0504567890",
       "paymentMethod": "الدفع عند الاستلام",
       "notes": "طلب عاجل - يرجى التسليم في نفس اليوم"
     },
@@ -116,6 +120,7 @@
         }
       ],
       "deliveryAddress": "مكة المكرمة، حي الزاهر، شارع العزيزية",
+      "phoneNumber": "0505678901",
       "paymentMethod": "فيزا",
       "trackingNumber": "TRK-123456789",
       "notes": "طلب خاص لمناسبة الزفاف"
@@ -138,6 +143,7 @@
         }
       ],
       "deliveryAddress": "الرياض، حي الملز، شارع الأمير محمد بن عبدالعزيز",
+      "phoneNumber": "0506789012",
       "paymentMethod": "فيزا",
       "notes": "تم الإلغاء بناءً على طلب العميل"
     }

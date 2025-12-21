@@ -139,7 +139,7 @@ export const useFavoritesStore = create<FavoritesStore>()(
                 return;
               }
             }
-            
+
             // تعيين hydrated إلى true بعد انتهاء التحميل في جميع الحالات
             state.hydrated = true;
           }

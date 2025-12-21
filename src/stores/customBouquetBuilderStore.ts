@@ -34,16 +34,10 @@ interface CustomBouquetBuilderState {
   showSuggestions: boolean;
   notes: string;
 
-  // Delivery and payment
+  // Delivery
   deliveryType: DeliveryType;
   deliveryDate: string;
   deliveryTime: string;
-  city: string;
-  district: string;
-  street: string;
-  landmark: string;
-  phone: string;
-  payMethod: string;
 
   // UI state
   bouquetImage: string;
@@ -79,16 +73,10 @@ interface CustomBouquetBuilderState {
   setShowSuggestions: (value: boolean) => void;
   setNotes: (value: string) => void;
 
-  // Actions - delivery and payment
+  // Actions - delivery
   setDeliveryType: (value: DeliveryType) => void;
   setDeliveryDate: (value: string) => void;
   setDeliveryTime: (value: string) => void;
-  setCity: (value: string) => void;
-  setDistrict: (value: string) => void;
-  setStreet: (value: string) => void;
-  setLandmark: (value: string) => void;
-  setPhone: (value: string) => void;
-  setPayMethod: (value: string) => void;
 
   // Actions - UI state
   setBouquetImage: (value: string) => void;
@@ -122,16 +110,10 @@ export const useCustomBouquetBuilderStore = create<CustomBouquetBuilderState>()(
   showSuggestions: false,
   notes: "",
 
-  // Delivery and payment
+  // Delivery
   deliveryType: "today",
   deliveryDate: "",
   deliveryTime: "",
-  city: "",
-  district: "",
-  street: "",
-  landmark: "",
-  phone: "",
-  payMethod: "mada",
 
   // UI state
   bouquetImage: CUSTOM_BOUQUET_PREVIEW_IMAGE,
@@ -170,16 +152,10 @@ export const useCustomBouquetBuilderStore = create<CustomBouquetBuilderState>()(
   setShowSuggestions: (value) => set({ showSuggestions: value }),
   setNotes: (value) => set({ notes: value }),
 
-  // Actions - delivery and payment
+  // Actions - delivery
   setDeliveryType: (value) => set({ deliveryType: value }),
   setDeliveryDate: (value) => set({ deliveryDate: value }),
   setDeliveryTime: (value) => set({ deliveryTime: value }),
-  setCity: (value) => set({ city: value }),
-  setDistrict: (value) => set({ district: value }),
-  setStreet: (value) => set({ street: value }),
-  setLandmark: (value) => set({ landmark: value }),
-  setPhone: (value) => set({ phone: value }),
-  setPayMethod: (value) => set({ payMethod: value }),
 
   // Actions - UI state
   setBouquetImage: (value) => set({ bouquetImage: value }),
@@ -213,12 +189,6 @@ export const useCustomBouquetBuilderStore = create<CustomBouquetBuilderState>()(
       deliveryType: "today",
       deliveryDate: "",
       deliveryTime: "",
-      city: "",
-      district: "",
-      street: "",
-      landmark: "",
-      phone: "",
-      payMethod: "mada",
       bouquetImage: CUSTOM_BOUQUET_PREVIEW_IMAGE,
       searchQuery: "",
       isAddingToCart: false,

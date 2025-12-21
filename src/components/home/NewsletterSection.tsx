@@ -3,56 +3,49 @@
 import { useState } from "react";
 import { fontStyle } from "@/lib/styles";
 import { TIMEOUTS, NOTIFICATION_DURATION } from "@/constants";
+import { useHomePageStore } from "@/stores";
+import { newsletterSchema } from "@/validations/schemas/newsletterSchema";
 
 const NewsletterSection = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
+  const subscribeToNewsletter = useHomePageStore((state) => state.subscribeToNewsletter);
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isLoading) return;
 
     setError("");
     setIsSuccess(false);
 
-    // التحقق من صحة البريد الإلكتروني
-    if (!email.trim()) {
-      setError("يرجى إدخال بريدك الإلكتروني");
-      return;
-    }
+    // التحقق من صحة البريد الإلكتروني باستخدام Zod
+    const result = newsletterSchema.safeParse({ email });
 
-    if (!validateEmail(email)) {
-      setError("يرجى إدخال بريد إلكتروني صحيح");
+    if (!result.success) {
+      const firstError = result.error.issues[0];
+      setError(firstError.message);
       return;
     }
 
     setIsLoading(true);
-    setProgress(0);
+    setError("");
 
-    // محاكاة طلب اشتراك مع شريط تقدم
-    const interval = setInterval(() => {
-      setProgress((p) => {
-        const next = Math.min(100, p + Math.random() * 20 + 10);
-        return next;
-      });
-    }, TIMEOUTS.NEWSLETTER_PROGRESS_INTERVAL);
+    try {
+      const result = await subscribeToNewsletter(email);
 
-    setTimeout(() => {
-      clearInterval(interval);
-      setProgress(100);
+      if (result.success) {
+        setIsSuccess(true);
+        setEmail("");
+        setTimeout(() => setIsSuccess(false), TIMEOUTS.SUCCESS_MESSAGE_HIDE);
+      } else {
+        setError(result.error || "فشل الاشتراك في النشرة البريدية");
+      }
+    } catch (err) {
+      setError("حدث خطأ أثناء الاشتراك");
+    } finally {
       setIsLoading(false);
-      setIsSuccess(true);
-      setEmail("");
-      setTimeout(() => setIsSuccess(false), TIMEOUTS.SUCCESS_MESSAGE_HIDE);
-    }, TIMEOUTS.NEWSLETTER_COMPLETE);
+    }
   };
 
   return (

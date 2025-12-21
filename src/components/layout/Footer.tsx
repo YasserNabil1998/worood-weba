@@ -1,9 +1,18 @@
+"use client";
+
 import Link from "next/link";
 import { Instagram, Twitter, Facebook, MessageCircle } from "lucide-react";
 import { fontStyle } from "@/lib/styles";
 import { COLORS } from "@/constants";
+import { useFooterStore } from "@/stores";
+import { useEffect } from "react";
 
 const Footer = () => {
+  const fetchFooterData = useFooterStore((state) => state.fetchFooterData);
+
+  useEffect(() => {
+    fetchFooterData();
+  }, [fetchFooterData]);
   return (
     <footer className="text-white" style={{ backgroundColor: COLORS.PRIMARY_DARK }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">

@@ -6,82 +6,95 @@ import { useState, useEffect, useRef } from "react";
 import { ROUTES } from "@/constants/routes";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { INTERVALS } from "@/constants";
+import { useHomePageStore } from "@/stores";
 
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
-  const slides = [
-    {
-      image: "/assets/home/hero-home/hero-home.png",
-      title: "لأجمل لحظات الحياة",
-      description: "باقات مميزة صممت بعناية لتناسب جميع الأذواق والمناسبات الخاصة",
-      buttons: [
-        {
-          text: "تنسيق باقة خاصة",
-          href: ROUTES.CUSTOM,
-          type: "secondary", // أبيض
-        },
-        {
-          text: "تصفح الباقات",
-          href: ROUTES.BOUQUETS,
-          type: "primary", // أخضر
-        },
-      ],
-    },
-    {
-      image: "/images/hero/DIV-12.png",
-      title: "لأجمل لحظات الحياة",
-      description: "نقدم لكم أرقى تشكيلة من باقات الزهور المميزة والفريدة لجميع المناسبات",
-      buttons: [
-        {
-          text: "اطلب الآن",
-          href: ROUTES.CUSTOM,
-          type: "secondary",
-        },
-        {
-          text: "شاهد العروض",
-          href: ROUTES.BOUQUETS,
-          type: "primary",
-        },
-      ],
-    },
-    {
-      image: "/images/hero/DIV-13.png",
-      title: "زهور تفوق الخيال",
-      description: "نقدم لكم أرقى تشكيلة من باقات الزهور المميزة والفريدة لجميع المناسبات",
-      buttons: [
-        {
-          text: "تنسيق باقة خاصة",
-          href: ROUTES.CUSTOM,
-          type: "secondary",
-        },
-        {
-          text: "تصفح الباقات",
-          href: ROUTES.BOUQUETS,
-          type: "primary",
-        },
-      ],
-    },
-    {
-      image: "/images/hero/DIV-14.png",
-      title: "يوم القهوة... يوم البهجة",
-      description: "نقدم لكم أرقى تشكيلة من باقات الزهور المميزة والفريدة لجميع المناسبات",
-      buttons: [
-        {
-          text: "تنسيق باقة خاصة",
-          href: ROUTES.CUSTOM,
-          type: "secondary",
-        },
-        {
-          text: "تصفح الباقات",
-          href: ROUTES.BOUQUETS,
-          type: "primary",
-        },
-      ],
-    },
-  ];
+  const hero = useHomePageStore((state) => state.hero);
+  const fetchHomePageData = useHomePageStore((state) => state.fetchHomePageData);
+
+  // Fetch hero data on mount
+  useEffect(() => {
+    fetchHomePageData();
+  }, [fetchHomePageData]);
+
+  // Use hero data from store, fallback to default slides if empty
+  const slides =
+    hero.length > 0
+      ? hero
+      : [
+          // {
+          //   image: "/assets/home/hero-home/hero-home.png",
+          //   title: "لأجمل لحظات الحياة",
+          //   description: "باقات مميزة صممت بعناية لتناسب جميع الأذواق والمناسبات الخاصة",
+          //   buttons: [
+          //     {
+          //       text: "تنسيق باقة خاصة",
+          //       href: ROUTES.CUSTOM,
+          //       type: "secondary", // أبيض
+          //     },
+          //     {
+          //       text: "تصفح الباقات",
+          //       href: ROUTES.BOUQUETS,
+          //       type: "primary", // أخضر
+          //     },
+          //   ],
+          // },
+          {
+            image: "/images/hero/DIV-12.png",
+            title: "لأجمل لحظات الحياة",
+            description: "نقدم لكم أرقى تشكيلة من باقات الزهور المميزة والفريدة لجميع المناسبات",
+            buttons: [
+              {
+                text: "اطلب الآن",
+                href: ROUTES.CUSTOM,
+                type: "secondary",
+              },
+              {
+                text: "شاهد العروض",
+                href: ROUTES.BOUQUETS,
+                type: "primary",
+              },
+            ],
+          },
+          {
+            image: "/images/hero/DIV-13.png",
+            title: "زهور تفوق الخيال",
+            description: "نقدم لكم أرقى تشكيلة من باقات الزهور المميزة والفريدة لجميع المناسبات",
+            buttons: [
+              {
+                text: "تنسيق باقة خاصة",
+                href: ROUTES.CUSTOM,
+                type: "secondary",
+              },
+              {
+                text: "تصفح الباقات",
+                href: ROUTES.BOUQUETS,
+                type: "primary",
+              },
+            ],
+          },
+          {
+            image: "/images/hero/DIV-14.png",
+            title: "يوم القهوة... يوم البهجة",
+            description: "نقدم لكم أرقى تشكيلة من باقات الزهور المميزة والفريدة لجميع المناسبات",
+            buttons: [
+              {
+                text: "تنسيق باقة خاصة",
+                href: ROUTES.CUSTOM,
+                type: "secondary",
+              },
+              {
+                text: "تصفح الباقات",
+                href: ROUTES.BOUQUETS,
+                type: "primary",
+              },
+            ],
+          },
+        ];
 
   // Auto slide every 4 seconds
   useEffect(() => {

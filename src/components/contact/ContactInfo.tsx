@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import { ContactInfoProps } from "@/types/contact";
 import { SocialMedia } from "@/types/contact";
 import { fontStyle } from "@/lib/styles";
+import { useContactStore } from "@/stores";
 
 // WhatsApp SVG Icon Component
 const WhatsAppIcon = () => (
@@ -59,7 +61,50 @@ interface ContactInfoWithSocialProps extends ContactInfoProps {
   socialMedia?: SocialMedia;
 }
 
-export default function ContactInfo({ data, socialMedia }: ContactInfoWithSocialProps) {
+export default function ContactInfo({
+  data: propData,
+  socialMedia: propSocialMedia,
+}: ContactInfoWithSocialProps) {
+  const contactInfo = useContactStore((state) => state.contactInfo);
+  const fetchContactInfo = useContactStore((state) => state.fetchContactInfo);
+
+  useEffect(() => {
+    fetchContactInfo();
+  }, [fetchContactInfo]);
+
+  // Use store data if available, otherwise use props
+  const data =
+    propData ||
+    (contactInfo
+      ? {
+          title: "معلومات التواصل",
+          items: [
+            { label: "العنوان", content: contactInfo.address || "", isLink: false },
+            { label: "الهاتف", content: contactInfo.phone || "", isLink: true, linkType: "tel" },
+            {
+              label: "البريد الإلكتروني",
+              content: contactInfo.email || "",
+              isLink: true,
+              linkType: "mailto",
+            },
+            { label: "ساعات العمل", content: contactInfo.workingHours || "", isLink: false },
+          ],
+        }
+      : propData);
+
+  const socialMedia: SocialMedia =
+    propSocialMedia ||
+    (contactInfo?.socialMedia
+      ? {
+          title: "تابعنا على",
+          links: contactInfo.socialMedia.map((sm) => ({
+            platform: sm.name.toLowerCase() as "facebook" | "twitter" | "instagram" | "whatsapp",
+            url: sm.href,
+            title: sm.name,
+          })),
+        }
+      : propSocialMedia || { title: "تابعنا على", links: [] });
+
   const formatContent = (content: string, isLink: boolean, linkType?: string) => {
     const lines = content.split("\n").filter((line) => line.trim());
 
@@ -89,7 +134,10 @@ export default function ContactInfo({ data, socialMedia }: ContactInfoWithSocial
   };
 
   return (
-    <aside className="bg-white rounded-[20px] min-h-[726px] p-4 sm:p-5 lg:p-6 relative order-2 lg:order-2" style={fontStyle}>
+    <aside
+      className="bg-white rounded-[20px] min-h-[726px] p-4 sm:p-5 lg:p-6 relative order-2 lg:order-2"
+      style={fontStyle}
+    >
       {/* Title */}
       <h3 className="text-[21px] sm:text-[22px] lg:text-[19px] font-bold text-black mb-8 sm:mb-10 lg:mb-12 text-right">
         {data.title}

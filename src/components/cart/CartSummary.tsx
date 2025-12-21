@@ -8,8 +8,8 @@ import { AlertTriangle } from "lucide-react";
 import { CartTotals } from "@/types/cart";
 import { CartItem } from "@/types/cart";
 import { CART_MESSAGES, CART_ROUTES } from "@/constants/cart";
-import { APP_CONFIG, STORAGE_KEYS } from "@/constants";
-import { storage } from "@/lib/utils";
+import { APP_CONFIG } from "@/constants";
+import { useCheckoutStore } from "@/stores";
 import { fontStyle } from "@/lib/styles";
 
 interface CartSummaryProps {
@@ -20,10 +20,11 @@ interface CartSummaryProps {
 
 export default function CartSummary({ totals, totalItems, selectedItems }: CartSummaryProps) {
   const { subtotal, vat, total, itemsCount, totalItemsCount } = totals;
+  const setCheckoutItems = useCheckoutStore((state) => state.setCheckoutItems);
 
   const handleProceedToCheckout = () => {
     // حفظ المنتجات المختارة فقط للـ checkout
-    storage.set(STORAGE_KEYS.CHECKOUT_ITEMS, selectedItems);
+    setCheckoutItems(selectedItems);
   };
 
   return (

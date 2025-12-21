@@ -9,12 +9,10 @@ import { useNotification } from "@/providers/notification-provider";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { useDataLoading } from "./useDataLoading";
 import type { CartItem } from "@/types/cart";
-import { STORAGE_KEYS } from "@/constants";
-import { storage } from "@/lib/utils";
 import { CART_ROUTES } from "@/constants/cart";
 import { handleAndLogError } from "@/lib/errors";
 import { ErrorCode } from "@/lib/errors/errorTypes";
-import { useCartStore } from "@/stores";
+import { useCartStore, useProductStore, type EditItemData } from "@/stores";
 
 interface ProductOptions {
   selectedSize: string;
@@ -26,20 +24,8 @@ interface ProductOptions {
   quantity: number;
 }
 
-interface ReadyMadeEditData {
-  id: number;
-  uniqueKey?: string;
-  size?: string;
-  color?: string;
-  colorValue?: string;
-  colorHex?: string;
-  colorLabel?: string;
-  addCard?: boolean;
-  cardMessage?: string;
-  addChocolate?: boolean;
-  giftWrap?: boolean;
-  quantity?: number;
-}
+// Use EditItemData from productStore
+type ReadyMadeEditData = EditItemData;
 
 export function useProductDetails(productId: string) {
   const [product, setProduct] = useState<Product | null>(null);
@@ -51,6 +37,15 @@ export function useProductDetails(productId: string) {
   const searchParams = useSearchParams();
   const cartItems = useCartStore((state) => state.items);
   const setCartItems = useCartStore((state) => state.setItems);
+
+  // Use product store
+  const storeProduct = useProductStore((state) => state.productData);
+  const fetchProduct = useProductStore((state) => state.fetchProduct);
+  const fetchProductOptions = useProductStore((state) => state.fetchProductOptions);
+  const editItemId = useProductStore((state) => state.editItemId);
+  const editItemData = useProductStore((state) => state.editItemData);
+  const setEditItem = useProductStore((state) => state.setEditItem);
+  const clearEditItem = useProductStore((state) => state.clearEditItem);
 
   // Product options state
   const [options, setOptions] = useState<ProductOptions>({
@@ -68,35 +63,52 @@ export function useProductDetails(productId: string) {
 
   // Fetch product data
   useEffect(() => {
-    async function fetchProduct() {
+    async function loadProduct() {
       await withLoading(async () => {
         try {
-          const res = await fetch(`https://dummyjson.com/products/${productId}`);
-          const data = await res.json();
+          await fetchProduct(productId);
+          await fetchProductOptions(productId);
 
-          // تحويل البيانات من API إلى صيغة المنتج
-          const mainImage =
-            PRODUCT_DATA.bouquetImages[parseInt(productId) % PRODUCT_DATA.bouquetImages.length];
-          const product: Product = {
-            id: data.id || parseInt(productId) || 0,
-            title: data.title || "منتج غير محدد",
-            price: Math.round((data.price || 0) * PRODUCT_DATA.priceMultiplier),
-            image: mainImage,
-            images: [
-              mainImage,
-              PRODUCT_DATA.productImages[parseInt(productId) % PRODUCT_DATA.productImages.length],
-              PRODUCT_DATA.productImages[
-                (parseInt(productId) + 1) % PRODUCT_DATA.productImages.length
-              ],
-              PRODUCT_DATA.productImages[
-                (parseInt(productId) + 2) % PRODUCT_DATA.productImages.length
-              ],
-            ],
-            description: PRODUCT_DATA.defaultDescription,
-            currency: PRODUCT_DATA.currency,
-          };
+          // Convert store product to Product type if available
+          if (storeProduct) {
+            const product: Product = {
+              id: typeof storeProduct.id === "number" ? storeProduct.id : Number(storeProduct.id),
+              title: storeProduct.title,
+              price: storeProduct.price,
+              image: storeProduct.images[0] || "",
+              images: storeProduct.images,
+              description: storeProduct.description || "",
+              currency: storeProduct.currency || PRODUCT_DATA.currency,
+            };
+            setProduct(product);
+          } else {
+            // Fallback to old method if store doesn't have data
+            const res = await fetch(`https://dummyjson.com/products/${productId}`);
+            const data = await res.json();
 
-          setProduct(product);
+            const mainImage =
+              PRODUCT_DATA.bouquetImages[parseInt(productId) % PRODUCT_DATA.bouquetImages.length];
+            const product: Product = {
+              id: data.id || parseInt(productId) || 0,
+              title: data.title || "منتج غير محدد",
+              price: Math.round((data.price || 0) * PRODUCT_DATA.priceMultiplier),
+              image: mainImage,
+              images: [
+                mainImage,
+                PRODUCT_DATA.productImages[parseInt(productId) % PRODUCT_DATA.productImages.length],
+                PRODUCT_DATA.productImages[
+                  (parseInt(productId) + 1) % PRODUCT_DATA.productImages.length
+                ],
+                PRODUCT_DATA.productImages[
+                  (parseInt(productId) + 2) % PRODUCT_DATA.productImages.length
+                ],
+              ],
+              description: PRODUCT_DATA.defaultDescription,
+              currency: PRODUCT_DATA.currency,
+            };
+
+            setProduct(product);
+          }
         } catch (error) {
           handleAndLogError(error, "Error fetching product", ErrorCode.PRODUCT_LOAD_ERROR, {
             productId,
@@ -106,38 +118,34 @@ export function useProductDetails(productId: string) {
     }
 
     if (productId) {
-      fetchProduct();
+      loadProduct();
     }
-  }, [productId, withLoading]);
+  }, [productId, withLoading, fetchProduct, fetchProductOptions, storeProduct]);
 
   useEffect(() => {
     if (!product) return;
     if (editInitializedRef.current) return;
     if (searchParams?.get("edit") !== "true") return;
 
-    const storedEditData = storage.get<ReadyMadeEditData | null>(STORAGE_KEYS.EDIT_ITEM_DATA, null);
-    const storedKey = storage.get<string | null>(STORAGE_KEYS.EDIT_ITEM_ID, null);
-
-    if (storedEditData && storedKey && Number(storedEditData.id) === Number(product.id)) {
+    if (editItemData && editItemId && Number(editItemData.id) === Number(product.id)) {
       setOptions({
-        selectedSize: storedEditData.size || "medium",
+        selectedSize: editItemData.size || "medium",
         color:
-          storedEditData.colorValue ||
-          storedEditData.color ||
+          editItemData.colorValue ||
+          editItemData.color ||
           PRODUCT_DATA.colors?.[0]?.value ||
           "classic",
-        addCard: storedEditData.addCard ?? false,
-        cardMessage: storedEditData.cardMessage || "",
-        addChocolate: storedEditData.addChocolate ?? false,
-        giftWrap: storedEditData.giftWrap ?? false,
-        quantity:
-          storedEditData.quantity && storedEditData.quantity > 0 ? storedEditData.quantity : 1,
+        addCard: editItemData.addCard ?? false,
+        cardMessage: editItemData.cardMessage || "",
+        addChocolate: editItemData.addChocolate ?? false,
+        giftWrap: editItemData.giftWrap ?? false,
+        quantity: editItemData.quantity && editItemData.quantity > 0 ? editItemData.quantity : 1,
       });
       setIsEditMode(true);
-      setEditingKey(storedKey);
+      setEditingKey(editItemId);
     }
     editInitializedRef.current = true;
-  }, [product, searchParams]);
+  }, [product, searchParams, editItemData, editItemId]);
 
   // Calculate total price
   const getTotalPrice = () => {
@@ -257,8 +265,7 @@ export function useProductDetails(productId: string) {
             }
 
             setCartItems(newCart);
-            storage.remove(STORAGE_KEYS.EDIT_ITEM_ID);
-            storage.remove(STORAGE_KEYS.EDIT_ITEM_DATA);
+            clearEditItem();
             showNotification("تم تحديث المنتج في السلة", "success");
             setIsEditMode(false);
             setEditingKey(null);
@@ -266,8 +273,7 @@ export function useProductDetails(productId: string) {
             return;
           }
 
-          storage.remove(STORAGE_KEYS.EDIT_ITEM_ID);
-          storage.remove(STORAGE_KEYS.EDIT_ITEM_DATA);
+          clearEditItem();
           setIsEditMode(false);
           setEditingKey(null);
         }

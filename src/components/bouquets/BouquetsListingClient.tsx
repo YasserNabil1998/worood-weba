@@ -11,6 +11,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import { fontStyle } from "@/lib/styles";
 import { TIMEOUTS } from "@/constants";
 import AOSWrapper from "@/components/common/AOSWrapper";
+import { useBouquetsStore } from "@/stores";
 
 // FilterSection was removed as it was unused
 
@@ -87,10 +88,10 @@ function useBouquetListing(
 }
 
 export default function BouquetsListingClient({
-  items,
+  items: propItems,
   pageSize = 9,
 }: {
-  items: BouquetItem[];
+  items?: BouquetItem[];
   pageSize?: number;
 }) {
   const searchParams = useSearchParams();
@@ -105,6 +106,35 @@ export default function BouquetsListingClient({
 
   const [shouldOpenOccasionFilter, setShouldOpenOccasionFilter] = useState<boolean>(false);
   const [shouldOpenTypeFilter, setShouldOpenTypeFilter] = useState<boolean>(false);
+
+  // Use store data
+  const bouquets = useBouquetsStore((state) => state.bouquets);
+  const filteredBouquets = useBouquetsStore((state) => state.filteredBouquets);
+  const fetchBouquets = useBouquetsStore((state) => state.fetchBouquets);
+  const fetchFilters = useBouquetsStore((state) => state.fetchFilters);
+  const fetchFilteredBouquets = useBouquetsStore((state) => state.fetchFilteredBouquets);
+  const resetFilters = useBouquetsStore((state) => state.resetFilters);
+
+  // Use prop items if provided, otherwise use store bouquets
+  const items = propItems || bouquets;
+
+  // Fetch data on mount
+  useEffect(() => {
+    fetchBouquets();
+    fetchFilters();
+  }, [fetchBouquets, fetchFilters]);
+
+  // Fetch filtered bouquets when filters change
+  useEffect(() => {
+    if (priceRange !== "all" || occasion !== "all" || color !== "all" || type !== "all") {
+      fetchFilteredBouquets({
+        priceRange: priceRange !== "all" ? priceRange : undefined,
+        occasion: occasion !== "all" ? occasion : undefined,
+        color: color !== "all" ? color : undefined,
+        type: type !== "all" ? type : undefined,
+      });
+    }
+  }, [priceRange, occasion, color, type, fetchFilteredBouquets]);
 
   // Read query parameters from URL and apply filters
   useEffect(() => {
@@ -145,7 +175,10 @@ export default function BouquetsListingClient({
 
   // Removed outside click-to-close behavior; panel toggles only via header button or close icon
 
-  const { sorted, current, totalPages } = useBouquetListing(items, {
+  // Use filtered bouquets from store if available, otherwise use items
+  const itemsToDisplay = filteredBouquets.length > 0 ? filteredBouquets : items;
+
+  const { sorted, current, totalPages } = useBouquetListing(itemsToDisplay, {
     priceRange,
     occasion,
     color,
@@ -155,18 +188,22 @@ export default function BouquetsListingClient({
     pageSize,
   });
 
-  const reset = () => {
+  const reset = async () => {
     setPriceRange("all");
     setOccasion("all");
     setColor("all");
     setType("all");
     setPage(1);
+    await resetFilters();
   };
 
   return (
     <div className="space-y-6" dir="rtl">
       <ToggleButton isFiltersOpen={isFiltersOpen} setIsFiltersOpen={setIsFiltersOpen} />
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:items-start" style={{ transform: 'none' }}>
+      <div
+        className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:items-start"
+        style={{ transform: "none" }}
+      >
         <Sidebar
           isFiltersOpen={isFiltersOpen}
           setIsFiltersOpen={setIsFiltersOpen}
@@ -255,10 +292,16 @@ export default function BouquetsListingClient({
                 <div className="w-24 h-24 mx-auto bg-gradient-to-br from-[#F5F1E8] to-[#E8E2D5] rounded-full flex items-center justify-center mb-4">
                   <Heart className="w-12 h-12 text-[#5A5E4D]" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2 font-[var(--font-almarai)]">
+                <h3
+                  className="text-xl font-bold text-gray-800 mb-2"
+                  style={{ fontFamily: "var(--font-almarai)" }}
+                >
                   لم نجد باقات تطابق بحثك
                 </h3>
-                <p className="text-gray-600 mb-6 max-w-md font-[var(--font-almarai)]">
+                <p
+                  className="text-gray-600 mb-6 max-w-md"
+                  style={{ fontFamily: "var(--font-almarai)" }}
+                >
                   جرب تعديل الفلاتر أو البحث عن مناسبة أخرى
                 </p>
               </div>
@@ -266,13 +309,15 @@ export default function BouquetsListingClient({
               <div className="flex flex-col sm:flex-row gap-3 mb-6">
                 <button
                   onClick={reset}
-                  className="px-6 py-3 bg-[#5A5E4D] text-white rounded-lg font-medium hover:bg-[#4A4E3D] transition-colors duration-200 font-[var(--font-almarai)]"
+                  className="px-6 py-3 bg-[#5A5E4D] text-white rounded-lg font-medium hover:bg-[#4A4E3D] transition-colors duration-200"
+                  style={{ fontFamily: "var(--font-almarai)" }}
                 >
                   إعادة ضبط الفلاتر
                 </button>
                 <button
                   onClick={reset}
-                  className="px-6 py-3 border border-[#5A5E4D] text-[#5A5E4D] rounded-lg font-medium hover:bg-[#5A5E4D] hover:text-white transition-colors duration-200 font-[var(--font-almarai)]"
+                  className="px-6 py-3 border border-[#5A5E4D] text-[#5A5E4D] rounded-lg font-medium hover:bg-[#5A5E4D] hover:text-white transition-colors duration-200"
+                  style={{ fontFamily: "var(--font-almarai)" }}
                 >
                   عرض جميع الباقات
                 </button>
@@ -297,7 +342,8 @@ export default function BouquetsListingClient({
                         setColor("all");
                         setPage(1);
                       }}
-                      className="px-3 py-1 text-xs bg-gray-100 hover:bg-[#5A5E4D] hover:text-white rounded-full transition-colors duration-200 font-[var(--font-almarai)]"
+                      className="px-3 py-1 text-xs bg-gray-100 hover:bg-[#5A5E4D] hover:text-white rounded-full transition-colors duration-200"
+                      style={{ fontFamily: "var(--font-almarai)" }}
                     >
                       {label}
                     </button>
@@ -443,4 +489,3 @@ function Pagination({
     </div>
   );
 }
-

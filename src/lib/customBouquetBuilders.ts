@@ -30,12 +30,6 @@ export interface CustomBouquetInput {
   notes: string;
   deliveryDate: string;
   deliveryTime: string;
-  city: string;
-  district: string;
-  street: string;
-  landmark: string;
-  phone: string;
-  payMethod: string;
   bouquetImage: string;
   totalFlowersCount: number;
   subtotal: number;
@@ -50,7 +44,6 @@ export interface BouquetDataSources {
   vases: Vase[];
   occasions: Occasion[];
   deliveryTimes: DeliveryTime[];
-  paymentMethods: CustomPaymentMethod[];
   config: Config;
 }
 
@@ -130,28 +123,12 @@ export function buildPackagingData(
 export function buildDeliveryInfo(
   deliveryDate: string,
   deliveryTime: string,
-  city: string,
-  district: string,
-  street: string,
-  landmark: string,
-  phone: string,
-  payMethod: string,
-  deliveryTimes: DeliveryTime[],
-  paymentMethods: CustomPaymentMethod[]
+  deliveryTimes: DeliveryTime[]
 ): CustomBouquetData["deliveryInfo"] {
   return {
     date: deliveryDate,
     time: deliveryTime,
     timeLabel: deliveryTimes.find((t) => t.value === deliveryTime)?.label || "",
-    address: {
-      city,
-      district,
-      street,
-      landmark,
-    },
-    phone,
-    paymentMethod: payMethod,
-    paymentMethodLabel: paymentMethods.find((p) => p.key === payMethod)?.label || "",
   };
 }
 
@@ -189,14 +166,7 @@ export function buildCustomData(
   const deliveryInfo = buildDeliveryInfo(
     input.deliveryDate,
     input.deliveryTime,
-    input.city,
-    input.district,
-    input.street,
-    input.landmark,
-    input.phone,
-    input.payMethod,
-    sources.deliveryTimes,
-    sources.paymentMethods
+    sources.deliveryTimes
   );
 
   return {

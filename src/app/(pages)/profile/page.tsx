@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useMemo } from "react";
 import profileData from "./profile-data.json";
 import type { UserData } from "@/types/profile";
 import { useProfile } from "@/hooks/useProfile";
@@ -9,11 +10,9 @@ import OccasionsSection from "@/components/profile/OccasionsSection";
 import SupportSection from "@/components/profile/SupportSection";
 import OrdersSection from "@/components/profile/OrdersSection";
 import FavoritesSection from "@/components/profile/FavoritesSection";
-import { logDebug } from "@/lib/logger";
+import { useProfileStore } from "@/stores";
 
 const initialUserData: UserData = profileData.userData;
-const occasions = profileData.occasions || [];
-const supportContent = profileData.supportContent || { title: "الدعم والمساعدة", faqs: [] };
 
 export default function ProfilePage() {
   const {
@@ -30,14 +29,48 @@ export default function ProfilePage() {
     isValidSaudiPhone,
   } = useProfile(initialUserData);
 
-  const handleAddOccasion = () => {
-    // Functionality will be implemented when occasion management feature is added
-    logDebug("Add occasion");
+  // Use store data for occasions and support
+  const userOccasions = useProfileStore((state) => state.userOccasions);
+  const supportData = useProfileStore((state) => state.supportData);
+  const fetchUserOccasions = useProfileStore((state) => state.fetchUserOccasions);
+  const fetchSupportData = useProfileStore((state) => state.fetchSupportData);
+  const fetchOccasionTypes = useProfileStore((state) => state.fetchOccasionTypes);
+
+  useEffect(() => {
+    fetchUserOccasions();
+    fetchSupportData();
+    fetchOccasionTypes();
+  }, [fetchUserOccasions, fetchSupportData, fetchOccasionTypes]);
+
+  // Convert store occasions to component format
+  // Use useMemo to prevent creating new array on every render
+  const occasions = useMemo(() => {
+    return userOccasions.map(occ => ({
+      id: occ.id,
+      name: occ.name,
+      date: occ.date,
+      type: occ.type || "مناسبة",
+      icon: "🎉",
+      reminder: occ.reminder,
+    }));
+  }, [userOccasions]);
+
+  const supportContent = supportData ? {
+    title: supportData.title,
+    faqs: supportData.faqs.map(faq => ({
+      question: faq.question,
+      answer: Array.isArray(faq.answer) ? faq.answer : [faq.answer],
+    })),
+  } : { title: "الدعم والمساعدة", faqs: [] };
+
+  const handleAddOccasion = async () => {
+    // TODO: Open a modal to add occasion
+    // This will be implemented when the modal component is ready
   };
 
-  const handleEditOccasion = (id: string) => {
-    // Functionality will be implemented when occasion management feature is added
-    logDebug("Edit occasion", { occasionId: id });
+  const handleEditOccasion = async (id: string) => {
+    // TODO: Open a modal to edit occasion
+    // This will be implemented when the modal component is ready
   };
 
   return (

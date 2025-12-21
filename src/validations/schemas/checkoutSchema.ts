@@ -1,36 +1,68 @@
 import { z } from "zod";
+import { saudiPhoneSchema } from "./saudiPhoneSchema";
 
 /**
  * Zod Schema للتحقق من صحة نموذج الدفع
  */
+export const addressSchema = z.object({
+  recipientName: z
+    .string()
+    .min(1, "هذا الحقل مطلوب")
+    .min(2, "يجب أن يكون النص 2 أحرف على الأقل")
+    .trim(),
+
+  street: z
+    .string()
+    .min(1, "هذا الحقل مطلوب")
+    .min(5, "يجب أن يكون النص 5 أحرف على الأقل")
+    .trim(),
+
+  phone: saudiPhoneSchema,
+
+  // الحقول الاختيارية - إذا كانت موجودة يجب أن تكون على الأقل حرفين
+  city: z
+    .string()
+    .refine(
+      (val) => {
+        if (!val || val.trim().length === 0) return true;
+        return val.trim().length >= 2;
+      },
+      {
+        message: "يجب أن يكون النص 2 أحرف على الأقل",
+      }
+    )
+    .optional(),
+
+  district: z
+    .string()
+    .refine(
+      (val) => {
+        if (!val || val.trim().length === 0) return true;
+        return val.trim().length >= 2;
+      },
+      {
+        message: "يجب أن يكون النص 2 أحرف على الأقل",
+      }
+    )
+    .optional(),
+
+  landmark: z
+    .string()
+    .refine(
+      (val) => {
+        if (!val || val.trim().length === 0) return true;
+        return val.trim().length >= 2;
+      },
+      {
+        message: "يجب أن يكون النص 2 أحرف على الأقل",
+      }
+    )
+    .optional(),
+});
+
 export const checkoutSchema = z.object({
   // بيانات العنوان
-  address: z.object({
-    city: z
-      .string()
-      .min(1, "المدينة مطلوبة")
-      .min(2, "يجب أن يكون اسم المدينة حرفين على الأقل")
-      .max(50, "يجب أن يكون اسم المدينة 50 حرف على الأكثر"),
-
-    district: z
-      .string()
-      .min(1, "الحي مطلوب")
-      .min(2, "يجب أن يكون اسم الحي حرفين على الأقل")
-      .max(50, "يجب أن يكون اسم الحي 50 حرف على الأكثر"),
-
-    street: z
-      .string()
-      .min(1, "الشارع مطلوب")
-      .min(5, "يجب أن يكون اسم الشارع 5 أحرف على الأقل")
-      .max(100, "يجب أن يكون اسم الشارع 100 حرف على الأكثر"),
-
-    phone: z
-      .string()
-      .min(1, "رقم الهاتف مطلوب")
-      .regex(/^(05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/, "رقم الهاتف غير صحيح"),
-
-    landmark: z.string().optional(),
-  }),
+  address: addressSchema,
 
   // ملاحظات إضافية
   notes: z.string().max(500, "يجب أن تكون الملاحظات 500 حرف على الأكثر").optional(),

@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { useCartStore } from "@/stores";
+import { useCartStore, useProductStore } from "@/stores";
 import {
   calculateCartTotals,
   getUnselectedCount,
@@ -10,8 +10,6 @@ import {
   getItemId,
   createCustomBouquetEditData,
 } from "@/lib/utils/cart";
-import { storage } from "@/lib/utils";
-import { STORAGE_KEYS } from "@/constants";
 import { CART_ROUTES } from "@/constants/cart";
 import { handleAndLogError } from "@/lib/errors";
 import { ErrorCode } from "@/lib/errors/errorTypes";
@@ -68,8 +66,10 @@ export default function CartPage() {
   const editItem = useCallback(
     (item: CartItemType) => {
       try {
+        const setEditItem = useProductStore.getState().setEditItem;
+
         if (item.isCustom && item.customData) {
-          storage.set(STORAGE_KEYS.EDIT_ITEM_ID, item.id.toString());
+          setEditItem(item.id.toString(), null);
 
           const editData = createCustomBouquetEditData(item);
           const encodedData = encodeURIComponent(JSON.stringify(editData));
@@ -82,8 +82,7 @@ export default function CartPage() {
           throw new Error("Item identifier is missing");
         }
 
-        storage.set(STORAGE_KEYS.EDIT_ITEM_ID, itemIdentifier);
-        storage.set(STORAGE_KEYS.EDIT_ITEM_DATA, {
+        setEditItem(itemIdentifier, {
           id: item.id,
           uniqueKey: item.uniqueKey,
           size: item.size,

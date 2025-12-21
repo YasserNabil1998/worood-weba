@@ -18,12 +18,6 @@ interface UseDesignFromUrlProps {
   setSelectedVase: (vase: string) => void;
   setDeliveryDate: (date: string) => void;
   setDeliveryTime: (time: string) => void;
-  setCity: (city: string) => void;
-  setDistrict: (district: string) => void;
-  setStreet: (street: string) => void;
-  setLandmark: (landmark: string) => void;
-  setPhone: (phone: string) => void;
-  setPayMethod: (method: string) => void;
   setBouquetImage: (image: string) => void;
 }
 
@@ -40,12 +34,6 @@ export function useDesignFromUrl({
   setSelectedVase,
   setDeliveryDate,
   setDeliveryTime,
-  setCity,
-  setDistrict,
-  setStreet,
-  setLandmark,
-  setPhone,
-  setPayMethod,
   setBouquetImage,
 }: UseDesignFromUrlProps) {
   const searchParams = useSearchParams();
@@ -106,24 +94,6 @@ export function useDesignFromUrl({
         if (design.deliveryTime) {
           setDeliveryTime(design.deliveryTime);
         }
-        if (design.city) {
-          setCity(design.city);
-        }
-        if (design.district) {
-          setDistrict(design.district);
-        }
-        if (design.street) {
-          setStreet(design.street);
-        }
-        if (design.landmark) {
-          setLandmark(design.landmark);
-        }
-        if (design.phone) {
-          setPhone(design.phone);
-        }
-        if (design.payMethod) {
-          setPayMethod(design.payMethod);
-        }
 
         if (design.image) {
           setBouquetImage(design.image);
@@ -146,12 +116,6 @@ export function useDesignFromUrl({
     setSelectedVase,
     setDeliveryDate,
     setDeliveryTime,
-    setCity,
-    setDistrict,
-    setStreet,
-    setLandmark,
-    setPhone,
-    setPayMethod,
     setBouquetImage,
   ]);
 }

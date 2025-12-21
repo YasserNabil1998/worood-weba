@@ -1,66 +1,67 @@
 /**
- * التحقق من رقم الهاتف السعودي - مرن ومتعدد الصيغ
+ * التحقق من رقم الهاتف السعودي باستخدام Zod
  * يدعم الصيغ التالية:
  * - 05xxxxxxxx
  * - 5xxxxxxxx
  * - +9665xxxxxxxx
  * - 9665xxxxxxxx
  * - 009665xxxxxxxx
+ *
+ * @param phone - رقم الهاتف للتحقق منه
+ * @returns true إذا كان الرقم صحيحاً، false إذا كان غير صحيح
+ *
+ * @example
+ * ```ts
+ * isValidSaudiPhone("0501234567"); // true
+ * isValidSaudiPhone("+966501234567"); // true
+ * isValidSaudiPhone("1234567890"); // false
+ * ```
+ *
+ * @deprecated استخدم saudiPhoneSchema من @/validations/schemas/saudiPhoneSchema بدلاً من ذلك
+ * هذه الدالة موجودة للتوافق مع الكود القديم فقط
  */
+import { saudiPhoneSchema } from "./schemas/saudiPhoneSchema";
+
 export default function isValidSaudiPhone(phone: string): boolean {
-  if (!phone || typeof phone !== "string") {
-    return false;
-  }
-
-  // تنظيف الرقم من المسافات والرموز
-  const cleanPhone = phone.replace(/[\s\-().]/g, "");
-
-  // التحقق من الصيغ المختلفة
-  const patterns = [
-    // الصيغة الأساسية: 05xxxxxxxx
-    /^05(5|0|3|6|4|9|1|8|7)[0-9]{7}$/,
-
-    // الصيغة بدون صفر: 5xxxxxxxx
-    /^5(5|0|3|6|4|9|1|8|7)[0-9]{7}$/,
-
-    // الصيغة الدولية: +9665xxxxxxxx
-    /^\+9665(5|0|3|6|4|9|1|8|7)[0-9]{7}$/,
-
-    // الصيغة الدولية بدون +: 9665xxxxxxxx
-    /^9665(5|0|3|6|4|9|1|8|7)[0-9]{7}$/,
-
-    // الصيغة الدولية مع 00: 009665xxxxxxxx
-    /^009665(5|0|3|6|4|9|1|8|7)[0-9]{7}$/,
-  ];
-
-  return patterns.some((pattern) => pattern.test(cleanPhone));
+  return saudiPhoneSchema.safeParse(phone).success;
 }
 
 /**
- * تحويل رقم الهاتف إلى الصيغة الموحدة (05xxxxxxxx)
+ * تحويل رقم الهاتف السعودي إلى الصيغة الموحدة (05xxxxxxxx)
+ *
+ * @param phone - رقم الهاتف للتحويل
+ * @returns رقم الهاتف بالصيغة الموحدة (05xxxxxxxx) أو string فارغ إذا كان الرقم غير صحيح
+ *
+ * @example
+ * ```ts
+ * normalizeSaudiPhone("+966501234567"); // "0501234567"
+ * normalizeSaudiPhone("501234567"); // "0501234567"
+ * normalizeSaudiPhone("0501234567"); // "0501234567"
+ * normalizeSaudiPhone("invalid"); // ""
+ * ```
  */
 export function normalizeSaudiPhone(phone: string): string {
   if (!phone || typeof phone !== "string") {
     return "";
   }
 
-  // تنظيف الرقم
   const cleanPhone = phone.replace(/[\s\-().]/g, "");
 
-  // استخراج الرقم الأساسي
-  let normalizedPhone = "";
-
   if (cleanPhone.startsWith("+9665")) {
-    normalizedPhone = "0" + cleanPhone.substring(4);
-  } else if (cleanPhone.startsWith("9665")) {
-    normalizedPhone = "0" + cleanPhone.substring(3);
-  } else if (cleanPhone.startsWith("009665")) {
-    normalizedPhone = "0" + cleanPhone.substring(5);
-  } else if (cleanPhone.startsWith("5")) {
-    normalizedPhone = "0" + cleanPhone;
-  } else if (cleanPhone.startsWith("05")) {
-    normalizedPhone = cleanPhone;
+    return "0" + cleanPhone.substring(4);
+  }
+  if (cleanPhone.startsWith("9665")) {
+    return "0" + cleanPhone.substring(3);
+  }
+  if (cleanPhone.startsWith("009665")) {
+    return "0" + cleanPhone.substring(5);
+  }
+  if (cleanPhone.startsWith("5")) {
+    return "0" + cleanPhone;
+  }
+  if (cleanPhone.startsWith("05")) {
+    return cleanPhone;
   }
 
-  return normalizedPhone;
+  return "";
 }

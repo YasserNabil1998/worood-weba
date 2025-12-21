@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { ChevronDown, ChevronUp, Edit, Calendar, ChevronRight, ChevronLeft } from "lucide-react";
 import { formatDateToArabic } from "@/lib/utils";
 import { ARABIC_MONTHS } from "@/constants";
+import { useProfileStore } from "@/stores";
+import { useNotification } from "@/providers/notification-provider";
 
 interface Occasion {
   id: string;
@@ -11,6 +13,7 @@ interface Occasion {
   date: string;
   type: string;
   icon: string;
+  reminder?: boolean;
 }
 
 interface OccasionsSectionProps {
@@ -19,16 +22,7 @@ interface OccasionsSectionProps {
   onEditOccasion?: (id: string) => void;
 }
 
-const occasionTypes = [
-  "عيد ميلاد",
-  "ذكرى سنوية",
-  "زواج",
-  "خطوبة",
-  "نجاح وتخرج",
-  "مولود جديد",
-  "شفاء عاجل",
-  "شكر وتقدير",
-];
+// occasionTypes will be fetched from store
 
 // Map occasion types to emoji icons
 const getOccasionIcon = (type: string): string => {
@@ -57,12 +51,27 @@ export default function OccasionsSection({
   const [occasionType, setOccasionType] = useState("");
   const [occasionOwner, setOccasionOwner] = useState("");
   const [occasionDate, setOccasionDate] = useState("");
+  const [reminder, setReminder] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const calendarRef = useRef<HTMLDivElement>(null);
   const fontStyle = { fontFamily: "var(--font-almarai)" };
+
+  // Get occasion types from store
+  const occasionTypes = useProfileStore((state) => state.occasionTypes);
+  const fetchOccasionTypes = useProfileStore((state) => state.fetchOccasionTypes);
+  const addOccasion = useProfileStore((state) => state.addOccasion);
+  const editOccasion = useProfileStore((state) => state.editOccasion);
+
+  // Notification
+  const { showNotification } = useNotification();
+
+  // Fetch occasion types on mount
+  useEffect(() => {
+    fetchOccasionTypes();
+  }, [fetchOccasionTypes]);
 
   // Helper function to parse Arabic date to ISO
   const parseArabicDateToISO = (arabicDate: string): string => {
@@ -101,8 +110,17 @@ export default function OccasionsSection({
   };
 
   // Update occasions when initialOccasions changes
+  // Use useRef to track previous value and compare deeply to avoid infinite loops
+  const prevInitialOccasionsRef = useRef<string>("");
+
   useEffect(() => {
-    setOccasions(initialOccasions);
+    const currentStr = JSON.stringify(initialOccasions);
+
+    // Only update if the data actually changed
+    if (prevInitialOccasionsRef.current !== currentStr) {
+      prevInitialOccasionsRef.current = currentStr;
+      setOccasions(initialOccasions);
+    }
   }, [initialOccasions]);
 
   // إغلاق التقويم عند النقر خارجه
@@ -199,6 +217,7 @@ export default function OccasionsSection({
     setOccasionType("");
     setOccasionOwner("");
     setOccasionDate("");
+    setReminder(false);
     setShowAddForm(true);
   };
 
@@ -218,59 +237,84 @@ export default function OccasionsSection({
         setCurrentMonth(date.getMonth());
         setCurrentYear(date.getFullYear());
       }
+      setReminder(occasion.reminder || false);
       setShowAddForm(true);
     }
     onEditOccasion?.(occasionId);
   };
 
-  const handleSave = (e: React.MouseEvent) => {
+  const handleSave = async (e: React.MouseEvent) => {
     e.stopPropagation();
 
     // Validate form
     if (!occasionType || !occasionOwner || !occasionDate) {
-      alert("يرجى ملء جميع الحقول");
+      showNotification("يرجى ملء جميع الحقول المطلوبة", "error");
       return;
     }
 
-    if (editingOccasionId) {
-      // Update existing occasion
-      setOccasions(
-        occasions.map((occ) =>
-          occ.id === editingOccasionId
-            ? {
-                ...occ,
-                name: occasionOwner,
-                date: formatDateToArabic(occasionDate),
-                type: occasionType,
-                icon: getOccasionIcon(occasionType),
-              }
-            : occ
-        )
-      );
-    } else {
-      // Create new occasion
-      const newOccasion: Occasion = {
-        id: Date.now().toString(), // Generate unique ID
+    try {
+      const occasionData = {
         name: occasionOwner,
-        date: formatDateToArabic(occasionDate),
         type: occasionType,
-        icon: getOccasionIcon(occasionType),
+        date: occasionDate, // ISO format
+        reminder: reminder,
       };
 
-      // Add to occasions list
-      setOccasions([...occasions, newOccasion]);
+      if (editingOccasionId) {
+        // Update existing occasion via store
+        const result = await editOccasion(editingOccasionId, occasionData);
+        if (result.success) {
+          // Update local state
+          setOccasions(
+            occasions.map((occ) =>
+              occ.id === editingOccasionId
+                ? {
+                    ...occ,
+                    name: occasionOwner,
+                    date: formatDateToArabic(occasionDate),
+                    type: occasionType,
+                    icon: getOccasionIcon(occasionType),
+                    reminder: reminder,
+                  }
+                : occ
+            )
+          );
+        }
+      } else {
+        // Create new occasion via store
+        const result = await addOccasion(occasionData);
+        if (result.success) {
+          // Add to local state
+          const newOccasion: Occasion = {
+            id: Date.now().toString(),
+            name: occasionOwner,
+            date: formatDateToArabic(occasionDate),
+            type: occasionType,
+            icon: getOccasionIcon(occasionType),
+            reminder: reminder,
+          };
+          setOccasions([...occasions, newOccasion]);
+        }
+      }
+
+      // Reset form
+      setShowAddForm(false);
+      setEditingOccasionId(null);
+      setOccasionType("");
+      setOccasionOwner("");
+      setOccasionDate("");
+      setReminder(false);
+      setIsDropdownOpen(false);
+
+      // Call parent callback
+      onAddOccasion?.();
+      showNotification(
+        editingOccasionId ? "تم تعديل المناسبة بنجاح" : "تم إضافة المناسبة بنجاح",
+        "success"
+      );
+    } catch (error) {
+      showNotification("حدث خطأ أثناء حفظ المناسبة", "error");
     }
-
-    // Reset form
-    setShowAddForm(false);
-    setEditingOccasionId(null);
-    setOccasionType("");
-    setOccasionOwner("");
-    setOccasionDate("");
-    setIsDropdownOpen(false);
-
-    // Call parent callback
-    onAddOccasion?.();
   };
 
   return (
@@ -313,7 +357,10 @@ export default function OccasionsSection({
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <div className="text-[24px] sm:text-[28px] flex-shrink-0">{occasion.icon}</div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-[16px] sm:text-[18px] font-bold text-black mb-1 truncate" style={fontStyle}>
+                    <h3
+                      className="text-[16px] sm:text-[18px] font-bold text-black mb-1 truncate"
+                      style={fontStyle}
+                    >
                       {occasion.name}
                     </h3>
                     <p className="text-[14px] sm:text-[16px] text-[#727272]" style={fontStyle}>
@@ -363,16 +410,16 @@ export default function OccasionsSection({
                         <div className="absolute z-10 w-full mt-1 bg-white border border-[#d2d2d2] rounded-[5px] shadow-lg max-h-[200px] overflow-y-auto">
                           {occasionTypes.map((type) => (
                             <div
-                              key={type}
+                              key={type.id}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                setOccasionType(type);
+                                setOccasionType(type.name);
                                 setIsDropdownOpen(false);
                               }}
                               className="px-3 py-2 text-[14px] text-right cursor-pointer hover:bg-gray-100 transition-colors"
                               style={fontStyle}
                             >
-                              {type}
+                              {type.name}
                             </div>
                           ))}
                         </div>
@@ -448,7 +495,10 @@ export default function OccasionsSection({
                           >
                             <ChevronRight className="w-3 h-3 text-[#605f5f]" />
                           </button>
-                          <div className="text-[12px] sm:text-[13px] font-semibold text-black" style={fontStyle}>
+                          <div
+                            className="text-[12px] sm:text-[13px] font-semibold text-black"
+                            style={fontStyle}
+                          >
                             {ARABIC_MONTHS[currentMonth]} {currentYear}
                           </div>
                           <button
@@ -513,6 +563,27 @@ export default function OccasionsSection({
                       </div>
                     )}
                   </div>
+                </div>
+
+                {/* Reminder Checkbox */}
+                <div className="flex items-center gap-2 mt-4">
+                  <input
+                    type="checkbox"
+                    id="reminder"
+                    checked={reminder}
+                    onChange={(e) => {
+                      e.stopPropagation();
+                      setReminder(e.target.checked);
+                    }}
+                    className="w-4 h-4 text-[#5f664f] border-gray-300 rounded focus:ring-[#5f664f] cursor-pointer"
+                  />
+                  <label
+                    htmlFor="reminder"
+                    className="text-[14px] sm:text-[16px] text-black cursor-pointer"
+                    style={fontStyle}
+                  >
+                    تفعيل التذكير (سيتم إرسال تذكير قبل أسبوع من المناسبة)
+                  </label>
                 </div>
 
                 {/* Save Button */}

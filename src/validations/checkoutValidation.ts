@@ -1,60 +1,92 @@
-import { VALIDATION_MESSAGES } from "@/constants";
 import type { Address, CheckoutFormErrors } from "@/types/checkout";
+import { addressSchema, checkoutSchema } from "./schemas/checkoutSchema";
 
+/**
+ * التحقق من صحة العنوان باستخدام Zod
+ */
 export const validateAddress = (address: Address): Partial<Address> => {
+  const result = addressSchema.safeParse(address);
+
+  if (result.success) {
+    return {};
+  }
+
   const errors: Partial<Address> = {};
+  // استخدام Zod's flatten() لاستخراج الأخطاء بشكل مباشر
+  const fieldErrors = result.error.flatten().fieldErrors as Record<string, string[] | undefined>;
 
-  // التحقق من اسم المستلم
-  if (!address.recipientName || !address.recipientName.trim()) {
-    errors.recipientName = VALIDATION_MESSAGES.REQUIRED_FIELD;
-  } else if (address.recipientName.trim().length < 2) {
-    errors.recipientName = VALIDATION_MESSAGES.MIN_LENGTH(2);
-  }
+  // مصفوفة بجميع الحقول المراد التحقق منها
+  const addressFields: (keyof Address)[] = [
+    "recipientName",
+    "phone",
+    "street",
+    "city",
+    "district",
+    "landmark",
+  ];
 
-  // التحقق من رقم الهاتف
-  if (!address.phone.trim()) {
-    errors.phone = VALIDATION_MESSAGES.REQUIRED_FIELD;
-  } else if (address.phone.trim().length < 9) {
-    errors.phone = VALIDATION_MESSAGES.MIN_LENGTH(9);
-  }
-
-  // التحقق من عنوان التوصيل
-  if (!address.street.trim()) {
-    errors.street = VALIDATION_MESSAGES.REQUIRED_FIELD;
-  } else if (address.street.trim().length < 5) {
-    errors.street = VALIDATION_MESSAGES.MIN_LENGTH(5);
-  }
-
-  // الحقول الاختيارية (city, district, landmark) لم تعد مطلوبة في التصميم الجديد
-  // لكن إذا كانت موجودة، نتحقق منها
-  if (address.city && address.city.trim() && address.city.trim().length < 2) {
-    errors.city = VALIDATION_MESSAGES.MIN_LENGTH(2);
-  }
-
-  if (address.district && address.district.trim() && address.district.trim().length < 2) {
-    errors.district = VALIDATION_MESSAGES.MIN_LENGTH(2);
-  }
-
-  if (address.landmark && address.landmark.trim() && address.landmark.trim().length < 2) {
-    errors.landmark = VALIDATION_MESSAGES.MIN_LENGTH(2);
+  // استخدام Zod's flatten().fieldErrors لاستخراج الأخطاء
+  for (const key of addressFields) {
+    const keyStr = String(key);
+    const errorMessages = fieldErrors[keyStr];
+    if (errorMessages && errorMessages[0]) {
+      errors[key] = errorMessages[0];
+    }
   }
 
   return errors;
 };
 
+/**
+ * التحقق من صحة نموذج الدفع باستخدام Zod
+ */
 export const validateCheckoutForm = (formData: {
   address: Address;
   notes: string;
 }): CheckoutFormErrors => {
-  const addressErrors = validateAddress(formData.address);
-  const hasAddressErrors = Object.keys(addressErrors).length > 0;
+  const result = checkoutSchema.safeParse(formData);
 
-  return {
-    address: addressErrors,
-    general: hasAddressErrors ? "يرجى تصحيح الأخطاء في العنوان" : undefined,
+  if (result.success) {
+    return { address: {} };
+  }
+
+  // استخراج أخطاء العنوان من الأخطاء المتداخلة باستخدام Zod's issues
+  const addressFieldErrors: Partial<Address> = {};
+  const addressFields: (keyof Address)[] = [
+    "recipientName",
+    "phone",
+    "street",
+    "city",
+    "district",
+    "landmark",
+  ];
+
+  // استخدام Zod's error.issues للوصول المباشر إلى الأخطاء المتداخلة
+  // issue.path يحتوي على مسار الخطأ: ["address", "street"] مثلاً
+  for (const issue of result.error.issues) {
+    // التحقق من أن الخطأ في "address" وعلى مستوى الحقل (path.length === 2)
+    if (issue.path[0] === "address" && issue.path.length === 2) {
+      const fieldKey = issue.path[1] as keyof Address;
+      if (addressFields.includes(fieldKey)) {
+        addressFieldErrors[fieldKey] = issue.message as Address[keyof Address];
+      }
+    }
+  }
+
+  const errors: CheckoutFormErrors = {
+    address: addressFieldErrors,
   };
+
+  if (Object.keys(addressFieldErrors).length > 0) {
+    errors.general = "يرجى تصحيح الأخطاء في العنوان";
+  }
+
+  return errors;
 };
 
+/**
+ * التحقق من صحة النموذج بناءً على الأخطاء
+ */
 export const isFormValid = (errors: CheckoutFormErrors): boolean => {
   return Object.keys(errors.address).length === 0 && !errors.general;
 };

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import bouquetsData from "@/app/(pages)/custom/bouquets.json";
 import type {
@@ -8,50 +8,46 @@ import type {
   Color,
   Occasion,
   DeliveryTime,
-  CustomPaymentMethod,
   Config,
   Vase,
 } from "@/types/custom";
 import { logError } from "@/lib/logger";
+import { useCustomBouquetStore } from "@/stores";
 
 export function useCustomBuilderData() {
   const searchParams = useSearchParams();
-  const [flowers, setFlowers] = useState<Flower[]>([]);
-  const [bouquetSizes, setBouquetSizes] = useState<BouquetSize[]>([]);
-  const [bouquetStyles, setBouquetStyles] = useState<BouquetStyle[]>([]);
-  const [vases, setVases] = useState<Vase[]>([]);
-  const [colors, setColors] = useState<Color[]>([]);
-  const [occasions, setOccasions] = useState<Occasion[]>([]);
-  const [deliveryTimes, setDeliveryTimes] = useState<DeliveryTime[]>([]);
-  const [paymentMethods, setPaymentMethods] = useState<CustomPaymentMethod[]>([]);
-  const [config, setConfig] = useState<Config>({
-    vatRate: 0.15,
-    cardPrice: 15,
-  });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  // Use store data
+  const storeFlowers = useCustomBouquetStore((state) => state.flowers);
+  const storeSizes = useCustomBouquetStore((state) => state.sizes);
+  const storeOccasions = useCustomBouquetStore((state) => state.occasions);
+  const storeIsLoading = useCustomBouquetStore((state) => state.isLoading);
+
+  const fetchFlowers = useCustomBouquetStore((state) => state.fetchFlowers);
+  const fetchSizes = useCustomBouquetStore((state) => state.fetchSizes);
+  const fetchOccasions = useCustomBouquetStore((state) => state.fetchOccasions);
+  const fetchPackagingTypes = useCustomBouquetStore((state) => state.fetchPackagingTypes);
+
+  // Fetch data on mount
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        setIsLoading(true);
-        setFlowers(bouquetsData.flowers);
-        setBouquetSizes(bouquetsData.bouquetSizes);
-        setBouquetStyles(bouquetsData.bouquetStyles);
-        setVases(bouquetsData.vases);
-        setColors(bouquetsData.colors);
-        setOccasions(bouquetsData.occasions);
-        setDeliveryTimes(bouquetsData.deliveryTimes);
-        setPaymentMethods(bouquetsData.paymentMethods);
-        setConfig(bouquetsData.config);
-        setIsLoading(false);
-      } catch (error) {
-        logError("Error loading bouquet data", error);
-        setIsLoading(false);
-      }
-    };
+    fetchFlowers();
+    fetchSizes();
+    fetchOccasions();
+    fetchPackagingTypes();
+  }, [fetchFlowers, fetchSizes, fetchOccasions, fetchPackagingTypes]);
 
-    loadData();
-  }, []);
+  // Use store data if available, otherwise fallback to JSON data
+  const flowers = storeFlowers.length > 0 ? storeFlowers : bouquetsData.flowers;
+  const bouquetSizes = storeSizes.length > 0 ? storeSizes : bouquetsData.bouquetSizes;
+  const occasions = storeOccasions.length > 0 ? storeOccasions : bouquetsData.occasions;
+
+  // For now, keep using JSON data for these (they might not be in the store yet)
+  const bouquetStyles = bouquetsData.bouquetStyles;
+  const vases = bouquetsData.vases;
+  const colors = bouquetsData.colors;
+  const deliveryTimes = bouquetsData.deliveryTimes;
+  const config = bouquetsData.config;
+  const isLoading = storeIsLoading;
 
   return {
     flowers,
@@ -61,7 +57,6 @@ export function useCustomBuilderData() {
     colors,
     occasions,
     deliveryTimes,
-    paymentMethods,
     config,
     isLoading,
   };

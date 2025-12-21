@@ -7,6 +7,7 @@ import { Heart } from "lucide-react";
 import { BouquetItem } from "@/types/bouquets";
 import { useNotification } from "@/providers/notification-provider";
 import { useFavorites } from "@/hooks/useFavorites";
+import { useFavoritesStore } from "@/stores";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { QuickAddModal } from "@/components/product";
 import { logError } from "@/lib/logger";
@@ -19,15 +20,25 @@ export type ProductItem = BouquetItem;
 function ProductCard({ item }: { item: BouquetItem }) {
   const { showNotification } = useNotification();
   const { requireAuth } = useRequireAuth();
-  const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
+  const { addToFavorites, removeFromFavorites } = useFavorites();
   const [isQuickAddOpen, setQuickAddOpen] = useState(false);
 
   const itemId = typeof item.id === "number" ? item.id : Number(item.id);
-  const isCurrentlyFavorite = isFavorite(itemId);
+
+  // استخدام selector مباشر من Zustand مع fallback آمن للـ SSR
+  // هذا يضمن أن الخادم والعميل يبدآن بنفس القيمة (false)
+  const isCurrentlyFavorite = useFavoritesStore((state) => {
+    // على الخادم أو قبل hydration، نعيد false دائماً
+    if (typeof window === "undefined" || !state.hydrated) {
+      return false;
+    }
+    return state.isBouquetFavorite(itemId);
+  });
 
   const toggleFavorite = useCallback(() => {
     try {
-      const currentlyFavorite = isFavorite(itemId);
+      // استخدام المتجر مباشرة للتحقق من الحالة الفعلية
+      const currentlyFavorite = useFavoritesStore.getState().isBouquetFavorite(itemId);
       if (currentlyFavorite) {
         removeFromFavorites(itemId);
         showNotification("تم إزالة المنتج من المفضلة", "info");
@@ -36,12 +47,14 @@ function ProductCard({ item }: { item: BouquetItem }) {
           ...item,
           id: itemId,
         };
-        
+
         // التحقق من تسجيل الدخول قبل إضافة للمفضلة
-        if (!requireAuth("addToFavorites", favoriteItem, "يجب تسجيل الدخول لإضافة المنتج إلى المفضلة")) {
+        if (
+          !requireAuth("addToFavorites", favoriteItem, "يجب تسجيل الدخول لإضافة المنتج إلى المفضلة")
+        ) {
           return;
         }
-        
+
         addToFavorites(favoriteItem);
         showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
       }
@@ -49,7 +62,7 @@ function ProductCard({ item }: { item: BouquetItem }) {
       logError("خطأ في تبديل المفضلة", error, { itemId, itemTitle: item.title });
       showNotification("حدث خطأ في تحديث المفضلة", "error");
     }
-  }, [itemId, item, isFavorite, addToFavorites, removeFromFavorites, requireAuth, showNotification]);
+  }, [itemId, item, addToFavorites, removeFromFavorites, requireAuth, showNotification]);
 
   const openQuickAdd = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -87,9 +100,7 @@ function ProductCard({ item }: { item: BouquetItem }) {
                 toggleFavorite();
               }}
               className={`h-8 w-8 rounded-full backdrop-blur flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 ${
-                isCurrentlyFavorite
-                  ? "bg-white/90"
-                  : "bg-white/90 text-gray-700"
+                isCurrentlyFavorite ? "bg-white/90" : "bg-white/90 text-gray-700"
               }`}
               style={isCurrentlyFavorite ? { color: "#9F0712" } : {}}
               onMouseEnter={(e) => {
@@ -102,7 +113,11 @@ function ProductCard({ item }: { item: BouquetItem }) {
                   e.currentTarget.style.color = "";
                 }
               }}
-              aria-label={isCurrentlyFavorite ? `إزالة ${item.title} من المفضلة` : `إضافة ${item.title} إلى المفضلة`}
+              aria-label={
+                isCurrentlyFavorite
+                  ? `إزالة ${item.title} من المفضلة`
+                  : `إضافة ${item.title} إلى المفضلة`
+              }
             >
               <Heart
                 className="w-4 h-4 transition-colors"

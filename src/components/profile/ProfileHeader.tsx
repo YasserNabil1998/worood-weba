@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { Edit } from "lucide-react";
+import { Edit, Camera } from "lucide-react";
 import { UserData } from "@/types/profile";
+import { useRef } from "react";
 
 interface ProfileHeaderProps {
   userData: UserData;
@@ -27,13 +28,25 @@ export default function ProfileHeader({
 }: ProfileHeaderProps) {
   const displayData = isEditing ? editData : userData;
   const fontStyle = { fontFamily: "var(--font-almarai)" };
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImageClick = () => {
+    if (isEditing && fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   return (
     <div className="bg-white rounded-[25px] p-6 mb-4 relative" style={fontStyle}>
       <div className="flex items-center gap-4 mb-0">
         {/* Profile Image */}
         <div className="relative">
-          <div className="w-[80px] h-[80px] rounded-full overflow-hidden bg-[#5f664f] flex items-center justify-center">
+          <div 
+            className={`w-[80px] h-[80px] rounded-full overflow-hidden bg-[#5f664f] flex items-center justify-center ${
+              isEditing ? "cursor-pointer hover:opacity-90 transition-opacity" : ""
+            }`}
+            onClick={handleImageClick}
+          >
             {displayData.profileImage ? (
               <Image
                 src={displayData.profileImage}
@@ -49,6 +62,20 @@ export default function ProfileHeader({
               </span>
             )}
           </div>
+          {/* Camera Icon Overlay when editing */}
+          {isEditing && (
+            <div className="absolute bottom-0 right-0 w-6 h-6 bg-[#5f664f] rounded-full flex items-center justify-center border-2 border-white">
+              <Camera className="w-3.5 h-3.5 text-white" />
+            </div>
+          )}
+          {/* Hidden File Input */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={onImageUpload}
+            accept="image/*"
+            className="hidden"
+          />
         </div>
 
         {/* User Name */}

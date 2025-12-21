@@ -1,121 +1,88 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { useShallow } from "zustand/react/shallow";
 import { useNotification } from "@/providers/notification-provider";
-import { storage } from "@/lib/utils";
 import { STORAGE_KEYS, APP_CONFIG } from "@/constants";
 import type { CartItem } from "@/types/cart";
 import type { Order } from "@/types/orders";
-import type {
-  Address,
-  CheckoutFormData,
-  CheckoutFormErrors,
-  CheckoutTotals,
-} from "@/types/checkout";
+import type { CheckoutTotals } from "@/types/checkout";
 import { validateCheckoutForm, isFormValid } from "@/validations/checkoutValidation";
 import { createOrderFromCheckoutItems } from "@/lib/utils/orders";
 import { handleAndLogError } from "@/lib/errors";
 import { ErrorCode } from "@/lib/errors/errorTypes";
 import { getItemPrice } from "@/lib/utils/cart";
-import { useCartStore } from "@/stores";
+import { storage } from "@/lib/utils";
+import { useCartStore, useCheckoutStore } from "@/stores";
 
 export function useCheckout() {
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [formData, setFormData] = useState<CheckoutFormData>({
-    address: {
-      recipientName: "",
-      city: "",
-      district: "",
-      street: "",
-      landmark: "",
-      phone: "",
-    },
-    notes: "",
-    paymentMethod: "mada",
-  });
-  const [errors, setErrors] = useState<CheckoutFormErrors>({
-    address: {},
-  });
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const { showNotification } = useNotification();
   const router = useRouter();
   const cartItems = useCartStore((state) => state.items);
   const setCartItems = useCartStore((state) => state.setItems);
 
+  // Checkout store - using single selector with useShallow to avoid multiple subscriptions and unnecessary re-renders
+  const {
+    checkoutItems,
+    formData,
+    errors,
+    isLoading,
+    isSubmitting,
+    setCheckoutItems,
+    updateFormData,
+    updateAddress,
+    setErrors,
+    setIsLoading,
+    setIsSubmitting,
+    initializeCheckout,
+    clearCheckout,
+  } = useCheckoutStore(
+    useShallow((state) => ({
+      checkoutItems: state.checkoutItems,
+      formData: state.formData,
+      errors: state.errors,
+      isLoading: state.isLoading,
+      isSubmitting: state.isSubmitting,
+      setCheckoutItems: state.setCheckoutItems,
+      updateFormData: state.updateFormData,
+      updateAddress: state.updateAddress,
+      setErrors: state.setErrors,
+      setIsLoading: state.setIsLoading,
+      setIsSubmitting: state.setIsSubmitting,
+      initializeCheckout: state.initializeCheckout,
+      clearCheckout: state.clearCheckout,
+    }))
+  );
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setIsLoading(true);
-      try {
-        const checkoutItems = storage.get(STORAGE_KEYS.CHECKOUT_ITEMS, []);
-        const safeItems = Array.isArray(checkoutItems) ? checkoutItems : [];
+    if (typeof window === "undefined") return;
 
-        const uniqueItems = safeItems.filter(
-          (item: CartItem, index: number, self: CartItem[]) =>
-            index === self.findIndex((t: CartItem) => t.id === item.id)
-        ) as CartItem[];
+    setIsLoading(true);
+    initializeCheckout();
 
-        if (uniqueItems.length === 0) {
-          router.push("/cart");
-          setIsLoading(false);
-          return;
-        }
-
-        setItems(uniqueItems);
-      } catch (error) {
-        const checkoutItems = storage.get(STORAGE_KEYS.CHECKOUT_ITEMS, []);
-        const safeItems = Array.isArray(checkoutItems) ? checkoutItems : [];
-        handleAndLogError(error, "خطأ في تحميل المنتجات", ErrorCode.CHECKOUT_VALIDATION_ERROR, {
-          checkoutItemsCount: safeItems.length,
-        });
-        showNotification("خطأ في تحميل المنتجات", "error", 4000);
-        router.push("/cart");
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
+    if (checkoutItems.length === 0) {
+      router.push("/cart");
       setIsLoading(false);
+      return;
     }
-  }, [router, showNotification]);
+
+    setIsLoading(false);
+  }, [router, initializeCheckout, checkoutItems.length]);
 
   const totals = useMemo((): CheckoutTotals => {
-    const subtotal = items.reduce((sum, item) => {
+    const subtotal = checkoutItems.reduce((sum, item) => {
       return sum + getItemPrice(item);
     }, 0);
     const vat = Math.round(subtotal * APP_CONFIG.VAT_RATE);
     const grand = subtotal + vat;
 
     return { subtotal, vat, grand };
-  }, [items]);
-
-  const updateFormData = useCallback((updates: Partial<CheckoutFormData>) => {
-    setFormData((prev) => ({ ...prev, ...updates }));
-
-    setErrors((prev) => {
-      if (Object.keys(prev.address).length > 0 || prev.general) {
-        return { address: {} };
-      }
-      return prev;
-    });
-  }, []);
-
-  const updateAddress = useCallback((addressUpdates: Partial<Address>) => {
-    setFormData((prev) => ({
-      ...prev,
-      address: { ...prev.address, ...addressUpdates },
-    }));
-
-    setErrors((prev) => ({
-      ...prev,
-      address: {},
-    }));
-  }, []);
+  }, [checkoutItems]);
 
   const validateForm = useCallback((): boolean => {
     const validationErrors = validateCheckoutForm(formData);
     setErrors(validationErrors);
     return isFormValid(validationErrors);
-  }, [formData]);
+  }, [formData, setErrors]);
 
   const placeOrder = useCallback(async () => {
     if (isSubmitting) return;
@@ -125,7 +92,7 @@ export function useCheckout() {
       return;
     }
 
-    if (items.length === 0) {
+    if (checkoutItems.length === 0) {
       showNotification("السلة فارغة، يرجى إضافة منتجات", "error", 4000);
       return;
     }
@@ -133,19 +100,19 @@ export function useCheckout() {
     setIsSubmitting(true);
 
     try {
-      const newOrder = createOrderFromCheckoutItems(items, formData, totals);
+      const newOrder = createOrderFromCheckoutItems(checkoutItems, formData, totals);
 
       const existingOrders = storage.get<Order[]>(STORAGE_KEYS.ORDERS, []);
       const updatedOrders = [newOrder, ...existingOrders];
       storage.set(STORAGE_KEYS.ORDERS, updatedOrders);
 
-      const itemIdsToRemove = items.map((item) => item.id);
+      const itemIdsToRemove = checkoutItems.map((item) => item.id);
       const updatedCart = cartItems.filter(
         (cartItem: CartItem) => !itemIdsToRemove.includes(cartItem.id)
       );
       setCartItems(updatedCart);
 
-      storage.remove(STORAGE_KEYS.CHECKOUT_ITEMS);
+      clearCheckout();
 
       showNotification("تم تأكيد الطلب بنجاح! شكراً لثقتكم بنا", "success", 4000);
 
@@ -154,7 +121,7 @@ export function useCheckout() {
       }, 1000);
     } catch (error) {
       handleAndLogError(error, "خطأ في تأكيد الطلب", ErrorCode.CHECKOUT_SUBMIT_ERROR, {
-        itemsCount: items.length,
+        itemsCount: checkoutItems.length,
         totals,
       });
       showNotification("حدث خطأ في تأكيد الطلب، يرجى المحاولة مرة أخرى", "error", 5000);
@@ -164,18 +131,20 @@ export function useCheckout() {
   }, [
     isSubmitting,
     validateForm,
-    items,
+    checkoutItems,
     formData,
     totals,
     showNotification,
     router,
     cartItems,
     setCartItems,
+    clearCheckout,
+    setIsSubmitting,
   ]);
 
   return {
     // State
-    items,
+    items: checkoutItems,
     formData,
     errors,
     isLoading,

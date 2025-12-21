@@ -8,31 +8,12 @@ import FeaturesSection from "@/components/home/FeaturesSection";
 import CustomerReviewsSlider from "@/components/home/CustomerReviewsSlider";
 import NewsletterSection from "@/components/home/NewsletterSection";
 import AOSWrapper from "@/components/common/AOSWrapper";
-import { fetchBouquets } from "@/lib/api/bouquets";
-import { generateBreadcrumbSchema } from "@/lib/structuredData";
-
-// Generate Breadcrumb Schema for home page
-const breadcrumbSchema = generateBreadcrumbSchema([
-  { name: "الرئيسية", url: "https://shamsflowers.com/" },
-]);
 
 export default async function Home() {
-  // جلب الباقات وتصفيتها لإظهار الأكثر طلباً
-  const allBouquets = await fetchBouquets();
-  const mostRequestedBouquets = allBouquets.filter(
-    (bouquet) => bouquet.category === "الأكثر مبيعاً" || bouquet.badge === "الأكثر مبيعاً"
-  );
-
   return (
     <div className="min-h-screen bg-background">
-      {/* Breadcrumb Schema for SEO */}
-      <Script
-        id="breadcrumb-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
       <main>
-        {/* 1. Hero Section - قسم البطل */}
+        {/* 1. Hero Section */}
         <HeroSection />
 
         {/* 2. Occasions Section - قسم المناسبات */}
@@ -42,7 +23,7 @@ export default async function Home() {
 
         {/* 3. Most Popular Bouquets - الباقات الأكثر طلباً */}
         <AOSWrapper animation="zoom-in" delay={150} duration={1000}>
-          <FeaturedBouquets bouquets={mostRequestedBouquets} />
+          <FeaturedBouquets />
         </AOSWrapper>
 
         {/* 4. Design Your Own Bouquet - صمم باقتك الخاصة */}

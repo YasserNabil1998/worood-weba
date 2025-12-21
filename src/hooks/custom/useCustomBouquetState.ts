@@ -36,25 +36,13 @@ export function useCustomBouquetState() {
   const notes = useCustomBouquetBuilderStore((state) => state.notes);
   const setNotes = useCustomBouquetBuilderStore((state) => state.setNotes);
 
-  // Delivery and payment
+  // Delivery
   const deliveryType = useCustomBouquetBuilderStore((state) => state.deliveryType);
   const setDeliveryType = useCustomBouquetBuilderStore((state) => state.setDeliveryType);
   const deliveryDate = useCustomBouquetBuilderStore((state) => state.deliveryDate);
   const setDeliveryDate = useCustomBouquetBuilderStore((state) => state.setDeliveryDate);
   const deliveryTime = useCustomBouquetBuilderStore((state) => state.deliveryTime);
   const setDeliveryTime = useCustomBouquetBuilderStore((state) => state.setDeliveryTime);
-  const city = useCustomBouquetBuilderStore((state) => state.city);
-  const setCity = useCustomBouquetBuilderStore((state) => state.setCity);
-  const district = useCustomBouquetBuilderStore((state) => state.district);
-  const setDistrict = useCustomBouquetBuilderStore((state) => state.setDistrict);
-  const street = useCustomBouquetBuilderStore((state) => state.street);
-  const setStreet = useCustomBouquetBuilderStore((state) => state.setStreet);
-  const landmark = useCustomBouquetBuilderStore((state) => state.landmark);
-  const setLandmark = useCustomBouquetBuilderStore((state) => state.setLandmark);
-  const phone = useCustomBouquetBuilderStore((state) => state.phone);
-  const setPhone = useCustomBouquetBuilderStore((state) => state.setPhone);
-  const payMethod = useCustomBouquetBuilderStore((state) => state.payMethod);
-  const setPayMethod = useCustomBouquetBuilderStore((state) => state.setPayMethod);
 
   // UI state
   const bouquetImage = useCustomBouquetBuilderStore((state) => state.bouquetImage);
@@ -105,25 +93,13 @@ export function useCustomBouquetState() {
     notes,
     setNotes,
 
-    // Delivery and payment
+    // Delivery
     deliveryType,
     setDeliveryType,
     deliveryDate,
     setDeliveryDate,
     deliveryTime,
     setDeliveryTime,
-    city,
-    setCity,
-    district,
-    setDistrict,
-    street,
-    setStreet,
-    landmark,
-    setLandmark,
-    phone,
-    setPhone,
-    payMethod,
-    setPayMethod,
 
     // UI state
     bouquetImage,

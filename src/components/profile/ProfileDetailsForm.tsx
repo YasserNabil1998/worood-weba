@@ -98,7 +98,7 @@ export default function ProfileDetailsForm({
             onChange={(e) => onInputChange("address", e.target.value)}
             className="w-full px-4 py-4 border border-[#817f7f] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#5f664f] text-[16px] text-[#727272]"
             style={fontStyle}
-            placeholder="أدخل العنوان"
+            placeholder="المدينة, الحي, الشارع (مثال: الرياض, حي النخيل, شارع الملك فهد)"
           />
         </div>
 
@@ -128,7 +128,7 @@ export default function ProfileDetailsForm({
             onChange={(e) => onInputChange("address2", e.target.value)}
             className="w-full px-4 py-4 border border-[#817f7f] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#5f664f] text-[16px] text-[#727272]"
             style={fontStyle}
-            placeholder="أدخل العنوان الآخر"
+            placeholder="المدينة, الحي, الشارع (مثال: جدة, حي الزهراء, شارع التحلية)"
           />
         </div>
       </div>

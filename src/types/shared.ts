@@ -12,7 +12,7 @@ export type ReviewItem = {
   customerName: string;
   customerImage?: string | null;
   rating: number; // 0..5
-  comment: string;
+  comment?: string;
   date?: string;
   productName?: string;
 };

@@ -27,6 +27,16 @@ export const STORAGE_KEYS = {
   ORDERS: "orders",
   CHECKOUT_ITEMS: "checkoutItems",
   PENDING_ACTION: "pendingAction",
+  HOME_PAGE_STORE: "homePageStore",
+  FOOTER_STORE: "footerStore",
+  BOUQUETS_STORE: "bouquetsStore",
+  CUSTOM_BOUQUET_STORE: "customBouquetStore",
+  CONTACT_STORE: "contactStore",
+  ORDERS_STORE: "ordersStore",
+  PROFILE_STORE: "profileStore",
+  PRODUCT_STORE: "productStore",
+  REVIEWS_STORE: "reviewsStore",
+  CHECKOUT_STORE: "checkoutStore",
 } as const;
 
 // الألوان

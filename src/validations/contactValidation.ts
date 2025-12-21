@@ -1,74 +1,63 @@
-// Contact form validation - basic checks
-import isValidEmail from "./isValidEmail";
-import isValidSaudiPhone from "./isValidSaudiPhone";
+// Contact form validation using Zod
+import type { ContactFormData, ContactFormErrors } from "@/types/contact";
+import { contactSchema } from "./schemas/contactSchema";
 
-export interface ContactFormData {
-  name: string;
-  email: string;
-  phone: string;
-  subject: string;
-  message: string;
-}
+// Re-export types for backward compatibility
+export type { ContactFormData, ContactFormErrors } from "@/types/contact";
 
-export interface ContactFormErrors {
-  name?: string;
-  email?: string;
-  phone?: string;
-  subject?: string;
-  message?: string;
-}
-
-// Main validation function
+/**
+ * التحقق من صحة نموذج التواصل باستخدام Zod
+ */
 export const validateContactForm = (data: ContactFormData): ContactFormErrors => {
+  const result = contactSchema.safeParse(data);
+
+  if (result.success) {
+    return {};
+  }
+
   const errors: ContactFormErrors = {};
+  const fieldErrors = result.error.flatten().fieldErrors as Record<string, string[] | undefined>;
 
-  // Name validation
-  if (!data.name.trim()) {
-    errors.name = "الاسم مطلوب";
-  } else if (data.name.trim().length < 2) {
-    errors.name = "الاسم يجب أن يكون أكثر من حرفين";
-  } else if (data.name.trim().length > 50) {
-    errors.name = "الاسم يجب أن يكون أقل من 50 حرف";
-  }
+  // مصفوفة بجميع الحقول المراد التحقق منها
+  const contactFields: (keyof ContactFormData)[] = ["name", "email", "phone", "subject", "message"];
 
-  // Email validation
-  if (!data.email.trim()) {
-    errors.email = "البريد الإلكتروني مطلوب";
-  } else if (!isValidEmail(data.email.trim())) {
-    errors.email = "البريد الإلكتروني غير صحيح";
-  }
-
-  // Phone validation
-  if (!data.phone.trim()) {
-    errors.phone = "رقم الهاتف مطلوب";
-  } else if (!isValidSaudiPhone(data.phone.trim())) {
-    errors.phone = "رقم الهاتف السعودي غير صحيح";
-  }
-
-  // Subject validation
-  if (!data.subject.trim()) {
-    errors.subject = "الموضوع مطلوب";
-  }
-
-  // Message validation
-  if (!data.message.trim()) {
-    errors.message = "الرسالة مطلوبة";
-  } else if (data.message.trim().length < 10) {
-    errors.message = "الرسالة يجب أن تكون أكثر من 10 أحرف";
-  } else if (data.message.trim().length > 1000) {
-    errors.message = "الرسالة يجب أن تكون أقل من 1000 حرف";
+  // استخدام Zod's flatten() لاستخراج الأخطاء بشكل مباشر
+  for (const key of contactFields) {
+    const keyStr = String(key);
+    const errorMessages = fieldErrors[keyStr];
+    if (errorMessages && errorMessages[0]) {
+      errors[key] = errorMessages[0];
+    }
   }
 
   return errors;
 };
 
-// Check if there are any errors
+/**
+ * التحقق من وجود أخطاء في النموذج
+ */
 export const hasFormErrors = (errors: ContactFormErrors): boolean => {
   return Object.keys(errors).length > 0;
 };
 
-// Clean form data before sending
+/**
+ * تنظيف بيانات النموذج قبل الإرسال باستخدام Zod
+ * Zod يقوم بالـ trim والتحويلات تلقائياً (مثل lowercase للبريد)
+ */
 export const cleanFormData = (data: ContactFormData): ContactFormData => {
+  // استخدام Zod لتنظيف البيانات والتحقق منها
+  const result = contactSchema.safeParse(data);
+
+  if (result.success) {
+    // Zod يقوم بكل التحويلات تلقائياً:
+    // - trim() لجميع الحقول
+    // - toLowerCase() للبريد الإلكتروني
+    // - التحقق من صحة البيانات
+    return result.data;
+  }
+
+  // إذا فشل التحقق، نعيد البيانات بعد التنظيف اليدوي
+  // (هذا يحدث فقط إذا كانت البيانات غير صحيحة)
   return {
     name: data.name.trim(),
     email: data.email.trim().toLowerCase(),

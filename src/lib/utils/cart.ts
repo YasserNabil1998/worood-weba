@@ -219,17 +219,12 @@ function extractPackagingData(customData: {
 /**
  * استخراج بيانات التسليم من الباقة المخصصة
  * Extract delivery data from custom bouquet
+ * Note: العنوان وطريقة الدفع تُدخل في صفحة checkout فقط
  */
 function extractDeliveryData(deliveryInfo: CustomBouquetData["deliveryInfo"]) {
   return {
     deliveryDate: deliveryInfo?.date || "",
     deliveryTime: deliveryInfo?.time || "",
-    city: deliveryInfo?.address?.city || "",
-    district: deliveryInfo?.address?.district || "",
-    street: deliveryInfo?.address?.street || "",
-    landmark: deliveryInfo?.address?.landmark || "",
-    phone: deliveryInfo?.phone || "",
-    payMethod: deliveryInfo?.paymentMethod || "",
   };
 }
 

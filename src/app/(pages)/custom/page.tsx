@@ -43,7 +43,6 @@ function CustomBuilderContent() {
     colors,
     occasions,
     deliveryTimes,
-    paymentMethods,
     config,
     isLoading,
   } = useCustomBuilderData();
@@ -74,12 +73,6 @@ function CustomBuilderContent() {
     setSelectedVase: state.setSelectedVase,
     setDeliveryDate: state.setDeliveryDate,
     setDeliveryTime: state.setDeliveryTime,
-    setCity: state.setCity,
-    setDistrict: state.setDistrict,
-    setStreet: state.setStreet,
-    setLandmark: state.setLandmark,
-    setPhone: state.setPhone,
-    setPayMethod: state.setPayMethod,
     setBouquetImage: state.setBouquetImage,
   });
 
@@ -151,12 +144,6 @@ function CustomBuilderContent() {
     deliveryType: state.deliveryType,
     deliveryDate: state.deliveryDate,
     deliveryTime: state.deliveryTime,
-    city: state.city,
-    district: state.district,
-    street: state.street,
-    landmark: state.landmark,
-    phone: state.phone,
-    payMethod: state.payMethod,
     bouquetImage: state.bouquetImage,
     totalFlowersCount: prices.totalFlowersCount,
     subtotal: prices.subtotal,
@@ -172,7 +159,6 @@ function CustomBuilderContent() {
     vases,
     occasions,
     deliveryTimes,
-    paymentMethods,
     config,
   });
 

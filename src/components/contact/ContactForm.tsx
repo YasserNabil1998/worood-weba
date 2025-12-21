@@ -6,19 +6,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronDown, ChevronUp, Loader2, Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { ContactFormProps } from "@/types/contact";
 import { contactSchema, ContactFormData } from "@/validations/schemas/contactSchema";
-import {
-  FORM_SUCCESS_TIMEOUT,
-  MESSAGES,
-} from "@/constants/contact";
+import { FORM_SUCCESS_TIMEOUT, MESSAGES } from "@/constants/contact";
 import { cn } from "@/lib/utils";
 import { logError } from "@/lib/logger";
 import { fontStyle } from "@/lib/styles";
+import { useContactStore } from "@/stores";
 
-export default function ContactForm({ data, onSubmit }: ContactFormProps) {
+export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFormProps) {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isSubjectDropdownOpen, setIsSubjectDropdownOpen] = useState(false);
   const subjectDropdownRef = useRef<HTMLDivElement>(null);
+
+  const sendMessage = useContactStore((state) => state.sendMessage);
 
   // Initialize React Hook Form with Zod validation
   const {
@@ -63,7 +63,23 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
     setIsError(false);
 
     try {
-      await onSubmit(formData);
+      // Use store sendMessage if available, otherwise use prop onSubmit
+      if (propOnSubmit) {
+        await propOnSubmit(formData);
+      } else {
+        const result = await sendMessage({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+        });
+
+        if (!result.success) {
+          throw new Error(result.error || "فشل إرسال الرسالة");
+        }
+      }
+
       setIsSuccess(true);
       reset(); // Reset form after successful submission
 
@@ -91,9 +107,15 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
   };
 
   return (
-    <div className="bg-white rounded-[20px] min-h-[726px] p-4 sm:p-6 md:p-8 lg:p-12 order-1 lg:order-1" style={fontStyle}>
+    <div
+      className="bg-white rounded-[20px] min-h-[726px] p-4 sm:p-6 md:p-8 lg:p-12 order-1 lg:order-1"
+      style={fontStyle}
+    >
       <div className="text-right mb-6 sm:mb-8">
-        <h3 className="text-[18px] sm:text-[19px] lg:text-[20px] font-bold text-black mb-2" style={fontStyle}>
+        <h3
+          className="text-[18px] sm:text-[19px] lg:text-[20px] font-bold text-black mb-2"
+          style={fontStyle}
+        >
           {data.title}
         </h3>
       </div>
@@ -119,7 +141,10 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
       >
         {/* Name field */}
         <div>
-          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
+          <label
+            className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
+            style={fontStyle}
+          >
             {data.fields.name.label}
           </label>
           <input
@@ -138,7 +163,10 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
 
         {/* Email field */}
         <div>
-          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
+          <label
+            className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
+            style={fontStyle}
+          >
             {data.fields.email.label}
           </label>
           <input
@@ -157,7 +185,10 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
 
         {/* Phone field */}
         <div>
-          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
+          <label
+            className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
+            style={fontStyle}
+          >
             {data.fields.phone.label}
           </label>
           <input
@@ -176,7 +207,10 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
 
         {/* Subject field */}
         <div className="min-w-0">
-          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
+          <label
+            className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
+            style={fontStyle}
+          >
             {data.fields.subject.label}
           </label>
           <div className="relative" ref={subjectDropdownRef}>
@@ -239,7 +273,10 @@ export default function ContactForm({ data, onSubmit }: ContactFormProps) {
 
         {/* Message field */}
         <div className="md:col-span-2">
-          <label className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right" style={fontStyle}>
+          <label
+            className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
+            style={fontStyle}
+          >
             {data.fields.message.label}
           </label>
           <textarea

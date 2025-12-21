@@ -12,6 +12,8 @@ import { ROUTES } from "@/constants/routes";
 import { logError } from "@/lib/logger";
 import { fontStyle } from "@/lib/styles";
 import { INTERVALS, TIMEOUTS, UI_TEXTS } from "@/constants";
+import { useHomePageStore } from "@/stores";
+import { QuickAddModal } from "@/components/product";
 
 interface Product {
   id: number;
@@ -25,40 +27,59 @@ const ProductsSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isQuickAddOpen, setQuickAddOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<BouquetItem | null>(null);
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
   const { requireAuth } = useRequireAuth();
   const { showNotification } = useNotification();
 
-  const products: Product[] = [
-    {
-      id: 1,
-      title: "مزهرية زهور فاخرة",
-      price: 350,
-      image: "/assets/home/happiness-in-vase/Luxury-flower-vase.png",
-      currency: "ر.س",
-    },
-    {
-      id: 2,
-      title: "مزهرية الورود الهادئة",
-      price: 350,
-      image: "/assets/home/happiness-in-vase/vase-of-beauty.png",
-      currency: "ر.س",
-    },
-    {
-      id: 3,
-      title: "مزهرية الجمال",
-      price: 350,
-      image: "/assets/home/happiness-in-vase/Vase-of-Life.png",
-      currency: "ر.س",
-    },
-    {
-      id: 4,
-      title: "مزهرية الحياة",
-      price: 350,
-      image: "/assets/home/happiness-in-vase/calm-floral-pattern.png",
-      currency: "ر.س",
-    },
-  ];
+  const vases = useHomePageStore((state) => state.vases);
+  const fetchHomePageData = useHomePageStore((state) => state.fetchHomePageData);
+
+  useEffect(() => {
+    fetchHomePageData();
+  }, [fetchHomePageData]);
+
+  // Use store vases if available, otherwise use default products
+  const products: Product[] =
+    vases.length > 0
+      ? vases.map((vase) => ({
+          id: typeof vase.id === "number" ? vase.id : Number(vase.id),
+          title: vase.title,
+          price: vase.price,
+          image: vase.image,
+          currency: vase.currency || "ر.س",
+        }))
+      : [
+          {
+            id: 1,
+            title: "مزهرية زهور فاخرة",
+            price: 350,
+            image: "/assets/home/happiness-in-vase/Luxury-flower-vase.png",
+            currency: "ر.س",
+          },
+          {
+            id: 2,
+            title: "مزهرية الورود الهادئة",
+            price: 350,
+            image: "/assets/home/happiness-in-vase/vase-of-beauty.png",
+            currency: "ر.س",
+          },
+          {
+            id: 3,
+            title: "مزهرية الجمال",
+            price: 350,
+            image: "/assets/home/happiness-in-vase/Vase-of-Life.png",
+            currency: "ر.س",
+          },
+          {
+            id: 4,
+            title: "مزهرية الحياة",
+            price: 350,
+            image: "/assets/home/happiness-in-vase/calm-floral-pattern.png",
+            currency: "ر.س",
+          },
+        ];
 
   // Get number of visible items based on screen size
   const getVisibleCount = useCallback(() => {
@@ -174,22 +195,49 @@ const ProductsSlider = () => {
             price: product.price,
             currency: product.currency,
           };
-          
+
           // التحقق من تسجيل الدخول قبل إضافة للمفضلة
-          if (!requireAuth("addToFavorites", favoriteItem, "يجب تسجيل الدخول لإضافة المنتج إلى المفضلة")) {
+          if (
+            !requireAuth(
+              "addToFavorites",
+              favoriteItem,
+              "يجب تسجيل الدخول لإضافة المنتج إلى المفضلة"
+            )
+          ) {
             return;
           }
-          
+
           addToFavorites(favoriteItem);
           showNotification("تم إضافة المنتج إلى المفضلة ❤️", "success");
         }
       } catch (error) {
-        logError("خطأ في تبديل المفضلة", error, { productId: product.id, productTitle: product.title });
+        logError("خطأ في تبديل المفضلة", error, {
+          productId: product.id,
+          productTitle: product.title,
+        });
         showNotification("حدث خطأ في تحديث المفضلة", "error");
       }
     },
     [isFavorite, addToFavorites, removeFromFavorites, requireAuth, showNotification]
   );
+
+  const openQuickAdd = useCallback((product: Product) => {
+    // تحويل Product إلى BouquetItem للتوافق مع QuickAddModal
+    const bouquetItem: BouquetItem = {
+      id: product.id,
+      title: product.title,
+      image: product.image,
+      price: product.price,
+      currency: product.currency,
+    };
+    setSelectedProduct(bouquetItem);
+    setQuickAddOpen(true);
+  }, []);
+
+  const closeQuickAdd = useCallback(() => {
+    setQuickAddOpen(false);
+    setSelectedProduct(null);
+  }, []);
 
   return (
     <section className="py-6 sm:py-8 md:py-10 overflow-x-hidden">
@@ -201,7 +249,10 @@ const ProductsSlider = () => {
               سعادة في مزهرية
             </h2>
             {/* Description - matching Figma: 25px, Almarai Regular, black */}
-            <p className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black" style={fontStyle}>
+            <p
+              className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
+              style={fontStyle}
+            >
               اختر باقتك المفضلة لتضفي لمسة جمال على يومك
             </p>
           </div>
@@ -319,7 +370,7 @@ const ProductsSlider = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
-                              // يمكن إضافة وظيفة إضافة للسلة هنا
+                              openQuickAdd(product);
                             }}
                             className="bg-[#5f664f] rounded-[4px] w-[44px] h-[37px] flex items-center justify-center hover:bg-[#4a4e3d] transition-all duration-300 cursor-pointer shrink-0"
                             aria-label={UI_TEXTS.ADD_TO_CART}
@@ -366,6 +417,7 @@ const ProductsSlider = () => {
           )}
         </div>
       </div>
+      <QuickAddModal bouquet={selectedProduct} isOpen={isQuickAddOpen} onClose={closeQuickAdd} />
     </section>
   );
 };

@@ -1,14 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { ContactFAQProps } from "@/types/contact";
 import { generateId } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { fontStyle } from "@/lib/styles";
+import { useContactStore } from "@/stores";
 
-export default function ContactFAQ({ data }: ContactFAQProps) {
+export default function ContactFAQ({ data: propData }: ContactFAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(1); // فتح السؤال الثاني افتراضياً كما في التصميم
+
+  const faqs = useContactStore((state) => state.faqs);
+  const fetchFAQs = useContactStore((state) => state.fetchFAQs);
+
+  useEffect(() => {
+    fetchFAQs();
+  }, [fetchFAQs]);
+
+  // Use store FAQs if available, otherwise use prop data
+  const data =
+    propData ||
+    (faqs.length > 0
+      ? {
+          title: "الأسئلة الشائعة",
+          subtitle: "إجابات على الأسئلة الأكثر شيوعاً",
+          items: faqs.map((faq) => ({
+            question: faq.question,
+            answer: faq.answer,
+          })),
+        }
+      : propData);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
