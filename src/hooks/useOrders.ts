@@ -1,4 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { filterOrdersByStatus } from "@/lib/utils/orders";
 import { useOrdersStore } from "@/stores";
 
@@ -6,10 +7,20 @@ import { useOrdersStore } from "@/stores";
  * Hook لإدارة الطلبات وحالاتها
  */
 export function useOrders() {
-  const [selectedStatus, setSelectedStatus] = useState<string>("الكل");
-
-  const orders = useOrdersStore((state) => state.orders);
-  const fetchOrders = useOrdersStore((state) => state.fetchOrders);
+  // استخدام useShallow لتقليل الاشتراكات وتحسين الأداء
+  const {
+    orders,
+    selectedStatus,
+    fetchOrders,
+    setSelectedStatus,
+  } = useOrdersStore(
+    useShallow((state) => ({
+      orders: state.orders,
+      selectedStatus: state.selectedStatus,
+      fetchOrders: state.fetchOrders,
+      setSelectedStatus: state.setSelectedStatus,
+    }))
+  );
 
   // Fetch orders on mount
   useEffect(() => {

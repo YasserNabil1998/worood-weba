@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useShallow } from "zustand/react/shallow";
 import { useCartStore, useProductStore } from "@/stores";
 import {
   calculateCartTotals,
@@ -30,16 +31,30 @@ export default function CartPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  // استخدام Cart Store
-  const items = useCartStore((state) => state.items);
-  const selectedItems = useCartStore((state) => state.selectedItems);
-  const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const removeItem = useCartStore((state) => state.removeItem);
-  const toggleSelectItem = useCartStore((state) => state.toggleSelectItem);
-  const toggleSelectAll = useCartStore((state) => state.toggleSelectAll);
-  const removeSelected = useCartStore((state) => state.removeSelected);
-  const isAllSelected = useCartStore((state) => state.isAllSelected);
-  const hasSelection = useCartStore((state) => state.hasSelection);
+  // استخدام Cart Store - استخدام useShallow لتقليل الاشتراكات وتحسين الأداء
+  const {
+    items,
+    selectedItems,
+    updateQuantity,
+    removeItem,
+    toggleSelectItem,
+    toggleSelectAll,
+    removeSelected,
+    isAllSelected,
+    hasSelection,
+  } = useCartStore(
+    useShallow((state) => ({
+      items: state.items,
+      selectedItems: state.selectedItems,
+      updateQuantity: state.updateQuantity,
+      removeItem: state.removeItem,
+      toggleSelectItem: state.toggleSelectItem,
+      toggleSelectAll: state.toggleSelectAll,
+      removeSelected: state.removeSelected,
+      isAllSelected: state.isAllSelected,
+      hasSelection: state.hasSelection,
+    }))
+  );
 
   // تحميل السلة عند التحميل الأولي
   useEffect(() => {

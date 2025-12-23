@@ -12,9 +12,10 @@ import { UI_TEXTS } from "@/constants";
 
 interface FavoriteProductCardProps {
   item: BouquetItem;
+  onPreviewClick?: (item: BouquetItem) => void;
 }
 
-export default function FavoriteProductCard({ item }: FavoriteProductCardProps) {
+export default function FavoriteProductCard({ item, onPreviewClick }: FavoriteProductCardProps) {
   const [isQuickAddOpen, setQuickAddOpen] = useState(false);
   const { removeFromFavorites } = useFavorites();
   const { showNotification } = useNotification();
@@ -28,6 +29,14 @@ export default function FavoriteProductCard({ item }: FavoriteProductCardProps) 
   const closeQuickAdd = useCallback(() => {
     setQuickAddOpen(false);
   }, []);
+
+  const handlePreviewClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onPreviewClick) {
+      onPreviewClick(item);
+    }
+  }, [item, onPreviewClick]);
 
   const handleRemoveFromFavorites = useCallback(
     (e: React.MouseEvent) => {
@@ -43,8 +52,9 @@ export default function FavoriteProductCard({ item }: FavoriteProductCardProps) 
   return (
     <>
       <div
-        className="bg-white border border-[#eae9e9] rounded-[20px] h-[149px] flex overflow-hidden relative w-full"
+        className="bg-white border border-[#eae9e9] rounded-[20px] h-[149px] flex overflow-hidden relative w-full cursor-pointer"
         dir="rtl"
+        onClick={handlePreviewClick}
       >
         {/* Image Section (Right side in RTL) */}
         <div className="relative w-[140px] h-full shrink-0">
@@ -58,7 +68,10 @@ export default function FavoriteProductCard({ item }: FavoriteProductCardProps) 
           />
           {/* Heart Icon Overlay */}
           <button
-            onClick={handleRemoveFromFavorites}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRemoveFromFavorites(e);
+            }}
             className="absolute top-2 left-2 z-10 cursor-pointer hover:scale-110 transition-transform duration-200"
             dir="rtl"
             aria-label="إزالة من المفضلة"
@@ -84,10 +97,13 @@ export default function FavoriteProductCard({ item }: FavoriteProductCardProps) 
           {/* Price and Add to Cart Button */}
           <div className="flex items-center justify-between gap-3 mt-auto">
             <span className="text-[16px] font-bold text-[#3c3d39] text-right whitespace-nowrap" style={fontStyle}>
-              {item.price} ر.س
+              {item.totalPrice || item.price} ر.س
             </span>
             <button
-              onClick={openQuickAdd}
+              onClick={(e) => {
+                e.stopPropagation();
+                openQuickAdd(e);
+              }}
               className="bg-[#5f664f] rounded-[4px] w-[44px] h-[37px] flex items-center justify-center hover:bg-[#4a4e3d] transition-all duration-300 cursor-pointer shrink-0"
               aria-label={UI_TEXTS.ADD_TO_CART}
             >

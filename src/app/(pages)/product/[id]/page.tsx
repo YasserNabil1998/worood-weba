@@ -59,18 +59,14 @@ export default function ProductDetailPage() {
     <DataLoader isLoading={isLoading} loadingText="جاري تحميل المنتج...">
       {/* Structured Data for SEO */}
       {productSchema && (
-        <Script
-          id="product-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-        />
+        <Script id="product-schema" type="application/ld+json">
+          {JSON.stringify(productSchema)}
+        </Script>
       )}
       {breadcrumbSchema && (
-        <Script
-          id="breadcrumb-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-        />
+        <Script id="breadcrumb-schema" type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
+        </Script>
       )}
 
       <div className="min-h-screen">
@@ -138,6 +134,15 @@ export default function ProductDetailPage() {
                       price: product.price,
                       currency: product.currency,
                       image: product.image,
+                    }}
+                    productOptions={{
+                      selectedSize: options.selectedSize,
+                      color: options.color,
+                      addCard: options.addCard,
+                      cardMessage: options.cardMessage,
+                      addChocolate: options.addChocolate,
+                      giftWrap: options.giftWrap,
+                      totalPrice: getTotalPrice(),
                     }}
                   />
 

@@ -116,6 +116,14 @@ export const formatTimeToArabic = (time: string): string => {
 
   if (!match) {
     if (time.includes("ص") || time.includes("م")) {
+      // إذا كان الوقت بالفعل بتنسيق عربي، نتحقق من الترتيب
+      const arabicMatch = time.match(/(\d{1,2})\s*:\s*(\d{2})\s*(ص|م)/);
+      if (arabicMatch) {
+        const hour = parseInt(arabicMatch[1], 10);
+        const minute = parseInt(arabicMatch[2], 10);
+        const period = arabicMatch[3];
+        return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")} ${period}`;
+      }
       return time;
     }
     return "";
@@ -132,7 +140,30 @@ export const formatTimeToArabic = (time: string): string => {
     displayHour = hour - 12;
   }
 
-  return `${displayHour.toString().padStart(2, "0")} : ${minute.toString().padStart(2, "0")} ${period}`;
+  return `${displayHour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")} ${period}`;
+};
+
+/**
+ * Format date in English order: DD/MM/YYYY
+ */
+export const formatDateEnglish = (isoDate: string): string => {
+  if (!isoDate) return "";
+  
+  // If already in YYYY-MM-DD format, convert it
+  if (/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) {
+    const [year, month, day] = isoDate.split("-");
+    return `${day}/${month}/${year}`;
+  }
+  
+  // Try to parse and format
+  const date = new Date(isoDate + "T00:00:00");
+  if (isNaN(date.getTime())) return isoDate;
+  
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  
+  return `${day}/${month}/${year}`;
 };
 
 export const formatTimeToHTML = (arabicTime: string): string => {

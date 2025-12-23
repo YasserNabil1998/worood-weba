@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { fontStyle } from "@/lib/styles";
 
 interface StepIndicatorProps {
@@ -6,6 +7,13 @@ interface StepIndicatorProps {
 }
 
 export default function StepIndicator({ currentStep, onStepChange }: StepIndicatorProps) {
+  // Client-only rendering للأشعة لتجنب hydration errors
+  const [showRays, setShowRays] = useState(false);
+
+  useEffect(() => {
+    setShowRays(true);
+  }, []);
+
   const steps = [
     { n: 1, t: "اختيار الزهور", icon: "/assets/custom-bouquet/اختيار الزهور.svg" },
     { n: 2, t: "الحجم والتغليف", icon: "/assets/custom-bouquet/الحجم والتغليف.svg" },
@@ -31,8 +39,8 @@ export default function StepIndicator({ currentStep, onStepChange }: StepIndicat
             >
               {/* Step Circle */}
               <div className="relative flex items-center justify-center">
-                {/* Sunbeam rays - only for active step */}
-                {isActive && (
+                {/* Sunbeam rays - only for active step (client-only to avoid hydration errors) */}
+                {showRays && isActive && (
                   <>
                     {/* Mobile rays */}
                     <div

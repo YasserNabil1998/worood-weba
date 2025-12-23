@@ -1,62 +1,124 @@
 import { useRef } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { useCustomBouquetBuilderStore } from "@/stores";
 
 export function useCustomBouquetState() {
-  // Selected flowers and colors
-  const selectedFlowers = useCustomBouquetBuilderStore((state) => state.selectedFlowers);
-  const setSelectedFlowers = useCustomBouquetBuilderStore((state) => state.setSelectedFlowers);
-  const selectedColors = useCustomBouquetBuilderStore((state) => state.selectedColors);
-  const setSelectedColors = useCustomBouquetBuilderStore((state) => state.setSelectedColors);
-  const expandedFlower = useCustomBouquetBuilderStore((state) => state.expandedFlower);
-  const setExpandedFlower = useCustomBouquetBuilderStore((state) => state.setExpandedFlower);
-
-  // Size and packaging
-  const customFlowerCount = useCustomBouquetBuilderStore((state) => state.customFlowerCount);
-  const setCustomFlowerCount = useCustomBouquetBuilderStore((state) => state.setCustomFlowerCount);
-  const packagingType = useCustomBouquetBuilderStore((state) => state.packagingType);
-  const setPackagingType = useCustomBouquetBuilderStore((state) => state.setPackagingType);
-  const selectedVase = useCustomBouquetBuilderStore((state) => state.selectedVase);
-  const setSelectedVase = useCustomBouquetBuilderStore((state) => state.setSelectedVase);
-  const size = useCustomBouquetBuilderStore((state) => state.size);
-  const setSize = useCustomBouquetBuilderStore((state) => state.setSize);
-  const style = useCustomBouquetBuilderStore((state) => state.style);
-  const setStyle = useCustomBouquetBuilderStore((state) => state.setStyle);
-
-  // Step and customization
-  const step = useCustomBouquetBuilderStore((state) => state.step);
-  const setStep = useCustomBouquetBuilderStore((state) => state.setStep);
-  const occasion = useCustomBouquetBuilderStore((state) => state.occasion);
-  const setOccasion = useCustomBouquetBuilderStore((state) => state.setOccasion);
-  const cardMessage = useCustomBouquetBuilderStore((state) => state.cardMessage);
-  const setCardMessage = useCustomBouquetBuilderStore((state) => state.setCardMessage);
-  const includeCard = useCustomBouquetBuilderStore((state) => state.includeCard);
-  const setIncludeCard = useCustomBouquetBuilderStore((state) => state.setIncludeCard);
-  const showSuggestions = useCustomBouquetBuilderStore((state) => state.showSuggestions);
-  const setShowSuggestions = useCustomBouquetBuilderStore((state) => state.setShowSuggestions);
-  const notes = useCustomBouquetBuilderStore((state) => state.notes);
-  const setNotes = useCustomBouquetBuilderStore((state) => state.setNotes);
-
-  // Delivery
-  const deliveryType = useCustomBouquetBuilderStore((state) => state.deliveryType);
-  const setDeliveryType = useCustomBouquetBuilderStore((state) => state.setDeliveryType);
-  const deliveryDate = useCustomBouquetBuilderStore((state) => state.deliveryDate);
-  const setDeliveryDate = useCustomBouquetBuilderStore((state) => state.setDeliveryDate);
-  const deliveryTime = useCustomBouquetBuilderStore((state) => state.deliveryTime);
-  const setDeliveryTime = useCustomBouquetBuilderStore((state) => state.setDeliveryTime);
-
-  // UI state
-  const bouquetImage = useCustomBouquetBuilderStore((state) => state.bouquetImage);
-  const setBouquetImage = useCustomBouquetBuilderStore((state) => state.setBouquetImage);
-  const searchQuery = useCustomBouquetBuilderStore((state) => state.searchQuery);
-  const setSearchQuery = useCustomBouquetBuilderStore((state) => state.setSearchQuery);
-  const isAddingToCart = useCustomBouquetBuilderStore((state) => state.isAddingToCart);
-  const setIsAddingToCart = useCustomBouquetBuilderStore((state) => state.setIsAddingToCart);
   const isUpdatingFlowersRef = useRef(false);
 
-  // Notification
-  const notification = useCustomBouquetBuilderStore((state) => state.notification);
-  const showNotification = useCustomBouquetBuilderStore((state) => state.showNotification);
-  const reset = useCustomBouquetBuilderStore((state) => state.reset);
+  // Using single selector with useShallow to avoid multiple subscriptions and unnecessary re-renders
+  const {
+    // Flowers and colors
+    selectedFlowers,
+    setSelectedFlowers,
+    selectedColors,
+    setSelectedColors,
+    expandedFlower,
+    setExpandedFlower,
+
+    // Size and packaging
+    customFlowerCount,
+    setCustomFlowerCount,
+    packagingType,
+    setPackagingType,
+    selectedVase,
+    setSelectedVase,
+    size,
+    setSize,
+    style,
+    setStyle,
+
+    // Step and customization
+    step,
+    setStep,
+    occasion,
+    setOccasion,
+    cardMessage,
+    setCardMessage,
+    includeCard,
+    setIncludeCard,
+    showSuggestions,
+    setShowSuggestions,
+    notes,
+    setNotes,
+
+    // Delivery
+    deliveryType,
+    setDeliveryType,
+    deliveryDate,
+    setDeliveryDate,
+    deliveryTime,
+    setDeliveryTime,
+
+    // UI state
+    bouquetImage,
+    setBouquetImage,
+    searchQuery,
+    setSearchQuery,
+    isAddingToCart,
+    setIsAddingToCart,
+
+    // Notification
+    notification,
+    showNotification,
+    reset,
+  } = useCustomBouquetBuilderStore(
+    useShallow((state) => ({
+      // Flowers and colors
+      selectedFlowers: state.selectedFlowers,
+      setSelectedFlowers: state.setSelectedFlowers,
+      selectedColors: state.selectedColors,
+      setSelectedColors: state.setSelectedColors,
+      expandedFlower: state.expandedFlower,
+      setExpandedFlower: state.setExpandedFlower,
+
+      // Size and packaging
+      customFlowerCount: state.customFlowerCount,
+      setCustomFlowerCount: state.setCustomFlowerCount,
+      packagingType: state.packagingType,
+      setPackagingType: state.setPackagingType,
+      selectedVase: state.selectedVase,
+      setSelectedVase: state.setSelectedVase,
+      size: state.size,
+      setSize: state.setSize,
+      style: state.style,
+      setStyle: state.setStyle,
+
+      // Step and customization
+      step: state.step,
+      setStep: state.setStep,
+      occasion: state.occasion,
+      setOccasion: state.setOccasion,
+      cardMessage: state.cardMessage,
+      setCardMessage: state.setCardMessage,
+      includeCard: state.includeCard,
+      setIncludeCard: state.setIncludeCard,
+      showSuggestions: state.showSuggestions,
+      setShowSuggestions: state.setShowSuggestions,
+      notes: state.notes,
+      setNotes: state.setNotes,
+
+      // Delivery
+      deliveryType: state.deliveryType,
+      setDeliveryType: state.setDeliveryType,
+      deliveryDate: state.deliveryDate,
+      setDeliveryDate: state.setDeliveryDate,
+      deliveryTime: state.deliveryTime,
+      setDeliveryTime: state.setDeliveryTime,
+
+      // UI state
+      bouquetImage: state.bouquetImage,
+      setBouquetImage: state.setBouquetImage,
+      searchQuery: state.searchQuery,
+      setSearchQuery: state.setSearchQuery,
+      isAddingToCart: state.isAddingToCart,
+      setIsAddingToCart: state.setIsAddingToCart,
+
+      // Notification
+      notification: state.notification,
+      showNotification: state.showNotification,
+      reset: state.reset,
+    }))
+  );
 
   return {
     // Flowers and colors

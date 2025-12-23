@@ -22,12 +22,12 @@ export function useRequireAuth() {
     actionData: T extends "addToCart"
       ? CartItem
       : T extends "addToFavorites"
-      ? BouquetItem
-      : T extends "addCustomBouquetToCart"
-      ? CartItem
-      : T extends "addCustomBouquetToFavorites"
-      ? CustomBouquet
-      : never,
+        ? BouquetItem
+        : T extends "addCustomBouquetToCart"
+          ? CartItem
+          : T extends "addCustomBouquetToFavorites"
+            ? CustomBouquet
+            : never,
     message: string = "يجب تسجيل الدخول لإكمال هذه العملية"
   ): boolean => {
     if (isAuthenticated) {
@@ -35,7 +35,8 @@ export function useRequireAuth() {
     }
 
     // حفظ الإجراء المعلق
-    savePendingAction(actionType, actionData as any);
+    // Type assertion is safe here because actionData type is already validated by the function signature
+    savePendingAction(actionType, actionData as Parameters<typeof savePendingAction<T>>[1]);
 
     // إظهار رسالة توضيحية
     showNotification(message, "info");
@@ -53,4 +54,3 @@ export function useRequireAuth() {
 
   return { requireAuth, isAuthenticated };
 }
-

@@ -367,17 +367,16 @@ function CustomBuilderContent() {
                       onSaveToFavorites={() =>
                         addCustomBouquetToFavorites({
                           id: Date.now(),
-                          flowers:
-                            Object.entries(state.selectedFlowers)
-                              .filter(([_, qty]) => qty > 0)
-                              .map(([id, quantity]) => {
-                                const flower = flowers.find((f) => f.id === Number(id));
-                                return {
-                                  id: Number(id),
-                                  flower: flower!,
-                                  quantity,
-                                };
-                              }),
+                          flowers: Object.entries(state.selectedFlowers)
+                            .filter(([_, qty]) => qty > 0)
+                            .map(([id, quantity]) => {
+                              const flower = flowers.find((f) => f.id === Number(id));
+                              return {
+                                id: Number(id),
+                                flower: flower!,
+                                quantity,
+                              };
+                            }),
                           colors: Object.values(state.selectedColors).flat().map(String),
                           size: state.size,
                           style: state.style,

@@ -1,4 +1,3 @@
-import Script from "next/script";
 import HeroSection from "@/components/home/HeroSection";
 import OccasionsSection from "@/components/common/OccasionsSection";
 import FeaturedBouquets from "@/components/home/FeaturedBouquets";

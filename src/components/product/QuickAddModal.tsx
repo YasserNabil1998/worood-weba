@@ -58,8 +58,40 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
 
   useEffect(() => {
     if (!isOpen) return;
-    setOptions(createDefaultOptions());
-  }, [isOpen, bouquet?.id]);
+    // إذا كانت الباقة تحتوي على إضافات محفوظة، استخدمها
+    if (
+      bouquet?.selectedSize ||
+      bouquet?.selectedColorValue ||
+      bouquet?.addCard ||
+      bouquet?.addChocolate ||
+      bouquet?.giftWrap
+    ) {
+      setOptions({
+        selectedSize: bouquet.selectedSize || "medium",
+        color:
+          bouquet.selectedColorValue ||
+          bouquet.selectedColor ||
+          PRODUCT_DATA.colors?.[0]?.value ||
+          "classic",
+        addCard: bouquet.addCard || false,
+        cardMessage: bouquet.cardMessage || "",
+        addChocolate: bouquet.addChocolate || false,
+        giftWrap: bouquet.giftWrap || false,
+        quantity: 1,
+      });
+    } else {
+      setOptions(createDefaultOptions());
+    }
+  }, [
+    isOpen,
+    bouquet?.id,
+    bouquet?.selectedSize,
+    bouquet?.selectedColorValue,
+    bouquet?.addCard,
+    bouquet?.addChocolate,
+    bouquet?.giftWrap,
+    bouquet?.cardMessage,
+  ]);
 
   useEffect(() => {
     if (!isOpen) return;

@@ -41,18 +41,14 @@ export default function ContactPage() {
     <div className="min-h-screen bg-background" dir="rtl">
       {/* Structured Data for SEO */}
       {faqSchema && (
-        <Script
-          id="faq-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
+        <Script id="faq-schema" type="application/ld+json">
+          {JSON.stringify(faqSchema)}
+        </Script>
       )}
       {breadcrumbSchema && (
-        <Script
-          id="breadcrumb-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-        />
+        <Script id="breadcrumb-schema" type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
+        </Script>
       )}
       <main>
         {/* Page Title Section */}

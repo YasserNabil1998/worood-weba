@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useShallow } from "zustand/react/shallow";
 import type { Product } from "@/types/product";
 import { PRODUCT_DATA } from "@/constants/productData";
 import { addProductToCart, generateProductKey } from "@/lib/utils/cart";
@@ -35,17 +36,35 @@ export function useProductDetails(productId: string) {
   const { requireAuth } = useRequireAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const cartItems = useCartStore((state) => state.items);
-  const setCartItems = useCartStore((state) => state.setItems);
 
-  // Use product store
-  const storeProduct = useProductStore((state) => state.productData);
-  const fetchProduct = useProductStore((state) => state.fetchProduct);
-  const fetchProductOptions = useProductStore((state) => state.fetchProductOptions);
-  const editItemId = useProductStore((state) => state.editItemId);
-  const editItemData = useProductStore((state) => state.editItemData);
-  const setEditItem = useProductStore((state) => state.setEditItem);
-  const clearEditItem = useProductStore((state) => state.clearEditItem);
+  // استخدام useShallow لتقليل الاشتراكات وتحسين الأداء - Cart Store
+  const { items: cartItems, setItems: setCartItems } = useCartStore(
+    useShallow((state) => ({
+      items: state.items,
+      setItems: state.setItems,
+    }))
+  );
+
+  // استخدام useShallow لتقليل الاشتراكات وتحسين الأداء - Product Store
+  const {
+    productData: storeProduct,
+    fetchProduct,
+    fetchProductOptions,
+    editItemId,
+    editItemData,
+    setEditItem,
+    clearEditItem,
+  } = useProductStore(
+    useShallow((state) => ({
+      productData: state.productData,
+      fetchProduct: state.fetchProduct,
+      fetchProductOptions: state.fetchProductOptions,
+      editItemId: state.editItemId,
+      editItemData: state.editItemData,
+      setEditItem: state.setEditItem,
+      clearEditItem: state.clearEditItem,
+    }))
+  );
 
   // Product options state
   const [options, setOptions] = useState<ProductOptions>({

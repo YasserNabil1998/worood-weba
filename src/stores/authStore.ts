@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { storage } from "@/lib/utils";
-import { STORAGE_KEYS } from "@/constants";
+import { STORAGE_KEYS, TIMEOUTS } from "@/constants";
 import { logError } from "@/lib/logger";
 
 export interface User {
@@ -54,7 +54,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   ): Promise<{ success: boolean; error?: string }> => {
     try {
       // محاكاة API call
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      await new Promise((resolve) => setTimeout(resolve, TIMEOUTS.AUTH_LOGIN_DELAY));
 
       // محاكاة بيانات المستخدم
       const mockUser: User = {
@@ -88,7 +88,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   }): Promise<{ success: boolean; error?: string }> => {
     try {
       // محاكاة API call
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      await new Promise((resolve) => setTimeout(resolve, TIMEOUTS.AUTH_SIGNUP_DELAY));
 
       // محاكاة بيانات المستخدم
       const mockUser: User = {

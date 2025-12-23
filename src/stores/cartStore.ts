@@ -13,6 +13,24 @@ import {
 } from "@/lib/utils/cart";
 import { logError } from "@/lib/logger";
 
+/**
+ * Type for persisted cart store in localStorage
+ * Note: selectedItems is stored as array (not Set) for serialization
+ * This matches the structure returned by Zustand's persist middleware
+ */
+type PersistedCartStoreState = {
+  items: CartItem[];
+  selectedItems: string[] | number[]; // Set is converted to array for storage
+  totalItems: number;
+  totalPrice: number;
+  hasSelection: boolean;
+};
+
+interface PersistedCartStore {
+  state: PersistedCartStoreState;
+  version?: number; // version is optional in Zustand's StorageValue
+}
+
 interface CartStore {
   // State
   items: CartItem[];
@@ -196,10 +214,12 @@ export const useCartStore = create<CartStore>()(
     {
       name: STORAGE_KEYS.CART,
       // Persist items + computed totals (لا نحتاج selectedItems)
-      partialize: (state) => ({
+      partialize: (state): PersistedCartStoreState => ({
         items: state.items,
+        selectedItems: [], // لا نُخزن الـ Set
         totalItems: state.totalItems,
         totalPrice: state.totalPrice,
+        hasSelection: false, // لا نحتاج حفظ حالة الاختيار
       }),
       // Custom storage to handle Set serialization وإعادة حساب الإجماليات عند الحاجة
       storage: {
@@ -234,10 +254,10 @@ export const useCartStore = create<CartStore>()(
             return null;
           }
         },
-        setItem: (name: string, value: any) => {
+        setItem: (name: string, value: { state: PersistedCartStoreState; version?: number }) => {
           if (typeof window === "undefined") return;
           try {
-            const toStore = {
+            const toStore: PersistedCartStore = {
               ...value,
               state: {
                 ...value.state,

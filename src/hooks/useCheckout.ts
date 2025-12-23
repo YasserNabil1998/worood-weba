@@ -56,16 +56,16 @@ export function useCheckout() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    setIsLoading(true);
+      setIsLoading(true);
     initializeCheckout();
 
     if (checkoutItems.length === 0) {
-      router.push("/cart");
-      setIsLoading(false);
-      return;
-    }
+          router.push("/cart");
+          setIsLoading(false);
+          return;
+        }
 
-    setIsLoading(false);
+        setIsLoading(false);
   }, [router, initializeCheckout, checkoutItems.length]);
 
   const totals = useMemo((): CheckoutTotals => {

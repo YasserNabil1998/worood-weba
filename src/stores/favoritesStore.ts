@@ -43,7 +43,25 @@ export const useFavoritesStore = create<FavoritesStore>()(
 
       addBouquet: (item) => {
         const { bouquets } = get();
-        const exists = bouquets.some((fav) => fav.id === item.id);
+        // التحقق من وجود نفس الباقة بنفس الإضافات
+        const exists = bouquets.some((fav) => {
+          // نفس المنتج
+          if (fav.id !== item.id) return false;
+
+          // نفس الإضافات (إذا كانت موجودة)
+          const sameSize = (fav.selectedSize || "medium") === (item.selectedSize || "medium");
+          const sameColor =
+            (fav.selectedColorValue || fav.color || "") ===
+            (item.selectedColorValue || item.color || "");
+          const sameAddons =
+            (fav.addCard || false) === (item.addCard || false) &&
+            (fav.addChocolate || false) === (item.addChocolate || false) &&
+            (fav.giftWrap || false) === (item.giftWrap || false);
+          const sameCardMessage = (fav.cardMessage || "") === (item.cardMessage || "");
+
+          return sameSize && sameColor && sameAddons && sameCardMessage;
+        });
+
         if (exists) return false;
 
         set({ bouquets: [...bouquets, item] });

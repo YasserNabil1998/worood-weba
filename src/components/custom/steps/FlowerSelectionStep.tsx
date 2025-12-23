@@ -99,7 +99,7 @@ export default function FlowerSelectionStep({
                 {currentQty === 0 ? (
                   <button
                     onClick={() => onInc(String(f.id))}
-                    className="w-[45px] h-[40px] rounded-[4px] bg-[#5f664f] flex items-center justify-center cursor-pointer hover:bg-[#4b5244] transition-colors self-end"
+                    className="w-[45px] h-[40px] rounded-[4px] bg-[#5f664f] flex items-center justify-center cursor-pointer hover:bg-[#4b5244] self-end"
                   >
                     <svg
                       width="18"
@@ -203,7 +203,7 @@ export default function FlowerSelectionStep({
       <div className="mt-6 flex flex-row items-center justify-end">
         <button
           onClick={onNextStep}
-          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#5f664f] text-white text-[18px] font-bold hover:bg-[#4b5244] transition-colors flex items-center justify-center gap-1 cursor-pointer relative"
+          className="w-[130px] h-[50px] px-4 rounded-[5px] bg-[#5f664f] text-white text-[18px] font-bold hover:bg-[#4b5244] flex items-center justify-center gap-1 cursor-pointer relative"
           style={fontStyle}
         >
           <span className="flex-1 text-center">التالي</span>

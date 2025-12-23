@@ -14,6 +14,16 @@ export interface BouquetItem {
   occasion?: string;
   currency?: string;
   category?: string;
+  // الإضافات المحفوظة مع الباقة في المفضلة
+  selectedSize?: string;
+  selectedColor?: string;
+  selectedColorValue?: string;
+  selectedColorLabel?: string;
+  addCard?: boolean;
+  cardMessage?: string;
+  addChocolate?: boolean;
+  giftWrap?: boolean;
+  totalPrice?: number; // السعر الإجمالي مع الإضافات
 }
 
 // Keep the old interface for backward compatibility

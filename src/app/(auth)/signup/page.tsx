@@ -10,6 +10,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { fontStyle } from "@/lib/styles";
+import { logger } from "@/lib/logger";
 import { useAuth } from "@/providers/auth-provider";
 import { useNotification } from "@/providers/notification-provider";
 import { getPendingAction } from "@/utils/pendingActions";
@@ -77,23 +78,45 @@ export default function SignupPage() {
       if (result.success) {
         showNotification("تم إنشاء الحساب بنجاح! ✓", "success");
 
-        // تنفيذ الإجراء المعلق إن وجد
-        const pendingAction = getPendingAction();
-        if (pendingAction) {
-          await executePendingAction(pendingAction, {
-            addToCart,
-            addToFavorites,
-            addCustomBouquetToCart,
-            addCustomBouquetToFavorites,
-            showNotification,
-          });
-        }
+        // TODO: إرسال رمز التحقق إلى رقم الهاتف (معطل حالياً)
+        // const verificationResult = await sendVerificationCode(data.phone);
 
-        // التوجيه للصفحة السابقة أو الصفحة الرئيسية
-        const returnPath = pendingAction?.returnPath || searchParams.get("return") || "/";
-        setTimeout(() => {
-          router.push(returnPath);
-        }, 500);
+        // Mock - محاكاة إرسال رمز التحقق
+        logger.debug(`[Mock] إرسال رمز التحقق إلى: ${data.phone}`);
+        const verificationResult = { success: true }; // محاكاة نجاح الإرسال
+
+        if (verificationResult.success) {
+          // حفظ الإجراء المعلق إن وجد للتنفيذ بعد التحقق
+          const pendingAction = getPendingAction();
+          const returnPath = pendingAction?.returnPath || searchParams.get("return") || "/";
+
+          // التوجيه إلى صفحة التحقق مع تمرير رقم الهاتف ومسار العودة
+          const verifyUrl = `/verify?phone=${encodeURIComponent(data.phone)}${returnPath !== "/" ? `&return=${encodeURIComponent(returnPath)}` : ""}`;
+
+          setTimeout(() => {
+            router.push(verifyUrl);
+          }, 500);
+        } else {
+          // فشل إرسال رمز التحقق - التوجيه مباشرة
+          showNotification("تم إنشاء الحساب ولكن فشل إرسال رمز التحقق", "warning");
+
+          // تنفيذ الإجراء المعلق إن وجد
+          const pendingAction = getPendingAction();
+          if (pendingAction) {
+            await executePendingAction(pendingAction, {
+              addToCart,
+              addToFavorites,
+              addCustomBouquetToCart,
+              addCustomBouquetToFavorites,
+              showNotification,
+            });
+          }
+
+          const returnPath = pendingAction?.returnPath || searchParams.get("return") || "/";
+          setTimeout(() => {
+            router.push(returnPath);
+          }, 500);
+        }
       } else {
         showNotification(result.error || "فشل إنشاء الحساب", "error");
       }

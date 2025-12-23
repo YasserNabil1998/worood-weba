@@ -1,37 +1,95 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { fontStyle } from "@/lib/styles";
 import { TIMEOUTS } from "@/constants";
+import { logger } from "@/lib/logger";
+import {
+  verificationCodeSchema,
+  phoneVerificationSchema,
+} from "@/validations/schemas/verificationSchema";
 
 export default function VerifyPage() {
-  const [phone, setPhone] = useState("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const phone = searchParams.get("phone") || "";
   const [code, setCode] = useState<string[]>(["", "", "", ""]);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
 
-  useEffect(() => {
-    try {
-      const p = new URLSearchParams(window.location.search).get("phone") || "";
-      setPhone(p);
-    } catch {
-      setPhone("");
-    }
-  }, []);
-
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const value = code.join("");
-    if (!/^\d{4}$/.test(value)) {
-      setError("رمز غير صالح");
+    const verificationCode = code.join("");
+
+    // Zod validation للكود
+    const codeValidation = verificationCodeSchema.safeParse({ code: verificationCode });
+    if (!codeValidation.success) {
+      setError(codeValidation.error.issues[0].message);
       return;
     }
+
+    // Zod validation للهاتف
+    const phoneValidation = phoneVerificationSchema.safeParse({ phone });
+    if (!phoneValidation.success) {
+      setError("رقم الهاتف غير صالح");
+      return;
+    }
+
     setError("");
     setSubmitting(true);
-    setTimeout(() => setSubmitting(false), TIMEOUTS.FORM_SUBMIT_RESET);
+
+    try {
+      // TODO: استدعاء Server Action للتحقق من الكود (معطل حالياً)
+      // const result = await verifyPhoneCode(phone, verificationCode);
+      // if (result.success) {
+      //   router.push("/");
+      // } else {
+      //   setError(result.error || "رمز التحقق غير صحيح");
+      // }
+
+      // Mock verification - محاكاة التحقق
+      logger.debug(`[Mock] التحقق من الكود ${verificationCode} للهاتف: ${phone}`);
+
+      // محاكاة delay للشبكة
+      await new Promise((resolve) => setTimeout(resolve, TIMEOUTS.VERIFICATION_CODE_MOCK_DELAY));
+
+      // في الوقت الحالي نقبل أي كود من 4 أرقام
+      logger.debug("✓ تم التحقق بنجاح (mock)");
+      router.push("/");
+    } catch (err) {
+      setError("حدث خطأ أثناء التحقق");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleResendCode = async () => {
+    try {
+      // Zod validation للهاتف
+      const phoneValidation = phoneVerificationSchema.safeParse({ phone });
+      if (!phoneValidation.success) {
+        setError("رقم الهاتف غير صالح");
+        return;
+      }
+
+      // TODO: استدعاء Server Action لإعادة إرسال الكود (معطل حالياً)
+      // const result = await sendVerificationCode(phone);
+      // if (result.success) {
+      //   console.log("✓ تم إعادة إرسال الرمز بنجاح");
+      // } else {
+      //   setError(result.error || "فشل إعادة إرسال الرمز");
+      // }
+
+      // Mock - محاكاة إعادة الإرسال
+      logger.debug(`[Mock] إعادة إرسال الكود إلى: ${phone}`);
+      alert("تم إعادة إرسال الرمز (محاكاة)");
+    } catch (err) {
+      setError("حدث خطأ أثناء إعادة إرسال الرمز");
+    }
   };
 
   return (
@@ -100,10 +158,14 @@ export default function VerifyPage() {
             {submitting ? "... تسجيل الدخول" : "تسجيل الدخول"}
           </button>
           <div className="text-center text-xs text-gray-600 space-y-2">
-            <Link href="/login" className="block hover:underline">
+            <Link href="/signup" className="block hover:underline">
               العودة لتغيير رقم الهاتف
             </Link>
-            <button type="button" className="text-gray-700 hover:underline">
+            <button
+              type="button"
+              onClick={handleResendCode}
+              className="text-gray-700 hover:underline"
+            >
               إعادة إرسال الرمز
             </button>
           </div>

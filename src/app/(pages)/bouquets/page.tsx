@@ -20,11 +20,9 @@ export default async function BouquetsPage() {
   return (
     <div className="min-h-screen bg-background" dir="rtl">
       {/* Breadcrumb Schema for SEO */}
-      <Script
-        id="breadcrumb-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      <Script id="breadcrumb-schema" type="application/ld+json">
+        {JSON.stringify(breadcrumbSchema)}
+      </Script>
       <main>
         {/* Page Title Section */}
         <section className="pt-8 pb-4">

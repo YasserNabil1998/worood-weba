@@ -29,7 +29,7 @@ export default function CustomBuilderNavigation({
       <button
         onClick={onPreviousStep}
         disabled={isAddingToCart}
-        className={getButtonStyles.secondary()}
+        className={getButtonStyles.secondary().replace("transition-colors", "")}
         style={{ ...fontStyle, ...getButtonInlineStyles.secondary() }}
       >
         <ChevronRight className="w-5 h-5 shrink-0" />
@@ -39,7 +39,7 @@ export default function CustomBuilderNavigation({
         <button
           onClick={onNextStep}
           disabled={isAddingToCart}
-          className={getButtonStyles.primary()}
+          className={getButtonStyles.primary().replace("transition-colors", "")}
           style={{ ...fontStyle, ...getButtonInlineStyles.primary() }}
         >
           <span className="text-[18px] font-bold flex-1 text-center">التالي</span>
@@ -49,7 +49,7 @@ export default function CustomBuilderNavigation({
         <button
           onClick={onAddToCart}
           disabled={isAddingToCart}
-          className={`${getButtonStyles.primary()} text-[15px] font-bold`}
+          className={`${getButtonStyles.primary().replace("transition-colors", "")} text-[15px] font-bold`}
           style={{ ...fontStyle, ...getButtonInlineStyles.primary() }}
         >
           {isAddingToCart ? (

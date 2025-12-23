@@ -2,6 +2,7 @@ import { Flower, Color, Vase, PackagingType } from "@/types/custom";
 import PriceBreakdown from "./PriceBreakdown";
 import { Heart, ExternalLink } from "lucide-react";
 import { fontStyle } from "@/lib/styles";
+import { formatTimeToArabic, formatDateEnglish } from "@/lib/utils";
 
 interface BouquetPreviewProps {
   bouquetImage: string;
@@ -246,13 +247,21 @@ export default function BouquetPreview({
               )}
 
               {(deliveryTime || deliveryDate) && (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center justify-between">
-                  <span className="text-xs font-semibold text-green-700">موعد التوصيل</span>
-                  <span className="text-xs sm:text-sm text-gray-800">
-                    {deliveryDate && <span>{deliveryDate}</span>}
-                    {deliveryDate && deliveryTime && <span className="mx-1">•</span>}
-                    {deliveryTime && <span>{deliveryTime}</span>}
-                  </span>
+                <div className="bg-[#E8F5E9] rounded-[10px] p-3 sm:p-4 shadow-sm">
+                  <div className="text-right">
+                    <div className="text-[14px] sm:text-[16px] font-semibold text-[#2E7D32] mb-2" style={fontStyle}>
+                      موعد التوصيل
+                    </div>
+                    <div className="text-[13px] sm:text-[15px] text-[#303030]" style={fontStyle}>
+                      {deliveryDate && (
+                        <span>{formatDateEnglish(deliveryDate)}</span>
+                      )}
+                      {deliveryDate && deliveryTime && <span className="mx-2">•</span>}
+                      {deliveryTime && (
+                        <span>{formatTimeToArabic(deliveryTime) || deliveryTime}</span>
+                      )}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -262,14 +271,14 @@ export default function BouquetPreview({
           <div className="grid grid-cols-1 gap-2 sm:gap-3">
             <button
               onClick={onSaveToFavorites}
-              className="w-full rounded-md bg-[#5A5E4D] text-white px-3 py-2 text-xs sm:text-sm flex items-center justify-center gap-2 hover:bg-[#4b5244] transition-colors cursor-pointer"
+              className="w-full rounded-md bg-[#5A5E4D] text-white px-3 py-2 text-xs sm:text-sm flex items-center justify-center gap-2 hover:bg-[#4b5244] cursor-pointer"
             >
               <span>حفظ التصميم</span>
               <Heart className="w-4 h-4 flex-shrink-0" />
             </button>
             <button
               onClick={onShareDesign}
-              className="w-full rounded-md bg-white border border-[#5A5E4D] text-[#5A5E4D] px-3 py-2 text-xs sm:text-sm flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors cursor-pointer"
+              className="w-full rounded-md bg-white border border-[#5A5E4D] text-[#5A5E4D] px-3 py-2 text-xs sm:text-sm flex items-center justify-center gap-2 hover:bg-gray-50 cursor-pointer"
             >
               <span>مشاركة التصميم</span>
               <ExternalLink className="w-4 h-4 flex-shrink-0" />

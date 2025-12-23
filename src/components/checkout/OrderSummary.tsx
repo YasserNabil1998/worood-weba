@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { CartItem } from "@/types/cart";
 import { CheckoutTotals } from "@/types/checkout";
 import { APP_CONFIG, COLORS } from "@/constants";
@@ -16,30 +19,58 @@ export default function OrderSummary({
   onPlaceOrder,
   isSubmitting,
 }: OrderSummaryProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Prevent hydration mismatch by not rendering until client-side hydration is complete
+  if (!mounted) {
+    return (
+      <aside
+        className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 h-fit lg:sticky lg:top-24 lg:self-start lg:z-10"
+        data-aos="none"
+      >
+        <h2 className="text-lg font-semibold mb-6 text-gray-800" style={fontStyle}>
+          ملخص الطلب
+        </h2>
+        <div className="animate-pulse">
+          <div className="h-4 bg-gray-200 rounded mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded"></div>
+        </div>
+      </aside>
+    );
+  }
+
   return (
-    <aside className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 h-fit lg:sticky lg:top-24 lg:self-start lg:z-10" data-aos="none">
+    <aside
+      className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 h-fit lg:sticky lg:top-24 lg:self-start lg:z-10"
+      data-aos="none"
+    >
       <h2 className="text-lg font-semibold mb-6 text-gray-800" style={fontStyle}>
         ملخص الطلب
       </h2>
 
       {/* قائمة المنتجات */}
       <ul className="mb-6 divide-y divide-gray-100">
-        {items.map((item, index) => {
+        {items.map((item) => {
           const itemPrice = item.isCustom ? (item.price ?? 0) : (item.total ?? item.price ?? 0);
+          // Normalize price to avoid floating point precision issues
+          const normalizedPrice = Math.round(itemPrice * 100) / 100;
 
           return (
             <li
-              key={`${item.id}-${index}-${item.title}`}
+              key={`${item.id}-${item.title || "item"}`}
               className="py-3 flex items-center justify-between text-sm transition-colors hover:bg-gray-50/50 -mx-2 px-2 rounded"
             >
               <span className="text-gray-700 flex-1 text-right pr-2">{item.title}</span>
               <div className="flex items-center gap-1 whitespace-nowrap">
                 <span className="text-base font-bold text-[#5A5E4D]">
-                  {itemPrice.toFixed(2)}
+                  {normalizedPrice.toFixed(2)}
                 </span>
-                <span className="text-sm text-[#5A5E4D]">
-                  {APP_CONFIG.CURRENCY}
-                </span>
+                <span className="text-sm text-[#5A5E4D]">{APP_CONFIG.CURRENCY}</span>
               </div>
             </li>
           );
@@ -52,25 +83,21 @@ export default function OrderSummary({
           <span className="text-gray-600">الإجمالي الفرعي</span>
           <div className="flex items-center gap-1.5">
             <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">
-              {totals.subtotal.toFixed(2)}
+              {(Math.round(totals.subtotal * 100) / 100).toFixed(2)}
             </span>
-            <span className="text-sm sm:text-base text-[#5A5E4D]">
-              {APP_CONFIG.CURRENCY}
-            </span>
+            <span className="text-sm sm:text-base text-[#5A5E4D]">{APP_CONFIG.CURRENCY}</span>
           </div>
         </div>
 
         <div className="flex justify-between items-center py-1">
           <span className="text-gray-600">
-            ضريبة القيمة المضافة {(APP_CONFIG.VAT_RATE * 100).toFixed(0)}%
+            ضريبة القيمة المضافة {Math.round(APP_CONFIG.VAT_RATE * 100)}%
           </span>
           <div className="flex items-center gap-1.5">
             <span className="text-xl sm:text-2xl font-bold text-[#5A5E4D]">
-              {totals.vat.toFixed(2)}
+              {(Math.round(totals.vat * 100) / 100).toFixed(2)}
             </span>
-            <span className="text-sm sm:text-base text-[#5A5E4D]">
-              {APP_CONFIG.CURRENCY}
-            </span>
+            <span className="text-sm sm:text-base text-[#5A5E4D]">{APP_CONFIG.CURRENCY}</span>
           </div>
         </div>
 
@@ -78,11 +105,9 @@ export default function OrderSummary({
           <span className="text-gray-800">المجموع</span>
           <div className="flex items-center gap-1.5">
             <span className="text-xl sm:text-2xl font-extrabold" style={{ color: COLORS.PRIMARY }}>
-              {totals.grand.toFixed(2)}
+              {(Math.round(totals.grand * 100) / 100).toFixed(2)}
             </span>
-            <span className="text-sm sm:text-base text-[#5A5E4D]">
-              {APP_CONFIG.CURRENCY}
-            </span>
+            <span className="text-sm sm:text-base text-[#5A5E4D]">{APP_CONFIG.CURRENCY}</span>
           </div>
         </div>
       </div>

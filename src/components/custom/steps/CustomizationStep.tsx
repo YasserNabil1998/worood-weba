@@ -129,7 +129,7 @@ export default function CustomizationStep({
               <button
                 type="button"
                 onClick={onShowSuggestionsToggle}
-                className="w-[140px] h-[47px] rounded-[10px] border border-[#cfcfcf] bg-[#f6f7f6] text-[18px] text-black hover:bg-[#e8e9e8] transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                className="w-[140px] h-[47px] rounded-[10px] border border-[#cfcfcf] bg-[#f6f7f6] text-[18px] text-black hover:bg-[#e8e9e8] flex items-center justify-center gap-2 cursor-pointer"
                 style={fontStyle}
               >
                 <span>اقتراحات</span>

@@ -33,6 +33,9 @@ interface OrdersState {
   // Tracking
   trackedOrders: Set<string>; // Set of order IDs being tracked
 
+  // Filter state
+  selectedStatus: string; // Selected filter status (e.g., "الكل", "قيد التجهيز", etc.)
+
   // Actions
   fetchOrders: () => Promise<void>;
   cancelOrder: (orderId: string) => Promise<{ success: boolean; error?: string }>;
@@ -51,6 +54,7 @@ interface OrdersState {
     newStatus?: Order["status"];
     currentStatus?: Order["status"];
   }>;
+  setSelectedStatus: (status: string) => void;
 }
 
 const CACHE_DURATION = 3600000; // 1 hour in milliseconds
@@ -64,6 +68,7 @@ export const useOrdersStore = create<OrdersState>()(
       error: null,
       lastFetched: null,
       trackedOrders: new Set<string>(),
+      selectedStatus: "الكل", // Default filter status
 
       // Fetch orders
       fetchOrders: async () => {
@@ -216,12 +221,18 @@ export const useOrdersStore = create<OrdersState>()(
           return { success: false };
         }
       },
+
+      // Set selected filter status
+      setSelectedStatus: (status: string) => {
+        set({ selectedStatus: status });
+      },
     }),
     {
       name: STORAGE_KEYS.ORDERS_STORE || "ordersStore",
       partialize: (state) => ({
         orders: state.orders,
         lastFetched: state.lastFetched,
+        selectedStatus: state.selectedStatus,
         // trackedOrders is not persisted (Set cannot be serialized)
       }),
     }

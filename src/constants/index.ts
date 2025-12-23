@@ -115,6 +115,12 @@ export const TIMEOUTS = {
   TRANSITION_MEDIUM: 500, // انتقال متوسط
   DROPDOWN_CLOSE_DELAY: 200, // تأخير إغلاق القوائم المنسدلة
   API_SIMULATION: 1000, // محاكاة استدعاء API
+  // Authentication & Verification
+  VERIFICATION_CODE_SEND_DELAY: 500, // تأخير إرسال رمز التحقق
+  VERIFICATION_CODE_VERIFY_DELAY: 800, // تأخير التحقق من رمز التحقق
+  VERIFICATION_CODE_MOCK_DELAY: 1000, // تأخير محاكاة التحقق
+  AUTH_LOGIN_DELAY: 600, // تأخير تسجيل الدخول
+  AUTH_SIGNUP_DELAY: 800, // تأخير التسجيل
 } as const;
 
 // Intervals (setInterval) - بالمللي ثانية
