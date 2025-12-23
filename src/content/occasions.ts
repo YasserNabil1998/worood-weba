@@ -1,5 +1,5 @@
 import { OccasionWithHref } from "@/types/home";
-import ASSETS from "../assets";
+import { ASSETS } from "@/config/assets";
 
 export const defaultOccasions: OccasionWithHref[] = [
   {

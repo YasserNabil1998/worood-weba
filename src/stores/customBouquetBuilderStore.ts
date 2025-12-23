@@ -96,10 +96,10 @@ export const useCustomBouquetBuilderStore = create<CustomBouquetBuilderState>()(
   expandedFlower: null,
 
   // Size and packaging
-  customFlowerCount: 12,
+  customFlowerCount: 0,
   packagingType: "paper",
   selectedVase: "",
-  size: "medium",
+  size: "custom",
   style: "classic",
 
   // Step and customization
@@ -178,7 +178,7 @@ export const useCustomBouquetBuilderStore = create<CustomBouquetBuilderState>()(
       customFlowerCount: 12,
       packagingType: "paper",
       selectedVase: "",
-      size: "medium",
+      size: "custom",
       style: "classic",
       step: 1,
       occasion: "",

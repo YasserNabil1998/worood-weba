@@ -6,13 +6,8 @@ const REVIEWS_STORAGE_KEY = "customer_reviews";
 
 export const addReview = (review: ReviewItem): void => {
   try {
-    // جلب التقييمات الموجودة
     const existingReviews = getReviews();
-
-    // إضافة التقييم الجديد
     const updatedReviews = [...existingReviews, review];
-
-    // حفظ في localStorage
     storage.set(REVIEWS_STORAGE_KEY, updatedReviews);
   } catch (error) {
     logError("Error saving review", error, { reviewId: review.id });

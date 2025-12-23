@@ -114,20 +114,35 @@ export default function SizeAndPackagingStep({
             })
             .map((opt) => {
               const isSelected = size === opt.key;
+              const isCustom = opt.key === "custom";
+              const isDisabled = totalFlowersCount === 0 && opt.key !== "custom";
 
-              return (
-                <button
-                  key={opt.key}
-                  onClick={() => onSizeChange(opt.key as "small" | "medium" | "large" | "custom")}
-                  disabled={totalFlowersCount === 0 && opt.key !== "custom"}
-                  className={`flex flex-col rounded-[20px] border transition-all h-[110px] px-3 sm:px-4 py-4 ${
-                    isSelected
-                      ? "border-[#6d6d6d] bg-white"
-                      : totalFlowersCount === 0 && opt.key !== "custom"
-                        ? "border-[#d7d6d6] bg-white opacity-50 cursor-not-allowed"
-                        : "border-[#d7d6d6] bg-white hover:border-[#6d6d6d] hover:bg-gray-50 cursor-pointer"
-                  }`}
-                >
+              // للحجم المخصص، نستخدم div بدلاً من button لتجنب hydration error
+              if (isCustom) {
+                return (
+                  <div
+                    key={opt.key}
+                    onClick={() => {
+                      if (!isDisabled) {
+                        onSizeChange(opt.key as "small" | "medium" | "large" | "custom");
+                      }
+                    }}
+                    role="button"
+                    tabIndex={isDisabled ? -1 : 0}
+                    onKeyDown={(e) => {
+                      if ((e.key === "Enter" || e.key === " ") && !isDisabled) {
+                        e.preventDefault();
+                        onSizeChange(opt.key as "small" | "medium" | "large" | "custom");
+                      }
+                    }}
+                    className={`flex flex-col rounded-[20px] border transition-all h-[110px] px-3 sm:px-4 py-4 ${
+                      isSelected
+                        ? "border-[#6d6d6d] bg-white"
+                        : isDisabled
+                          ? "border-[#d7d6d6] bg-white opacity-50 cursor-not-allowed"
+                          : "border-[#d7d6d6] bg-white hover:border-[#6d6d6d] hover:bg-gray-50 cursor-pointer"
+                    }`}
+                  >
                   {/* العنوان في الأعلى - موضع ثابت */}
                   <div
                     className="font-normal text-[14px] sm:text-[16px] leading-[20px] text-black text-center"
@@ -148,23 +163,104 @@ export default function SizeAndPackagingStep({
                     )}
                     {opt.key === "custom" && (
                       <div className="flex items-center justify-center gap-2 w-full flex-wrap sm:flex-nowrap">
-                        <input
-                          type="number"
-                          min="5"
-                          max="1000"
-                          value={customFlowerCount}
-                          onChange={(e) => onCustomFlowerCountChange(Number(e.target.value))}
-                          onClick={(e) => e.stopPropagation()}
-                          placeholder="50"
-                          className="w-full sm:w-[100px] h-[26px] px-2 text-[14px] sm:text-[16px] leading-[20px] text-center border-[0.5px] border-[#b7b7b7] rounded-[5px] bg-white text-gray-800 placeholder:text-[#b9b6b6] focus:outline-none focus:ring-1 focus:ring-[#5A5E4D]/30"
-                          style={fontStyle}
-                        />
+                        <div className="flex items-center gap-1 border-[0.5px] border-[#b7b7b7] rounded-[5px] bg-white overflow-hidden">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const newValue = Math.max(1, customFlowerCount - 1);
+                              onCustomFlowerCountChange(newValue);
+                              if (size !== "custom") {
+                                onSizeChange("custom");
+                              }
+                            }}
+                            disabled={customFlowerCount <= 1}
+                            className="w-7 h-[26px] flex items-center justify-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 disabled:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-150 border-r border-[#b7b7b7]"
+                            aria-label="تقليل العدد"
+                          >
+                            <span className="text-[16px] font-bold text-gray-700 leading-none">−</span>
+                          </button>
+                          <input
+                            type="number"
+                            min="1"
+                            max="1000"
+                            value={customFlowerCount}
+                            onChange={(e) => {
+                              const newValue = Math.max(1, Math.min(1000, Number(e.target.value) || 1));
+                              onCustomFlowerCountChange(newValue);
+                              if (size !== "custom") {
+                                onSizeChange("custom");
+                              }
+                            }}
+                            onBlur={(e) => {
+                              const newValue = Math.max(1, Math.min(1000, Number(e.target.value) || 1));
+                              onCustomFlowerCountChange(newValue);
+                            }}
+                            onClick={(e) => e.stopPropagation()}
+                            placeholder="1"
+                            className="w-[60px] sm:w-[70px] h-[26px] px-1 text-[14px] sm:text-[16px] leading-[20px] text-center bg-white text-gray-800 placeholder:text-[#b9b6b6] focus:outline-none focus:ring-0 border-0"
+                            style={fontStyle}
+                          />
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const newValue = Math.min(1000, customFlowerCount + 1);
+                              onCustomFlowerCountChange(newValue);
+                              if (size !== "custom") {
+                                onSizeChange("custom");
+                              }
+                            }}
+                            disabled={customFlowerCount >= 1000}
+                            className="w-7 h-[26px] flex items-center justify-center bg-gray-50 hover:bg-gray-100 active:bg-gray-200 disabled:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-150 border-l border-[#b7b7b7]"
+                            aria-label="زيادة العدد"
+                          >
+                            <span className="text-[16px] font-bold text-gray-700 leading-none">+</span>
+                          </button>
+                        </div>
                         <div
                           className="text-[14px] sm:text-[16px] leading-[20px] text-gray-600 whitespace-nowrap"
                           style={fontStyle}
                         >
                           زهرة
                         </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+              }
+
+              // للأحجام الأخرى، نستخدم button عادي
+              return (
+                <button
+                  key={opt.key}
+                  onClick={() => onSizeChange(opt.key as "small" | "medium" | "large" | "custom")}
+                  disabled={isDisabled}
+                  className={`flex flex-col rounded-[20px] border transition-all h-[110px] px-3 sm:px-4 py-4 ${
+                    isSelected
+                      ? "border-[#6d6d6d] bg-white"
+                      : isDisabled
+                        ? "border-[#d7d6d6] bg-white opacity-50 cursor-not-allowed"
+                        : "border-[#d7d6d6] bg-white hover:border-[#6d6d6d] hover:bg-gray-50 cursor-pointer"
+                  }`}
+                >
+                  {/* العنوان في الأعلى - موضع ثابت */}
+                  <div
+                    className="font-normal text-[14px] sm:text-[16px] leading-[20px] text-black text-center"
+                    style={fontStyle}
+                  >
+                    {opt.label}
+                  </div>
+
+                  {/* الوصف في المنتصف - موضع ثابت */}
+                  <div className="flex-1 flex items-center justify-center">
+                    {opt.stems && (
+                      <div
+                        className="text-[14px] sm:text-[16px] leading-[20px] text-gray-600 text-center"
+                        style={fontStyle}
+                      >
+                        {opt.stems}
                       </div>
                     )}
                   </div>

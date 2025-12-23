@@ -7,8 +7,6 @@ import { logError } from "@/lib/logger";
 export async function fetchContactInfo(): Promise<ContactInfo> {
   try {
     // TODO: Replace with actual API call
-
-    // Mock data for now
     return {
       address: undefined,
       phone: undefined,
@@ -28,8 +26,6 @@ export async function fetchContactInfo(): Promise<ContactInfo> {
 export async function fetchFAQs(): Promise<FAQ[]> {
   try {
     // TODO: Replace with actual API call
-
-    // Mock data for now
     return [];
   } catch (error) {
     logError("Error fetching FAQs", error);

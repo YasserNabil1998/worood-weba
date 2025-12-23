@@ -15,8 +15,6 @@ import { logError } from "@/lib/logger";
 export async function fetchFlowers(): Promise<Flower[]> {
   try {
     // TODO: Replace with actual API call
-
-    // Mock data for now
     return [];
   } catch (error) {
     logError("Error fetching flowers", error);
@@ -30,8 +28,6 @@ export async function fetchFlowers(): Promise<Flower[]> {
 export async function fetchFlowerColors(flowerId: number): Promise<Color[]> {
   try {
     // TODO: Replace with actual API call
-
-    // Mock data for now
     return [];
   } catch (error) {
     logError("Error fetching flower colors", error);
@@ -45,8 +41,6 @@ export async function fetchFlowerColors(flowerId: number): Promise<Color[]> {
 export async function fetchSizes(): Promise<BouquetSize[]> {
   try {
     // TODO: Replace with actual API call
-
-    // Mock data for now
     return [];
   } catch (error) {
     logError("Error fetching sizes", error);
@@ -60,8 +54,6 @@ export async function fetchSizes(): Promise<BouquetSize[]> {
 export async function fetchPackagingTypes(): Promise<PackagingType[]> {
   try {
     // TODO: Replace with actual API call
-
-    // Mock data for now
     return [];
   } catch (error) {
     logError("Error fetching packaging types", error);
@@ -75,8 +67,6 @@ export async function fetchPackagingTypes(): Promise<PackagingType[]> {
 export async function fetchOccasions(): Promise<Occasion[]> {
   try {
     // TODO: Replace with actual API call
-
-    // Mock data for now
     return [];
   } catch (error) {
     logError("Error fetching occasions", error);
@@ -90,8 +80,6 @@ export async function fetchOccasions(): Promise<Occasion[]> {
 export async function fetchCardSuggestions(): Promise<string[]> {
   try {
     // TODO: Replace with actual API call
-
-    // Mock data for now
     return [];
   } catch (error) {
     logError("Error fetching card suggestions", error);
@@ -105,8 +93,6 @@ export async function fetchCardSuggestions(): Promise<string[]> {
 export async function generateBouquetImage(flowersData: FlowerSelection[]): Promise<string | null> {
   try {
     // TODO: Replace with actual API call
-
-    // Mock data for now
     return null;
   } catch (error) {
     logError("Error generating bouquet image", error);
@@ -159,9 +145,6 @@ export async function submitDeliveryInfo(data: DeliveryData): Promise<void> {
 export async function fetchPreviewData(): Promise<PreviewData | null> {
   try {
     // TODO: Replace with actual API call
-
-
-    // Mock data for now
     return null;
   } catch (error) {
     logError("Error fetching preview data", error);

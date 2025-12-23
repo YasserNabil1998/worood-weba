@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 
 interface UseFlowerManagementProps {
   selectedFlowers: Record<number, number>;
@@ -14,6 +14,7 @@ interface UseFlowerManagementProps {
   size: "small" | "medium" | "large" | "custom";
   setSize: (size: "small" | "medium" | "large" | "custom") => void;
   customFlowerCount: number;
+  setCustomFlowerCount: (count: number) => void;
   totalFlowersCount: number;
   isUpdatingFlowersRef: React.MutableRefObject<boolean>;
 }
@@ -26,6 +27,7 @@ export function useFlowerManagement({
   size,
   setSize,
   customFlowerCount,
+  setCustomFlowerCount,
   totalFlowersCount,
   isUpdatingFlowersRef,
 }: UseFlowerManagementProps) {
@@ -34,19 +36,31 @@ export function useFlowerManagement({
 
   const inc = useCallback(
     (id: number) => {
+      // منع التحديث التلقائي أثناء الضغط على الزر
+      isUpdatingFlowersRef.current = true;
       setSelectedFlowers((s) => ({ ...s, [id]: (s[id] ?? 0) + 1 }));
+      // إعادة تفعيل التحديث التلقائي بعد التحديث
+      setTimeout(() => {
+        isUpdatingFlowersRef.current = false;
+      }, 100);
     },
-    [setSelectedFlowers]
+    [setSelectedFlowers, isUpdatingFlowersRef]
   );
 
   const dec = useCallback(
     (id: number) => {
+      // منع التحديث التلقائي أثناء الضغط على الزر
+      isUpdatingFlowersRef.current = true;
       setSelectedFlowers((s) => ({
         ...s,
         [id]: Math.max(0, (s[id] ?? 0) - 1),
       }));
+      // إعادة تفعيل التحديث التلقائي بعد التحديث
+      setTimeout(() => {
+        isUpdatingFlowersRef.current = false;
+      }, 100);
     },
-    [setSelectedFlowers]
+    [setSelectedFlowers, isUpdatingFlowersRef]
   );
 
   // Color selection handler
@@ -173,37 +187,62 @@ export function useFlowerManagement({
 
   // Auto-select size based on flower count
   useEffect(() => {
-    if (size === "custom") {
-      return;
-    }
-
+    // إذا كان عدد الزهور 0، لا نفعل شيء (يبقى custom)
     if (totalFlowersCount === 0) {
-      setSize("medium");
       return;
     }
 
-    if (totalFlowersCount >= 18) {
-      setSize("large");
-    } else if (totalFlowersCount >= 12) {
-      setSize("medium");
+    // تحديد الحجم بناءً على عدد الزهور بدقة
+    // small: 7-10, medium: 12-15, large: 18-25, custom: أي عدد آخر
+    if (totalFlowersCount >= 18 && totalFlowersCount <= 25) {
+      if (size !== "large") {
+        setSize("large");
+      }
+    } else if (totalFlowersCount >= 12 && totalFlowersCount <= 15) {
+      if (size !== "medium") {
+        setSize("medium");
+      }
+    } else if (totalFlowersCount >= 7 && totalFlowersCount <= 10) {
+      if (size !== "small") {
+        setSize("small");
+      }
     } else {
-      setSize("small");
+      // إذا كان العدد خارج النطاقات، نختار custom ونحدّث customFlowerCount
+      if (size !== "custom") {
+        setSize("custom");
+        setCustomFlowerCount(totalFlowersCount);
+      } else if (customFlowerCount !== totalFlowersCount) {
+        // إذا كان الحجم custom بالفعل، نحدّث customFlowerCount
+        setCustomFlowerCount(totalFlowersCount);
+      }
     }
-  }, [totalFlowersCount, size, setSize]);
+  }, [totalFlowersCount, size, setSize, setCustomFlowerCount, customFlowerCount]);
+
+  // استخدام useRef لتتبع آخر selectedFlowers لتجنب حلقة التحديثات
+  const selectedFlowersRef = useRef(selectedFlowers);
+  useEffect(() => {
+    selectedFlowersRef.current = selectedFlowers;
+  }, [selectedFlowers]);
 
   // Auto-update flowers for custom count
+  // هذا الـ useEffect يعمل فقط عندما يتغير customFlowerCount يدوياً (من المستخدم)
   useEffect(() => {
+    // إذا كان هناك تحديث يدوي قيد التنفيذ، لا نفعل شيء
+    if (isUpdatingFlowersRef.current) {
+      return;
+    }
+
     if (
       size === "custom" &&
       totalFlowersCount > 0 &&
       customFlowerCount !== totalFlowersCount &&
-      customFlowerCount >= 5 &&
-      customFlowerCount <= 1000 &&
-      !isUpdatingFlowersRef.current
+      customFlowerCount >= 1 &&
+      customFlowerCount <= 1000
     ) {
       isUpdatingFlowersRef.current = true;
 
-      const currentFlowers = Object.entries(selectedFlowers).filter(([_, qty]) => qty > 0);
+      // استخدام ref بدلاً من state مباشرة لتجنب حلقة التحديثات
+      const currentFlowers = Object.entries(selectedFlowersRef.current).filter(([_, qty]) => qty > 0);
 
       if (currentFlowers.length > 0) {
         const newFlowers: Record<number, number> = {};
@@ -226,12 +265,11 @@ export function useFlowerManagement({
 
       setTimeout(() => {
         isUpdatingFlowersRef.current = false;
-      }, 0);
+      }, 50);
     }
   }, [
     customFlowerCount,
     size,
-    selectedFlowers,
     totalFlowersCount,
     setSelectedFlowers,
     isUpdatingFlowersRef,

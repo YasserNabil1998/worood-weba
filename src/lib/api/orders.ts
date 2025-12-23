@@ -8,9 +8,6 @@ import { defaultOrders } from "@/content/orders";
 export async function fetchOrders(): Promise<Order[]> {
   try {
     // TODO: Replace with actual API call
-
-
-    // Return default orders data
     return defaultOrders;
   } catch (error) {
     logError("Error fetching orders", error);
@@ -51,9 +48,6 @@ export async function updateOrderStatus(orderId: string, status: string): Promis
 export async function reorder(orderId: string): Promise<Order> {
   try {
     // TODO: Replace with actual API call
-
-
-    // Mock data for now - should return order details
     throw new Error("Not implemented");
   } catch (error) {
     logError("Error reordering", error);
@@ -80,8 +74,6 @@ export async function rateOrder(orderId: string, rating: RatingData): Promise<vo
 export async function getOrderStatus(orderId: string): Promise<{ status: Order["status"] }> {
   try {
     // TODO: Replace with actual API call
-
-    // For now, return current order status from default orders
     const order = defaultOrders.find((o) => o.id === orderId);
     if (!order) {
       throw new Error("Order not found");

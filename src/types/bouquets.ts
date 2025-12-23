@@ -26,6 +26,3 @@ export interface BouquetItem {
   totalPrice?: number; // السعر الإجمالي مع الإضافات
 }
 
-// Keep the old interface for backward compatibility
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface Item extends BouquetItem {}

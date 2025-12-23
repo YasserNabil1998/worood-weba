@@ -7,9 +7,6 @@ import { logError } from "@/lib/logger";
 export async function fetchProduct(productId: string): Promise<ProductData> {
   try {
     // TODO: Replace with actual API call
-
-
-    // Mock data for now
     throw new Error("Not implemented");
   } catch (error) {
     logError("Error fetching product", error);
@@ -27,9 +24,6 @@ export async function fetchProductOptions(productId: string): Promise<{
 }> {
   try {
     // TODO: Replace with actual API call
-
-
-    // Mock data for now
     return {
       sizes: [],
       colors: [],

@@ -109,6 +109,7 @@ function CustomBuilderContent() {
     size: state.size,
     setSize: state.setSize,
     customFlowerCount: state.customFlowerCount,
+    setCustomFlowerCount: state.setCustomFlowerCount,
     totalFlowersCount: prices.totalFlowersCount,
     isUpdatingFlowersRef: state.isUpdatingFlowersRef,
   });

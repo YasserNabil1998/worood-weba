@@ -9,8 +9,6 @@ import { defaultBouquets } from "@/content/featured-bouquets";
 export async function fetchBouquets(): Promise<BouquetItem[]> {
   try {
     // TODO: Replace with actual API call
-
-    // Return default bouquets data
     return defaultBouquets;
   } catch (error) {
     logError("Error fetching bouquets", error);
@@ -24,8 +22,6 @@ export async function fetchBouquets(): Promise<BouquetItem[]> {
 export async function fetchFilters(): Promise<FilterOptions> {
   try {
     // TODO: Replace with actual API call
-
-    // Mock data for now
     return {
       types: [],
       priceRanges: [],
@@ -44,8 +40,6 @@ export async function fetchFilters(): Promise<FilterOptions> {
 export async function fetchFilteredBouquets(filters: FilterCriteria): Promise<BouquetItem[]> {
   try {
     // TODO: Replace with actual API call
-
-    // Mock data for now
     return [];
   } catch (error) {
     logError("Error fetching filtered bouquets", error);

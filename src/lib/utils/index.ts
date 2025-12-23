@@ -3,7 +3,6 @@
  */
 export * from "./cart";
 export * from "./orders";
-export * from "./text";
 export * from "./custom-bouquet";
 export * from "./favorites";
 export * from "./delivery";

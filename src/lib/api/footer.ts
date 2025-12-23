@@ -7,9 +7,6 @@ import { logError } from "@/lib/logger";
 export async function fetchFooterData(): Promise<FooterData> {
   try {
     // TODO: Replace with actual API call
-
-
-    // Mock data for now
     return {
       links: [],
       socialMedia: [],

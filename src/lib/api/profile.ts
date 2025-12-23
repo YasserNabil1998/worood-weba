@@ -7,9 +7,6 @@ import { logError } from "@/lib/logger";
 export async function fetchUserData(): Promise<UserProfile> {
   try {
     // TODO: Replace with actual API call
-
-    
-    // Mock data for now
     throw new Error("Not implemented");
   } catch (error) {
     logError("Error fetching user data", error);
@@ -23,8 +20,6 @@ export async function fetchUserData(): Promise<UserProfile> {
 export async function updateUserData(data: Partial<UserProfile>): Promise<UserProfile> {
   try {
     // TODO: Replace with actual API call
-    
-    // Mock data for now
     throw new Error("Not implemented");
   } catch (error) {
     logError("Error updating user data", error);
@@ -38,8 +33,6 @@ export async function updateUserData(data: Partial<UserProfile>): Promise<UserPr
 export async function fetchSupportData(): Promise<SupportData> {
   try {
     // TODO: Replace with actual API call
-    
-    // Mock data for now
     return {
       title: "",
       faqs: [],
@@ -56,8 +49,6 @@ export async function fetchSupportData(): Promise<SupportData> {
 export async function fetchUserOccasions(): Promise<UserOccasion[]> {
   try {
     // TODO: Replace with actual API call
-    
-    // Mock data for now
     return [];
   } catch (error) {
     logError("Error fetching user occasions", error);
@@ -71,8 +62,6 @@ export async function fetchUserOccasions(): Promise<UserOccasion[]> {
 export async function addOccasion(occasionData: OccasionData): Promise<UserOccasion> {
   try {
     // TODO: Replace with actual API call
-    
-    // Mock data for now
     return {
       id: Date.now().toString(),
       ...occasionData,
@@ -89,8 +78,6 @@ export async function addOccasion(occasionData: OccasionData): Promise<UserOccas
 export async function editOccasion(occasionId: string, occasionData: OccasionData): Promise<UserOccasion> {
   try {
     // TODO: Replace with actual API call
-    
-    // Mock data for now
     return {
       id: occasionId,
       ...occasionData,
@@ -107,8 +94,6 @@ export async function editOccasion(occasionId: string, occasionData: OccasionDat
 export async function fetchOccasionTypes(): Promise<OccasionType[]> {
   try {
     // TODO: Replace with actual API call
-    
-    // Default types for now
     return [
       { id: "1", name: "عيد ميلاد" },
       { id: "2", name: "ذكرى سنوية" },

@@ -18,8 +18,6 @@ export async function fetchHomePageData(): Promise<{
     // });
     // if (!response.ok) throw new Error('Failed to fetch home page data');
     // return await response.json();
-
-    // Mock data for now
     return {
       hero: [],
       occasions: [],
@@ -41,9 +39,6 @@ export async function subscribeToNewsletter(
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Replace with actual API call
-
-
-    // Mock success for now
     return { success: true };
   } catch (error) {
     logError("Error subscribing to newsletter", error);

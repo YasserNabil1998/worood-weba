@@ -168,8 +168,28 @@ function mapCartItemToOrderItem(item: CartItem): OrderItem {
     name: item.title,
     image: item.image || "/images/bouquets/IMG-196.png",
     price: item.total || item.price || 0,
-    quantity: 1,
-    bouquetType: `${item.size} - ${item.style}`,
+    quantity: item.quantity || 1,
+    bouquetType: item.isCustom ? "مخصص" : "جاهز",
+    
+    // نقل بيانات الباقة المخصصة
+    customData: item.customData,
+    
+    // نقل خيارات المنتج العادي
+    size: item.size,
+    style: item.style,
+    color: item.color,
+    colorValue: item.colorValue,
+    colorLabel: item.colorLabel,
+    
+    // نقل الإضافات (البنية المرنة)
+    selectedAddonIds: item.selectedAddonIds,
+    addonData: item.addonData,
+    
+    // نقل الحقول القديمة (للتوافق)
+    addCard: item.addCard,
+    addChocolate: item.addChocolate,
+    giftWrap: item.giftWrap,
+    cardMessage: item.cardMessage,
   };
 }
 
