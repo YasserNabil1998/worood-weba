@@ -1,5 +1,4 @@
 import { Flower, Color } from "@/types/custom";
-import { fontStyle } from "@/lib/styles";
 
 interface FlowerColorSelectorProps {
   selectedFlowers: Record<number, number>;
@@ -28,7 +27,7 @@ export default function FlowerColorSelector({
 
   return (
     <div>
-      <div className="mb-3 text-sm font-semibold text-gray-800" style={fontStyle}>
+      <div className="mb-3 text-sm font-semibold text-gray-800">
         اختر لون كل زهرة
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 items-start">
@@ -121,7 +120,7 @@ export default function FlowerColorSelector({
                               }}
                             />
                             {/* Color Name - على اليمين */}
-                            <span className="flex-1 text-sm font-normal text-gray-900" style={fontStyle}>
+                            <span className="flex-1 text-sm font-normal text-gray-900">
                               {color.name}
                             </span>
                           </button>

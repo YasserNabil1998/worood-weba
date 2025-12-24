@@ -8,12 +8,9 @@ import { BouquetItem } from "@/types/bouquets";
 import { PRICE_RANGES } from "@/constants/bouquets";
 import ToggleButton from "@/components/shared/ToggleButton";
 import Sidebar from "@/components/layout/Sidebar";
-import { fontStyle } from "@/lib/styles";
-import { TIMEOUTS } from "@/constants";
+import { TIMEOUTS, ANIMATION } from "@/constants";
 import AOSWrapper from "@/components/common/AOSWrapper";
 import { useBouquetsStore } from "@/stores";
-
-// FilterSection was removed as it was unused
 
 function useBouquetListing(
   items: BouquetItem[],
@@ -223,10 +220,7 @@ export default function BouquetsListingClient({
         <div className="lg:col-span-3 space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end gap-4">
             <div className="flex items-center gap-4 w-full sm:w-auto">
-              <span
-                className="text-[18px] font-medium text-[#4d4d4d] whitespace-nowrap"
-                style={fontStyle}
-              >
+              <span className="text-[18px] font-medium text-[#4d4d4d] whitespace-nowrap">
                 الترتيب حسب
               </span>
               <div className="relative w-full sm:w-[195px]">
@@ -239,7 +233,6 @@ export default function BouquetsListingClient({
                   className="w-full h-[45px] rounded-[10px] border border-[#c6c5c5] bg-white px-4 py-2.5 text-right text-[18px] text-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 cursor-pointer flex items-center justify-between"
                   style={{
                     paddingLeft: "2.5rem",
-                    fontFamily: "var(--font-almarai)",
                   }}
                 >
                   <span>
@@ -276,7 +269,6 @@ export default function BouquetsListingClient({
                         className={`px-4 py-2.5 text-[16px] text-right cursor-pointer hover:bg-[#5A5E4D]/10 transition-colors ${
                           sort === option.value ? "bg-[#5A5E4D]/5 font-semibold" : ""
                         }`}
-                        style={fontStyle}
                       >
                         {option.label}
                       </div>
@@ -292,16 +284,8 @@ export default function BouquetsListingClient({
                 <div className="w-24 h-24 mx-auto bg-gradient-to-br from-[#F5F1E8] to-[#E8E2D5] rounded-full flex items-center justify-center mb-4">
                   <Heart className="w-12 h-12 text-[#5A5E4D]" />
                 </div>
-                <h3
-                  className="text-xl font-bold text-gray-800 mb-2"
-                  style={{ fontFamily: "var(--font-almarai)" }}
-                >
-                  لم نجد باقات تطابق بحثك
-                </h3>
-                <p
-                  className="text-gray-600 mb-6 max-w-md"
-                  style={{ fontFamily: "var(--font-almarai)" }}
-                >
+                <h3 className="text-xl font-bold text-gray-800 mb-2">لم نجد باقات تطابق بحثك</h3>
+                <p className="text-gray-600 mb-6 max-w-md">
                   جرب تعديل الفلاتر أو البحث عن مناسبة أخرى
                 </p>
               </div>
@@ -310,14 +294,12 @@ export default function BouquetsListingClient({
                 <button
                   onClick={reset}
                   className="px-6 py-3 bg-[#5A5E4D] text-white rounded-lg font-medium hover:bg-[#4A4E3D] transition-colors duration-200"
-                  style={{ fontFamily: "var(--font-almarai)" }}
                 >
                   إعادة ضبط الفلاتر
                 </button>
                 <button
                   onClick={reset}
                   className="px-6 py-3 border border-[#5A5E4D] text-[#5A5E4D] rounded-lg font-medium hover:bg-[#5A5E4D] hover:text-white transition-colors duration-200"
-                  style={{ fontFamily: "var(--font-almarai)" }}
                 >
                   عرض جميع الباقات
                 </button>
@@ -343,7 +325,6 @@ export default function BouquetsListingClient({
                         setPage(1);
                       }}
                       className="px-3 py-1 text-xs bg-gray-100 hover:bg-[#5A5E4D] hover:text-white rounded-full transition-colors duration-200"
-                      style={{ fontFamily: "var(--font-almarai)" }}
                     >
                       {label}
                     </button>
@@ -354,17 +335,20 @@ export default function BouquetsListingClient({
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
               {current.map((i, index) => {
-                // أنيميشن متدرج جميل: fade-up مع تأخير متدرج سلس
-                // كل كاردة تظهر بعد الأخرى بشكل متدرج
-                const delay = Math.min(index * 60, 300); // تأخير أقصاه 300ms
+                // نحدد التأخير بحد أقصى لتجنب تأخير طويل للعناصر في نهاية القائمة
+                // يضمن تجربة مستخدم سلسة حتى مع قوائم طويلة
+                const delay = Math.min(
+                  index * ANIMATION.CARD_STAGGER_BASE,
+                  ANIMATION.CARD_STAGGER_MAX
+                );
 
                 return (
                   <AOSWrapper
                     key={i.id}
                     animation="fade-up"
                     delay={delay}
-                    duration={600}
-                    offset={80}
+                    duration={ANIMATION.FADE_DURATION}
+                    offset={ANIMATION.OFFSET}
                   >
                     <div className="h-full">
                       <ProductCard item={i} />
@@ -375,7 +359,7 @@ export default function BouquetsListingClient({
             </div>
           )}
           {sorted.length > 0 && (
-            <div className="text-sm text-gray-600 mt-4" style={fontStyle}>
+            <div className="text-sm text-gray-600 mt-4">
               {`عرض ${current.length} من أصل ${sorted.length} باقة`}
             </div>
           )}
@@ -418,7 +402,6 @@ function Pagination({
                   ? "bg-[#5A5E4D] text-white border-[#5A5E4D] font-normal"
                   : "bg-white border-[#dedcdc] text-black hover:bg-gray-50"
               }`}
-              style={fontStyle}
             >
               {n}
             </button>
@@ -430,7 +413,6 @@ function Pagination({
                 <button
                   onClick={() => onPageChange(1)}
                   className="w-[35px] h-[33px] flex items-center justify-center rounded-[2px] border bg-white border-[#dedcdc] text-black hover:bg-gray-50 text-[18px]"
-                  style={fontStyle}
                 >
                   1
                 </button>
@@ -453,7 +435,6 @@ function Pagination({
                       ? "bg-[#5A5E4D] text-white border-[#5A5E4D] font-normal"
                       : "bg-white border-[#dedcdc] text-black hover:bg-gray-50"
                   }`}
-                  style={fontStyle}
                 >
                   {n}
                 </button>
@@ -469,7 +450,6 @@ function Pagination({
                 <button
                   onClick={() => onPageChange(totalPages)}
                   className="w-[35px] h-[33px] flex items-center justify-center rounded-[2px] border bg-white border-[#dedcdc] text-black hover:bg-gray-50 text-[18px]"
-                  style={fontStyle}
                 >
                   {totalPages}
                 </button>

@@ -5,7 +5,6 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { ContactFAQProps } from "@/types/contact";
 import { generateId } from "@/lib/utils";
 import { cn } from "@/lib/utils";
-import { fontStyle } from "@/lib/styles";
 import { useContactStore } from "@/stores";
 
 export default function ContactFAQ({ data: propData }: ContactFAQProps) {
@@ -43,14 +42,12 @@ export default function ContactFAQ({ data: propData }: ContactFAQProps) {
         <div className="text-right mb-8 sm:mb-10 lg:mb-12">
           <h3
             className="text-[18px] sm:text-[19px] lg:text-[20px] font-bold text-black mb-2 sm:mb-3"
-            style={fontStyle}
           >
             {data.title}
           </h3>
           {data.subtitle && (
             <p
               className="text-[15px] sm:text-[16px] lg:text-[17px] text-[#727272]"
-              style={fontStyle}
             >
               {data.subtitle}
             </p>
@@ -82,7 +79,6 @@ export default function ContactFAQ({ data: propData }: ContactFAQProps) {
                 >
                   <span
                     className="text-[15px] sm:text-[16px] lg:text-[17px] font-normal text-black flex-1 ml-2 sm:ml-3 lg:ml-4"
-                    style={fontStyle}
                   >
                     {item.question}
                   </span>
@@ -106,7 +102,6 @@ export default function ContactFAQ({ data: propData }: ContactFAQProps) {
                   <div className="px-4 sm:px-6 lg:px-8 pb-3 sm:pb-4 pt-2">
                     <p
                       className="text-[15px] sm:text-[16px] lg:text-[17px] text-[#5c5a57] leading-relaxed"
-                      style={fontStyle}
                     >
                       {item.answer}
                     </p>

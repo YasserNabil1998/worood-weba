@@ -5,7 +5,6 @@ import { useCartStore } from "@/stores";
 import { generateProductKey, ProductInput } from "@/lib/utils/cart";
 import { CartItem } from "@/types/cart";
 import { Minus, Plus } from "lucide-react";
-import { fontStyle } from "@/lib/styles";
 
 interface QuantitySelectorProps {
   itemId: string | number;
@@ -122,7 +121,6 @@ export default function QuantitySelector({
       </button>
       <span
         className="text-responsive-xl font-bold text-black mx-2 min-w-[20px] text-center"
-        style={fontStyle}
       >
         {quantity}
       </span>

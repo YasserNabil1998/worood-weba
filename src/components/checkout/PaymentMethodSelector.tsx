@@ -1,7 +1,6 @@
 import { CreditCard, Smartphone, DollarSign } from "lucide-react";
 import { PaymentMethod, PaymentMethodOption } from "@/types/checkout";
 import { PAYMENT_METHODS, PAYMENT_METHOD_LABELS } from "@/constants";
-import { fontStyle } from "@/lib/styles";
 
 interface PaymentMethodSelectorProps {
   selectedMethod: PaymentMethod;
@@ -51,7 +50,7 @@ export default function PaymentMethodSelector({
 }: PaymentMethodSelectorProps) {
   return (
     <section className="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300 p-6">
-      <h2 className="text-lg font-semibold mb-5 text-gray-800" style={fontStyle}>
+      <h2 className="text-lg font-semibold mb-5 text-gray-800">
         طريقة الدفع
       </h2>
 

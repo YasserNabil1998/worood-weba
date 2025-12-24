@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { ContactInfoProps } from "@/types/contact";
 import { SocialMedia } from "@/types/contact";
-import { fontStyle } from "@/lib/styles";
 import { useContactStore } from "@/stores";
 
 // WhatsApp SVG Icon Component
@@ -136,7 +135,6 @@ export default function ContactInfo({
   return (
     <aside
       className="bg-white rounded-[20px] min-h-[726px] p-4 sm:p-5 lg:p-6 relative order-2 lg:order-2"
-      style={fontStyle}
     >
       {/* Title */}
       <h3 className="text-[21px] sm:text-[22px] lg:text-[19px] font-bold text-black mb-8 sm:mb-10 lg:mb-12 text-right">

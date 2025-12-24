@@ -12,7 +12,6 @@ import CartItemPricing from "./CartItemPricing";
 import { getItemId } from "@/lib/utils/cart";
 import { CART_LABELS } from "@/constants/cart";
 import { COLORS, CUSTOM_BOUQUET_PREVIEW_IMAGE, SIZES } from "@/constants";
-import { fontStyle } from "@/lib/styles";
 import { getButtonStyles, getButtonInlineStyles } from "@/lib/buttonStyles";
 
 interface CartItemProps {
@@ -109,7 +108,6 @@ function CartItem({
           <div className="flex items-center justify-between gap-2 mb-2">
             <h3
               className="font-bold text-gray-800 text-responsive-xl line-clamp-2 flex-1 min-w-0"
-              style={fontStyle}
             >
               {item.title}
             </h3>
@@ -118,7 +116,7 @@ function CartItem({
                 <button
                   onClick={handleEdit}
                   className={getButtonStyles.edit()}
-                  style={{ ...fontStyle, ...getButtonInlineStyles.edit() }}
+                  style={getButtonInlineStyles.edit()}
                   aria-label={`تعديل ${item.title}`}
                 >
                   <Pencil className="w-5 h-5" />
@@ -127,7 +125,7 @@ function CartItem({
               <button
                 onClick={handleRemoveClick}
                 className={getButtonStyles.delete()}
-                style={{ ...fontStyle, ...getButtonInlineStyles.delete() }}
+                style={getButtonInlineStyles.delete()}
                 aria-label={`حذف ${item.title}`}
               >
                 <Trash2 className="w-5 h-5" />
@@ -146,7 +144,6 @@ function CartItem({
               <button
                 onClick={() => onToggleExpand(itemId)}
                 className="text-[18px] text-[#727272] hover:bg-[#5A5E4D]/10 hover:text-[#4b5244] flex items-center gap-1 cursor-pointer px-2 py-1 rounded-lg transition-all duration-200 text-center"
-                style={fontStyle}
                 aria-label={isExpanded ? "إخفاء التفاصيل" : "عرض التفاصيل"}
                 aria-expanded={isExpanded}
               >

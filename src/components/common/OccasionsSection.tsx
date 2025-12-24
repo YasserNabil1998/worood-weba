@@ -7,7 +7,6 @@ import { OccasionWithHref } from "@/types/home";
 import { defaultOccasions } from "@/content/occasions";
 import { ROUTES } from "@/constants/routes";
 import { ArrowLeft } from "lucide-react";
-import { fontStyle } from "@/lib/styles";
 import { UI_TEXTS } from "@/constants";
 import AOSWrapper from "./AOSWrapper";
 import { useHomePageStore } from "@/stores";
@@ -72,13 +71,12 @@ const OccasionsSection = ({
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
           <div className="text-right">
             {/* Title - matching سعادة في مزهرية section: 28px mobile, 30px tablet+ */}
-            <h2 className="text-[28px] sm:text-[30px] font-bold text-black mb-2" style={fontStyle}>
+            <h2 className="text-[28px] sm:text-[30px] font-bold text-black mb-2">
               {title}
             </h2>
             {/* Description - matching سعادة في مزهرية section: 20px mobile, 23px tablet, 25px desktop */}
             <p
               className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
-              style={fontStyle}
             >
               {description || "كل لحظة تستحق باقة مميزة"}
             </p>
@@ -86,7 +84,6 @@ const OccasionsSection = ({
           <Link
             href={`${ROUTES.BOUQUETS}?openFilter=occasion`}
             className="text-[#5a5e4d] hover:text-[#4a4e3d] text-[20px] font-normal cursor-pointer flex items-center gap-2 transition-colors"
-            style={fontStyle}
           >
             <span>{UI_TEXTS.VIEW_ALL}</span>
             <ArrowLeft className="w-4 h-4" />
@@ -98,7 +95,6 @@ const OccasionsSection = ({
           {isLoading && (
             <div
               className="col-span-full text-center text-gray-600 flex items-center justify-center h-[283px]"
-              style={fontStyle}
             >
               {UI_TEXTS.LOADING}
             </div>
@@ -131,14 +127,13 @@ const OccasionsSection = ({
                       {/* Title and Description - Fixed position below image */}
                       <div className="w-full">
                         {/* Title - matching Figma: 20px, Almarai Bold, black */}
-                        <h3 className="text-[20px] font-bold text-black mb-2" style={fontStyle}>
+                        <h3 className="text-[20px] font-bold text-black mb-2">
                           {occasion.title}
                         </h3>
 
                         {/* Description - matching Figma: 16px, Almarai Bold, #5c5a57 */}
                         <p
                           className="text-[16px] font-bold text-[#5c5a57] text-center leading-relaxed"
-                          style={fontStyle}
                         >
                           {occasion.description}
                         </p>

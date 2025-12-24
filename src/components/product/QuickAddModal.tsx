@@ -10,7 +10,6 @@ import { APP_CONFIG } from "@/constants";
 import { useNotification } from "@/providers/notification-provider";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { logError } from "@/lib/logger";
-import { fontStyle } from "@/lib/styles";
 import { useCartStore } from "@/stores";
 
 import SizeSelector from "./SizeSelector";
@@ -262,7 +261,7 @@ const QuickAddModal = ({ bouquet, isOpen, onClose }: QuickAddModalProps) => {
         <div className="flex flex-col p-5 sm:p-6">
           <div className="mb-4">
             <div className="mb-1 text-xs font-medium text-gray-500">إضافة سريعة للسلة</div>
-            <h3 className="text-lg font-bold text-[#2D3319]" style={fontStyle}>
+            <h3 className="text-lg font-bold text-[#2D3319]">
               {bouquet.title}
             </h3>
             <div className="mt-2 flex items-center gap-2 text-sm text-[#5A5E4D]">

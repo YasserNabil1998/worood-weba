@@ -10,7 +10,6 @@ import {
   isDateSelected,
 } from "@/lib/utils/delivery";
 import { ARABIC_MONTHS } from "@/constants";
-import { fontStyle } from "@/lib/styles";
 
 interface DatePickerProps {
   /** التاريخ المحدد (ISO string: YYYY-MM-DD) */
@@ -104,7 +103,6 @@ export default function DatePicker({
       {label && (
         <div
           className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right"
-          style={fontStyle}
         >
           {label}
         </div>
@@ -113,7 +111,6 @@ export default function DatePicker({
         <div
           onClick={() => setIsOpen(!isOpen)}
           className="w-full h-[50px] sm:h-[59px] rounded-[10px] border border-[#e1dada] bg-white px-3 sm:px-4 py-2 pr-10 text-right text-[16px] sm:text-[18px] lg:text-[20px] cursor-pointer flex items-center hover:border-[#5A5E4D]/50 transition-colors"
-          style={fontStyle}
         >
           <span className={selectedDate ? "text-black" : "text-gray-400"}>
             {selectedDate ? formatDateToArabic(selectedDate) : placeholder}
@@ -148,7 +145,6 @@ export default function DatePicker({
               </button>
               <div
                 className="text-[18px] font-semibold text-black"
-                style={fontStyle}
               >
                 {ARABIC_MONTHS[currentMonth]} {currentYear}
               </div>
@@ -168,7 +164,6 @@ export default function DatePicker({
                 <div
                   key={index}
                   className="text-center text-[14px] font-semibold text-[#605f5f] py-2"
-                  style={fontStyle}
                 >
                   {day}
                 </div>
@@ -198,7 +193,6 @@ export default function DatePicker({
                           ? "bg-[#5A5E4D] text-white font-semibold"
                           : "text-black hover:bg-gray-100 cursor-pointer"
                     }`}
-                    style={fontStyle}
                   >
                     {day}
                   </button>

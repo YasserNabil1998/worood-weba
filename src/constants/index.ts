@@ -98,6 +98,8 @@ export const SIZES = {
   BUTTON_HEIGHT_SMALL: 41,
   CART_IMAGE_WIDTH: 142,
   CART_IMAGE_HEIGHT: 155,
+  LOGO_WIDTH: 120,
+  LOGO_HEIGHT: 60,
 } as const;
 
 // Timeouts (setTimeout) - بالمللي ثانية
@@ -121,6 +123,8 @@ export const TIMEOUTS = {
   VERIFICATION_CODE_MOCK_DELAY: 1000, // تأخير محاكاة التحقق
   AUTH_LOGIN_DELAY: 600, // تأخير تسجيل الدخول
   AUTH_SIGNUP_DELAY: 800, // تأخير التسجيل
+  AUTH_REDIRECT_DELAY: 500, // تأخير التوجيه بعد عمليات المصادقة
+  FORGOT_PASSWORD_DELAY: 600, // تأخير إرسال رابط نسيان كلمة المرور
 } as const;
 
 // Intervals (setInterval) - بالمللي ثانية
@@ -128,6 +132,14 @@ export const INTERVALS = {
   HERO_SLIDER: 4000, // تغيير الشريحة في قسم البطل
   REVIEWS_SLIDER: 4000, // تغيير الشريحة في قسم التقييمات
   PRODUCTS_SLIDER: 5000, // تغيير الشريحة في قسم المنتجات
+} as const;
+
+// Animation - إعدادات الأنيميشن
+export const ANIMATION = {
+  CARD_STAGGER_BASE: 60, // التأخير الأساسي بين كروت المنتجات (بالميلي ثانية)
+  CARD_STAGGER_MAX: 300, // الحد الأقصى للتأخير لتجنب تأخير طويل للعناصر في نهاية القائمة
+  FADE_DURATION: 600, // مدة أنيميشن التلاشي
+  OFFSET: 80, // المسافة من أعلى الشاشة لبدء الأنيميشن
 } as const;
 
 // طرق الدفع

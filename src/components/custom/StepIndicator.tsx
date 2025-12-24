@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { fontStyle } from "@/lib/styles";
 
 interface StepIndicatorProps {
   currentStep: 1 | 2 | 3 | 4;
@@ -191,7 +190,6 @@ export default function StepIndicator({ currentStep, onStepChange }: StepIndicat
                 className={`text-[12px] sm:text-[16px] font-bold sm:font-normal leading-[16px] sm:leading-[20px] whitespace-nowrap transition-colors text-center ${
                   isActive ? "text-black" : isCompleted ? "text-gray-600" : "text-gray-400"
                 }`}
-                style={fontStyle}
               >
                 {s.t}
               </span>

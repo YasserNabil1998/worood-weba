@@ -3,7 +3,6 @@
 import { useState } from "react";
 import type { ReviewItem } from "@/types";
 import { Star, X } from "lucide-react";
-import { fontStyle } from "@/lib/styles";
 import { TIMEOUTS } from "@/constants";
 
 type RatingPopupProps = {
@@ -111,7 +110,7 @@ export default function RatingPopup({
         {/* Header */}
         <div className="border-b border-gray-200 p-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-gray-800" style={fontStyle}>
+            <h2 className="text-xl font-bold text-gray-800">
               تقييم الطلب
             </h2>
             <button
@@ -127,10 +126,10 @@ export default function RatingPopup({
         <div className="p-6 space-y-6">
           {/* Order Info */}
           <div className="bg-gray-50 rounded-lg p-4">
-            <p className="text-sm text-gray-600 mb-1" style={fontStyle}>
+            <p className="text-sm text-gray-600 mb-1">
               رقم الطلب: {orderNumber}
             </p>
-            <p className="text-sm text-gray-800 font-medium" style={fontStyle}>
+            <p className="text-sm text-gray-800 font-medium">
               {productName}
             </p>
           </div>
@@ -145,13 +144,13 @@ export default function RatingPopup({
                   className="w-12 h-12 rounded-full object-cover"
                 />
               ) : (
-                <span className="text-green-600 font-bold text-lg" style={fontStyle}>
+                <span className="text-green-600 font-bold text-lg">
                   {customerName.charAt(0)}
                 </span>
               )}
             </div>
             <div>
-              <p className="font-semibold text-gray-800" style={fontStyle}>
+              <p className="font-semibold text-gray-800">
                 {customerName}
               </p>
             </div>
@@ -159,13 +158,13 @@ export default function RatingPopup({
 
           {/* Rating */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-3" style={fontStyle}>
+            <label className="block text-sm font-semibold text-gray-700 mb-3">
               كيف تقيم تجربتك؟
             </label>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1">{renderStars(rating, true)}</div>
               {rating > 0 && (
-                <p className="text-sm font-medium text-gray-700" style={fontStyle}>
+                <p className="text-sm font-medium text-gray-700">
                   {rating === 1 && "سيء جداً"}
                   {rating === 2 && "سيء"}
                   {rating === 3 && "متوسط"}
@@ -178,7 +177,7 @@ export default function RatingPopup({
 
           {/* Comment */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-3" style={fontStyle}>
+            <label className="block text-sm font-semibold text-gray-700 mb-3">
               شاركنا رأيك (اختياري)
             </label>
             <textarea
@@ -187,9 +186,8 @@ export default function RatingPopup({
               placeholder="اكتب تعليقك هنا..."
               rows={4}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5A5E4D] focus:border-transparent resize-none"
-              style={fontStyle}
             />
-            <p className="text-xs text-gray-500 mt-1" style={fontStyle}>
+            <p className="text-xs text-gray-500 mt-1">
               {comment.length} / 500 حرف
             </p>
           </div>
@@ -197,7 +195,7 @@ export default function RatingPopup({
           {/* Error Message */}
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-              <p className="text-sm text-red-600" style={fontStyle}>
+              <p className="text-sm text-red-600">
                 {error}
               </p>
             </div>
@@ -210,7 +208,6 @@ export default function RatingPopup({
             <button
               onClick={handleClose}
               className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-              style={fontStyle}
             >
               إلغاء
             </button>
@@ -218,7 +215,6 @@ export default function RatingPopup({
               onClick={handleSubmit}
               disabled={isSubmitting || rating === 0}
               className="flex-1 px-4 py-2 bg-[#5A5E4D] text-white rounded-lg hover:bg-[#4A4E3D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium flex items-center justify-center gap-2"
-              style={fontStyle}
             >
               {isSubmitting ? (
                 <>

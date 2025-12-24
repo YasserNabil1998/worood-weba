@@ -43,7 +43,6 @@ export default function CardSuggestions({
               }}
               className="group w-full text-right p-3 text-xs bg-gradient-to-r from-[#5A5E4D]/5 via-[#5A5E4D]/10 to-[#5A5E4D]/5 hover:from-[#5A5E4D]/10 hover:via-[#5A5E4D]/15 hover:to-[#5A5E4D]/10 border border-[#5A5E4D]/20 hover:border-[#5A5E4D]/30 rounded-xl transition-all duration-300 cursor-pointer relative overflow-hidden"
               style={{
-                fontFamily: "var(--font-almarai)",
                 height: "40px",
               }}
             >

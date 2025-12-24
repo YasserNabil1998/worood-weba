@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export const dynamic = "force-dynamic";
 import Link from "next/link";
 import Image from "next/image";
-import { fontStyle } from "@/lib/styles";
 import { useAuth } from "@/providers/auth-provider";
 import { useNotification } from "@/providers/notification-provider";
 import { getPendingAction } from "@/utils/pendingActions";
@@ -17,6 +16,7 @@ import { useCartStore } from "@/stores";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useCustomBouquetFavorites } from "@/hooks/useCustomBouquetFavorites";
 import { loginSchema, type LoginFormData } from "@/validations/schemas/loginSchema";
+import { TIMEOUTS, SIZES } from "@/constants";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -71,7 +71,7 @@ export default function LoginPage() {
         const returnPath = pendingAction?.returnPath || searchParams.get("return") || "/";
         setTimeout(() => {
           router.push(returnPath);
-        }, 500);
+        }, TIMEOUTS.AUTH_REDIRECT_DELAY);
       } else {
         showNotification(result.error || "فشل تسجيل الدخول", "error");
       }
@@ -84,11 +84,15 @@ export default function LoginPage() {
     <div className="mx-auto w-full max-w-md rounded-xl bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
       <div className="py-6 text-center">
         <div className="flex justify-center">
-          <Image src="/Logo-shams.svg" alt="شعار الموقع" width={120} height={60} priority />
+          <Image
+            src="/Logo-shams.svg"
+            alt="شعار الموقع"
+            width={SIZES.LOGO_WIDTH}
+            height={SIZES.LOGO_HEIGHT}
+            priority
+          />
         </div>
-        <p className="mt-2 text-sm text-gray-600" style={fontStyle}>
-          مرحبًا بعودتك
-        </p>
+        <p className="mt-2 text-sm text-gray-600">مرحبًا بعودتك</p>
       </div>
       <div className="px-6 pb-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -131,12 +135,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full h-10 rounded-md text-white font-semibold transition-opacity"
-            style={{
-              backgroundColor: "#5A5E4D",
-              opacity: isSubmitting ? 0.8 : 1,
-              fontFamily: "var(--font-almarai)",
-            }}
+            className={`w-full h-10 rounded-md text-white font-semibold transition-opacity bg-[#5A5E4D] ${isSubmitting ? "opacity-80" : "opacity-100"}`}
           >
             {isSubmitting ? "... جاري تسجيل الدخول" : "تسجيل الدخول"}
           </button>

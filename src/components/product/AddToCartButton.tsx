@@ -6,7 +6,6 @@ import { useNotification } from "@/providers/notification-provider";
 import { UI_TEXTS } from "@/constants";
 import type { CartItem } from "@/types/cart";
 import { logError } from "@/lib/logger";
-import { fontStyle } from "@/lib/styles";
 import { useCartStore } from "@/stores";
 
 interface AddToCartButtonProps {
@@ -61,7 +60,6 @@ export default function AddToCartButton({
     <button
       onClick={handleAddToCart}
       className="flex-1 bg-[#5A5E4D] text-white py-4 px-6 rounded-lg font-semibold hover:bg-[#4A4E3D] transition-colors"
-      style={fontStyle}
     >
       {UI_TEXTS.ADD_TO_CART}
     </button>

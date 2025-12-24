@@ -3,7 +3,6 @@
 import type { FeatureItem } from "@/types";
 import { localFeatures } from "@/content/features";
 import { useEffect, useRef, useState } from "react";
-import { fontStyle } from "@/lib/styles";
 import AOSWrapper from "@/components/common/AOSWrapper";
 
 type FeaturesSectionProps = {
@@ -24,9 +23,6 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
             {/* Title - أصغر قليلاً */}
             <h2
               className="text-[24px] sm:text-[26px] md:text-[28px] font-bold text-black mb-2"
-              style={{
-                fontFamily: "var(--font-almarai)",
-              }}
               dir="auto"
             >
               لماذا تختارنا ؟
@@ -34,9 +30,6 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
             {/* Description - أصغر قليلاً */}
             <p
               className="text-[18px] sm:text-[20px] md:text-[22px] font-normal text-black"
-              style={{
-                fontFamily: "var(--font-almarai)",
-              }}
               dir="auto"
             >
               لأننا نهتم بكل تفصيلة بتجربتك مع الورد
@@ -80,14 +73,12 @@ const FeaturesSection = ({ features }: FeaturesSectionProps) => {
                   <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2">
                     <h3
                       className="text-[20px] sm:text-[22px] md:text-[24px] font-bold text-gray-800 leading-[26px]"
-                      style={fontStyle}
                       dir="auto"
                     >
                       {feature.title}
                     </h3>
                     <p
                       className="text-[16px] sm:text-[18px] md:text-[20px] text-[#727272] font-medium leading-[26px] sm:leading-[28px] max-w-[319px]"
-                      style={fontStyle}
                       dir="auto"
                     >
                       {feature.description}

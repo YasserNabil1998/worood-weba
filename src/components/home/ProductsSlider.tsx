@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
@@ -10,7 +10,6 @@ import { useNotification } from "@/providers/notification-provider";
 import { BouquetItem } from "@/types/bouquets";
 import { ROUTES } from "@/constants/routes";
 import { logError } from "@/lib/logger";
-import { fontStyle } from "@/lib/styles";
 import { INTERVALS, TIMEOUTS, UI_TEXTS } from "@/constants";
 import { useHomePageStore } from "@/stores";
 import { QuickAddModal } from "@/components/product";
@@ -245,13 +244,12 @@ const ProductsSlider = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
           <div className="text-right">
             {/* Title - matching Figma: 30px, Almarai Bold */}
-            <h2 className="text-[28px] sm:text-[30px] font-bold text-black mb-2" style={fontStyle}>
+            <h2 className="text-[28px] sm:text-[30px] font-bold text-black mb-2">
               سعادة في مزهرية
             </h2>
             {/* Description - matching Figma: 25px, Almarai Regular, black */}
             <p
               className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
-              style={fontStyle}
             >
               اختر باقتك المفضلة لتضفي لمسة جمال على يومك
             </p>
@@ -260,7 +258,6 @@ const ProductsSlider = () => {
           <Link
             href={`${ROUTES.BOUQUETS}?type=vases&openFilter=type`}
             className="text-[#5a5e4d] hover:underline text-[16px] font-normal cursor-pointer flex items-center gap-2"
-            style={fontStyle}
           >
             <span>{UI_TEXTS.VIEW_ALL}</span>
             <ArrowLeft className="w-4 h-4" />
@@ -342,9 +339,6 @@ const ProductsSlider = () => {
                         <Link href={`/product/${product.id}`} className="mb-3">
                           <h3
                             className="font-bold text-[18px] text-gray-800 text-right line-clamp-1 leading-[28px]"
-                            style={{
-                              fontFamily: "var(--font-almarai)",
-                            }}
                             title={product.title}
                           >
                             {product.title}
@@ -357,9 +351,6 @@ const ProductsSlider = () => {
                           <div className="flex items-center gap-1">
                             <span
                               className="text-[16px] font-bold text-[#5a5e4d] leading-[24px]"
-                              style={{
-                                fontFamily: "var(--font-almarai)",
-                              }}
                             >
                               {product.price} ر.س
                             </span>
@@ -411,7 +402,7 @@ const ProductsSlider = () => {
               )}
             </>
           ) : (
-            <div className="text-center text-gray-600 py-8" style={fontStyle}>
+            <div className="text-center text-gray-600 py-8">
               {UI_TEXTS.NO_PRODUCTS_AVAILABLE}
             </div>
           )}

@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { X, ShoppingCart, Trash2, Sparkles } from "lucide-react";
 import { BouquetItem } from "@/types/bouquets";
 import { PRODUCT_DATA } from "@/constants/productData";
@@ -42,9 +42,6 @@ export default function ReadyMadeBouquetPreviewModal({
         <div className="bg-linear-to-r from-[#5A5E4D] to-[#4A4E3D] px-6 py-4 sticky top-0 z-10 flex items-center justify-between border-b border-[#5A5E4D]/20">
           <h2
             className="text-lg md:text-xl font-bold text-white flex items-center gap-2"
-            style={{
-              fontFamily: "var(--font-almarai)",
-            }}
           >
             <Sparkles className="w-5 h-5" />
             {bouquet.title}
@@ -113,26 +110,17 @@ export default function ReadyMadeBouquetPreviewModal({
               <div className="bg-linear-to-br from-[#5A5E4D] to-[#4A4E3D] text-white p-5 rounded-xl text-center shadow-lg">
                 <p
                   className="text-sm mb-1 opacity-90"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
                 >
                   الإجمالي
                 </p>
                 <div
                   className="flex items-center justify-center gap-2 text-3xl font-bold text-white"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
                 >
                   <span>{bouquet.totalPrice || bouquet.price}</span>
                   <span className="text-2xl">ريال</span>
                 </div>
                 <p
                   className="text-xs mt-2 opacity-75"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
                 >
                   غير شامل الضريبة
                 </p>
@@ -147,9 +135,6 @@ export default function ReadyMadeBouquetPreviewModal({
                 <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
                   <h4
                     className="text-xs sm:text-[13px] font-semibold text-gray-800 mb-3"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
                   >
                     تفاصيل الباقة
                   </h4>
@@ -158,11 +143,10 @@ export default function ReadyMadeBouquetPreviewModal({
                       <div className="flex items-center justify-between bg-gray-100 px-3 py-2">
                         <span
                           className="text-gray-600"
-                          style={{ fontFamily: "var(--font-almarai)" }}
                         >
                           الحجم
                         </span>
-                        <span style={{ fontFamily: "var(--font-almarai)" }}>
+                        <span>
                           {PRODUCT_DATA.sizes.find((s) => s.value === bouquet.selectedSize)?.label ||
                             bouquet.selectedSize}
                         </span>
@@ -172,12 +156,11 @@ export default function ReadyMadeBouquetPreviewModal({
                       <div className="flex items-center justify-between bg-gray-100/70 px-3 py-2">
                         <span
                           className="text-gray-600"
-                          style={{ fontFamily: "var(--font-almarai)" }}
                         >
                           اللون
                         </span>
                         <div className="flex items-center gap-2">
-                          <span style={{ fontFamily: "var(--font-almarai)" }}>
+                          <span>
                             {bouquet.selectedColorLabel}
                           </span>
                           {bouquet.selectedColor && (
@@ -200,9 +183,6 @@ export default function ReadyMadeBouquetPreviewModal({
                 <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
                   <h4
                     className="text-xs font-semibold text-gray-700 mb-3"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
                   >
                     الإضافات المختارة
                   </h4>
@@ -211,7 +191,6 @@ export default function ReadyMadeBouquetPreviewModal({
                       <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-gray-200">
                         <span
                           className="text-gray-700 text-xs"
-                          style={{ fontFamily: "var(--font-almarai)" }}
                         >
                           {PRODUCT_DATA.addons.card.label}
                         </span>
@@ -224,7 +203,6 @@ export default function ReadyMadeBouquetPreviewModal({
                       <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-gray-200">
                         <span
                           className="text-gray-700 text-xs"
-                          style={{ fontFamily: "var(--font-almarai)" }}
                         >
                           {PRODUCT_DATA.addons.chocolate.label}
                         </span>
@@ -237,7 +215,6 @@ export default function ReadyMadeBouquetPreviewModal({
                       <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-gray-200">
                         <span
                           className="text-gray-700 text-xs"
-                          style={{ fontFamily: "var(--font-almarai)" }}
                         >
                           {PRODUCT_DATA.addons.giftWrap.label}
                         </span>
@@ -255,17 +232,11 @@ export default function ReadyMadeBouquetPreviewModal({
                 <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
                   <h4
                     className="text-xs font-semibold text-gray-700 mb-2"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
                   >
                     رسالة البطاقة
                   </h4>
                   <p
                     className="text-xs text-gray-600 bg-white p-3 rounded-lg border border-gray-200"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
                   >
                     {bouquet.cardMessage}
                   </p>
@@ -280,9 +251,6 @@ export default function ReadyMadeBouquetPreviewModal({
                     onClose();
                   }}
                   className="flex-1 flex items-center justify-center gap-2 bg-[#5A5E4D] text-white py-3 px-6 rounded-xl text-sm font-semibold hover:bg-[#4A4E3D] transition-all duration-300 active:scale-95"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
                 >
                   <ShoppingCart className="w-4 h-4" />
                   إضافة إلى السلة
@@ -293,9 +261,6 @@ export default function ReadyMadeBouquetPreviewModal({
                     handleRemove();
                   }}
                   className="flex items-center justify-center gap-2 bg-red-50 text-red-600 py-3 px-6 rounded-xl text-sm font-semibold hover:bg-red-100 transition-all duration-300 active:scale-95"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
                 >
                   <Trash2 className="w-4 h-4" />
                   حذف

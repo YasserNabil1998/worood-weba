@@ -6,7 +6,6 @@
 import { useRouter } from "next/navigation";
 import { ShoppingCart } from "lucide-react";
 import { CART_MESSAGES, CART_ROUTES } from "@/constants/cart";
-import { fontStyle } from "@/lib/styles";
 
 export default function EmptyCart() {
   const router = useRouter();
@@ -22,16 +21,15 @@ export default function EmptyCart() {
           <ShoppingCart className="w-full h-full text-[#5A5E4D]" />
         </div>
       </div>
-      <h2 className="text-[22px] font-bold text-black mb-4" style={fontStyle}>
+      <h2 className="text-[22px] font-bold text-black mb-4">
         {CART_MESSAGES.EMPTY_CART}
       </h2>
-      <p className="text-[17px] font-normal text-[#858585] mb-8" style={fontStyle}>
+      <p className="text-[17px] font-normal text-[#858585] mb-8">
         ابدأ رحلتك مع أجمل الباقات
       </p>
       <button
         onClick={handleBrowseBouquets}
         className="bg-[#58614c] text-white rounded-[10px] px-8 py-4 font-bold text-[22px] hover:opacity-90 transition-opacity"
-        style={fontStyle}
       >
         {CART_MESSAGES.BROWSE_BOUQUETS}
       </button>

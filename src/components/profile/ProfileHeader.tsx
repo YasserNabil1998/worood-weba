@@ -27,7 +27,6 @@ export default function ProfileHeader({
   onImageUpload,
 }: ProfileHeaderProps) {
   const displayData = isEditing ? editData : userData;
-  const fontStyle = { fontFamily: "var(--font-almarai)" };
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageClick = () => {
@@ -37,7 +36,7 @@ export default function ProfileHeader({
   };
 
   return (
-    <div className="bg-white rounded-[25px] p-6 mb-4 relative" style={fontStyle}>
+    <div className="bg-white rounded-[25px] p-6 mb-4 relative">
       <div className="flex items-center gap-4 mb-0">
         {/* Profile Image */}
         <div className="relative">
@@ -57,7 +56,7 @@ export default function ProfileHeader({
                 loading="lazy"
               />
             ) : (
-              <span className="text-white text-[20px] font-bold" style={fontStyle}>
+              <span className="text-white text-[20px] font-bold">
                 {userData.name.charAt(0)}
               </span>
             )}
@@ -80,7 +79,7 @@ export default function ProfileHeader({
 
         {/* User Name */}
         <div className="flex-1">
-          <h1 className="text-[20px] font-bold text-black" style={fontStyle}>
+          <h1 className="text-[20px] font-bold text-black">
             {userData.name}
           </h1>
         </div>
@@ -90,7 +89,6 @@ export default function ProfileHeader({
             <button
               onClick={onEdit}
               className="bg-[#5f664f] text-white px-5 py-3 rounded-[10px] flex items-center gap-2 hover:bg-[#4f5440] transition-colors cursor-pointer"
-              style={fontStyle}
             >
               <Edit className="w-[18px] h-[18px]" />
               <span className="text-[16px]">تعديل البيانات</span>
@@ -103,7 +101,6 @@ export default function ProfileHeader({
             <button
               onClick={onCancel}
               className="px-5 py-3 rounded-[10px] border border-gray-300 transition-colors cursor-pointer hover:border-gray-400"
-              style={fontStyle}
             >
               إلغاء
             </button>
@@ -111,7 +108,6 @@ export default function ProfileHeader({
               onClick={onSave}
               disabled={isLoading}
               className="bg-[#5f664f] text-white px-6 py-3 rounded-[10px] hover:bg-[#4f5440] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center gap-2"
-              style={fontStyle}
             >
               {isLoading ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

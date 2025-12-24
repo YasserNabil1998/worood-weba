@@ -1,45 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import isValidEmail from "@/validations/isValidEmail";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import Image from "next/image";
-import { fontStyle } from "@/lib/styles";
+import { TIMEOUTS, SIZES } from "@/constants";
+import {
+  forgotPasswordSchema,
+  type ForgotPasswordFormData,
+} from "@/validations/schemas/forgotPasswordSchema";
 
 export default function ForgotPasswordPage() {
-  const [form, setForm] = useState({ email: "" });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitting, setSubmitting] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [submittedEmail, setSubmittedEmail] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm((p) => ({ ...p, [name]: value }));
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<ForgotPasswordFormData>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
 
-  const validate = () => {
-    const err: Record<string, string> = {};
+  const onSubmit = async (data: ForgotPasswordFormData) => {
+    setSubmittedEmail(data.email);
 
-    if (!form.email.trim()) {
-      err.email = "البريد الإلكتروني مطلوب";
-    } else if (!isValidEmail(form.email)) {
-      err.email = "الرجاء إدخال بريد إلكتروني صحيح";
-    }
+    // نستخدم Promise wrapper للحفاظ على async/await pattern
+    // مما يسهل استبدالها بـ API call حقيقي لاحقاً دون تغيير البنية
+    await new Promise((resolve) => setTimeout(resolve, TIMEOUTS.FORGOT_PASSWORD_DELAY));
 
-    setErrors(err);
-    return Object.keys(err).length === 0;
-  };
-
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-    setSubmitting(true);
-
-    // Mock API call - سيتم استبدالها بالـ API الحقيقي لاحقاً
-    setTimeout(() => {
-      setSubmitting(false);
-      setEmailSent(true);
-    }, 600);
+    setEmailSent(true);
   };
 
   if (emailSent) {
@@ -47,11 +41,15 @@ export default function ForgotPasswordPage() {
       <div className="mx-auto w-full max-w-md rounded-xl bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
         <div className="py-6 text-center">
           <div className="flex justify-center">
-            <Image src="/Logo-shams.svg" alt="شعار الموقع" width={120} height={60} priority />
+            <Image
+              src="/Logo-shams.svg"
+              alt="شعار الموقع"
+              width={SIZES.LOGO_WIDTH}
+              height={SIZES.LOGO_HEIGHT}
+              priority
+            />
           </div>
-          <p className="mt-2 text-sm text-gray-600" style={fontStyle}>
-            تم إرسال رابط إعادة تعيين كلمة المرور
-          </p>
+          <p className="mt-2 text-sm text-gray-600">تم إرسال رابط إعادة تعيين كلمة المرور</p>
         </div>
         <div className="px-6 pb-6">
           <div className="text-center space-y-4">
@@ -71,15 +69,9 @@ export default function ForgotPasswordPage() {
               </svg>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2" style={fontStyle}>
-                تحقق من بريدك الإلكتروني
-              </h3>
-              <p className="text-sm text-gray-600" style={fontStyle}>
-                تم إرسال رابط إعادة تعيين كلمة المرور إلى:
-              </p>
-              <p className="text-sm font-medium text-[#5A5E4D] mt-1" style={fontStyle}>
-                {form.email}
-              </p>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">تحقق من بريدك الإلكتروني</h3>
+              <p className="text-sm text-gray-600">تم إرسال رابط إعادة تعيين كلمة المرور إلى:</p>
+              <p className="text-sm font-medium text-[#5A5E4D] mt-1">{submittedEmail}</p>
             </div>
             <div className="text-xs text-gray-500">
               <p>لم تستلم الرسالة؟ تحقق من مجلد الرسائل المزعجة</p>
@@ -87,11 +79,7 @@ export default function ForgotPasswordPage() {
             <div className="pt-4">
               <Link
                 href="/login"
-                className="inline-block w-full h-10 rounded-md text-white font-semibold transition-opacity text-center leading-10"
-                style={{
-                  backgroundColor: "#5A5E4D",
-                  fontFamily: "var(--font-almarai)",
-                }}
+                className="inline-block w-full h-10 rounded-md text-white font-semibold transition-opacity text-center leading-10 bg-[#5A5E4D]"
               >
                 العودة لتسجيل الدخول
               </Link>
@@ -106,28 +94,30 @@ export default function ForgotPasswordPage() {
     <div className="mx-auto w-full max-w-md rounded-xl bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
       <div className="py-6 text-center">
         <div className="flex justify-center">
-          <Image src="/Logo-shams.svg" alt="شعار الموقع" width={120} height={60} priority />
+          <Image
+            src="/Logo-shams.svg"
+            alt="شعار الموقع"
+            width={SIZES.LOGO_WIDTH}
+            height={SIZES.LOGO_HEIGHT}
+            priority
+          />
         </div>
-        <p className="mt-2 text-sm text-gray-600" style={fontStyle}>
-          نسيت كلمة المرور؟
-        </p>
+        <p className="mt-2 text-sm text-gray-600">نسيت كلمة المرور؟</p>
       </div>
       <div className="px-6 pb-6">
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block text-sm text-gray-700 mb-1" htmlFor="email">
               البريد الإلكتروني
             </label>
             <input
               id="email"
-              name="email"
               type="email"
-              value={form.email}
-              onChange={handleChange}
+              {...register("email")}
               className="w-full h-10 rounded-md border border-gray-300 bg-white px-3 text-right focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30"
               placeholder="example@mail.com"
             />
-            {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
+            {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
           </div>
 
           <div className="text-xs text-gray-500 text-center">
@@ -136,15 +126,10 @@ export default function ForgotPasswordPage() {
 
           <button
             type="submit"
-            disabled={submitting}
-            className="w-full h-10 rounded-md text-white font-semibold transition-opacity"
-            style={{
-              backgroundColor: "#5A5E4D",
-              opacity: submitting ? 0.8 : 1,
-              fontFamily: "var(--font-almarai)",
-            }}
+            disabled={isSubmitting}
+            className={`w-full h-10 rounded-md text-white font-semibold transition-opacity bg-[#5A5E4D] ${isSubmitting ? "opacity-80" : "opacity-100"}`}
           >
-            {submitting ? "... جاري الإرسال" : "إرسال الرابط"}
+            {isSubmitting ? "... جاري الإرسال" : "إرسال الرابط"}
           </button>
           <div className="text-center text-xs text-gray-600">
             <Link href="/login" className="hover:underline">

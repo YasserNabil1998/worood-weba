@@ -9,7 +9,6 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
-import { fontStyle } from "@/lib/styles";
 import { logger } from "@/lib/logger";
 import { useAuth } from "@/providers/auth-provider";
 import { useNotification } from "@/providers/notification-provider";
@@ -19,6 +18,7 @@ import { useCartStore } from "@/stores";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useCustomBouquetFavorites } from "@/hooks/useCustomBouquetFavorites";
 import { signupSchema, type SignupFormData } from "@/validations/schemas/signupSchema";
+import { TIMEOUTS, SIZES } from "@/constants";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -95,7 +95,7 @@ export default function SignupPage() {
 
           setTimeout(() => {
             router.push(verifyUrl);
-          }, 500);
+          }, TIMEOUTS.AUTH_REDIRECT_DELAY);
         } else {
           // فشل إرسال رمز التحقق - التوجيه مباشرة
           showNotification("تم إنشاء الحساب ولكن فشل إرسال رمز التحقق", "warning");
@@ -115,7 +115,7 @@ export default function SignupPage() {
           const returnPath = pendingAction?.returnPath || searchParams.get("return") || "/";
           setTimeout(() => {
             router.push(returnPath);
-          }, 500);
+          }, TIMEOUTS.AUTH_REDIRECT_DELAY);
         }
       } else {
         showNotification(result.error || "فشل إنشاء الحساب", "error");
@@ -129,11 +129,15 @@ export default function SignupPage() {
     <div className="mx-auto w-full max-w-md rounded-xl bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
       <div className="py-6 text-center">
         <div className="flex justify-center">
-          <Image src="/Logo-shams.svg" alt="شعار الموقع" width={120} height={60} priority />
+          <Image
+            src="/Logo-shams.svg"
+            alt="شعار الموقع"
+            width={SIZES.LOGO_WIDTH}
+            height={SIZES.LOGO_HEIGHT}
+            priority
+          />
         </div>
-        <p className="mt-2 text-sm text-gray-600" style={fontStyle}>
-          مرحبًا بك في زهور الشمس
-        </p>
+        <p className="mt-2 text-sm text-gray-600">مرحبًا بك في زهور الشمس</p>
       </div>
       <div className="px-6 pb-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -248,12 +252,7 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full h-10 rounded-md text-white font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed"
-            style={{
-              backgroundColor: "#5A5E4D",
-              opacity: isSubmitting ? 0.8 : 1,
-              fontFamily: "var(--font-almarai)",
-            }}
+            className={`w-full h-10 rounded-md text-white font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed bg-[#5A5E4D] ${isSubmitting ? "opacity-80" : "opacity-100"}`}
           >
             {isSubmitting ? "... جاري الإنشاء" : "إنشاء حساب"}
           </button>

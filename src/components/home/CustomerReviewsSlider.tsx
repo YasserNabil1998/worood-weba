@@ -5,7 +5,6 @@ import Image from "next/image";
 import type { ReviewItem } from "@/types";
 import { Star } from "lucide-react";
 import { logError } from "@/lib/logger";
-import { fontStyle } from "@/lib/styles";
 import { INTERVALS, UI_TEXTS } from "@/constants";
 import AOSWrapper from "@/components/common/AOSWrapper";
 import { useHomePageStore, useReviewsStore } from "@/stores";
@@ -117,7 +116,7 @@ const CustomerReviewsSlider = ({
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="text-gray-600" style={fontStyle}>
+            <div className="text-gray-600">
               {UI_TEXTS.LOADING}
             </div>
           </div>
@@ -131,10 +130,10 @@ const CustomerReviewsSlider = ({
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4" style={fontStyle}>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
               آراء عملائنا
             </h2>
-            <p className="text-gray-600" style={fontStyle}>
+            <p className="text-gray-600">
               {UI_TEXTS.NO_REVIEWS_AVAILABLE}
             </p>
           </div>
@@ -153,7 +152,7 @@ const CustomerReviewsSlider = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header - matching Figma: 30px, Almarai Bold */}
         <div className="text-right mb-8 sm:mb-10 md:mb-12">
-          <h2 className="text-[28px] sm:text-[30px] font-bold text-black" style={fontStyle}>
+          <h2 className="text-[28px] sm:text-[30px] font-bold text-black">
             أراء عملائنا
           </h2>
         </div>
@@ -192,9 +191,6 @@ const CustomerReviewsSlider = ({
                         ) : (
                           <span
                             className="text-gray-600 font-bold text-lg"
-                            style={{
-                              fontFamily: "var(--font-almarai)",
-                            }}
                           >
                             {review.customerName.charAt(0)}
                           </span>
@@ -205,7 +201,6 @@ const CustomerReviewsSlider = ({
                         <h3
                           className="text-[16px] font-bold text-gray-800 mb-2"
                           style={{
-                            fontFamily: "var(--font-almarai)",
                           }}
                         >
                           {review.customerName}
@@ -222,7 +217,6 @@ const CustomerReviewsSlider = ({
                         <p
                           className="text-gray-600 leading-[24px] text-[16px] overflow-hidden text-right"
                           style={{
-                            fontFamily: "var(--font-almarai)",
                             display: "-webkit-box",
                             WebkitLineClamp: 2,
                             WebkitBoxOrient: "vertical",

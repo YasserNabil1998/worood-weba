@@ -11,7 +11,6 @@ import { useFavoritesStore } from "@/stores";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { QuickAddModal } from "@/components/product";
 import { logError } from "@/lib/logger";
-import { fontStyle } from "@/lib/styles";
 import { UI_TEXTS } from "@/constants";
 
 // Keep ProductItem for backward compatibility
@@ -132,7 +131,6 @@ function ProductCard({ item }: { item: BouquetItem }) {
           <div className="flex-1 mb-3">
             <h3
               className="font-bold text-responsive-lg text-gray-800 mb-2 line-clamp-1 text-right"
-              style={fontStyle}
               title={item.title}
               data-product-title
             >
@@ -142,7 +140,7 @@ function ProductCard({ item }: { item: BouquetItem }) {
 
           <div className="mt-auto flex items-center justify-between">
             <div className="flex items-center justify-end gap-1.5">
-              <span className="text-responsive-base font-bold text-[#5a5e4d]" style={fontStyle}>
+              <span className="text-responsive-base font-bold text-[#5a5e4d]">
                 {item.price} ر.س
               </span>
             </div>

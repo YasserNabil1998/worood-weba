@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 import AOSWrapper from "./AOSWrapper";
 import { ROUTES } from "@/constants/routes";
@@ -56,9 +56,6 @@ const CustomBouquetSection = ({
                       >
                         <h2
                           className="text-[18px] sm:text-[20px] md:text-[24px] lg:text-[28px] xl:text-[32px] 2xl:text-[35px] font-bold text-black leading-tight sm:leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[34px] 2xl:leading-[36px] text-right"
-                          style={{
-                            fontFamily: "var(--font-almarai)",
-                          }}
                           dir="auto"
                         >
                           {title}
@@ -71,9 +68,6 @@ const CustomBouquetSection = ({
                       <div className="pb-[15px] sm:pb-[18px] md:pb-[22px] lg:pb-[28px] xl:pb-[32px] 2xl:pb-[35px] w-full">
                         <p
                           className="text-[13px] sm:text-[14px] md:text-[16px] lg:text-[20px] xl:text-[23px] 2xl:text-[25px] text-black leading-relaxed sm:leading-[20px] md:leading-[22px] lg:leading-[24px] xl:leading-[26px] 2xl:leading-[28px] text-right"
-                          style={{
-                            fontFamily: "var(--font-almarai)",
-                          }}
                           dir="auto"
                         >
                           {description}
@@ -86,10 +80,6 @@ const CustomBouquetSection = ({
                       <Link
                         href={buttonHref}
                         className="bg-[#5a5e4d] hover:bg-[#4b5244] h-[45px] sm:h-[50px] md:h-[55px] lg:h-[60px] xl:h-[63px] 2xl:h-[65px] w-[160px] sm:w-[180px] md:w-[200px] lg:w-[215px] xl:w-[220px] 2xl:w-[223px] px-[20px] sm:px-[24px] md:px-[28px] lg:px-[32px] py-[8px] sm:py-[10px] md:py-[11px] lg:py-[12px] rounded-[4px] font-bold text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] xl:text-[23px] 2xl:text-[25px] leading-[18px] sm:leading-[20px] md:leading-[22px] lg:leading-[23px] xl:leading-[24px] transition-all duration-300 flex items-center justify-center text-center whitespace-pre"
-                        style={{
-                          fontFamily: "var(--font-almarai)",
-                          color: "#fcfcfe",
-                        }}
                       >
                         {buttonText}
                       </Link>

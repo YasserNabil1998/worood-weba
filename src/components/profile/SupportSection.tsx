@@ -16,19 +16,17 @@ interface SupportSectionProps {
 
 export default function SupportSection({ title, faqs }: SupportSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const fontStyle = { fontFamily: "var(--font-almarai)" };
 
   return (
     <div 
       className="bg-white rounded-[25px] p-6 mb-4 cursor-pointer" 
-      style={fontStyle}
       onClick={() => setIsExpanded(!isExpanded)}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <HelpCircle className="w-[36px] h-[36px] text-[#5f664f]" />
-          <h2 className="text-[20px] font-bold text-black" style={fontStyle}>
+          <h2 className="text-[20px] font-bold text-black">
             {title}
           </h2>
         </div>
@@ -48,7 +46,7 @@ export default function SupportSection({ title, faqs }: SupportSectionProps) {
         <div className="space-y-6" onClick={(e) => e.stopPropagation()}>
           {faqs.map((faq, index) => (
             <div key={index} className="border-b border-gray-200 pb-4 last:border-b-0">
-              <h3 className="text-[18px] font-bold text-black mb-3" style={fontStyle}>
+              <h3 className="text-[18px] font-bold text-black mb-3">
                 {index + 1}. {faq.question}
               </h3>
               {faq.answer.length > 0 && (
@@ -57,7 +55,6 @@ export default function SupportSection({ title, faqs }: SupportSectionProps) {
                     <li
                       key={itemIndex}
                       className="text-[16px] text-black leading-[28px]"
-                      style={fontStyle}
                     >
                       {item}
                     </li>

@@ -33,7 +33,6 @@ export default function OccasionsSection({
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingOccasionId, setEditingOccasionId] = useState<string | null>(null);
   const [editingOccasion, setEditingOccasion] = useState<Occasion | null>(null);
-  const fontStyle = { fontFamily: "var(--font-almarai)" };
 
   // Get occasion types from store
   const fetchOccasionTypes = useProfileStore((state) => state.fetchOccasionTypes);
@@ -102,17 +101,16 @@ export default function OccasionsSection({
   return (
     <div
       className="bg-white rounded-[25px] p-4 sm:p-6 mb-4 cursor-pointer"
-      style={fontStyle}
       onClick={() => setIsExpanded(!isExpanded)}
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 flex-1">
-          <h2 className="text-[20px] font-bold text-black" style={fontStyle}>
+          <h2 className="text-[20px] font-bold text-black">
             مناسباتي
           </h2>
 
-          <p className="text-[14px] sm:text-[16px] text-[#383737]" style={fontStyle}>
+          <p className="text-[14px] sm:text-[16px] text-[#383737]">
             (سيتم إرسال تذكير لك على إيميلك لتذكيرك قبل بأسبوع)
           </p>
         </div>
@@ -159,7 +157,6 @@ export default function OccasionsSection({
               <button
                 onClick={handleAddClick}
                 className="flex items-center gap-2 text-[16px] text-black hover:text-[#5f664f] transition-colors cursor-pointer"
-                style={fontStyle}
               >
                 <div className="relative w-[29px] h-[27px]">
                   <div className="w-[29px] h-[27px] bg-[#ededed] rounded-[2px]"></div>

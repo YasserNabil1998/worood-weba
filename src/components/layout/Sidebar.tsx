@@ -3,7 +3,6 @@
 import { useId, useState, useEffect } from "react";
 import { X, ChevronDown } from "lucide-react";
 import { PRICE_RANGES, OCCASIONS, COLORS, TYPES } from "@/constants/bouquets";
-import { fontStyle } from "@/lib/styles";
 
 type SidebarProps = {
   isFiltersOpen: boolean;
@@ -52,7 +51,7 @@ function FilterSection({
         onKeyDown={onKeyDown}
         className="w-full flex items-center justify-between py-2 focus:outline-none focus:ring-2 focus:ring-[#5A5E4D]/30 rounded-lg px-2"
       >
-        <span className="text-[20px] font-bold text-black" style={fontStyle}>
+        <span className="text-[20px] font-bold text-black">
           {title}
         </span>
         <div className="flex items-center justify-center">
@@ -135,7 +134,7 @@ export default function Sidebar({
       >
         <div className="px-6 py-3" style={{ direction: "rtl" }}>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-[25px] font-extrabold text-black text-center" style={fontStyle}>
+            <h3 className="text-[25px] font-extrabold text-black text-center">
               تصفية النتائج
             </h3>
             <button
@@ -170,7 +169,6 @@ export default function Sidebar({
                     <label
                       htmlFor={inputId}
                       className={`cursor-pointer ${type === typeOption.key ? "text-[#5a5e4d]" : "text-[#5a5e4d]"}`}
-                      style={fontStyle}
                     >
                       {typeOption.label}
                     </label>
@@ -205,7 +203,6 @@ export default function Sidebar({
                     <label
                       htmlFor={inputId}
                       className={`cursor-pointer ${priceRange === range.key ? "text-[#5a5e4d]" : "text-[#5a5e4d]"}`}
-                      style={fontStyle}
                     >
                       {range.label}
                     </label>
@@ -240,7 +237,6 @@ export default function Sidebar({
                     <label
                       htmlFor={inputId}
                       className={`cursor-pointer ${occasion === occ.key ? "text-[#5a5e4d]" : "text-[#5a5e4d]"}`}
-                      style={fontStyle}
                     >
                       {occ.label}
                     </label>
@@ -277,7 +273,6 @@ export default function Sidebar({
           <button
             onClick={reset}
             className="mt-3 w-full rounded-[5px] py-2 bg-[#5a5e4d] text-white text-[17px] font-normal hover:bg-[#4a4e3d] transition-colors duration-200"
-            style={fontStyle}
           >
             إعادة ضبط الفلاتر
           </button>

@@ -1,7 +1,6 @@
 import { Flower, Color, Vase, PackagingType } from "@/types/custom";
 import PriceBreakdown from "./PriceBreakdown";
 import { Heart, ExternalLink } from "lucide-react";
-import { fontStyle } from "@/lib/styles";
 import { formatTimeToArabic, formatDateEnglish } from "@/lib/utils";
 
 interface BouquetPreviewProps {
@@ -63,12 +62,16 @@ export default function BouquetPreview({
   getStyleLabel,
   getVaseName,
 }: BouquetPreviewProps) {
+  // Check if user has selected any flowers and basic design elements
+  const hasSelectedFlowers = Object.values(selectedFlowers).some((qty) => qty > 0);
+  const isDesignComplete = hasSelectedFlowers && totalFlowersCount > 0;
+  
   return (
     <div className="order-1 lg:order-1 w-full lg:max-w-[445px] lg:justify-self-start">
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
         {/* Title - في بداية السيكشن */}
         <div className="px-3 sm:px-4 pt-3 sm:pt-4 pb-2">
-          <div className="text-[18px] font-bold leading-[20px] text-black text-right mb-4" style={fontStyle}>
+          <div className="text-[18px] font-bold leading-[20px] text-black text-right mb-4">
             معاينة الباقة
           </div>
         </div>
@@ -121,15 +124,15 @@ export default function BouquetPreview({
           <div className="flex flex-col mb-2">
             {/* First row - الإجمالي and السعر */}
             <div className="flex items-center justify-between mb-1">
-              <span className="text-responsive-base font-bold text-black" style={fontStyle}>
+              <span className="text-responsive-base font-bold text-black">
                 الإجمالي
               </span>
-              <span className="text-responsive-base font-normal text-black" style={fontStyle}>
+              <span className="text-responsive-base font-normal text-black">
                 {total.toFixed(0)} ريال
               </span>
             </div>
             {/* Second row - غير شامل الضريبة */}
-            <div className="text-[14px] font-normal text-black text-right" style={fontStyle}>
+            <div className="text-[14px] font-normal text-black text-right">
               غير شامل الضريبة
             </div>
           </div>
@@ -249,10 +252,10 @@ export default function BouquetPreview({
               {(deliveryTime || deliveryDate) && (
                 <div className="bg-[#E8F5E9] rounded-[10px] p-3 sm:p-4 shadow-sm">
                   <div className="text-right">
-                    <div className="text-[14px] sm:text-[16px] font-semibold text-[#2E7D32] mb-2" style={fontStyle}>
+                    <div className="text-[14px] sm:text-[16px] font-semibold text-[#2E7D32] mb-2">
                       موعد التوصيل
                     </div>
-                    <div className="text-[13px] sm:text-[15px] text-[#303030]" style={fontStyle}>
+                    <div className="text-[13px] sm:text-[15px] text-[#303030]">
                       {deliveryDate && (
                         <span>{formatDateEnglish(deliveryDate)}</span>
                       )}
@@ -271,14 +274,26 @@ export default function BouquetPreview({
           <div className="grid grid-cols-1 gap-2 sm:gap-3">
             <button
               onClick={onSaveToFavorites}
-              className="w-full rounded-md bg-[#5A5E4D] text-white px-3 py-2 text-xs sm:text-sm flex items-center justify-center gap-2 hover:bg-[#4b5244] cursor-pointer"
+              disabled={!isDesignComplete}
+              className={`w-full rounded-md px-3 py-2 text-xs sm:text-sm flex items-center justify-center gap-2 transition-all ${
+                isDesignComplete
+                  ? "bg-[#5A5E4D] text-white hover:bg-[#4b5244] cursor-pointer"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed opacity-60"
+              }`}
+              title={!isDesignComplete ? "اختر الزهور أولاً لحفظ التصميم" : "حفظ التصميم"}
             >
               <span>حفظ التصميم</span>
               <Heart className="w-4 h-4 flex-shrink-0" />
             </button>
             <button
               onClick={onShareDesign}
-              className="w-full rounded-md bg-white border border-[#5A5E4D] text-[#5A5E4D] px-3 py-2 text-xs sm:text-sm flex items-center justify-center gap-2 hover:bg-gray-50 cursor-pointer"
+              disabled={!isDesignComplete}
+              className={`w-full rounded-md px-3 py-2 text-xs sm:text-sm flex items-center justify-center gap-2 transition-all ${
+                isDesignComplete
+                  ? "bg-white border border-[#5A5E4D] text-[#5A5E4D] hover:bg-gray-50 cursor-pointer"
+                  : "bg-gray-100 border border-gray-300 text-gray-400 cursor-not-allowed opacity-60"
+              }`}
+              title={!isDesignComplete ? "اختر الزهور أولاً لمشاركة التصميم" : "مشاركة التصميم"}
             >
               <span>مشاركة التصميم</span>
               <ExternalLink className="w-4 h-4 flex-shrink-0" />

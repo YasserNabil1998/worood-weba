@@ -194,7 +194,6 @@ export default function HeroSection() {
                           : "opacity-0 translate-y-6"
                       }`}
                       style={{
-                        fontFamily: "var(--font-almarai)",
                         textShadow:
                           "2px 2px 8px rgba(0, 0, 0, 0.5), 1px 1px 4px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 0, 0, 0.3)",
                       }}
@@ -210,7 +209,6 @@ export default function HeroSection() {
                           : "opacity-0 translate-y-6"
                       }`}
                       style={{
-                        fontFamily: "var(--font-almarai)",
                         textShadow: "1px 1px 6px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 0, 0, 0.3)",
                       }}
                     >
@@ -234,9 +232,6 @@ export default function HeroSection() {
                               ? "bg-[#5f664f] text-white hover:bg-[#4b5244] active:bg-[#3d4235]"
                               : "bg-white text-black hover:bg-gray-100 active:bg-gray-200"
                           }`}
-                          style={{
-                            fontFamily: "var(--font-almarai)",
-                          }}
                         >
                           <span className="truncate">{button.text}</span>
                         </Link>

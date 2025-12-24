@@ -9,7 +9,6 @@ import { contactSchema, ContactFormData } from "@/validations/schemas/contactSch
 import { FORM_SUCCESS_TIMEOUT, MESSAGES } from "@/constants/contact";
 import { cn } from "@/lib/utils";
 import { logError } from "@/lib/logger";
-import { fontStyle } from "@/lib/styles";
 import { useContactStore } from "@/stores";
 
 export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFormProps) {
@@ -109,12 +108,10 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
   return (
     <div
       className="bg-white rounded-[20px] min-h-[726px] p-4 sm:p-6 md:p-8 lg:p-12 order-1 lg:order-1"
-      style={fontStyle}
     >
       <div className="text-right mb-6 sm:mb-8">
         <h3
           className="text-[18px] sm:text-[19px] lg:text-[20px] font-bold text-black mb-2"
-          style={fontStyle}
         >
           {data.title}
         </h3>
@@ -143,7 +140,6 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
         <div>
           <label
             className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
-            style={fontStyle}
           >
             {data.fields.name.label}
           </label>
@@ -151,7 +147,6 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
             type="text"
             placeholder="أدخل الاسم كامل "
             className={getInputClasses(!!errors.name)}
-            style={fontStyle}
             {...register("name")}
           />
           {errors.name && (
@@ -165,7 +160,6 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
         <div>
           <label
             className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
-            style={fontStyle}
           >
             {data.fields.email.label}
           </label>
@@ -173,7 +167,6 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
             type="email"
             placeholder="أدخل بريدك الإلكتروني "
             className={getInputClasses(!!errors.email)}
-            style={fontStyle}
             {...register("email")}
           />
           {errors.email && (
@@ -187,7 +180,6 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
         <div>
           <label
             className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
-            style={fontStyle}
           >
             {data.fields.phone.label}
           </label>
@@ -195,7 +187,6 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
             type="tel"
             placeholder="أدخل رقم هاتفك "
             className={getInputClasses(!!errors.phone)}
-            style={fontStyle}
             {...register("phone")}
           />
           {errors.phone && (
@@ -209,7 +200,6 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
         <div className="min-w-0">
           <label
             className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
-            style={fontStyle}
           >
             {data.fields.subject.label}
           </label>
@@ -222,7 +212,6 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
                 "appearance-none cursor-pointer pr-12 flex items-center justify-between text-right"
               )}
               style={{
-                ...fontStyle,
                 direction: "rtl",
                 backgroundColor: "#f3f4f6",
               }}
@@ -256,7 +245,6 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
                       "px-4 py-3 text-[16px] sm:text-[18px] lg:text-[20px] text-right cursor-pointer hover:bg-[#f3f4f6] transition-colors",
                       selectedSubject === option ? "bg-[#f3f4f6] font-semibold" : ""
                     )}
-                    style={fontStyle}
                   >
                     {option}
                   </div>
@@ -275,7 +263,6 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
         <div className="md:col-span-2">
           <label
             className="block text-[16px] sm:text-[18px] lg:text-[20px] text-black mb-2 text-right"
-            style={fontStyle}
           >
             {data.fields.message.label}
           </label>
@@ -283,7 +270,6 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
             rows={8}
             className={cn(getInputClasses(!!errors.message, true), "resize-none")}
             placeholder="اكتب رسالتك هنا...."
-            style={fontStyle}
             {...register("message")}
           />
           {errors.message && (
@@ -302,7 +288,6 @@ export default function ContactForm({ data, onSubmit: propOnSubmit }: ContactFor
               "w-full h-[50px] sm:h-[55px] lg:h-[60px] rounded-[10px] text-white font-bold text-[16px] sm:text-[18px] lg:text-[20px] transition-all duration-300 flex items-center justify-center gap-2",
               isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-[#5f664f] hover:bg-[#4A4E3D]"
             )}
-            style={fontStyle}
           >
             {isSubmitting ? (
               <>

@@ -3,7 +3,6 @@
 import React from "react";
 import { Loader2 } from "lucide-react";
 import { SkeletonGrid } from "@/components/common/SkeletonCard";
-import { fontStyle } from "@/lib/styles";
 import { UI_TEXTS } from "@/constants";
 
 interface DataLoaderProps {
@@ -59,10 +58,10 @@ const DataLoader = ({
 
           {/* Loading Text */}
           <div className="text-center">
-            <p className="text-[#5A5E4D] font-medium text-lg" style={fontStyle}>
+            <p className="text-[#5A5E4D] font-medium text-lg">
               {loadingText}
             </p>
-            <p className="text-gray-500 text-sm mt-1" style={fontStyle}>
+            <p className="text-gray-500 text-sm mt-1">
               يرجى الانتظار
             </p>
           </div>

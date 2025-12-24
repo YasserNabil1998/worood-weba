@@ -8,7 +8,6 @@ import { CustomBouquetData } from "@/types/custom";
 import { CART_LABELS } from "@/constants/cart";
 import bouquetsData from "@/data/custom-bouquets.json";
 import { formatTimeToArabic, formatDateEnglish } from "@/lib/utils";
-import { fontStyle } from "@/lib/styles";
 
 interface CustomBouquetDetailsProps {
   customData: CustomBouquetData;
@@ -169,10 +168,10 @@ export default function CustomBouquetDetails({
       {customData.deliveryInfo && (customData.deliveryInfo.date || customData.deliveryInfo.time) && (
         <div className="bg-[#E8F5E9] rounded-[10px] p-3 sm:p-4 shadow-sm">
           <div className="text-right">
-            <div className="text-[14px] sm:text-[16px] font-semibold text-[#2E7D32] mb-2" style={fontStyle}>
+            <div className="text-[14px] sm:text-[16px] font-semibold text-[#2E7D32] mb-2">
               موعد التوصيل
             </div>
-            <div className="text-[13px] sm:text-[15px] text-[#303030]" style={fontStyle}>
+            <div className="text-[13px] sm:text-[15px] text-[#303030]">
               {customData.deliveryInfo.date && (
                 <span>{formatDateEnglish(customData.deliveryInfo.date)}</span>
               )}

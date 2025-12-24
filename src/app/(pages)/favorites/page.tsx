@@ -13,7 +13,6 @@ import { CustomBouquet } from "@/types/favorites";
 import { BouquetItem } from "@/types/bouquets";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useCustomBouquetFavorites } from "@/hooks/useCustomBouquetFavorites";
-import { fontStyle } from "@/lib/styles";
 import { UI_TEXTS } from "@/constants";
 
 export default function FavoritesPage() {
@@ -66,9 +65,7 @@ export default function FavoritesPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#5A5E4D] mx-auto"></div>
-            <p className="mt-6 text-gray-600 text-lg" style={fontStyle}>
-              {UI_TEXTS.LOADING}
-            </p>
+            <p className="mt-6 text-gray-600 text-lg">{UI_TEXTS.LOADING}</p>
           </div>
         </div>
       </div>
@@ -82,10 +79,7 @@ export default function FavoritesPage() {
           {/* Breadcrumb */}
           <AOSWrapper animation="fade-in" delay={50} duration={800}>
             <div className="mb-4">
-              <nav
-                className="flex items-center gap-2 text-[18px] text-[#a0a0a0] justify-start"
-                style={fontStyle}
-              >
+              <nav className="flex items-center gap-2 text-[18px] text-[#a0a0a0] justify-start">
                 <Link href="/" className="hover:text-[#5A5E4D] transition-colors">
                   الرئيسية
                 </Link>
@@ -98,10 +92,7 @@ export default function FavoritesPage() {
           {/* Page Title */}
           <AOSWrapper animation="fade-up" delay={100} duration={800}>
             <div className="mb-8 md:mb-12 flex justify-start">
-              <h1
-                className="text-[32px] font-bold leading-[40px] text-[rgba(0,0,0,0.72)]"
-                style={fontStyle}
-              >
+              <h1 className="text-[32px] font-bold leading-[40px] text-[rgba(0,0,0,0.72)]">
                 المنتجات التي أضفتها إلى قائمة المفضلة
               </h1>
             </div>
@@ -159,9 +150,6 @@ export default function FavoritesPage() {
                     <Link
                       href="/bouquets"
                       className="bg-[#5f664f] h-[70px] rounded-[10px] px-8 flex items-center justify-center hover:bg-[#4A4E3D] transition-all duration-300"
-                      style={{
-                        fontFamily: "var(--font-almarai)",
-                      }}
                     >
                       <span className="text-white font-bold text-[22px] text-right">
                         تصفح الباقات

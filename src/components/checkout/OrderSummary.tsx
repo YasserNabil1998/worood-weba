@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { CartItem } from "@/types/cart";
 import { CheckoutTotals } from "@/types/checkout";
 import { APP_CONFIG, COLORS } from "@/constants";
-import { fontStyle } from "@/lib/styles";
 
 interface OrderSummaryProps {
   items: CartItem[];
@@ -32,7 +31,7 @@ export default function OrderSummary({
         className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 h-fit lg:sticky lg:top-24 lg:self-start lg:z-10"
         data-aos="none"
       >
-        <h2 className="text-lg font-semibold mb-6 text-gray-800" style={fontStyle}>
+        <h2 className="text-lg font-semibold mb-6 text-gray-800">
           ملخص الطلب
         </h2>
         <div className="animate-pulse">
@@ -49,7 +48,7 @@ export default function OrderSummary({
       className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 h-fit lg:sticky lg:top-24 lg:self-start lg:z-10"
       data-aos="none"
     >
-      <h2 className="text-lg font-semibold mb-6 text-gray-800" style={fontStyle}>
+      <h2 className="text-lg font-semibold mb-6 text-gray-800">
         ملخص الطلب
       </h2>
 
@@ -121,7 +120,6 @@ export default function OrderSummary({
             ? "bg-gray-400 text-gray-200 cursor-not-allowed"
             : "bg-[#5A5E4D] text-white hover:bg-[#4A4E3D] hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
         }`}
-        style={fontStyle}
       >
         {isSubmitting ? (
           <span className="flex items-center justify-center gap-2">

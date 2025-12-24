@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Heart } from "lucide-react";
 
 export default function ProfileQuickActions() {
-  const fontStyle = { fontFamily: "var(--font-almarai)" };
 
   return (
     <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -23,13 +22,11 @@ export default function ProfileQuickActions() {
         </div>
         <h3
           className="font-bold text-gray-800 mb-2 text-lg group-hover:text-[#5A5E4D] transition-colors duration-300"
-          style={fontStyle}
         >
           طلباتي
         </h3>
         <p
           className="text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-300"
-          style={fontStyle}
         >
           عرض جميع طلباتي
         </p>
@@ -45,13 +42,11 @@ export default function ProfileQuickActions() {
         </div>
         <h3
           className="font-bold text-gray-800 mb-2 text-lg group-hover:text-[#5A5E4D] transition-colors duration-300"
-          style={fontStyle}
         >
           المفضلة
         </h3>
         <p
           className="text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-300"
-          style={fontStyle}
         >
           المنتجات المفضلة لديك
         </p>
@@ -74,13 +69,11 @@ export default function ProfileQuickActions() {
         </div>
         <h3
           className="font-bold text-gray-800 mb-2 text-lg group-hover:text-[#5A5E4D] transition-colors duration-300"
-          style={fontStyle}
         >
           تواصل معنا
         </h3>
         <p
           className="text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-300"
-          style={fontStyle}
         >
           مركز المساعدة والدعم
         </p>

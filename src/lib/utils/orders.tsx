@@ -11,6 +11,7 @@ import type { ReactElement } from "react";
 import { PAYMENT_METHOD_LABELS } from '@/constants';
 import { storage, getArabicDate } from '@/lib/utils';
 import { STORAGE_KEYS } from '@/constants';
+import { fontStyle } from '@/lib/styles';
 
 /**
  * دمج الطلبات المحفوظة مع الطلبات التجريبية
@@ -105,10 +106,9 @@ export const ORDER_STATUS_OPTIONS = [
 
 /**
  * الكلاسات المشتركة للـ Almarai font
+ * @deprecated Use fontStyle from @/lib/styles instead
  */
-export const almaraiFont = {
-  fontFamily: "var(--font-almarai)",
-} as const;
+export const almaraiFont = fontStyle;
 
 /**
  * تنسيق عنوان التسليم

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { ContactHeroProps } from "@/types/contact";
@@ -52,10 +52,6 @@ export default function ContactHero({ data }: ContactHeroProps) {
               <div className="ml-auto max-w-xl">
                 <h1
                   className="text-3xl md:text-4xl font-extrabold text-white mb-3 drop-shadow-xl"
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                    textShadow: "0 3px 6px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.2)",
-                  }}
                 >
                   {data.title}
                 </h1>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { fontStyle } from "@/lib/styles";
 import { TIMEOUTS, NOTIFICATION_DURATION } from "@/constants";
 import { useHomePageStore } from "@/stores";
 import { newsletterSchema } from "@/validations/schemas/newsletterSchema";
@@ -57,14 +56,11 @@ const NewsletterSection = () => {
           <div className="bg-[#B5BAAA] rounded-[16px] p-8">
             <div className="text-center max-w-4xl mx-auto">
               {/* Title - centered, bold, dark gray */}
-              <h2
-                className="text-[22px] sm:text-[24px] font-bold text-gray-800 mb-4"
-                style={fontStyle}
-              >
+              <h2 className="text-[22px] sm:text-[24px] font-bold text-gray-800 mb-4">
                 اشترك في نشرتنا البريدية
               </h2>
               {/* Description - centered, lighter gray */}
-              <p className="text-[14px] sm:text-[16px] text-gray-600 mb-6" style={fontStyle}>
+              <p className="text-[14px] sm:text-[16px] text-gray-600 mb-6">
                 احصل على آخر العروض والتخفيضات مباشرة إلى بريدك الإلكتروني
               </p>
               {/* Form - horizontal row with input and button */}
@@ -84,9 +80,6 @@ const NewsletterSection = () => {
                   className={`flex-1 min-w-[200px] max-w-md h-[48px] pr-4 pl-4 rounded-[4px] border border-gray-300 bg-white text-right placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 text-[14px] sm:text-[16px] ${
                     error ? "border-red-300 bg-red-50/50" : ""
                   }`}
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
                 />
                 {/* Subscribe Button - darker green/gray, rounded corners */}
                 <button
@@ -95,9 +88,6 @@ const NewsletterSection = () => {
                   className={`bg-[#6B7565] h-[48px] px-6 rounded-[4px] text-white font-normal text-[14px] sm:text-[16px] shrink-0 transition-all hover:opacity-90 ${
                     isLoading ? "opacity-80 cursor-not-allowed" : ""
                   }`}
-                  style={{
-                    fontFamily: "var(--font-almarai)",
-                  }}
                   disabled={isLoading}
                 >
                   {isLoading ? "... جارٍ" : "اشتراك"}
@@ -107,27 +97,13 @@ const NewsletterSection = () => {
               {/* رسائل الحالة - simplified */}
               {error && (
                 <div className="mt-4 text-center">
-                  <p
-                    className="text-sm text-red-700"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
-                  >
-                    {error}
-                  </p>
+                  <p className="text-sm text-red-700">{error}</p>
                 </div>
               )}
 
               {isSuccess && (
                 <div className="mt-4 text-center">
-                  <p
-                    className="text-sm text-green-700"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
-                  >
-                    تم الاشتراك بنجاح! شكرًا لانضمامك.
-                  </p>
+                  <p className="text-sm text-green-700">تم الاشتراك بنجاح! شكرًا لانضمامك.</p>
                 </div>
               )}
             </div>

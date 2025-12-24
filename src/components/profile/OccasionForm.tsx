@@ -7,7 +7,6 @@ import { getOccasionIcon, parseArabicDateToISO } from "@/lib/utils/occasions";
 import { useProfileStore } from "@/stores";
 import { useNotification } from "@/providers/notification-provider";
 import DatePicker from "@/components/shared/DatePicker";
-import { fontStyle } from "@/lib/styles";
 
 interface OccasionFormProps {
   /** ID of the occasion being edited (null for new occasion) */
@@ -118,7 +117,7 @@ export default function OccasionForm({
         <div className="flex flex-col sm:flex-row gap-4">
           {/* ما المناسبة؟ */}
           <div className="flex flex-col gap-2 flex-1 w-full sm:w-auto">
-            <label className="text-[14px] sm:text-[16px] text-black" style={fontStyle}>
+            <label className="text-[14px] sm:text-[16px] text-black">
               ما المناسبة ؟
             </label>
             <div className="relative">
@@ -129,7 +128,7 @@ export default function OccasionForm({
                   setIsDropdownOpen(!isDropdownOpen);
                 }}
               >
-                <span className="text-[14px] text-[#727272] truncate" style={fontStyle}>
+                <span className="text-[14px] text-[#727272] truncate">
                   {occasionType || "اختر المناسبة"}
                 </span>
                 {isDropdownOpen ? (
@@ -149,7 +148,6 @@ export default function OccasionForm({
                         setIsDropdownOpen(false);
                       }}
                       className="px-3 py-2 text-[14px] text-right cursor-pointer hover:bg-gray-100 transition-colors"
-                      style={fontStyle}
                     >
                       {type.name}
                     </div>
@@ -161,7 +159,7 @@ export default function OccasionForm({
 
           {/* من صاحب المناسبة */}
           <div className="flex flex-col gap-2 flex-1 w-full sm:w-auto">
-            <label className="text-[14px] sm:text-[16px] text-black" style={fontStyle}>
+            <label className="text-[14px] sm:text-[16px] text-black">
               من صاحب المناسبة
             </label>
             <input
@@ -173,7 +171,6 @@ export default function OccasionForm({
               }}
               onClick={(e) => e.stopPropagation()}
               className="border border-[#d2d2d2] rounded-[5px] h-[41px] px-3 text-[14px] text-[#727272] bg-white w-full"
-              style={fontStyle}
               placeholder="أدخل اسم صاحب المناسبة"
             />
           </div>
@@ -206,7 +203,6 @@ export default function OccasionForm({
           <label
             htmlFor="reminder"
             className="text-[14px] sm:text-[16px] text-black cursor-pointer"
-            style={fontStyle}
           >
             تفعيل التذكير (سيتم إرسال تذكير قبل أسبوع من المناسبة)
           </label>
@@ -217,7 +213,6 @@ export default function OccasionForm({
           <button
             onClick={handleSave}
             className="bg-[#5f664f] text-white px-6 py-2 rounded-[5px] text-[14px] sm:text-[15px] hover:bg-[#4f5440] transition-colors cursor-pointer w-full sm:w-auto"
-            style={fontStyle}
           >
             {editingOccasionId ? "تعديل" : "حفظ"}
           </button>
@@ -227,7 +222,6 @@ export default function OccasionForm({
               onCancel();
             }}
             className="bg-gray-300 text-gray-700 px-6 py-2 rounded-[5px] text-[14px] sm:text-[15px] hover:bg-gray-400 transition-colors cursor-pointer w-full sm:w-auto"
-            style={fontStyle}
           >
             إلغاء
           </button>

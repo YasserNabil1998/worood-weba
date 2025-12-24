@@ -8,7 +8,6 @@ import {
 } from "@/types/custom";
 import FlowerColorSelector from "../FlowerColorSelector";
 import { Lightbulb, ChevronRight, ChevronLeft } from "lucide-react";
-import { fontStyle } from "@/lib/styles";
 
 interface SizeAndPackagingStepProps {
   selectedFlowers: Record<number, number>;
@@ -90,14 +89,12 @@ export default function SizeAndPackagingStep({
       <div>
         <div
           className="mb-4 text-responsive-lg font-normal leading-[20px] text-black text-right"
-          style={fontStyle}
         >
           اختر الحجم والتغليف
         </div>
         {totalFlowersCount > 0 && (
           <div
             className="mb-3 bg-[#5A5E4D]/10 border border-[#d0d2c7]/30 rounded-md p-2 text-responsive-sm leading-[18px] text-[#5A5E4D] flex items-center gap-2"
-            style={fontStyle}
           >
             <Lightbulb className="w-4 h-4 shrink-0" />
             <span>تم اختيار الحجم تلقائياً. يمكنك تغييره وسيتم تعديل عدد الزهور بنفس النسبة</span>
@@ -146,7 +143,6 @@ export default function SizeAndPackagingStep({
                   {/* العنوان في الأعلى - موضع ثابت */}
                   <div
                     className="font-normal text-[14px] sm:text-[16px] leading-[20px] text-black text-center"
-                    style={fontStyle}
                   >
                     {opt.label}
                   </div>
@@ -156,7 +152,6 @@ export default function SizeAndPackagingStep({
                     {opt.key !== "custom" && opt.stems && (
                       <div
                         className="text-[14px] sm:text-[16px] leading-[20px] text-gray-600 text-center"
-                        style={fontStyle}
                       >
                         {opt.stems}
                       </div>
@@ -199,7 +194,6 @@ export default function SizeAndPackagingStep({
                             onClick={(e) => e.stopPropagation()}
                             placeholder="1"
                             className="w-[60px] sm:w-[70px] h-[26px] px-1 text-[14px] sm:text-[16px] leading-[20px] text-center bg-white text-gray-800 placeholder:text-[#b9b6b6] focus:outline-none focus:ring-0 border-0"
-                            style={fontStyle}
                           />
                           <button
                             type="button"
@@ -220,7 +214,6 @@ export default function SizeAndPackagingStep({
                         </div>
                         <div
                           className="text-[14px] sm:text-[16px] leading-[20px] text-gray-600 whitespace-nowrap"
-                          style={fontStyle}
                         >
                           زهرة
                         </div>
@@ -248,7 +241,6 @@ export default function SizeAndPackagingStep({
                   {/* العنوان في الأعلى - موضع ثابت */}
                   <div
                     className="font-normal text-[14px] sm:text-[16px] leading-[20px] text-black text-center"
-                    style={fontStyle}
                   >
                     {opt.label}
                   </div>
@@ -258,7 +250,6 @@ export default function SizeAndPackagingStep({
                     {opt.stems && (
                       <div
                         className="text-[14px] sm:text-[16px] leading-[20px] text-gray-600 text-center"
-                        style={fontStyle}
                       >
                         {opt.stems}
                       </div>
@@ -272,7 +263,6 @@ export default function SizeAndPackagingStep({
         {totalFlowersCount === 0 && (
           <p
             className="mt-3 text-[13px] leading-[18px] text-gray-500 text-center bg-gray-50 rounded-md p-2"
-            style={fontStyle}
           >
             ⚠️ يرجى اختيار الزهور أولاً من الخطوة السابقة
           </p>
@@ -283,7 +273,6 @@ export default function SizeAndPackagingStep({
       <div>
         <div
           className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right"
-          style={fontStyle}
         >
           أنواع التغليف
         </div>
@@ -294,7 +283,6 @@ export default function SizeAndPackagingStep({
             onClick={() => onPackagingTypeChange("paper")}
             className={getPackagingButtonClasses("paper")}
             aria-pressed={packagingType === "paper"}
-            style={fontStyle}
           >
             <span className="text-[16px] leading-[20px]">تغليف ورقي</span>
           </button>
@@ -302,7 +290,6 @@ export default function SizeAndPackagingStep({
             onClick={() => onPackagingTypeChange("vase")}
             className={getPackagingButtonClasses("vase")}
             aria-pressed={packagingType === "vase"}
-            style={fontStyle}
           >
             <span className="text-[16px] leading-[20px]">مزهرية</span>
           </button>
@@ -366,13 +353,11 @@ export default function SizeAndPackagingStep({
                       <div className="flex items-center justify-between h-[20px]">
                         <div
                           className="text-[13px] font-bold leading-[18px] text-gray-800 text-right"
-                          style={fontStyle}
                         >
                           {styleLabelMap[styleOption.key] || styleOption.label}
                         </div>
                         <div
                           className="text-[13px] font-bold leading-[18px] text-[#5a5e4d] text-right"
-                          style={fontStyle}
                         >
                           {styleOption.price} ر.س
                         </div>
@@ -382,7 +367,6 @@ export default function SizeAndPackagingStep({
                         {description.text ? (
                           <div
                             className={`${description.color} text-right text-[13px]`}
-                            style={fontStyle}
                           >
                             {description.text}
                           </div>
@@ -441,13 +425,11 @@ export default function SizeAndPackagingStep({
                       <div className="flex items-center justify-between mb-0.5 h-[20px]">
                         <div
                           className="text-[13px] font-bold leading-[18px] text-gray-800 text-right"
-                          style={fontStyle}
                         >
                           {vase.name}
                         </div>
                         <div
                           className="text-[13px] font-bold leading-[18px] text-[#5a5e4d] text-right"
-                          style={fontStyle}
                         >
                           {vase.price} ر.س
                         </div>
@@ -457,7 +439,6 @@ export default function SizeAndPackagingStep({
                         {description.text ? (
                           <div
                             className={`${description.color} text-right text-[13px]`}
-                            style={fontStyle}
                           >
                             {description.text}
                           </div>

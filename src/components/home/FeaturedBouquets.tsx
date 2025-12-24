@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -13,7 +13,6 @@ import { APP_CONFIG, UI_TEXTS } from "@/constants";
 import { BEST_SELLER_BADGE } from "@/constants/bouquets";
 import { QuickAddModal } from "@/components/product";
 import { logError } from "@/lib/logger";
-import { fontStyle } from "@/lib/styles";
 import { TIMEOUTS } from "@/constants";
 import { useHomePageStore } from "@/stores";
 
@@ -220,13 +219,11 @@ const FeaturedBouquets = ({
               <div className="text-right">
                 <h2
                   className="text-[28px] sm:text-[30px] font-bold text-black mb-2"
-                  style={fontStyle}
                 >
                   الباقات الأكثر طلباً
                 </h2>
                 <p
                   className="text-[20px] sm:text-[23px] md:text-[25px] font-normal text-black"
-                  style={fontStyle}
                 >
                   الباقات الأكثر طلباً من عملائنا الكرام
                 </p>
@@ -235,7 +232,6 @@ const FeaturedBouquets = ({
             <Link
               href="/bouquets"
               className="text-[#5a5e4d] hover:underline text-[16px] font-normal cursor-pointer flex items-center gap-2"
-              style={fontStyle}
             >
               <span>{UI_TEXTS.VIEW_ALL}</span>
               <ArrowLeft className="w-4 h-4" />
@@ -244,7 +240,7 @@ const FeaturedBouquets = ({
 
           <div className="relative">
             {isLoading ? (
-              <div className="col-span-full text-center text-gray-600" style={fontStyle}>
+              <div className="col-span-full text-center text-gray-600">
                 {UI_TEXTS.LOADING}
               </div>
             ) : totalItems > 0 ? (
@@ -317,9 +313,6 @@ const FeaturedBouquets = ({
                             <Link href={`/product/${getBouquetId(bouquet)}`} className="mb-3">
                               <h3
                                 className="font-bold text-[18px] text-gray-800 text-right line-clamp-1 mb-3"
-                                style={{
-                                  fontFamily: "var(--font-almarai)",
-                                }}
                                 title={bouquet.title}
                               >
                                 {bouquet.title}
@@ -332,9 +325,6 @@ const FeaturedBouquets = ({
                               <div className="flex items-center gap-1">
                                 <span
                                   className="text-[16px] font-bold text-[#5a5e4d]"
-                                  style={{
-                                    fontFamily: "var(--font-almarai)",
-                                  }}
                                 >
                                   {bouquet.price} ر.س
                                 </span>
@@ -388,7 +378,7 @@ const FeaturedBouquets = ({
                 )}
               </>
             ) : (
-              <div className="col-span-full text-center text-gray-600 py-8" style={fontStyle}>
+              <div className="col-span-full text-center text-gray-600 py-8">
                 {UI_TEXTS.NO_ITEMS_AVAILABLE}
               </div>
             )}

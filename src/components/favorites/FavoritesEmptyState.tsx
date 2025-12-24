@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Heart, Sparkles } from "lucide-react";
 import AOSWrapper from "@/components/common/AOSWrapper";
 
@@ -19,26 +19,17 @@ export default function FavoritesEmptyState() {
           </div>
           <h2
             className="text-2xl md:text-3xl font-bold text-gray-800 mb-4"
-            style={{
-              fontFamily: "var(--font-almarai)",
-            }}
           >
             لا توجد منتجات في المفضلة
           </h2>
           <p
             className="text-gray-600 mb-8 text-[15px] md:text-[16px] leading-relaxed"
-            style={{
-              fontFamily: "var(--font-almarai)",
-            }}
           >
             ابدأ بإضافة المنتجات المفضلة لديك لتسهيل الوصول إليها لاحقاً
           </p>
           <Link
             href="/bouquets"
             className="inline-flex items-center gap-2 bg-[#5f664f] hover:bg-[#4A4E3D] text-white px-8 py-3.5 rounded-[10px] font-bold text-[22px] transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95"
-            style={{
-              fontFamily: "var(--font-almarai)",
-            }}
           >
             <Sparkles className="w-4 h-4" />
             تصفح الباقات

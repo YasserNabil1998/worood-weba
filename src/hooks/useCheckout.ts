@@ -12,6 +12,7 @@ import { handleAndLogError } from "@/lib/errors";
 import { ErrorCode } from "@/lib/errors/errorTypes";
 import { getItemPrice } from "@/lib/utils/cart";
 import { storage } from "@/lib/utils";
+import { getColorNames } from "@/lib/utils/colorUtils";
 import { useCartStore, useCheckoutStore } from "@/stores";
 
 export function useCheckout() {
@@ -56,16 +57,16 @@ export function useCheckout() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-      setIsLoading(true);
+    setIsLoading(true);
     initializeCheckout();
 
     if (checkoutItems.length === 0) {
-          router.push("/cart");
-          setIsLoading(false);
-          return;
-        }
+      router.push("/cart");
+      setIsLoading(false);
+      return;
+    }
 
-        setIsLoading(false);
+    setIsLoading(false);
   }, [router, initializeCheckout, checkoutItems.length]);
 
   const totals = useMemo((): CheckoutTotals => {
@@ -118,40 +119,29 @@ export function useCheckout() {
         console.log("الكمية:", item.quantity);
         console.log("الصورة:", item.image);
         if (item.bouquetType) console.log("نوع الباقة:", item.bouquetType);
-        
+
         // بيانات الباقة المخصصة
         if (item.customData) {
           console.log("\n📦 بيانات الباقة المخصصة:");
           console.log("  - الزهور:", item.customData.flowers);
-          
+
           // طباعة الألوان بشكل مفصل مع أسماء الألوان
           if (item.customData.colors) {
             console.log("  - الألوان المختارة:");
-            
-            // خريطة ألوان (من bouquets.json)
-            const colorMap: Record<number, { name: string; hex: string }> = {
-              1: { name: "أحمر", hex: "#EF4444" },
-              2: { name: "برتقالي", hex: "#F97316" },
-              3: { name: "أصفر", hex: "#F59E0B" },
-              4: { name: "أخضر", hex: "#22C55E" },
-              5: { name: "أزرق", hex: "#3B82F6" },
-              6: { name: "بنفسجي", hex: "#8B5CF6" },
-              7: { name: "وردي", hex: "#EC4899" },
-              8: { name: "بيضاء", hex: "#ffffff" },
-            };
-            
-            if (typeof item.customData.colors === 'object' && !Array.isArray(item.customData.colors)) {
+
+            if (
+              typeof item.customData.colors === "object" &&
+              !Array.isArray(item.customData.colors)
+            ) {
               // إذا كانت الألوان object { [flowerId]: colorIds[] }
               Object.entries(item.customData.colors).forEach(([flowerId, colorIds]) => {
-                const flower = item.customData?.flowers?.find(f => f.id === Number(flowerId));
+                const flower = item.customData?.flowers?.find((f) => f.id === Number(flowerId));
                 const flowerName = flower?.name || `زهرة ${flowerId}`;
-                
+
                 if (Array.isArray(colorIds) && colorIds.length > 0) {
-                  const colorNames = colorIds.map((id: number) => {
-                    const colorInfo = colorMap[id];
-                    return colorInfo ? `${colorInfo.name} (${id})` : `ID: ${id}`;
-                  }).join(", ");
-                  console.log(`    • ${flowerName} (ID: ${flowerId}):`, colorNames);
+                  // استخدام helper function للحصول على أسماء الألوان
+                  const colorNames = getColorNames(colorIds);
+                  console.log(`    • ${flowerName} (ID: ${flowerId}): ${colorNames}`);
                   console.log(`      الألوان: [${colorIds.join(", ")}]`);
                 } else {
                   console.log(`    • ${flowerName} (ID: ${flowerId}):`, colorIds);
@@ -164,9 +154,9 @@ export function useCheckout() {
           } else {
             console.log("  - الألوان: غير محدد");
           }
-          
+
           console.log("  - الحجم:", item.customData.size);
-          
+
           // طباعة التغليف بشكل مفصل
           if (item.customData.packaging) {
             console.log("  - التغليف:");
@@ -185,12 +175,12 @@ export function useCheckout() {
           console.log("  - الملاحظات:", item.customData.notes);
           console.log("  - معلومات التوصيل:", item.customData.deliveryInfo);
         }
-        
+
         // خيارات المنتج العادي
         if (item.size) console.log("الحجم:", item.size);
         if (item.style) console.log("النمط:", item.style);
         if (item.color) console.log("اللون:", item.color, item.colorLabel);
-        
+
         // الإضافات (البنية المرنة)
         if (item.selectedAddonIds && item.selectedAddonIds.length > 0) {
           console.log("الإضافات المختارة (IDs):", item.selectedAddonIds);
@@ -198,7 +188,7 @@ export function useCheckout() {
         if (item.addonData) {
           console.log("بيانات الإضافات:", item.addonData);
         }
-        
+
         // الحقول القديمة (للتوافق)
         if (item.addCard) console.log("✅ إضافة بطاقة");
         if (item.cardMessage) console.log("  رسالة البطاقة:", item.cardMessage);

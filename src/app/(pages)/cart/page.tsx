@@ -21,7 +21,6 @@ import EmptyCart from "@/components/cart/EmptyCart";
 import DeleteConfirmationModal from "@/components/cart/DeleteConfirmationModal";
 import { CART_MESSAGES } from "@/constants/cart";
 import { COLORS } from "@/constants";
-import { fontStyle } from "@/lib/styles";
 import type { CartItem as CartItemType } from "@/types/cart";
 
 export default function CartPage() {
@@ -238,7 +237,7 @@ export default function CartPage() {
                     <button
                       onClick={() => toggleSelectAll()}
                       className="text-sm hover:bg-white hover:shadow-md flex items-center gap-2 cursor-pointer bg-white rounded-lg px-4 py-2 transition-all duration-200 border border-gray-200"
-                      style={{ ...fontStyle, color: COLORS.PRIMARY }}
+                      style={{ color: COLORS.PRIMARY }}
                     >
                       <input
                         type="checkbox"
@@ -255,7 +254,6 @@ export default function CartPage() {
                       <button
                         onClick={handleRemoveSelected}
                         className="text-sm text-red-600 hover:bg-red-50 hover:shadow-md cursor-pointer bg-white rounded-lg px-4 py-2 transition-all duration-200 border border-red-200 font-medium whitespace-nowrap"
-                        style={fontStyle}
                       >
                         {CART_MESSAGES.REMOVE_SELECTED} ({selectedItems.size})
                       </button>

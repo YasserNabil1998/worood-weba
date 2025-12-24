@@ -19,22 +19,21 @@ export default function ProfileDetailsForm({
   isValidEmail,
   isValidPhone,
 }: ProfileDetailsFormProps) {
-  const fontStyle = { fontFamily: "var(--font-almarai)" };
 
   if (!isEditing) {
     return null;
   }
 
   return (
-    <div className="bg-white rounded-[25px] p-6 mb-4" style={fontStyle}>
-      <h2 className="text-[20px] font-bold text-black mb-4" style={fontStyle}>
+    <div className="bg-white rounded-[25px] p-6 mb-4">
+      <h2 className="text-[20px] font-bold text-black mb-4">
         تفاصيل الملف الشخصي
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Name Field */}
         <div>
-          <label className="block text-[16px] font-bold text-black mb-2" style={fontStyle}>
+          <label className="block text-[16px] font-bold text-black mb-2">
             الاسم الكامل
           </label>
           <input
@@ -42,14 +41,13 @@ export default function ProfileDetailsForm({
             value={editData.name}
             onChange={(e) => onInputChange("name", e.target.value)}
             className="w-full px-4 py-4 border border-[#817f7f] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#5f664f] text-[16px] text-[#716d6d]"
-            style={fontStyle}
             placeholder="أدخل الاسم الكامل"
           />
         </div>
 
         {/* Email Field */}
         <div>
-          <label className="block text-[16px] font-bold text-black mb-2" style={fontStyle}>
+          <label className="block text-[16px] font-bold text-black mb-2">
             البريد الإلكتروني
           </label>
           <input
@@ -61,14 +59,13 @@ export default function ProfileDetailsForm({
                 ? "border-red-500 bg-red-50 focus:ring-red-500"
                 : "border-[#817f7f] focus:ring-[#5f664f]"
             }`}
-            style={fontStyle}
             placeholder="example@email.com"
           />
         </div>
 
         {/* Phone Field */}
         <div>
-          <label className="block text-[16px] font-bold text-black mb-2" style={fontStyle}>
+          <label className="block text-[16px] font-bold text-black mb-2">
             رقم الهاتف
           </label>
           <input
@@ -80,7 +77,6 @@ export default function ProfileDetailsForm({
                 ? "border-red-500 bg-red-50 focus:ring-red-500"
                 : "border-[#817f7f] focus:ring-[#5f664f]"
             }`}
-            style={fontStyle}
             placeholder="05xxxxxxxx"
             inputMode="tel"
             dir="ltr"
@@ -89,7 +85,7 @@ export default function ProfileDetailsForm({
 
         {/* Address Field */}
         <div>
-          <label className="block text-[16px] font-bold text-black mb-2" style={fontStyle}>
+          <label className="block text-[16px] font-bold text-black mb-2">
             عنوان المنزل
           </label>
           <input
@@ -97,14 +93,13 @@ export default function ProfileDetailsForm({
             value={editData.address || ""}
             onChange={(e) => onInputChange("address", e.target.value)}
             className="w-full px-4 py-4 border border-[#817f7f] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#5f664f] text-[16px] text-[#727272]"
-            style={fontStyle}
             placeholder="المدينة, الحي, الشارع (مثال: الرياض, حي النخيل, شارع الملك فهد)"
           />
         </div>
 
         {/* Password Field */}
         <div>
-          <label className="block text-[16px] font-bold text-black mb-2" style={fontStyle}>
+          <label className="block text-[16px] font-bold text-black mb-2">
             كلمة المرور
           </label>
           <input
@@ -112,14 +107,13 @@ export default function ProfileDetailsForm({
             value={editData.password || ""}
             onChange={(e) => onInputChange("password", e.target.value)}
             className="w-full px-4 py-4 border border-[#817f7f] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#5f664f] text-[16px] text-[#727272]"
-            style={fontStyle}
             placeholder="أدخل كلمة المرور"
           />
         </div>
 
         {/* Address 2 Field */}
         <div>
-          <label className="block text-[16px] font-bold text-black mb-2" style={fontStyle}>
+          <label className="block text-[16px] font-bold text-black mb-2">
             عنوان آخر
           </label>
           <input
@@ -127,7 +121,6 @@ export default function ProfileDetailsForm({
             value={editData.address2 || ""}
             onChange={(e) => onInputChange("address2", e.target.value)}
             className="w-full px-4 py-4 border border-[#817f7f] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#5f664f] text-[16px] text-[#727272]"
-            style={fontStyle}
             placeholder="المدينة, الحي, الشارع (مثال: جدة, حي الزهراء, شارع التحلية)"
           />
         </div>

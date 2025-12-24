@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Heart, Pencil } from "lucide-react";
 import AOSWrapper from "@/components/common/AOSWrapper";
 import { CustomBouquet } from "@/types/favorites";
-import { fontStyle } from "@/lib/styles";
 import { UI_TEXTS } from "@/constants";
 
 interface CustomBouquetCardProps {
@@ -72,7 +71,6 @@ export default function CustomBouquetCard({
           <div className="flex items-start justify-start">
             <h3
               className="font-bold text-[16px] text-gray-800 text-right leading-[24px]"
-              style={fontStyle}
             >
               باقة مخصصة - {bouquet.occasion}
             </h3>
@@ -80,7 +78,6 @@ export default function CustomBouquetCard({
           <div className="flex items-center justify-between gap-3 mt-auto">
             <span
               className="text-[16px] font-bold text-[#3c3d39] text-right whitespace-nowrap"
-              style={fontStyle}
             >
               {bouquet.total} ر.س
             </span>

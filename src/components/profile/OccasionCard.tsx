@@ -1,7 +1,6 @@
 "use client";
 
 import { Edit } from "lucide-react";
-import { fontStyle } from "@/lib/styles";
 
 interface OccasionCardProps {
   /** Occasion data */
@@ -26,11 +25,10 @@ export default function OccasionCard({ occasion, onEdit }: OccasionCardProps) {
         <div className="flex-1 min-w-0">
           <h3
             className="text-[16px] sm:text-[18px] font-bold text-black mb-1 truncate"
-            style={fontStyle}
           >
             {occasion.name}
           </h3>
-          <p className="text-[14px] sm:text-[16px] text-[#727272]" style={fontStyle}>
+          <p className="text-[14px] sm:text-[16px] text-[#727272]">
             {occasion.date}
           </p>
         </div>

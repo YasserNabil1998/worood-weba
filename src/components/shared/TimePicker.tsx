@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from "react";
 import { Clock } from "lucide-react";
 import { formatTimeToArabic } from "@/lib/utils";
 import { parseCurrentTime, getDisplayTime, convertTo24Hour } from "@/lib/utils/delivery";
-import { fontStyle } from "@/lib/styles";
 
 interface TimePickerProps {
   /** الوقت المحدد (بتنسيق عربي أو HTML) */
@@ -112,7 +111,6 @@ export default function TimePicker({
       {label && (
         <div
           className="mb-2 text-[18px] font-normal leading-[20px] text-black text-right"
-          style={fontStyle}
         >
           {label}
         </div>
@@ -122,7 +120,6 @@ export default function TimePicker({
         <div
           onClick={toggleTimePicker}
           className="w-full h-[50px] sm:h-[59px] rounded-[10px] border border-[#e1dada] bg-white px-3 sm:px-4 py-2 pr-10 text-right text-[16px] sm:text-[18px] lg:text-[20px] cursor-pointer flex items-center hover:border-[#5A5E4D]/50 transition-colors"
-          style={fontStyle}
         >
           <span className={displayTime ? "text-black" : "text-gray-400"}>
             {displayTime || placeholder}
@@ -149,7 +146,6 @@ export default function TimePicker({
             <div className="p-4 border-b border-gray-200">
               <div
                 className="text-[16px] font-semibold text-black text-center"
-                style={fontStyle}
               >
                 اختر الوقت
               </div>
@@ -173,7 +169,6 @@ export default function TimePicker({
                           ? "bg-gray-100 text-[#5A5E4D] font-semibold"
                           : "text-gray-600 hover:bg-gray-50"
                       }`}
-                      style={fontStyle}
                     >
                       {minute.toString().padStart(2, "0")}
                     </button>
@@ -197,7 +192,6 @@ export default function TimePicker({
                           ? "bg-gray-100 text-[#5A5E4D] font-semibold"
                           : "text-gray-600 hover:bg-gray-50"
                       }`}
-                      style={fontStyle}
                     >
                       {hour.toString().padStart(2, "0")}
                     </button>
@@ -221,7 +215,6 @@ export default function TimePicker({
                           ? "bg-gray-100 text-[#5A5E4D] font-semibold"
                           : "text-gray-600 hover:bg-gray-50"
                       }`}
-                      style={fontStyle}
                     >
                       {period}
                     </button>

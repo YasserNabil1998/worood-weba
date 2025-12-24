@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
@@ -95,9 +95,6 @@ export default function SearchModal({
               onChange={(e) => onSearchQueryChange(e.target.value)}
               placeholder="البحث..."
               className="w-full bg-transparent border-b-2 border-white/30 text-white text-4xl sm:text-5xl md:text-6xl font-light outline-none pb-4 placeholder:text-white/60 focus:border-white/70 transition-colors duration-200 text-center"
-              style={{
-                fontFamily: "var(--font-almarai)",
-              }}
               autoFocus
             />
           </div>
@@ -106,9 +103,6 @@ export default function SearchModal({
           <div className="text-center mb-12">
             <p
               className="text-white/80 text-xl sm:text-2xl md:text-3xl font-light"
-              style={{
-                fontFamily: "var(--font-almarai)",
-              }}
             >
               هدايا تعبر عن مشاعرك
             </p>
@@ -121,9 +115,6 @@ export default function SearchModal({
                 <div className="text-center text-white/70 py-8">
                   <p
                     className="text-base sm:text-lg"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
                   >
                     لم يتم العثور على نتائج
                   </p>
@@ -132,9 +123,6 @@ export default function SearchModal({
                 <div className="space-y-2">
                   <p
                     className="text-white/60 text-sm mb-4 text-right"
-                    style={{
-                      fontFamily: "var(--font-almarai)",
-                    }}
                   >
                     {searchResults.length} {searchResults.length === 1 ? "نتيجة" : "نتائج"}
                   </p>
@@ -143,9 +131,6 @@ export default function SearchModal({
                       key={index}
                       onClick={() => onScrollToResult(result.element)}
                       className="w-full text-right p-4 rounded-lg hover:bg-white/10 transition-all duration-200 text-white/90 text-sm sm:text-base"
-                      style={{
-                        fontFamily: "var(--font-almarai)",
-                      }}
                     >
                       <p className="line-clamp-2">{result.context}</p>
                     </button>

@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { fontStyle } from "@/lib/styles";
 import { TIMEOUTS } from "@/constants";
 import { logger } from "@/lib/logger";
 import {
@@ -43,13 +42,7 @@ export default function VerifyPage() {
     setSubmitting(true);
 
     try {
-      // TODO: استدعاء Server Action للتحقق من الكود (معطل حالياً)
-      // const result = await verifyPhoneCode(phone, verificationCode);
-      // if (result.success) {
-      //   router.push("/");
-      // } else {
-      //   setError(result.error || "رمز التحقق غير صحيح");
-      // }
+      // TODO: استدعاء Server Action للتحقق من الكود 
 
       // Mock verification - محاكاة التحقق
       logger.debug(`[Mock] التحقق من الكود ${verificationCode} للهاتف: ${phone}`);
@@ -77,13 +70,7 @@ export default function VerifyPage() {
       }
 
       // TODO: استدعاء Server Action لإعادة إرسال الكود (معطل حالياً)
-      // const result = await sendVerificationCode(phone);
-      // if (result.success) {
-      //   console.log("✓ تم إعادة إرسال الرمز بنجاح");
-      // } else {
-      //   setError(result.error || "فشل إعادة إرسال الرمز");
-      // }
-
+  
       // Mock - محاكاة إعادة الإرسال
       logger.debug(`[Mock] إعادة إرسال الكود إلى: ${phone}`);
       alert("تم إعادة إرسال الرمز (محاكاة)");
@@ -98,9 +85,7 @@ export default function VerifyPage() {
         <div className="flex justify-center">
           <Image src="/Logo-shams.svg" alt="شعار الموقع" width={120} height={60} priority />
         </div>
-        <p className="mt-2 text-sm text-gray-600" style={fontStyle}>
-          مرحبًا بك في زهور الشمس
-        </p>
+        <p className="mt-2 text-sm text-gray-600">مرحبًا بك في زهور الشمس</p>
       </div>
       <div className="px-6 pb-6">
         <form onSubmit={onSubmit} className="space-y-5">
@@ -148,12 +133,7 @@ export default function VerifyPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full h-10 rounded-md text-white font-semibold transition-opacity"
-            style={{
-              backgroundColor: "#5A5E4D",
-              opacity: submitting ? 0.8 : 1,
-              fontFamily: "var(--font-almarai)",
-            }}
+            className={`w-full h-10 rounded-md text-white font-semibold transition-opacity bg-[#5A5E4D] ${submitting ? "opacity-80" : "opacity-100"}`}
           >
             {submitting ? "... تسجيل الدخول" : "تسجيل الدخول"}
           </button>

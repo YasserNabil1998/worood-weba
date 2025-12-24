@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Providers from "@/providers/providers";
@@ -10,16 +9,6 @@ import SplashScreen from "@/components/shared/SplashScreen";
 import AOSProvider from "@/components/common/AOSProvider";
 import { generateOrganizationSchema, generateWebsiteSchema } from "@/lib/structuredData";
 import { generateHomeMetadata } from "@/lib/seo/generateMetadata";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = generateHomeMetadata();
 
@@ -43,10 +32,7 @@ export default function RootLayout({
           {JSON.stringify(websiteSchema)}
         </Script>
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased rtl`}
-        suppressHydrationWarning
-      >
+      <body className="antialiased rtl" suppressHydrationWarning>
         <SplashScreen />
         <AOSProvider />
         <ErrorBoundary>

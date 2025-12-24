@@ -1,7 +1,6 @@
 "use client";
 
 import { ChevronRight, ChevronLeft, Loader2 } from "lucide-react";
-import { fontStyle } from "@/lib/styles";
 import { UI_TEXTS } from "@/constants";
 import { getButtonStyles, getButtonInlineStyles } from "@/lib/buttonStyles";
 
@@ -30,17 +29,18 @@ export default function CustomBuilderNavigation({
         onClick={onPreviousStep}
         disabled={isAddingToCart}
         className={getButtonStyles.secondary().replace("transition-colors", "")}
-        style={{ ...fontStyle, ...getButtonInlineStyles.secondary() }}
+        style={getButtonInlineStyles.secondary()}
       >
         <ChevronRight className="w-5 h-5 shrink-0" />
         <span className="text-[18px] font-bold flex-1 text-center">السابق</span>
       </button>
+
       {currentStep !== 4 ? (
         <button
           onClick={onNextStep}
           disabled={isAddingToCart}
           className={getButtonStyles.primary().replace("transition-colors", "")}
-          style={{ ...fontStyle, ...getButtonInlineStyles.primary() }}
+          style={getButtonInlineStyles.primary()}
         >
           <span className="text-[18px] font-bold flex-1 text-center">التالي</span>
           <ChevronLeft className="w-5 h-5 shrink-0" />
@@ -50,7 +50,7 @@ export default function CustomBuilderNavigation({
           onClick={onAddToCart}
           disabled={isAddingToCart}
           className={`${getButtonStyles.primary().replace("transition-colors", "")} text-[15px] font-bold`}
-          style={{ ...fontStyle, ...getButtonInlineStyles.primary() }}
+          style={getButtonInlineStyles.primary()}
         >
           {isAddingToCart ? (
             <span className="flex items-center gap-1 text-right">
@@ -67,4 +67,3 @@ export default function CustomBuilderNavigation({
     </div>
   );
 }
-
