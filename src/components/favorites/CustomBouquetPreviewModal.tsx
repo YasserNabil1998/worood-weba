@@ -4,7 +4,7 @@ import { CustomBouquet } from "@/types/favorites";
 import { UI_TEXTS } from "@/constants";
 import { formatTimeToArabic, formatDateEnglish } from "@/lib/utils";
 import { getFlowerColors, getSizeLabel, getStyleLabel } from "@/lib/utils/favorites";
-import bouquetsData from "@/app/(pages)/custom/bouquets.json";
+import bouquetsData from "@/data/custom-bouquets.json";
 
 interface CustomBouquetPreviewModalProps {
   bouquet: CustomBouquet;

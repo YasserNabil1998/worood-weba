@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
-import profileData from "./profile-data.json";
+import profileData from "@/data/profile.json";
 import type { UserData } from "@/types/profile";
 import { useProfile } from "@/hooks/useProfile";
 import ProfileHeader from "@/components/profile/ProfileHeader";

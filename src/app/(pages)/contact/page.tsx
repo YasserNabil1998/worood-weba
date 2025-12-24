@@ -2,7 +2,7 @@
 
 import { Suspense, lazy } from "react";
 import Script from "next/script";
-import contactData from "./contact-data.json";
+import contactData from "@/data/contact.json";
 import type { ContactData, ContactFormData } from "@/types/contact";
 import AOSWrapper from "@/components/common/AOSWrapper";
 import { generateFAQSchema, generateBreadcrumbSchema } from "@/lib/structuredData";

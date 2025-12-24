@@ -182,8 +182,8 @@ function mapCartItemToOrderItem(item: CartItem): OrderItem {
     colorLabel: item.colorLabel,
     
     // نقل الإضافات (البنية المرنة)
-    selectedAddonIds: item.selectedAddonIds,
-    addonData: item.addonData,
+    selectedAddonIds: (item as any).selectedAddonIds,
+    addonData: (item as any).addonData,
     
     // نقل الحقول القديمة (للتوافق)
     addCard: item.addCard,

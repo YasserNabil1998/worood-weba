@@ -6,7 +6,7 @@
 import { Heart } from "lucide-react";
 import { CustomBouquetData } from "@/types/custom";
 import { CART_LABELS } from "@/constants/cart";
-import bouquetsData from "@/app/(pages)/custom/bouquets.json";
+import bouquetsData from "@/data/custom-bouquets.json";
 import { formatTimeToArabic, formatDateEnglish } from "@/lib/utils";
 import { fontStyle } from "@/lib/styles";
 

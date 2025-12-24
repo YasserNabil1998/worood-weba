@@ -1,57 +1,53 @@
 @import "tailwindcss";
 
-/* إخفاء شريط التمرير للاقتراحات */
 .hide-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
+  display: none;
 }
 
 :root {
-  /* الألوان الأساسية - يتم استخدامها من COLORS constants */
-  --background: #fbfaf2; /* COLORS.BACKGROUND */
-  --foreground: #171717; /* COLORS.FOREGROUND */
-  --primary: #5a5e4d; /* COLORS.PRIMARY */
-  --primary-dark: #4a4e3d; /* COLORS.PRIMARY_DARK */
+  --background: #fbfaf2;
+  --foreground: #171717;
+  --primary: #5a5e4d;
+  --primary-dark: #4a4e3d;
 
-  /* نظام موحد لأحجام الخطوط الريسبونسيف */
-  /* Mobile (base) → Tablet (md: 768px) → Desktop (lg: 1024px) */
-  --font-size-xs: 10px; /* Mobile */
-  --font-size-sm: 12px; /* Mobile */
-  --font-size-base: 14px; /* Mobile */
-  --font-size-lg: 16px; /* Mobile */
-  --font-size-xl: 18px; /* Mobile */
-  --font-size-2xl: 20px; /* Mobile */
-  --font-size-3xl: 24px; /* Mobile */
-  --font-size-4xl: 28px; /* Mobile */
+  --font-size-xs: 10px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 28px;
 }
 
 @media (min-width: 768px) {
   :root {
-    --font-size-xs: 11px; /* Tablet */
-    --font-size-sm: 13px; /* Tablet */
-    --font-size-base: 15px; /* Tablet */
-    --font-size-lg: 18px; /* Tablet */
-    --font-size-xl: 20px; /* Tablet */
-    --font-size-2xl: 24px; /* Tablet */
-    --font-size-3xl: 28px; /* Tablet */
-    --font-size-4xl: 32px; /* Tablet */
+    --font-size-xs: 11px;
+    --font-size-sm: 13px;
+    --font-size-base: 15px;
+    --font-size-lg: 18px;
+    --font-size-xl: 20px;
+    --font-size-2xl: 24px;
+    --font-size-3xl: 28px;
+    --font-size-4xl: 32px;
   }
 }
 
 @media (min-width: 1024px) {
   :root {
-    --font-size-xs: 12px; /* Desktop */
-    --font-size-sm: 14px; /* Desktop */
-    --font-size-base: 16px; /* Desktop */
-    --font-size-lg: 20px; /* Desktop */
-    --font-size-xl: 24px; /* Desktop */
-    --font-size-2xl: 28px; /* Desktop */
-    --font-size-3xl: 32px; /* Desktop */
-    --font-size-4xl: 36px; /* Desktop */
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-base: 16px;
+    --font-size-lg: 20px;
+    --font-size-xl: 24px;
+    --font-size-2xl: 28px;
+    --font-size-3xl: 32px;
+    --font-size-4xl: 36px;
   }
 }
 
@@ -66,18 +62,17 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: "Fedra Sans Arabic AR", sans-serif;
-  padding-top: 80px; /* Space for fixed header on desktop */
-  overflow-x: hidden; /* منع السكرول الأفقي */
+  padding-top: 80px;
+  overflow-x: hidden;
 }
 
-/* Global button cursor pointer */
 button {
   cursor: pointer;
 }
 
 @media (max-width: 1023px) {
   body {
-    padding-top: 64px; /* Space for fixed header on tablet/mobile */
+    padding-top: 64px;
   }
 }
 
@@ -86,20 +81,17 @@ button {
   box-sizing: border-box;
 }
 
-/* منع السكرول الأفقي في جميع العناصر */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-/* التأكد من أن العناصر الرئيسية لا تسبب سكرول أفقي */
 #__next,
 #root {
   overflow-x: hidden;
 }
 
-/* التأكد من أن الصور والعناصر لا تسبب سكرول أفقي */
 img,
 video,
 iframe {
@@ -107,7 +99,6 @@ iframe {
   height: auto;
 }
 
-/* استثناء للشعار في Header - السماح بالحجم المحدد */
 header a[href="/"] img,
 header .flex.items-center img[alt="زهور الشمس"],
 header img[alt="زهور الشمس"] {
@@ -115,13 +106,11 @@ header img[alt="زهور الشمس"] {
   width: auto !important;
 }
 
-/* Custom styles for Arabic text */
 .rtl {
   direction: rtl;
   text-align: right;
 }
 
-/* Line clamp utility */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -138,31 +127,28 @@ header img[alt="زهور الشمس"] {
   overflow: hidden;
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden; /* منع السكرول الأفقي */
+  overflow-x: hidden;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* COLORS.SCROLLBAR_TRACK */
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1; /* COLORS.SCROLLBAR_THUMB */
+  background: #c1c1c1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8; /* COLORS.SCROLLBAR_THUMB_HOVER */
+  background: #a8a8a8;
 }
 
-/* Custom scrollbar for order items - positioned on the right */
 .custom-scrollbar {
   direction: ltr;
 }
@@ -176,21 +162,20 @@ html {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f8f9fa; /* COLORS.CUSTOM_SCROLLBAR_TRACK */
+  background: #f8f9fa;
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #cbd5e1; /* COLORS.CUSTOM_SCROLLBAR_THUMB */
+  background: #cbd5e1;
   border-radius: 10px;
   transition: background 0.2s ease;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8; /* COLORS.CUSTOM_SCROLLBAR_THUMB_HOVER */
+  background: #94a3b8;
 }
 
-/* Notification animation */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -206,7 +191,6 @@ html {
   animation: fade-in 0.3s ease-out;
 }
 
-/* Fade in animation for product page */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -222,7 +206,6 @@ html {
   animation: fadeIn 0.4s ease-out;
 }
 
-/* Features Section Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -263,7 +246,6 @@ html {
   animation: scaleIn 0.5s ease-out forwards;
 }
 
-/* Feature card hover effects */
 .feature-card {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -272,7 +254,6 @@ html {
   transform: translateY(-8px);
 }
 
-/* Feature Icon Animations */
 .feature-icon-wrapper {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: iconFloat 3s ease-in-out infinite;
@@ -294,7 +275,6 @@ html {
   position: absolute;
   inset: -4px;
   border-radius: 50%;
-  /* COLORS.GRADIENT_START و COLORS.GRADIENT_END */
   background: linear-gradient(135deg, rgba(90, 94, 77, 0.1), rgba(90, 94, 77, 0.05));
   opacity: 1;
   animation: iconGlow 2s ease-in-out infinite;
@@ -333,17 +313,15 @@ html {
   }
 }
 
-/* Hide scrollbar but keep functionality */
 .scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
+  display: none;
 }
 
-/* Select dropdown responsive - constrain options within container */
 select {
   max-width: 100%;
   box-sizing: border-box;
@@ -356,26 +334,24 @@ select option {
   white-space: nowrap;
 }
 
-/* Custom scrollbar for order items list */
 .order-items-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
 
 .order-items-scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1; /* COLORS.SCROLLBAR_TRACK */
+  background: #f1f1f1;
   border-radius: 10px;
 }
 
 .order-items-scrollbar::-webkit-scrollbar-thumb {
-  background: #5a5e4d; /* COLORS.PRIMARY */
+  background: #5a5e4d;
   border-radius: 10px;
 }
 
 .order-items-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #6b6f5e; /* COLORS.PRIMARY_HOVER */
+  background: #6b6f5e;
 }
 
-/* Skeleton Loading Animation */
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -389,7 +365,6 @@ select option {
   animation: shimmer 2s infinite linear;
 }
 
-/* Screen reader only text */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -402,7 +377,6 @@ select option {
   border-width: 0;
 }
 
-/* Featured Bouquets Smooth Transition Animation */
 @keyframes fadeInSlide {
   from {
     opacity: 0.7;
@@ -418,7 +392,6 @@ select option {
   animation: fadeInSlide 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* نظام موحد لأحجام الخطوط الريسبونسيف - Utility Classes */
 .text-responsive-xs {
   font-size: var(--font-size-xs);
 }
@@ -451,8 +424,6 @@ select option {
   font-size: var(--font-size-4xl);
 }
 
-/* Scroll Animation Classes - أنيميشن التمرير (مشابه لـ Elementor/WOW.js) */
-/* Fade Up Animation - الأنيميشن الأساسي (مشابه لـ fadeInUp) */
 .scroll-animate-fadeUp-hidden {
   opacity: 0;
   transform: translateY(80px) scale(0.95);
@@ -467,7 +438,6 @@ select option {
   transform: translateY(0) scale(1);
 }
 
-/* Fade In Animation (مشابه لـ fadeIn) */
 .scroll-animate-fadeIn-hidden {
   opacity: 0;
   transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -478,7 +448,6 @@ select option {
   opacity: 1;
 }
 
-/* Slide Left Animation - للعناصر من اليمين (مشابه لـ fadeInLeft) */
 .scroll-animate-slideLeft-hidden {
   opacity: 0;
   transform: translateX(100px) scale(0.95);
@@ -493,7 +462,6 @@ select option {
   transform: translateX(0) scale(1);
 }
 
-/* Slide Right Animation - للعناصر من اليسار (مشابه لـ fadeInRight) */
 .scroll-animate-slideRight-hidden {
   opacity: 0;
   transform: translateX(-100px) scale(0.95);
@@ -508,7 +476,6 @@ select option {
   transform: translateX(0) scale(1);
 }
 
-/* Scale In Animation (مشابه لـ zoomIn) */
 .scroll-animate-scaleIn-hidden {
   opacity: 0;
   transform: scale(0.8);
@@ -523,7 +490,6 @@ select option {
   transform: scale(1);
 }
 
-/* Fade Up Stagger - للعناصر المتعددة مع تأخير (مشابه لـ Elementor/WOW.js) */
 .scroll-animate-fadeUpStagger-hidden {
   opacity: 0;
   transform: translateY(60px) scale(0.96);
@@ -538,7 +504,6 @@ select option {
   transform: translateY(0) scale(1);
 }
 
-/* تحسين الأداء - استخدام GPU acceleration */
 .scroll-animate-fadeUp-hidden,
 .scroll-animate-fadeUp-visible,
 .scroll-animate-fadeIn-hidden,
@@ -558,7 +523,6 @@ select option {
   -webkit-perspective: 1000px;
 }
 
-/* تحسينات AOS - أنيميشن أكثر عصرية */
 [data-aos] {
   pointer-events: none;
   transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -568,7 +532,6 @@ select option {
   pointer-events: auto;
 }
 
-/* تحسينات إضافية للأنيميشن العصرية */
 [data-aos="fade-up"],
 [data-aos="fade-down"],
 [data-aos="fade-left"],
@@ -583,14 +546,12 @@ select option {
   transform-style: preserve-3d;
 }
 
-/* تحسين خاص لكاردات الباقات - أنيميشن أكثر سلاسة */
 [data-aos="fade-up"] .grid > [data-aos] {
   transition:
     opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
     transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Falling Flowers Animation - أنيميشن الورود المتساقطة */
 @keyframes float {
   0% {
     transform: translateY(0) rotate(0deg) scale(1);
@@ -658,10 +619,9 @@ select option {
   animation: fall linear infinite;
 }
 
-/* Sticky sidebar for bouquets page */
 @media (min-width: 1024px) {
   .sticky-sidebar {
-    position: -webkit-sticky !important; /* Safari */
+    position: -webkit-sticky !important;
     position: sticky !important;
     top: 6rem !important;
     align-self: flex-start !important;
@@ -671,27 +631,23 @@ select option {
   }
 }
 
-/* منع AOS من التأثير على العناصر التي تحتوي على data-aos="none" */
 [data-aos="none"] * {
   transform: none !important;
   opacity: 1 !important;
   will-change: auto !important;
 }
 
-/* التأكد من أن sticky يعمل حتى مع وجود AOS */
 aside[data-aos="none"],
 div[data-aos="none"] {
   transform: none !important;
   will-change: auto !important;
 }
 
-/* منع AOS من إضافة transform على الـ parent containers التي تحتوي على sticky elements */
 .grid:has([data-aos="none"]),
 section:has([data-aos="none"]) {
   transform: none !important;
 }
 
-/* CSS rules قوية لضمان عمل sticky - تجاوز أي transform من AOS */
 .lg\:sticky[data-aos="none"] {
   position: -webkit-sticky !important;
   position: sticky !important;

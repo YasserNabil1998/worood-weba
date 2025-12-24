@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import bouquetsData from "@/app/(pages)/custom/bouquets.json";
+import bouquetsData from "@/data/custom-bouquets.json";
 import type {
   Flower,
   BouquetSize,

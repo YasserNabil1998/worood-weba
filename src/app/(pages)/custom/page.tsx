@@ -3,7 +3,7 @@
 import { Suspense, lazy, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
-import cardSuggestionsData from "./card-suggestions.json";
+import cardSuggestionsData from "@/data/card-suggestions.json";
 
 // Hooks
 import { useCustomBouquetState } from "@/hooks/custom/useCustomBouquetState";

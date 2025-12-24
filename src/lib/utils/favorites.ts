@@ -1,4 +1,4 @@
-import bouquetsData from "@/app/(pages)/custom/bouquets.json";
+import bouquetsData from "@/data/custom-bouquets.json";
 import type { Flower } from "@/types/custom";
 
 /**
