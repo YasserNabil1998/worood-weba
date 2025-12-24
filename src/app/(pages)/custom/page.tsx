@@ -325,16 +325,14 @@ function CustomBuilderContent() {
                     />
                   </AOSWrapper>
 
-                  <AOSWrapper animation="fade-up" delay={200} duration={800}>
-                    <CustomBuilderNavigation
-                      currentStep={state.step}
-                      isAddingToCart={state.isAddingToCart}
-                      isEditMode={isEditMode}
-                      onPreviousStep={handlePreviousStep}
-                      onNextStep={handleNextStep}
-                      onAddToCart={cartOps.addToCart}
-                    />
-                  </AOSWrapper>
+                  <CustomBuilderNavigation
+                    currentStep={state.step}
+                    isAddingToCart={state.isAddingToCart}
+                    isEditMode={isEditMode}
+                    onPreviousStep={handlePreviousStep}
+                    onNextStep={handleNextStep}
+                    onAddToCart={cartOps.addToCart}
+                  />
                 </div>
 
                 <AOSWrapper animation="fade-left" delay={100} duration={800}>

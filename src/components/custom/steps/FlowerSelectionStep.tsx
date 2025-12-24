@@ -78,11 +78,11 @@ export default function FlowerSelectionStep({
               className="relative h-[360px] sm:h-[280px] w-full max-w-[320px] sm:max-w-none rounded-[20px] border border-[#eae9e9] overflow-hidden shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
             >
               {/* Image */}
-              <div className="h-[260px] sm:h-[200px] w-full rounded-t-[20px] overflow-hidden">
+              <div className="h-[260px] sm:h-[200px] w-full rounded-t-[20px] overflow-hidden bg-gray-50 flex items-center justify-center">
                 <img
                   src={f.image}
                   alt={f.name}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain"
                 />
               </div>
               {/* Content */}
