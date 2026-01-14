@@ -14,7 +14,7 @@
     "@hookform/resolvers": "^5.2.2",
     "aos": "^2.3.4",
     "lucide-react": "^0.545.0",
-    "next": "15.5.2",
+    "next": "15.5.7",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.66.0",
@@ -22,7 +22,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^15.5.2",
+    "@next/eslint-plugin-next": "15.5.7",
     "@tailwindcss/postcss": "^4",
     "@types/aos": "^3.0.7",
     "@types/node": "^20",
